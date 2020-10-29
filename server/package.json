@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "watch": "nodemon",
+    "db:reset": "ts-node -r dotenv/config src/database/setup.ts setup()",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -15,9 +16,11 @@
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
     "nodemon": "^2.0.6",
     "passport": "^0.4.1",
-    "passport-jwt": "^4.0.0"
+    "passport-jwt": "^4.0.0",
+    "pg": "^8.4.2"
   },
   "devDependencies": {
     "@types/bcrypt": "^3.0.0",
@@ -26,13 +29,14 @@
     "@types/node": "^14.14.5",
     "@types/passport": "^1.0.4",
     "@types/passport-jwt": "^3.0.3",
+    "@types/pg": "^7.14.5",
     "eslint": "^7.12.1",
     "eslint-config-airbnb-typescript-prettier": "^3.1.0",
     "prettier": "^2.1.2",
     "typescript": "^4.0.5"
   },
   "nodemonConfig": {
-    "exec": "ts-node src/index.ts",
+    "exec": "ts-node -r dotenv/config src/index.ts",
     "ext": "ts,js"
   }
 }
