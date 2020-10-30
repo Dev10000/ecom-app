@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
-import User, { IUser } from '../models/User';
+import User from '../models/User';
 import config from '../config';
 
 function createToken(user: IUser) {
