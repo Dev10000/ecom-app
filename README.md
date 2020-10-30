@@ -32,6 +32,8 @@
 
 ### Models and Database structure
 
+[https://dbdiagram.io/d/5f9a8a363a78976d7b79a60b](https://dbdiagram.io/d/5f9a8a363a78976d7b79a60b)
+
 - User (`users`)
     - `id` <- primary key , auto increments
     - `email` <- unique 

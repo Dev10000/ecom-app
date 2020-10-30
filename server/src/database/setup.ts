@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import pool from '../config/database';
 
 const create_users_table = async () => {
@@ -7,9 +6,9 @@ const create_users_table = async () => {
     "id" SERIAL PRIMARY KEY,
     "email" varchar(200) UNIQUE NOT NULL,
     "password" varchar(100) NOT NULL,
-    "hash" varchar(100) NOT NULL,
-    "first_name" varchar(30),
-    "last_name" varchar(100),
+    "salt" varchar(100) NOT NULL,
+    "first_name" varchar(30) NOT NULL,
+    "last_name" varchar(100) NOT NULL,
     "address" varchar(100),
     "city" varchar(100),
     "postal_code" varchar(50),
@@ -26,7 +25,7 @@ const create_products_table = async () => {
     const productsQuery = `DROP TABLE IF EXISTS "products" cascade;
   CREATE TABLE "products" (
     "id" SERIAL PRIMARY KEY,
-    "title" varchar(200),
+    "title" varchar(200) NOT NULL,
     "slug" varchar(200) UNIQUE NOT NULL,
     "description" text,
     "price" decimal(8,4),
