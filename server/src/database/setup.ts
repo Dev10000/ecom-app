@@ -11,10 +11,12 @@ const create_users_table = async () => {
     "last_name" varchar(100) NOT NULL,
     "address" varchar(100),
     "city" varchar(100),
+    "country" varchar
     "postal_code" varchar(50),
     "phone_number" varchar(50),
-    "created_at" timestamp
+    "created_at" varchar
   );`;
+// TIM Changed the created_at to varchar (not permanent) because some issues with the timestamp when loading mock data "error: date/time field value out of range: "1585330511000"
 
     const res = await pool.query(usersQuery);
     console.log(res);
@@ -52,8 +54,8 @@ const create_product_categories_table = async () => {
     const productCategoriesQuery = `DROP TABLE IF EXISTS "product_categories" cascade;
   CREATE TABLE "product_categories" (
     "id" SERIAL PRIMARY KEY,
-    "title" varchar(200),
-    "slug" varchar(200) UNIQUE NOT NULL
+    "title" varchar,
+    "slug" varchar UNIQUE NOT NULL
   );`;
 
     const res = await pool.query(productCategoriesQuery);
