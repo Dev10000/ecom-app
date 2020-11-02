@@ -6,6 +6,8 @@
   "scripts": {
     "watch": "nodemon",
     "db:reset": "ts-node -r dotenv/config src/database/setup.ts",
+    "db:seed": "ts-node -r dotenv/config src/database/seeders.ts",
+    "db:fresh": "npm run db:reset && npm run db:seed",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -36,7 +38,7 @@
     "typescript": "^4.0.5"
   },
   "nodemonConfig": {
-    "exec": "ts-node -r dotenv/config src/index.ts",
+    "exec": "ts-node -r dotenv/config --files src/index.ts",
     "ext": "ts,js"
   }
 }

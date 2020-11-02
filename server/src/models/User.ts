@@ -2,20 +2,6 @@ import { genSaltSync, hashSync, compare } from 'bcrypt';
 import config from '../config';
 import pool from '../config/database';
 
-export interface IUser {
-    id?: number;
-    email: string;
-    password: string;
-    hash: string;
-    first_name: string;
-    last_name: string;
-    address?: string;
-    city?: string;
-    postal_code?: string;
-    phone_number?: string;
-    created_at?: string;
-}
-
 export default class User {
     id?: number;
 
@@ -23,8 +9,6 @@ export default class User {
 
     password?: string;
 
-    salt?: string;
-
     first_name: string;
 
     last_name: string;
@@ -32,6 +16,8 @@ export default class User {
     address?: string;
 
     city?: string;
+
+    country_id?: number;
 
     postal_code?: string;
 
@@ -46,6 +32,7 @@ export default class User {
         last_name: string,
         address?: string,
         city?: string,
+        country_id?: number,
         postal_code?: string,
         phone_number?: string,
     ) {
@@ -54,18 +41,19 @@ export default class User {
         this.last_name = last_name;
         this.address = address;
         this.city = city;
+        this.country_id = country_id;
         this.postal_code = postal_code;
         this.phone_number = phone_number;
 
         if (password) {
-            this.salt = genSaltSync(config.SALT_ROUNDS);
-            this.password = hashSync(password, this.salt);
+            const salt = genSaltSync(config.SALT_ROUNDS);
+            this.password = hashSync(password, salt);
         }
     }
 
     static findById = async (id: number): Promise<IUser> => {
         try {
-            const res = await pool.query(`SELECT * FROM users WHERE id=${id};`);
+            const res = await pool.query(`SELECT * FROM users WHERE id=$1;`, [id]);
             return res.rows[0];
         } catch (err) {
             return Promise.reject(new Error('Could not fetch DB data'));
@@ -74,7 +62,7 @@ export default class User {
 
     static findByEmail = async (email: string): Promise<IUser> => {
         try {
-            const res = await pool.query(`SELECT * FROM users WHERE email='${email}';`);
+            const res = await pool.query(`SELECT * FROM users WHERE email=$1;`, [email]);
             return res.rows[0];
         } catch (err) {
             return Promise.reject(new Error('Could not fetch DB data'));
@@ -89,18 +77,18 @@ export default class User {
 
     save = async (): Promise<IUser> => {
         try {
-            const query = `INSERT INTO users (email, password, salt, first_name, last_name, address, city, postal_code, phone_number, created_at)
+            const query = `INSERT INTO users (email, password, first_name, last_name, address, city, country_id, postal_code, phone_number, created_at)
                 VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
-                RETURNING id, email, password, salt, first_name, last_name, address, city, postal_code, phone_number, created_at`;
+                RETURNING id, email, password, first_name, last_name, address, city, country_id, postal_code, phone_number, created_at`;
 
             const parameters = [
                 this.email,
                 this.password,
-                this.salt,
                 this.first_name,
                 this.last_name,
                 this.address,
                 this.city,
+                this.country_id,
                 this.postal_code,
                 this.phone_number,
                 'now()',
@@ -109,7 +97,7 @@ export default class User {
             const res = await pool.query(query, parameters);
             return res.rows[0];
         } catch (err) {
-            return Promise.reject(new Error('Could not fetch DB data'));
+            return Promise.reject(new Error(`DB Error ${err.message}`));
         }
     };
 }

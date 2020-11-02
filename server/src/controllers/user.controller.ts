@@ -21,9 +21,19 @@ export const getUser = async (req: Request, res: Response): Promise<Response> =>
 };
 
 export const saveUser = async (req: Request, res: Response): Promise<Response> => {
-    const { email, password, first_name, last_name, address, city, postal_code, phone_number } = req.body;
+    const { email, password, first_name, last_name, address, city, country_id, postal_code, phone_number } = req.body;
 
-    const newUser = new User(email, password, first_name, last_name, address, city, postal_code, phone_number);
+    const newUser = new User(
+        email,
+        password,
+        first_name,
+        last_name,
+        address,
+        city,
+        Number(country_id),
+        postal_code,
+        phone_number,
+    );
 
     return newUser
         .save()

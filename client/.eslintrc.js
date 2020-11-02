@@ -10,6 +10,7 @@ module.exports = {
     'no-return-assign': 0,
     'no-plusplus': [2, {
       allowForLoopAfterthoughts: true
-    }]
+    }],
+    'linebreak-style': [2, "unix"]
   }
 };
