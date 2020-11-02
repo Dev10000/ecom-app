@@ -5,7 +5,7 @@
     "main": "index.js",
     "scripts": {
         "watch": "nodemon",
-        "db:reset": "ts-node -r dotenv/config src/database/setup.ts setup()",
+        "db:reset": "ts-node -r dotenv/config src/database/setup.ts",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "keywords": [],

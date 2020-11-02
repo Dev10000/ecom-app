@@ -1,4 +1,8 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import pool from '../config/database';
+import { useDBSetup } from './utils';
+
+const { runSetupQuery } = useDBSetup(pool);
 
 const create_users_table = async () => {
     const usersQuery = `DROP TABLE IF EXISTS "users" cascade;
@@ -6,7 +10,6 @@ const create_users_table = async () => {
     "id" SERIAL PRIMARY KEY,
     "email" varchar(200) UNIQUE NOT NULL,
     "password" varchar(100) NOT NULL,
-    "salt" varchar(100) NOT NULL,
     "first_name" varchar(30) NOT NULL,
     "last_name" varchar(100) NOT NULL,
     "address" varchar(100),
@@ -16,9 +19,7 @@ const create_users_table = async () => {
     "created_at" timestamp
   );`;
 
-    const res = await pool.query(usersQuery);
-    console.log(res);
-    return res;
+    return runSetupQuery('users', usersQuery);
 };
 
 const create_products_table = async () => {
@@ -43,9 +44,7 @@ const create_products_table = async () => {
   CREATE INDEX ON "products" ("product_category_id");
   `;
 
-    const res = await pool.query(productsQuery);
-    console.log(res);
-    return res;
+    return runSetupQuery('products', productsQuery);
 };
 
 const create_product_categories_table = async () => {
@@ -56,9 +55,7 @@ const create_product_categories_table = async () => {
     "slug" varchar(200) UNIQUE NOT NULL
   );`;
 
-    const res = await pool.query(productCategoriesQuery);
-    console.log(res);
-    return res;
+    return runSetupQuery('product_categories', productCategoriesQuery);
 };
 
 const create_product_options_table = async () => {
@@ -68,9 +65,7 @@ const create_product_options_table = async () => {
     "title" varchar(200)
   );`;
 
-    const res = await pool.query(productOptionsQuery);
-    console.log(res);
-    return res;
+    return runSetupQuery('product_options', productOptionsQuery);
 };
 
 const create_product_specs_table = async () => {
@@ -87,9 +82,7 @@ const create_product_specs_table = async () => {
   CREATE INDEX ON "product_specs" ("product_id", "product_options_id");
   `;
 
-    const res = await pool.query(productSpecsQuery);
-    console.log(res);
-    return res;
+    return runSetupQuery('product_specs', productSpecsQuery);
 };
 
 const create_orders_table = async () => {
@@ -107,9 +100,7 @@ const create_orders_table = async () => {
   CREATE INDEX ON "orders" ("user_id");
   `;
 
-    const res = await pool.query(ordersQuery);
-    console.log(res);
-    return res;
+    return runSetupQuery('orders', ordersQuery);
 };
 
 const create_order_items_table = async () => {
@@ -129,9 +120,7 @@ const create_order_items_table = async () => {
   CREATE UNIQUE INDEX ON "order_items" ("order_id", "product_id", "coupon_code_id");
   `;
 
-    const res = await pool.query(orderItemsQuery);
-    console.log(res);
-    return res;
+    return runSetupQuery('order_items', orderItemsQuery);
 };
 
 const create_coupon_codes_table = async () => {
@@ -144,22 +133,27 @@ const create_coupon_codes_table = async () => {
     "expired_at" timestamp
   );`;
 
-    const res = await pool.query(couponCodesQuery);
-    console.log(res);
-    return res;
+    return runSetupQuery('coupon_codes', couponCodesQuery);
 };
 
 const setup = (): void => {
-    console.log('Starting database structuring');
-    create_users_table();
-    create_products_table();
-    create_product_categories_table();
-    create_product_options_table();
-    create_product_specs_table();
-    create_orders_table();
-    create_order_items_table();
-    create_coupon_codes_table();
-    pool.end();
+    console.log('\x1b[36m%s\x1b[0m', 'ℹ Started database (re)structuring...');
+
+    Promise.all([
+        create_product_categories_table(),
+        create_product_specs_table(),
+        create_product_options_table(),
+        create_products_table(),
+        create_order_items_table(),
+        create_orders_table(),
+        create_users_table(),
+        create_coupon_codes_table(),
+    ])
+        .then(() => {
+            console.log('\x1b[36m%s\x1b[0m', 'ℹ Operation complete!');
+            pool.end();
+        })
+        .catch((err) => console.log(err));
 };
 
 setup();
