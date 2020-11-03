@@ -1,3 +1,7 @@
+// import dotenv from 'dotenv';
+
+// dotenv.config();
+
 const { PORT, DB_USER, DB_PASS, DB_HOST, DB_NAME, DB_PORT, JWT_SECRET, JWT_EXPIRATION_TIME, SALT_ROUNDS } = process.env;
 
 export default {
