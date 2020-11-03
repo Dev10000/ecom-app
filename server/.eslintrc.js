@@ -15,5 +15,6 @@ module.exports = {
     'import/no-cycle': 1,
     'camelcase': 0,
     'no-underscore-dangle': 0,
+    'linebreak-style': [2, "unix"],
   }
 };
