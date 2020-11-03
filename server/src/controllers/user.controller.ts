@@ -1,8 +1,14 @@
 import { Request, Response } from 'express';
-import User from '../models/User';
+import UserModel from '../models/User';
+
+const User = new UserModel();
 
 export const getAllUsers = async (req: Request, res: Response): Promise<Response> => {
-    return res.send('(Get all users)');
+    return User.all()
+        .then((users) => {
+            return res.status(200).json({ status: 'success', data: users });
+        })
+        .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
 };
 
 export const editUser = async (req: Request, res: Response): Promise<Response> => {
@@ -15,28 +21,12 @@ export const getUserOrders = async (req: Request, res: Response): Promise<Respon
 
 export const getUser = async (req: Request, res: Response): Promise<Response> => {
     const { id } = req.params;
-    return User.findById(Number(id))
-        .then((user) => res.status(200).json({ status: 'success', data: user }))
-        .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
-};
-
-export const saveUser = async (req: Request, res: Response): Promise<Response> => {
-    const { email, password, first_name, last_name, address, city, country_id, postal_code, phone_number } = req.body;
-
-    const newUser = new User(
-        email,
-        password,
-        first_name,
-        last_name,
-        address,
-        city,
-        Number(country_id),
-        postal_code,
-        phone_number,
-    );
-
-    return newUser
-        .save()
-        .then((user) => res.status(201).json({ status: 'success', data: user }))
+    console.log(req.params);
+    return User.where('id', '=', Number(id))
+        .first()
+        .then((user) => {
+            console.log(user);
+            return res.status(200).json({ status: 'success', data: user });
+        })
         .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
 };

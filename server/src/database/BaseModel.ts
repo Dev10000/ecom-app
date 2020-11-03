@@ -1,5 +1,6 @@
 /* eslint-disable max-classes-per-file */
 import { QueryConfig } from 'pg';
+import pluralize from 'pluralize';
 import DB from '../config/database';
 
 // https://stackoverflow.com/questions/59857223/how-to-convert-typescript-types-of-strings-to-array-of-strings
@@ -8,14 +9,21 @@ type Operator = typeof operators[number];
 
 type Value = string | number | boolean;
 
+type SortDirection = 'asc' | 'desc';
+
 interface ICondition {
     field: string;
     operator?: Operator | Value;
     value: Value;
 }
 
-export default class BaseModel {
-    protected table = '';
+interface IOrderBy {
+    field: string;
+    direction: SortDirection;
+}
+
+export default class BaseModel<T> {
+    protected table = this.predefinedTableName();
 
     protected querySelect: string[] | string = '*';
 
@@ -23,11 +31,27 @@ export default class BaseModel {
 
     protected queryLimit = 0;
 
-    protected hidden = [];
+    protected queryOrderBy: IOrderBy = { field: '', direction: 'asc' };
+
+    // protected hidden = [];
+
+    private predefinedTableName(): string {
+        // https://stackoverflow.com/questions/30521224/javascript-convert-pascalcase-to-underscore-case
+        return pluralize(this.constructor.name.split(/(?=[A-Z])/).join('_')).toLowerCase();
+    }
+
+    // public reset(): this {
+    //     this.querySelect = '*';
+    //     this.queryConditions = [];
+    //     this.queryLimit = 0;
+    //     this.queryOrderBy = { field: '', direction: 'asc' };
+
+    //     return this;
+    // }
 
     /**
      * Optional. Usage:
-     * where('field', 'value')
+     * where('field', 'value') , this way the operator is implicitly '='
      * where('field', 'operator', 'value')
      *
      * @param field string
@@ -62,9 +86,20 @@ export default class BaseModel {
     }
 
     /**
+     * Optional
+     * @param field string
+     * @param direction 'asc' | 'desc'
+     */
+    public orderBy(field: string, direction: SortDirection = 'asc'): this {
+        this.queryOrderBy = { field, direction };
+        return this;
+    }
+
+    /**
      * This is where we build up the query object.
      */
     public sql(): QueryConfig {
+        console.log(this);
         const conditions = this.queryConditions.reduce(
             (acc, where, index) =>
                 (acc +=
@@ -76,9 +111,12 @@ export default class BaseModel {
 
         const limit = this.queryLimit ? ` LIMIT ${this.queryLimit}` : '';
         const values = this.queryConditions.map((where) => where.value);
+        const order = this.queryOrderBy.field
+            ? ` ORDER BY ${this.queryOrderBy.field} ${this.queryOrderBy.direction}`
+            : '';
 
         const query: QueryConfig = {
-            text: `SELECT ${this.querySelect} FROM ${this.table}${conditions}${limit}`,
+            text: `SELECT ${this.querySelect} FROM ${this.table}${conditions}${order}${limit}`,
             values,
         };
 
@@ -88,24 +126,27 @@ export default class BaseModel {
     /**
      * This is returning the query result rows.
      */
-    public async get(): Promise<unknown[]> {
+    public async get(): Promise<T[]> {
         const { rows } = await DB.query(this.sql());
-        return Promise.resolve(rows);
+        return rows;
     }
 
     /**
      * This sets the query LIMIT to 1 and calls get method.
      */
-    public async first(): Promise<unknown[]> {
+    public async first(): Promise<T> {
         this.queryLimit = 1;
-        return this.get();
+        // console.log(this.sql());
+        const { rows } = await DB.query(this.sql());
+        return rows[0];
+    }
+
+    /**
+     * This just reads better.
+     */
+    public async all(): Promise<T[]> {
+        this.queryConditions = [];
+        const { rows } = await DB.query(this.sql());
+        return rows;
     }
 }
-
-class User extends BaseModel {
-    protected table = 'users';
-}
-
-const user = new User();
-console.log(user.where('email', 'jpimblott0@ihg.com').select('id', 'first_name', 'last_name').first());
-console.dir(user);

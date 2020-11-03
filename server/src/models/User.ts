@@ -1,17 +1,18 @@
 import { genSaltSync, hashSync, compare } from 'bcrypt';
 import config from '../config';
 import pool from '../config/database';
+import BaseModel from '../database/BaseModel';
 
-export default class User {
+export default class User extends BaseModel<IUser> {
     id?: number;
 
-    email: string;
+    email?: string;
 
     password?: string;
 
-    first_name: string;
+    first_name?: string;
 
-    last_name: string;
+    last_name?: string;
 
     address?: string;
 
@@ -25,7 +26,7 @@ export default class User {
 
     created_at?: string;
 
-    constructor(
+    public create(
         email: string,
         password: string,
         first_name: string,
@@ -35,7 +36,7 @@ export default class User {
         country_id?: number,
         postal_code?: string,
         phone_number?: string,
-    ) {
+    ): this {
         this.email = email;
         this.first_name = first_name;
         this.last_name = last_name;
@@ -49,27 +50,11 @@ export default class User {
             const salt = genSaltSync(config.SALT_ROUNDS);
             this.password = hashSync(password, salt);
         }
+
+        return this;
     }
 
-    static findById = async (id: number): Promise<IUser> => {
-        try {
-            const res = await pool.query(`SELECT * FROM users WHERE id=$1;`, [id]);
-            return res.rows[0];
-        } catch (err) {
-            return Promise.reject(new Error('Could not fetch DB data'));
-        }
-    };
-
-    static findByEmail = async (email: string): Promise<IUser> => {
-        try {
-            const res = await pool.query(`SELECT * FROM users WHERE email=$1;`, [email]);
-            return res.rows[0];
-        } catch (err) {
-            return Promise.reject(new Error('Could not fetch DB data'));
-        }
-    };
-
-    static checkPasswords = async (dbPassword: string, password: string): Promise<boolean> => {
+    public checkPasswords = async (dbPassword: string, password: string): Promise<boolean> => {
         const match: boolean = await compare(password, dbPassword);
 
         return match;

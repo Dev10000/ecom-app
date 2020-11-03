@@ -4,24 +4,22 @@ import { useDBSetup } from './utils';
 
 const { runSetupQuery } = useDBSetup(true);
 
-const countriesSeeder = async () => {
+const countriesSeeder = async (): Promise<void> => {
     const countriesSQL = await fs.readFileSync('./src/database/data/countries.sql').toString();
-    runSetupQuery('countries', countriesSQL);
+    await runSetupQuery('countries', countriesSQL);
 };
 
-const usersSeeder = async () => {
+const usersSeeder = async (): Promise<void> => {
     const usersSQL = await fs.readFileSync('./src/database/data/users.sql').toString();
-    runSetupQuery('users', usersSQL);
+    await runSetupQuery('users', usersSQL);
 };
 
-const seedData = (): void => {
+const seedData = async () => {
     console.log('\x1b[36m%s\x1b[0m', 'ℹ Started database seeding...');
 
-    Promise.all([countriesSeeder(), usersSeeder()])
-        .then(() => {
-            console.log('\x1b[36m%s\x1b[0m', 'ℹ Database Seeding complete!');
-        })
-        .catch((err) => console.log(err));
+    await Promise.all([countriesSeeder(), usersSeeder()]);
+
+    console.log('\x1b[36m%s\x1b[0m', 'ℹ Database Seeding complete!');
 };
 
 seedData();

@@ -16,4 +16,11 @@ export default {
     JWT_SECRET: JWT_SECRET || 'Some_default_random_secret_token_here',
     JWT_EXPIRATION_TIME: JWT_EXPIRATION_TIME || '1h',
     SALT_ROUNDS: Number(SALT_ROUNDS) || 10,
+    ORDER_STATUS: {
+        PENDING: 'Pending', // The user has submited the order, the order needs to be paid
+        CONFIRMED: 'Confirmed', // The payment for the order was done, but the seller didn't sent the items
+        DISPATCHED: 'Dispatched', // after the products get send
+        COMPLETED: 'Completed', // When the buyer gets the products
+        CANCELED: 'Canceled', // If the user changes it's mind... -> refund or not ??
+    },
 };
