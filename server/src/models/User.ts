@@ -76,7 +76,7 @@ export default class User extends BaseModel<IUser> {
                 this.country_id,
                 this.postal_code,
                 this.phone_number,
-                'now()',
+                new Date(),
             ];
 
             const res = await pool.query(query, parameters);
