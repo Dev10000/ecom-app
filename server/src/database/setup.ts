@@ -19,7 +19,6 @@ const create_countries_table = async () => {
   "sub_region_code" varchar(200),
   "intermediate_region_code" varchar(200)
 );`;
-    // TIM Changed the created_at to varchar (not permanent) because some issues with the timestamp when loading mock data "error: date/time field value out of range: "1585330511000"
 
     return runSetupQuery('countries', countriesQuery);
 };
@@ -34,16 +33,14 @@ const create_users_table = async () => {
     "last_name" varchar(100) NOT NULL,
     "address" varchar(100) NOT NULL,
     "city" varchar(100) NOT NULL,
-    "country_id" int NOT NULL,
+    "country_id" int,
     "postal_code" varchar(50) NOT NULL,
     "phone_number" varchar(50) NOT NULL,
-    "created_at" varchar
+    "created_at" timestamp
 );
 
-ALTER TABLE "users" ADD FOREIGN KEY ("country_id") REFERENCES "countries" ("id");
+ALTER TABLE "users" ADD FOREIGN KEY ("country_id") REFERENCES "countries" ("id") ON DELETE SET NULL;
 `;
-    // TIM Changed the created_at to varchar (not permanent) because some issues with the timestamp when loading mock data "error: date/time field value out of range: "1585330511000"
-
     return runSetupQuery('users', usersQuery);
 };
 
@@ -55,17 +52,17 @@ const create_products_table = async () => {
   "slug" varchar(200) UNIQUE NOT NULL,
   "description" text NOT NULL,
   "price" decimal(8,4) NOT NULL,
-  "weight" int,
+  "weight" decimal(8,4),
   "package_size" varchar(100),
   "discount" decimal(2,2),
-  "product_category_id" int NOT NULL,
+  "product_category_id" int,
   "stock_qty" int NOT NULL,
   "created_at" timestamp,
   "updated_at" timestamp,
   "deleted_at" timestamp
 );
 
-  ALTER TABLE "products" ADD FOREIGN KEY ("product_category_id") REFERENCES "product_categories" ("id");
+  ALTER TABLE "products" ADD FOREIGN KEY ("product_category_id") REFERENCES "product_categories" ("id") ON DELETE SET NULL;
   CREATE INDEX ON "products" ("product_category_id");
   `;
 
@@ -78,10 +75,12 @@ const create_product_categories_table = async () => {
   "id" SERIAL PRIMARY KEY,
   "title" varchar(200),
   "parent_id" int,
-  "slug" varchar(200) UNIQUE NOT NULL
+  "slug" varchar(200) UNIQUE NOT NULL,
+  "created_at" timestamp,
+  "updated_at" timestamp
 );
 
-ALTER TABLE "product_categories" ADD FOREIGN KEY ("parent_id") REFERENCES "product_categories" ("id");
+ALTER TABLE "product_categories" ADD FOREIGN KEY ("parent_id") REFERENCES "product_categories" ("id") ON DELETE SET NULL;
 `;
 
     return runSetupQuery('product_categories', productCategoriesQuery);
@@ -114,6 +113,21 @@ const create_product_specs_table = async () => {
     return runSetupQuery('product_specs', productSpecsQuery);
 };
 
+const create_product_images_table = async () => {
+    const productImagesQuery = `DROP TABLE IF EXISTS "product_images" cascade;
+  CREATE TABLE IF NOT EXISTS "product_images" (
+    "id" SERIAL PRIMARY KEY,
+    "href" varchar,
+    "default_img" boolean,
+    "product_id" int
+  );
+  
+ ALTER TABLE "product_images" ADD FOREIGN KEY ("product_id") REFERENCES "products" ("id") ON DELETE CASCADE;
+ CREATE INDEX ON "product_images" ("product_id");`;
+
+    return runSetupQuery('product_images', productImagesQuery);
+};
+
 const create_orders_table = async () => {
     const ordersQuery = `DROP TABLE IF EXISTS "orders" cascade;
   CREATE TABLE IF NOT EXISTS "orders" (
@@ -125,7 +139,7 @@ const create_orders_table = async () => {
     "created_at" timestamp
   );
 
-  ALTER TABLE "orders" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
+  ALTER TABLE "orders" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id") ON DELETE CASCADE;
   CREATE INDEX ON "orders" ("user_id");
   `;
 
@@ -138,7 +152,7 @@ const create_order_items_table = async () => {
     "id" SERIAL PRIMARY KEY,
     "order_id" int NOT NULL,
     "product_id" int NOT NULL,
-    "coupon_code_id" int NOT NULL,
+    "coupon_code_id" int,
     "quantity" int,
     "price" decimal(8,4)
   );
@@ -173,6 +187,7 @@ const setup = (): void => {
         create_product_categories_table(),
         create_product_specs_table(),
         create_product_options_table(),
+        create_product_images_table(),
         create_products_table(),
         create_order_items_table(),
         create_orders_table(),

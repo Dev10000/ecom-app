@@ -1,3 +1,3 @@
-import BaseModel from '../database/BaseModel';
+import Model from '../database/Model';
 
-export default class CouponCode extends BaseModel<ICouponCode> {}
+export default class CouponCode extends Model<ICouponCode> {}

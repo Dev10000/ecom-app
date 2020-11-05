@@ -1,10 +1,11 @@
 import { Request, Response } from 'express';
-import CountryModel from '../models/Country';
-
-const Country = new CountryModel();
+import Country from '../models/Country';
 
 export const getAll = async (req: Request, res: Response): Promise<Response> => {
-    return Country.all()
+    return Country.qb()
+        .select('id', 'name')
+        .orderBy('name')
+        .get()
         .then((countries) => {
             return res.status(200).json({ status: 'success', data: countries });
         })
@@ -20,5 +21,12 @@ export const edit = async (req: Request, res: Response): Promise<Response> => {
 };
 
 export const destroy = async (req: Request, res: Response): Promise<Response> => {
-    return res.send('(Delete a single country)');
+    const { id } = req.params;
+    return Country.qb()
+        .where('id', Number(id))
+        .delete()
+        .then(() => {
+            return res.status(200).json({ status: 'success', data: null });
+        })
+        .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
 };

@@ -1,3 +1,3 @@
-import BaseModel from '../database/BaseModel';
+import Model from '../database/Model';
 
-export default class ProductOption extends BaseModel<IProductOption> {}
+export default class ProductOption extends Model<IProductOption> {}

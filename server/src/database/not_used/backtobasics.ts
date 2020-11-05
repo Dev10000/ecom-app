@@ -1,10 +1,10 @@
+/* eslint-disable no-shadow */
 /* eslint-disable import/first */
 /* eslint-disable new-cap */
 /* eslint-disable max-classes-per-file */
 import { QueryConfig } from 'pg';
-import pluralize from 'pluralize';
 
-import DB from '../config/database';
+import DB from '../../config/database';
 
 // https://stackoverflow.com/questions/59857223/how-to-convert-typescript-types-of-strings-to-array-of-strings
 const operators = ['=', '>', '<', '>=', '<=', '<>', '!=', 'LIKE'] as const;
@@ -37,7 +37,7 @@ interface hasModelProperties {
 }
 
 interface IOptions {
-    action: 'select' | 'count' | 'update' | 'delete' | 'create';
+    action: 'select' | 'count' | 'delete' | 'create';
     limit: number;
     select: string[] | '*';
     orderBy: IOrderBy;
@@ -45,7 +45,7 @@ interface IOptions {
     nullConditions: INullCondition[];
 }
 
-// type Class<T> = T & hasTableProperty;
+// type Class<T> = T & hasModelProperties;
 type Constructable<T> = new () => T & hasModelProperties;
 
 // QueryBuilder class
@@ -155,6 +155,9 @@ class QueryBuilder<T> {
             case 'count':
                 prefix = `SELECT COUNT(${this.options.select}) FROM ${table}`;
                 break;
+            case 'create':
+                prefix = `INSERT INTO ${table} `;
+                break;
             case 'delete':
                 // TODO: if (useSoftDeletes) ... this should be turned into an update statement where deleted_at = new Date();
                 prefix = `DELETE FROM ${table}`;
@@ -182,7 +185,7 @@ class QueryBuilder<T> {
      */
     async get(): Promise<T[]> {
         const { rows } = await DB.query(this.sql());
-        console.log(rows);
+        // console.log(rows);
         return rows;
     }
 
@@ -205,7 +208,6 @@ class QueryBuilder<T> {
         const instance = new this.model();
         const filtered = rows[0]; // need to exclude the hidden fields here
         Object.assign(instance, filtered);
-        console.log({ rows, instance });
         return instance;
     }
 
@@ -224,39 +226,23 @@ class QueryBuilder<T> {
 }
 
 // the base Model class
-class Model<T> {
-    /**
-     * Default table name. This can be overwritten in Class definition
-     */
-    table = this.predefinedTableName();
+// function Model<T>() {
 
-    hidden = [];
-
-    useSoftDeletes = false;
-
-    predefinedTableName() {
-        // https://stackoverflow.com/questions/30521224/javascript-convert-pascalcase-to-underscore-case
-        return pluralize(this.constructor.name.split(/(?=[A-Z])/).join('_')).toLowerCase();
-    }
-
-    static qb() {
-        return new QueryBuilder(this);
-    }
-
-//     save(): this {
-//         Object.assign(...
-//         const { rows } = await DB.query();
-//         return this;
-//     }
-
-//     returning(private returning: number): this {
-//         return this;
-//     }
+//     return Model;
 // }
 
 // the class where it's used
-class Country extends Model<ICountry> {}
+// class Country extends Model<ICountry> {}
 
 // the new API, used in controllers
-const res = Country.qb().whereNull('intermediate_region_code').where('id', '<', 5).get();
-console.log(res);
+// Country.qb()
+//     .where('id', '>', 10)
+//     .first()
+//     .then((country) => {
+//         console.log('fetched:', country);
+
+//         country.name = 'Argentinas';
+
+//         console.log('updated country:', country);
+//         country.save();
+//     });

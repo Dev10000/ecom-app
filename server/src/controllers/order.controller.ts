@@ -1,10 +1,9 @@
 import { Request, Response } from 'express';
-import OrderModel from '../models/Order';
-
-const Order = new OrderModel();
+import Order from '../models/Order';
 
 export const getAll = async (req: Request, res: Response): Promise<Response> => {
-    return Order.all()
+    return Order.qb()
+        .get()
         .then((orders) => {
             return res.status(200).json({ status: 'success', data: orders });
         })
@@ -12,7 +11,18 @@ export const getAll = async (req: Request, res: Response): Promise<Response> => 
 };
 
 export const getSingle = async (req: Request, res: Response): Promise<Response> => {
-    return res.send('(Get a single order)');
+    const { id } = req.params;
+    // console.log(req.params);
+    return Order.qb()
+        .where('id', '=', Number(id))
+        .first()
+        .then((order) => {
+            if (order.id) {
+                return res.status(200).json({ status: 'success', data: order });
+            }
+            return res.status(404).json({ status: 'error', data: 'Resource not found!' });
+        })
+        .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
 };
 
 export const create = async (req: Request, res: Response): Promise<Response> => {

@@ -1,3 +1,3 @@
-import BaseModel from '../database/BaseModel';
+import Model from '../database/Model';
 
-export default class ProductImage extends BaseModel<IProductImage> {}
+export default class ProductImage extends Model<IProductImage> {}

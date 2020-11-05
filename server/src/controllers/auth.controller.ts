@@ -1,9 +1,7 @@
 import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
-import UserModel from '../models/User';
+import User from '../models/User';
 import config from '../config';
-
-const User = new UserModel();
 
 function createToken(user: IUser) {
     return jwt.sign({ id: user.id, email: user.email }, config.JWT_SECRET, {
@@ -25,7 +23,6 @@ export const register = async (req: Request, res: Response): Promise<Response> =
         postal_code,
         phone_number,
     )
-        .save()
         .then((user) => res.status(201).json({ status: 'success', data: user }))
         .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
 };
@@ -37,7 +34,8 @@ export const login = async (req: Request, res: Response): Promise<Response> => {
         return res.status(400).json({ status: 'error', data: 'Email and/or password missing!' });
     }
 
-    const ret = await User.where('email', email)
+    const ret = await User.qb()
+        .where('email', email)
         .first()
         .then(async (user) => {
             if (!user) {

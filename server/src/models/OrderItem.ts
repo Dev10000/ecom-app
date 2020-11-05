@@ -1,3 +1,3 @@
-import BaseModel from '../database/BaseModel';
+import Model from '../database/Model';
 
-export default class OrderItem extends BaseModel<IOrderItem> {}
+export default class OrderItem extends Model<IOrderItem> {}

@@ -22,19 +22,24 @@ interface IOrder {
 
 interface IOrderItem {
     id?: number;
+    order_id: number;
+    product_id: number;
+    coupon_code_id?: number;
+    quantity: number;
+    price: number;
 }
 
 interface IProduct {
     id?: number;
-    title: string;
-    slug: string;
-    description: string;
-    price: number;
+    title?: string;
+    slug?: string;
+    description?: string;
+    price?: number;
     weight?: number;
     package_size?: string;
-    discount: number;
-    product_category_id: number;
-    stock_qty: number;
+    discount?: number;
+    product_category_id?: number;
+    stock_qty?: number;
     created_at?: string;
     updated_at?: string;
     deleted_at?: string;
@@ -42,24 +47,51 @@ interface IProduct {
 
 interface IProductCategory {
     id?: number;
+    title?: string;
+    parent_id?: number | null;
+    slug?: string;
+    created_at?: string;
+    updated_at?: string;
 }
 
 interface IProductImage {
     id?: number;
+    href?: string;
+    default_img?: boolean;
+    product_id?: number;
 }
 
 interface IProductOption {
     id?: number;
+    title: string;
 }
 
 interface IProductSpec {
     id?: number;
+    product_id: number;
+    product_options_id: number;
+    value: string;
 }
 
 interface ICouponCode {
     id?: number;
+    code: string;
+    quantity?: number;
+    created_at?: string;
+    expired_at?: string;
 }
 
 interface ICountry {
     id?: number;
+    name: string;
+    alpha2: string;
+    alpha3: string;
+    code: string;
+    iso_3166_2: string;
+    region: string;
+    sub_region: string;
+    intermediate_region: string;
+    region_code: string;
+    sub_region_code: string;
+    intermediate_region_code: string;
 }

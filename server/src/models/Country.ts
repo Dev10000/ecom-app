@@ -1,3 +1,3 @@
-import BaseModel from '../database/BaseModel';
+import Model from '../database/Model';
 
-export default class Country extends BaseModel<ICountry> {}
+export default class Country extends Model<ICountry> {}

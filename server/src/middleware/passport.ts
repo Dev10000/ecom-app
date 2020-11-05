@@ -1,8 +1,6 @@
 import { Strategy, ExtractJwt, StrategyOptions } from 'passport-jwt';
 import config from '../config';
-import UserModel from '../models/User';
-
-const User = new UserModel();
+import User from '../models/User';
 
 const opts: StrategyOptions = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -12,7 +10,7 @@ const opts: StrategyOptions = {
 // http://www.passportjs.org/packages/passport-jwt/
 export default new Strategy(opts, async (payload, done) => {
     try {
-        const user = await User.where('id', payload.id).first();
+        const user = await User.qb().where('id', payload.id).first();
 
         if (user) {
             return done(null, user);

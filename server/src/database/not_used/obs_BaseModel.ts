@@ -1,7 +1,7 @@
 /* eslint-disable max-classes-per-file */
 import { QueryConfig } from 'pg';
 import pluralize from 'pluralize';
-import DB from '../config/database';
+import DB from '../../config/database';
 
 // https://stackoverflow.com/questions/59857223/how-to-convert-typescript-types-of-strings-to-array-of-strings
 const operators = ['=', '>', '<', '>=', '<=', '<>', '!='] as const;
