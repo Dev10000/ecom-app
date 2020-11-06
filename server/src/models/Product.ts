@@ -21,41 +21,31 @@ export default class Product extends Model<IProduct> {
 
     product_category_id?: number;
 
-    static async create(
-        title: string,
-        slug: string,
-        description: string,
-        price: number,
-        discount: number,
-        stock_qty: number,
-        weight?: number,
-        package_size?: string,
-        product_category_id?: number,
-    ): Promise<IProduct> {
+    static async create(instance: IProduct): Promise<IProduct> {
         try {
             const query = `INSERT INTO products (title, slug, description, price, weight, package_size, discount, product_category_id, stock_qty, created_at, updated_at)
                 VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
                 RETURNING *`;
 
             const parameters = [
-                title,
-                slug,
-                description,
-                price,
-                weight,
-                package_size,
-                discount,
-                product_category_id,
-                stock_qty,
+                instance.title,
+                instance.slug,
+                instance.description,
+                instance.price,
+                instance.weight,
+                instance.package_size,
+                instance.discount,
+                instance.product_category_id,
+                instance.stock_qty,
                 new Date(),
                 new Date(),
             ];
 
-            console.log(query, parameters);
+            // console.log(query, parameters);
 
             const res = await DB.query(query, parameters);
-            const instance = new Product();
-            return Object.assign(instance, res.rows[0]);
+            const model = new Product();
+            return Object.assign(model, res.rows[0]);
         } catch (err) {
             return Promise.reject(new Error(`DB Error ${err.message}`));
         }
@@ -81,7 +71,7 @@ export default class Product extends Model<IProduct> {
                 this.id,
             ];
 
-            console.log(query, parameters);
+            // console.log(query, parameters);
 
             await DB.query(query, parameters);
             return this;
