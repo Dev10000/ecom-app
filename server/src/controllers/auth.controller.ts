@@ -38,7 +38,7 @@ export const login = async (req: Request, res: Response): Promise<Response> => {
         .where('email', email)
         .first()
         .then(async (user) => {
-            if (!user) {
+            if (!user.id) {
                 return res.status(401).json({ status: 'error', data: 'User with the given email address not found!' });
             }
 
