@@ -3,8 +3,6 @@ import Coupon from '../models/CouponCode';
 
 export const getAll = async (req: Request, res: Response): Promise<Response> => {
     return Coupon.qb()
-        .select('id', 'name')
-        .orderBy('name')
         .get()
         .then((coupons) => {
             return res.status(200).json({ status: 'success', data: coupons });
