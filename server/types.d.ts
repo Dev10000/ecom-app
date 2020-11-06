@@ -75,10 +75,11 @@ interface IProductSpec {
 
 interface ICouponCode {
     id?: number;
-    code: string;
+    code?: string;
     quantity?: number;
     created_at?: string;
     expired_at?: string;
+    updated_at?: string;
 }
 
 interface ICountry {

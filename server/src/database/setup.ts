@@ -157,7 +157,9 @@ const create_order_items_table = async () => {
     "product_id" int NOT NULL,
     "coupon_code_id" int,
     "quantity" int,
-    "price" decimal(8,4)
+    "price" decimal(8,4),
+    "created_at" timestamp,
+    "updated_at" timestamp
   );
 
   ALTER TABLE "order_items" ADD FOREIGN KEY ("order_id") REFERENCES "orders" ("id");
@@ -176,7 +178,8 @@ const create_coupon_codes_table = async () => {
     "code" varchar(100),
     "quantity" int,
     "created_at" timestamp,
-    "expired_at" timestamp
+    "expired_at" timestamp,
+    "updated_at" timestamp 
   );`;
 
     return runSetupQuery('coupon_codes', couponCodesQuery);
