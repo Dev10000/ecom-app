@@ -13,15 +13,37 @@ export const getAll = async (req: Request, res: Response): Promise<Response> => 
 };
 
 export const create = async (req: Request, res: Response): Promise<Response> => {
-    return res.send('(Create a country)');
+    return Country.create(req.body as ICountry)
+        .then((country) => res.status(201).json({ status: 'success', data: country }))
+        .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
 };
 
 export const edit = async (req: Request, res: Response): Promise<Response> => {
-    return res.send('(Edit single country)');
+    const { id } = req.params;
+
+    const country = (await Country.qb().where('id', Number(id)).first()) as Country;
+
+    if (!country.id) {
+        return res.status(404).json({ status: 'error', data: 'Country not found!' });
+    }
+
+    Object.assign(country, req.body as ICountry);
+
+    return country
+        .store()
+        .then((updCountry) => res.status(200).json({ status: 'success', data: updCountry }))
+        .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
 };
 
 export const destroy = async (req: Request, res: Response): Promise<Response> => {
     const { id } = req.params;
+
+    // copied from edit() to check first if a country with given id exists, but is repetition…
+    const country = (await Country.qb().where('id', Number(id)).first()) as Country;
+    if (!country.id) {
+        return res.status(404).json({ status: 'error', data: 'Country not found!' });
+    }
+
     return Country.qb()
         .where('id', Number(id))
         .delete()
