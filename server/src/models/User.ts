@@ -4,6 +4,26 @@ import pool from '../config/database';
 import Model from '../database/Model';
 
 export default class User extends Model<IUser> {
+    id?: number;
+
+    email?: string;
+
+    password?: string;
+
+    first_name?: string;
+
+    last_name?: string;
+
+    address?: string;
+
+    city?: string;
+
+    country_id?: number;
+
+    postal_code?: string;
+
+    phone_number?: string;
+
     static async create(
         email: string,
         password: string,

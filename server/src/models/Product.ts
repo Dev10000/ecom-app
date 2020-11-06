@@ -57,6 +57,8 @@ export default class Product extends Model<IProduct> {
                     = ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) WHERE id=$11
                     RETURNING * ;`;
 
+            // const updatedAt = new Date();
+
             const parameters = [
                 this.title,
                 this.slug,
@@ -73,8 +75,7 @@ export default class Product extends Model<IProduct> {
 
             // console.log(query, parameters);
 
-            await DB.query(query, parameters);
-            return this;
+            return DB.query(query, parameters).then((response) => response.rows[0] as IProduct);
         } catch (err) {
             return Promise.reject(new Error(`DB Error ${err.message}`));
         }

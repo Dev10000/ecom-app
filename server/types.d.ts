@@ -1,10 +1,22 @@
-interface IUser {
+interface IModel {
+    id?: number; // primary key for model
+    table: string; // name of the table
+    internal: (keyof this)[]; // internal properties that we don't want exposed
+    hidden: string[]; // other fields that we want to get excluded
+    useSoftDeletes?: boolean; // TODO
+    save: () => Promise<T>;
+    create: (props: T) => this;
+    toJSON: () => Pick<this, Exclude<keyof this, keyof this>>;
+}
+
+interface IUser extends IModel {
     id?: number;
-    email: string;
-    password: string;
-    first_name: string;
-    last_name: string;
+    email?: string;
+    password?: string;
+    first_name?: string;
+    last_name?: string;
     address?: string;
+    country_id?: string;
     city?: string;
     postal_code?: string;
     phone_number?: string;
