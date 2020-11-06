@@ -83,15 +83,15 @@ interface ICouponCode {
 
 interface ICountry {
     id?: number;
-    name: string;
-    alpha2: string;
-    alpha3: string;
-    code: string;
-    iso_3166_2: string;
-    region: string;
-    sub_region: string;
-    intermediate_region: string;
-    region_code: string;
-    sub_region_code: string;
-    intermediate_region_code: string;
+    name?: string;
+    alpha2?: string;
+    alpha3?: string;
+    code?: string;
+    iso_3166_2?: string;
+    region?: string;
+    sub_region?: string;
+    intermediate_region?: string;
+    region_code?: string;
+    sub_region_code?: string;
+    intermediate_region_code?: string;
 }

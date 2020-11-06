@@ -4,10 +4,13 @@ import { useDBSetup } from './utils';
 const { runSetupQuery } = useDBSetup();
 
 const create_countries_table = async () => {
+    // columns alpha2, alpha3, code, iso_3166_2 should be UNIQUE
+    // and most columns should be NOT NULL
+    // but currently only name is UNIQUE NOT NULL for testing
     const countriesQuery = `DROP TABLE IF EXISTS "countries" cascade;
   CREATE TABLE IF NOT EXISTS "countries" (
   "id" SERIAL PRIMARY KEY,
-  "name" varchar(200),
+  "name" varchar(200) UNIQUE NOT NULL,
   "alpha2" varchar(5),
   "alpha3" varchar(5),
   "code" varchar(5),
