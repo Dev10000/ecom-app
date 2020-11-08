@@ -1,15 +1,23 @@
+/**
+ * Models
+ */
+
 interface IModel {
     id?: number; // primary key for model
     table: string; // name of the table
-    internal: (keyof this)[]; // internal properties that we don't want exposed
-    hidden: string[]; // other fields that we want to get excluded
-    useSoftDeletes?: boolean; // TODO
+    hidden: string[]; // other fields that we want to get excluded in toJSON()
     save: () => Promise<T>;
-    create: (props: T) => this;
+    // create: (props: T) => this;
     toJSON: () => Pick<this, Exclude<keyof this, keyof this>>;
+    belongsTo: (otherModel: Constructor<U>, localField?: string, remoteField?: string) => Promise<T>;
+    hasMany(otherModel: Constructor<U>, localField?: string, remoteField?: string): Promise<U[]>;
 }
 
-interface IUser extends IModel {
+interface IUserModel extends IModel, IUser {
+    country: () => Promise<ICountry>;
+}
+
+interface IUser {
     id?: number;
     email?: string;
     password?: string;
@@ -93,17 +101,21 @@ interface ICouponCode {
     expired_at?: string;
 }
 
+interface ICountryModel extends IModel, ICountry {
+    users: () => Promise<IUser[]>;
+}
+
 interface ICountry {
     id?: number;
-    name: string;
-    alpha2: string;
-    alpha3: string;
-    code: string;
-    iso_3166_2: string;
-    region: string;
-    sub_region: string;
-    intermediate_region: string;
-    region_code: string;
-    sub_region_code: string;
-    intermediate_region_code: string;
+    name?: string;
+    alpha2?: string;
+    alpha3?: string;
+    code?: string;
+    iso_3166_2?: string;
+    region?: string;
+    sub_region?: string;
+    intermediate_region?: string;
+    region_code?: string;
+    sub_region_code?: string;
+    intermediate_region_code?: string;
 }
