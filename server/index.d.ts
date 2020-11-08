@@ -1,10 +1,30 @@
+/**
+ * Models
+ */
+
+interface IModel {
+    id?: number; // primary key for model
+    table: string; // name of the table
+    hidden: string[]; // other fields that we want to get excluded in toJSON()
+    save: () => Promise<T>;
+    // create: (props: T) => this;
+    toJSON: () => Pick<this, Exclude<keyof this, keyof this>>;
+    belongsTo: (otherModel: Constructor<U>, localField?: string, remoteField?: string) => Promise<T>;
+    hasMany(otherModel: Constructor<U>, localField?: string, remoteField?: string): Promise<U[]>;
+}
+
+interface IUserModel extends IModel, IUser {
+    country: () => Promise<ICountry>;
+}
+
 interface IUser {
     id?: number;
-    email: string;
-    password: string;
-    first_name: string;
-    last_name: string;
+    email?: string;
+    password?: string;
+    first_name?: string;
+    last_name?: string;
     address?: string;
+    country_id?: string;
     city?: string;
     postal_code?: string;
     phone_number?: string;
@@ -80,6 +100,10 @@ interface ICouponCode {
     created_at?: string;
     expired_at?: string;
     updated_at?: string;
+}
+
+interface ICountryModel extends IModel, ICountry {
+    users: () => Promise<IUser[]>;
 }
 
 interface ICountry {
