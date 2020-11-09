@@ -53,8 +53,8 @@ export const destroy = async (req: Request, res: Response): Promise<Response> =>
     return QB(CouponCode)
         .where('id', Number(id))
         .delete()
-        .then(() => {
-            return res.status(200).json({ status: 'success', data: null });
+        .then((coupon) => {
+            return res.status(200).json(coupon);
         })
         .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
 };
