@@ -55,5 +55,18 @@ export const destroy = async (req: Request, res: Response): Promise<Response> =>
 };
 
 export const listProducts = async (req: Request, res: Response): Promise<Response> => {
-    return res.send('(List products belonging to a category)');
+    const { id } = req.params;
+
+    const productCategory = (await ProductCategory.find(Number(id))) as ProductCategory;
+
+    if (!productCategory.id) {
+        return res.status(404).json({ status: 'error', data: 'Product Category not found!' });
+    }
+
+    return productCategory
+        .products()
+        .then((products) => {
+            return res.status(200).json({ status: 'success', data: products });
+        })
+        .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
 };

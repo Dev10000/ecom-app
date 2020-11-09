@@ -34,3 +34,10 @@ export const removeFields = <T, K extends keyof T>(entity: T, props: K[]): Omit<
     // eslint-disable-next-line no-sequences
     return props.reduce((s, prop) => (delete s[prop], s), entity);
 };
+
+export const pascalToSnakeCase = (input: string): string => {
+    return input
+        .split(/(?=[A-Z])/)
+        .join('_')
+        .toLowerCase();
+};

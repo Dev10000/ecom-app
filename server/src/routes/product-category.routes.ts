@@ -5,7 +5,7 @@ import { getAll, create, edit, destroy, listProducts } from '../controllers/prod
 
 const router = Router();
 
-router.get('/', passport.authenticate('jwt', { session: false }), getAll);
+router.get('/', getAll);
 router.post('/', passport.authenticate('jwt', { session: false }), create);
 router.patch('/:id', passport.authenticate('jwt', { session: false }), edit);
 router.delete('/:id', passport.authenticate('jwt', { session: false }), destroy);
