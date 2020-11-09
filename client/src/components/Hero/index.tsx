@@ -1,7 +1,11 @@
 import React from 'react';
 
 const Hero: React.FC = (): JSX.Element => {
-    return <div>Hero Component</div>;
+    return (
+        <div className="w-screen mt-10">
+            <img className="w-full h-96 object-cover" src="/assets/thumbnails/nike_blue.jpeg" alt="shoes" />
+        </div>
+    );
 };
 
 export default Hero;
