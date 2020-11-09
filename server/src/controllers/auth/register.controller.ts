@@ -1,12 +1,6 @@
 import { Request, Response } from 'express';
-import { genSaltSync, hashSync } from 'bcrypt';
 import User from '../../models/User';
-import config from '../../config';
-
-function hashPassword(password: string): string {
-    const salt = genSaltSync(config.SALT_ROUNDS);
-    return hashSync(password, salt);
-}
+import hashPassword from './utils';
 
 const register = async (req: Request, res: Response): Promise<Response> => {
     const reqData = req.body as Partial<IUserModel>;
