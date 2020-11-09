@@ -6,6 +6,8 @@ interface IModel {
     id?: number; // primary key for model
     table: string; // name of the table
     hidden: string[]; // other fields that we want to get excluded in toJSON()
+    created_at?: string;
+    updated_at?: string;
     save: () => Promise<T>;
     // static create: (props: T) => T;
     toJSON: () => Pick<this, Exclude<keyof this, keyof this>>;
@@ -28,29 +30,27 @@ interface IUser {
     city?: string;
     postal_code?: string;
     phone_number?: string;
-    created_at?: string;
 }
 
 interface IOrderModel extends IModel, IOrder {}
 
 interface IOrder {
     id?: number;
-    code: string;
-    user_id: number;
-    order_status: string; // Pending | Confirmed | Dispatched | Completed | Canceled;
-    price;
-    created_at?: string;
+    code?: string;
+    user_id?: number;
+    order_status?: string; // Pending | Confirmed | Dispatched | Completed | Canceled;
+    price?;
 }
 
 interface IOrderItemModel extends IModel, IOrderItem {}
 
 interface IOrderItem {
     id?: number;
-    order_id: number;
-    product_id: number;
+    order_id?: number;
+    product_id?: number;
     coupon_code_id?: number;
-    quantity: number;
-    price: number;
+    quantity?: number;
+    price?: number;
 }
 
 interface IProductModel extends IModel, IProduct {}
@@ -66,8 +66,6 @@ interface IProduct {
     discount?: number;
     product_category_id?: number;
     stock_qty?: number;
-    created_at?: string;
-    updated_at?: string;
     deleted_at?: string;
 }
 
@@ -78,8 +76,6 @@ interface IProductCategory {
     title?: string;
     parent_id?: number | null;
     slug?: string;
-    created_at?: string;
-    updated_at?: string;
 }
 
 interface IProductImageModel extends IModel, IProductImage {}
@@ -95,16 +91,16 @@ interface IProductOptionModel extends IModel, IProductOption {}
 
 interface IProductOption {
     id?: number;
-    title: string;
+    title?: string;
 }
 
 interface IProductSpecModel extends IModel, IProductSpec {}
 
 interface IProductSpec {
     id?: number;
-    product_id: number;
-    product_options_id: number;
-    value: string;
+    product_id?: number;
+    product_options_id?: number;
+    value?: string;
 }
 
 interface ICouponCodeModel extends IModel, ICouponCode {}
@@ -113,9 +109,7 @@ interface ICouponCode {
     id?: number;
     code?: string;
     quantity?: number;
-    created_at?: string;
     expired_at?: string;
-    updated_at?: string;
 }
 
 interface ICountryModel extends IModel, ICountry {
@@ -137,7 +131,7 @@ interface ICountry {
     intermediate_region_code?: string;
 }
 
-const operators = ['=', '>', '<', '>=', '<=', '<>', '!=', 'LIKE'] as const;
+declare const operators = ['=', '>', '<', '>=', '<=', '<>', '!=', 'LIKE'] as const;
 
 type ConditionOperator = typeof operators[number];
 type ConditionValue = string | number | boolean;

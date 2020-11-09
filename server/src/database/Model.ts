@@ -23,19 +23,30 @@ export default class Model<T> {
      */
     readonly hidden: string[] = [];
 
+    created_at = 'NOW()';
+
+    updated_at = 'NOW()';
+
     /**
      * Saves the current state of the object into the database.g
      */
     async save(): Promise<T> {
-        let text;
+        let text: string;
 
         const { table } = this;
         const object = removeFields(this, ['table', 'hidden']);
+
+        // WIP
+        object.updated_at = this.updated_at;
+
+        if (!this.id) {
+            object.created_at = this.created_at;
+        }
+        // WIP
+
         const keys = Object.keys(object);
         const values = Object.values(object);
         const valueRefs = values.map((_value, index) => `$${index + 1}`);
-
-        // !! TODO: need to handle here created_at & updated_at !!
 
         if (this.id) {
             text = `UPDATE ${table} SET (${keys}) = (${valueRefs}) WHERE id=${this.id} RETURNING *;`;
@@ -44,7 +55,7 @@ export default class Model<T> {
         }
 
         const query = { text, values };
-        // console.log(query);
+        console.log(query);
         // Idealy, this should be probably moved in QB.ts
         return DB.query(query).then((response) => response.rows[0] as T);
     }

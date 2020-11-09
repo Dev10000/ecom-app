@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import passport from 'passport';
 
-import { getAll, create, edit, destroy } from '../controllers/countries.controller';
+import { getAll, create, edit, destroy } from '../controllers/country.controller';
 
 const router = Router();
 

@@ -1,6 +1,6 @@
 import { body } from 'express-validator';
-import QB from '../../database/QB';
-import User from '../../models/User';
+import QB from '../database/QB';
+import User from '../models/User';
 
 //     country_id?: string;
 //     city?: string;
@@ -26,15 +26,15 @@ export default [
 
     body('password').trim().notEmpty().isLength({ min: 6, max: 250 }).withMessage('Invalid password.'),
 
-    body('confirm-password')
-        .trim()
-        .notEmpty()
-        .isLength({ min: 6, max: 250 })
-        .custom((value, { req }) => {
-            if (value !== req.body.password) throw new Error('Password confirmation field must match password field.');
-            return true;
-        })
-        .withMessage('Invalid Password confirmation field.'),
+    // body('confirm-password')
+    //     .trim()
+    //     .notEmpty()
+    //     .isLength({ min: 6, max: 250 })
+    //     .custom((value, { req }) => {
+    //         if (value !== req.body.password) throw new Error('Password confirmation field must match password field.');
+    //         return true;
+    //     })
+    //     .withMessage('Invalid Password confirmation field.'),
 
     body('first_name')
         .trim()
