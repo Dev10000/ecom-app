@@ -12,9 +12,10 @@ export default [
 
     body('iso_3166_2').trim().isLength({ min: 2, max: 2 }).withMessage('iso_3166_2 requires 2 characters.').escape(),
 
-    (req: Request, res: Response, next: NextFunction) => {
+    (req: Request, res: Response, next: NextFunction): unknown => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) return res.status(422).json({ errors: errors.array() });
         next();
+        return true;
     },
 ];
