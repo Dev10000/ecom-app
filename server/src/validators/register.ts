@@ -15,7 +15,7 @@ export default [
         .isEmail()
         .withMessage('Choosen Email is not a valid email address.')
         .custom(async (value) => {
-            return QB<IUserModel>(User)
+            return QB(User)
                 .where('email', value)
                 .first()
                 .then((user) => {
