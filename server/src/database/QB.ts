@@ -1,42 +1,8 @@
-/* eslint-disable no-sequences */
 /* eslint-disable no-shadow */
-/* eslint-disable max-classes-per-file */
 // www.typescriptlang.org/docs/handbook/mixins.html
 
-import pluralize from 'pluralize';
 import { QueryConfig } from 'pg';
 import DB from '../config/database';
-
-// helpers.ts
-export const removeFields = <T, K extends keyof T>(entity: T, props: K[]): Omit<T, K> => {
-    return props.reduce((s, prop) => (delete s[prop], s), entity);
-};
-
-// QB.ts
-
-const operators = ['=', '>', '<', '>=', '<=', '<>', '!=', 'LIKE'] as const;
-
-type ConditionOperator = typeof operators[number];
-type ConditionValue = string | number | boolean;
-type SortDirection = 'asc' | 'desc';
-type Constructor<T> = new () => T & IModel;
-type QueryType = 'select' | 'count' | 'delete';
-
-interface ICondition {
-    field: string;
-    operator?: ConditionOperator | ConditionValue;
-    value: ConditionValue;
-}
-
-interface INullCondition {
-    field: string;
-    is_null: boolean;
-}
-
-interface IOrderBy {
-    field: string;
-    direction: SortDirection;
-}
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default function QB<T>(model: Constructor<T>) {
@@ -294,128 +260,8 @@ export default function QB<T>(model: Constructor<T>) {
     return new QB(model);
 }
 
-// Model.ts
-class Model<T> {
-    // abstract?
-    /**
-     * This is by default the primary key
-     * for each model extending the Model class
-     * TODO: Try to find a more generic aproach to handle exceptions
-     */
-    id?: number;
-
-    /**
-     * Default table name. This can be overwritten in class definition
-     * By default it's the camel case pluralized version of the Model class
-     * ex. ProductCategory -> product_categories
-     */
-    readonly table = pluralize(this.constructor.name.split(/(?=[A-Z])/).join('_')).toLowerCase();
-
-    /**
-     * An array of fields that should be hidden for the current model.
-     * This should be added to the model where appropriate.
-     */
-    readonly hidden: string[] = [];
-
-    /**
-     * Saves the current state of the object into the database.g
-     */
-    async save() {
-        let text;
-
-        const { table } = this;
-        const object = removeFields(this, ['table', 'hidden']);
-        const keys = Object.keys(object);
-        const values = Object.values(object);
-        const valueRefs = values.map((_value, index) => `$${index + 1}`);
-
-        // need to handle here created_at & updated_at
-
-        if (this.id) {
-            text = `UPDATE ${table} SET (${keys}) = (${valueRefs}) WHERE id=${this.id} RETURNING *;`;
-        } else {
-            text = `INSERT INTO ${table} (${keys}) VALUES (${valueRefs}) RETURNING *;`;
-        }
-
-        const query = { text, values };
-        // console.log(query);
-        return DB.query(query).then((response) => response.rows[0] as T);
-    }
-
-    // static create(props: T) {
-    //     Object.assign(this, props);
-    //     return this;
-    // }
-
-    /**
-     * Finds a record by the ID and returns a promise of an instance.
-     * @param id
-     */
-    static async find<U>(id: number): Promise<U> {
-        const instance = new this<U>();
-        const text = `SELECT * FROM ${instance.table} WHERE id=$1 LIMIT 1;`;
-        const values = [id];
-        const query = { text, values };
-        return DB.query(query).then((response) => {
-            Object.assign(instance, response.rows[0]);
-            return (instance as unknown) as U;
-        });
-    }
-
-    /**
-     * This will return the object without the internal and hidden fields.
-     */
-    toJSON(): Pick<this, Exclude<keyof this, keyof this>> {
-        const removable = ['table', 'hidden', ...this.hidden];
-        return removeFields(this, (removable as unknown) as (keyof this)[]);
-    }
-
-    /**
-     * BelongsTo Model relationship
-     * @param otherModel Other Model Name. ex. Country
-     * @param localField [OPTIONAL] ex. country_id | Defaults to the lowercase version of the other model + '_id'
-     * @param remoteField [OPTIONAL] ex. id | Defaults to 'id'
-     */
-    belongsTo<U>(otherModel: Constructor<U>, localField?: string, remoteField?: string): Promise<U> {
-        const localFieldKey = (localField as keyof this) || (`${otherModel.name.toLowerCase()}_id` as keyof this); // Country -> country_id
-        remoteField = remoteField || `id`; // default field name is 'id' unless specfied otherwise
-        const conditionValue = (this[localFieldKey] as unknown) as ConditionValue;
-        return QB<U>(otherModel).where(remoteField, conditionValue).first();
-    }
-
-    /**
-     * hasMany Model relationship
-     * @param otherModel Other Model Name. ex. User
-     * @param localField [OPTIONAL] ex. id | Defaults to 'id'
-     * @param remoteField [OPTIONAL] ex. country_id | Defaults to the lowercase version of this model + '_id'
-     */
-    hasMany<U>(otherModel: Constructor<U>, localField?: string, remoteField?: string): Promise<U[]> {
-        const localFieldKey = (localField as keyof this) || (`id` as keyof this); // default field name is 'id' unless specfied otherwise
-        remoteField = remoteField || `${this.constructor.name.toLowerCase()}_id`; // User -> users_id
-        const conditionValue = (this[localFieldKey] as unknown) as ConditionValue;
-        return QB<U>(otherModel).where(remoteField, conditionValue).get();
-    }
-}
-
-// models/Country.ts
-class Country extends Model<ICountry> {
-    async users(): Promise<IUser[]> {
-        // eslint-disable-next-line no-use-before-define
-        return this.hasMany(User);
-    }
-}
-
-// models/User.ts
-class User extends Model<IUser> {
-    readonly hidden = ['password'];
-
-    country(): Promise<ICountryModel> {
-        return this.belongsTo(Country);
-    }
-}
-
-// constructor usage
-// youtu.be/9Swrzqr4MSs?t=1647
+// constructor usage examples
+// I need to implement in controllers: youtu.be/9Swrzqr4MSs?t=1647 or Partial<T>
 // req.body as {[P in keyof IUser]? : IUser[P] extends Function ? never: IUser[P]}
 
 // const user1 = QB<IUserModel>(User)
@@ -441,13 +287,13 @@ class User extends Model<IUser> {
 //     .then((user) => console.log(user))
 //     .catch((err) => console.log(err.message));
 
-QB<IUserModel>(User)
-    .where('id', '=', '777')
-    .first()
-    .then((user) => {
-        console.log(user.toJSON());
-        user.country()
-            .then((country) => console.log({ country }))
-            .catch((err) => console.log({ err }));
-    })
-    .catch((err) => console.log({ err }));
+// QB<IUserModel>(User)
+//     .where('id', '=', '777')
+//     .first()
+//     .then((user) => {
+//         console.log(user.toJSON());
+//         user.country()
+//             .then((country) => console.log({ country }))
+//             .catch((err) => console.log({ err }));
+//     })
+//     .catch((err) => console.log({ err }));

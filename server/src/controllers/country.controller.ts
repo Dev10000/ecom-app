@@ -1,8 +1,9 @@
 import { Request, Response } from 'express';
+import QB from '../database/QB';
 import Country from '../models/Country';
 
 export const getAll = async (req: Request, res: Response): Promise<Response> => {
-    return Country.qb()
+    return QB(Country)
         .select('id', 'name')
         .orderBy('name')
         .get()
@@ -13,7 +14,8 @@ export const getAll = async (req: Request, res: Response): Promise<Response> => 
 };
 
 export const create = async (req: Request, res: Response): Promise<Response> => {
-    return Country.create(req.body as ICountry)
+    return Country.create<ICountryModel>(req.body as ICountry)
+        .save()
         .then((country) => res.status(201).json({ status: 'success', data: country }))
         .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
 };
@@ -21,7 +23,7 @@ export const create = async (req: Request, res: Response): Promise<Response> => 
 export const edit = async (req: Request, res: Response): Promise<Response> => {
     const { id } = req.params;
 
-    const country = (await Country.qb().where('id', Number(id)).first()) as Country;
+    const country = (await Country.find(Number(id))) as Country;
 
     if (!country.id) {
         return res.status(404).json({ status: 'error', data: 'Country not found!' });
@@ -30,7 +32,7 @@ export const edit = async (req: Request, res: Response): Promise<Response> => {
     Object.assign(country, req.body as ICountry);
 
     return country
-        .store()
+        .save()
         .then((updCountry) => res.status(200).json({ status: 'success', data: updCountry }))
         .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
 };
@@ -39,12 +41,13 @@ export const destroy = async (req: Request, res: Response): Promise<Response> =>
     const { id } = req.params;
 
     // copied from edit() to check first if a country with given id exists, but is repetition…
-    const country = (await Country.qb().where('id', Number(id)).first()) as Country;
+    const country = (await Country.find(Number(id))) as Country;
+
     if (!country.id) {
         return res.status(404).json({ status: 'error', data: 'Country not found!' });
     }
 
-    return Country.qb()
+    return QB(Country)
         .where('id', Number(id))
         .delete()
         .then(() => {

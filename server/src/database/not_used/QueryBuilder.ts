@@ -1,6 +1,6 @@
 /* eslint-disable new-cap */
 import { QueryConfig } from 'pg';
-import DB from '../config/database';
+import DB from '../../config/database';
 
 // https://stackoverflow.com/questions/59857223/how-to-convert-typescript-types-of-strings-to-array-of-strings
 const operators = ['=', '>', '<', '>=', '<=', '<>', '!=', 'LIKE'] as const;

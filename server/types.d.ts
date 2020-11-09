@@ -7,7 +7,7 @@ interface IModel {
     table: string; // name of the table
     hidden: string[]; // other fields that we want to get excluded in toJSON()
     save: () => Promise<T>;
-    // create: (props: T) => this;
+    // static create: (props: T) => T;
     toJSON: () => Pick<this, Exclude<keyof this, keyof this>>;
     belongsTo: (otherModel: Constructor<U>, localField?: string, remoteField?: string) => Promise<T>;
     hasMany(otherModel: Constructor<U>, localField?: string, remoteField?: string): Promise<U[]>;
@@ -19,8 +19,8 @@ interface IUserModel extends IModel, IUser {
 
 interface IUser {
     id?: number;
-    email?: string;
-    password?: string;
+    email: string;
+    password: string;
     first_name?: string;
     last_name?: string;
     address?: string;
@@ -31,6 +31,8 @@ interface IUser {
     created_at?: string;
 }
 
+interface IOrderModel extends IModel, IOrder {}
+
 interface IOrder {
     id?: number;
     code: string;
@@ -40,6 +42,8 @@ interface IOrder {
     created_at?: string;
 }
 
+interface IOrderItemModel extends IModel, IOrderItem {}
+
 interface IOrderItem {
     id?: number;
     order_id: number;
@@ -48,6 +52,8 @@ interface IOrderItem {
     quantity: number;
     price: number;
 }
+
+interface IProductModel extends IModel, IProduct {}
 
 interface IProduct {
     id?: number;
@@ -65,6 +71,8 @@ interface IProduct {
     deleted_at?: string;
 }
 
+interface IProductCategoryModel extends IModel, IProductCategory {}
+
 interface IProductCategory {
     id?: number;
     title?: string;
@@ -74,6 +82,8 @@ interface IProductCategory {
     updated_at?: string;
 }
 
+interface IProductImageModel extends IModel, IProductImage {}
+
 interface IProductImage {
     id?: number;
     href?: string;
@@ -81,10 +91,14 @@ interface IProductImage {
     product_id?: number;
 }
 
+interface IProductOptionModel extends IModel, IProductOption {}
+
 interface IProductOption {
     id?: number;
     title: string;
 }
+
+interface IProductSpecModel extends IModel, IProductSpec {}
 
 interface IProductSpec {
     id?: number;
@@ -92,6 +106,8 @@ interface IProductSpec {
     product_options_id: number;
     value: string;
 }
+
+interface ICouponCodeModel extends IModel, ICouponCode {}
 
 interface ICouponCode {
     id?: number;
@@ -119,4 +135,28 @@ interface ICountry {
     region_code?: string;
     sub_region_code?: string;
     intermediate_region_code?: string;
+}
+
+const operators = ['=', '>', '<', '>=', '<=', '<>', '!=', 'LIKE'] as const;
+
+type ConditionOperator = typeof operators[number];
+type ConditionValue = string | number | boolean;
+type SortDirection = 'asc' | 'desc';
+type Constructor<T> = new () => T & IModel;
+type QueryType = 'select' | 'count' | 'delete';
+
+interface ICondition {
+    field: string;
+    operator?: ConditionOperator | ConditionValue;
+    value: ConditionValue;
+}
+
+interface INullCondition {
+    field: string;
+    is_null: boolean;
+}
+
+interface IOrderBy {
+    field: string;
+    direction: SortDirection;
 }

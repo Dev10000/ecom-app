@@ -1,8 +1,9 @@
 import { Request, Response } from 'express';
+import QB from '../database/QB';
 import ProductCategory from '../models/ProductCategory';
 
 export const getAll = async (req: Request, res: Response): Promise<Response> => {
-    return ProductCategory.qb()
+    return QB(ProductCategory)
         .orderBy('title')
         .get()
         .then((categories) => {
@@ -12,36 +13,39 @@ export const getAll = async (req: Request, res: Response): Promise<Response> => 
 };
 
 export const create = async (req: Request, res: Response): Promise<Response> => {
-    const { title, slug, parent_id } = req.body;
-
-    return ProductCategory.create(title, slug, parent_id)
+    return ProductCategory.create(req.body as Partial<ProductCategory>)
+        .save()
         .then((category) => res.status(201).json({ status: 'success', data: category }))
         .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
 };
 
 export const edit = async (req: Request, res: Response): Promise<Response> => {
     const { id } = req.params;
-    const { title, slug, parent_id } = req.body;
 
-    const categoryToUpdate = ProductCategory.qb().where('id', Number(id)).first() as Promise<ProductCategory>;
+    const productCategory = (await ProductCategory.find(Number(id))) as ProductCategory;
 
-    return categoryToUpdate
-        .then((category) => {
-            category.title = title;
-            category.slug = slug;
-            category.parent_id = parent_id;
+    if (!productCategory.id) {
+        return res.status(404).json({ status: 'error', data: 'Product Category not found!' });
+    }
 
-            return category
-                .store()
-                .then((updCategory) => res.status(200).json({ status: 'success', data: updCategory }))
-                .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
-        })
+    Object.assign(productCategory, req.body as IProductCategory);
+
+    return productCategory
+        .save()
+        .then((updCategory) => res.status(200).json({ status: 'success', data: updCategory }))
         .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
 };
 
 export const destroy = async (req: Request, res: Response): Promise<Response> => {
     const { id } = req.params;
-    return ProductCategory.qb()
+
+    const productCategory = (await ProductCategory.find(Number(id))) as ProductCategory;
+
+    if (!productCategory.id) {
+        return res.status(404).json({ status: 'error', data: 'Product Category not found!' });
+    }
+
+    return QB(ProductCategory)
         .where('id', Number(id))
         .delete()
         .then(() => {
