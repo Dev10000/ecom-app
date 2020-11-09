@@ -13,7 +13,7 @@ module.exports = {
     'no-plusplus': [2, {
       allowForLoopAfterthoughts: true
     }],
-    'import/no-cycle': 1,
+    'import/no-cycle': 0,
     'camelcase': 0,
     'no-underscore-dangle': 0,
     'linebreak-style': [2, "unix"],

@@ -1,8 +1,9 @@
 import { Request, Response } from 'express';
+import QB from '../database/QB';
 import User from '../models/User';
 
 export const getAllUsers = async (req: Request, res: Response): Promise<Response> => {
-    return User.qb()
+    return QB(User)
         .get()
         .then((users) => {
             return res.status(200).json({ status: 'success', data: users });
@@ -21,9 +22,7 @@ export const getUserOrders = async (req: Request, res: Response): Promise<Respon
 export const getUser = async (req: Request, res: Response): Promise<Response> => {
     const { id } = req.params;
     // console.log(req.params);
-    return User.qb()
-        .where('id', '=', Number(id))
-        .first()
+    return User.find(Number(id))
         .then((user) => {
             console.log(user);
             return res.status(200).json({ status: 'success', data: user });

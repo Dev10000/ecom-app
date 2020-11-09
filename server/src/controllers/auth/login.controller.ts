@@ -1,7 +1,8 @@
 import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
-import User from '../models/User';
-import config from '../config';
+import User from '../../models/User';
+import config from '../../config';
+import QB from '../../database/QB';
 
 function createToken(user: IUser) {
     return jwt.sign({ id: user.id, email: user.email }, config.JWT_SECRET, {
@@ -9,32 +10,14 @@ function createToken(user: IUser) {
     });
 }
 
-export const register = async (req: Request, res: Response): Promise<Response> => {
-    const { email, password, first_name, last_name, address, city, country_id, postal_code, phone_number } = req.body;
-
-    return User.create(
-        email,
-        password,
-        first_name,
-        last_name,
-        address,
-        city,
-        Number(country_id),
-        postal_code,
-        phone_number,
-    )
-        .then((user) => res.status(201).json({ status: 'success', data: user }))
-        .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
-};
-
-export const login = async (req: Request, res: Response): Promise<Response> => {
+const login = async (req: Request, res: Response): Promise<Response> => {
     const { email, password } = req.body;
 
-    if (!email || !password) {
-        return res.status(400).json({ status: 'error', data: 'Email and/or password missing!' });
-    }
+    // TODO: Perform better validation here
+    if (!email) return res.status(400).json({ status: 'error', data: 'Email required!' });
+    if (!password) return res.status(400).json({ status: 'error', data: 'Password required!' });
 
-    const ret = await User.qb()
+    const ret = await QB<IUserModel>(User)
         .where('email', email)
         .first()
         .then(async (user) => {
@@ -43,8 +26,6 @@ export const login = async (req: Request, res: Response): Promise<Response> => {
             }
 
             const match = await User.checkPasswords(user.password, password);
-            console.log(match);
-
             if (!match) return res.status(401).json({ status: 'error', data: 'Incorrect password!' });
 
             return res.status(200).json({ status: 'success', data: { token: createToken(user) } });
@@ -53,3 +34,5 @@ export const login = async (req: Request, res: Response): Promise<Response> => {
 
     return ret;
 };
+
+export default login;

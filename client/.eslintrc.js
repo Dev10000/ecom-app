@@ -12,6 +12,6 @@ module.exports = {
     'no-plusplus': [2, {
       allowForLoopAfterthoughts: true
     }],
-    'linebreak-style': [2, "unix"]
+    'linebreak-style': [2, "unix"],
   }
 };

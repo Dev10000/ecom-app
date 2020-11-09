@@ -1,7 +1,7 @@
 import React from 'react';
 import Header from './components/Header';
-import Hero from './components/Hero';
 import Router from './components/Router';
+import TopMenu from './components/TopMenu';
 
 function App(): JSX.Element {
     // useEffect(() => {
@@ -11,9 +11,9 @@ function App(): JSX.Element {
     // }, []);
 
     return (
-        <div className="p-4 text-xl">
+        <div className="relative p-4 text-xl">
             <Header />
-            <Hero />
+            <TopMenu />
             <Router />
         </div>
     );
