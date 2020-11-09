@@ -2,10 +2,10 @@ import { Router } from 'express';
 import authRoutes from './auth.routes';
 import userRoutes from './user.routes';
 import orderRoutes from './order.routes';
-import productRoutes from './products.routes';
+import productRoutes from './product.routes';
 import productCategoriesRoutes from './product-category.routes';
-import couponRoutes from './coupons.routes';
-import countryRoutes from './countries.routes';
+import couponRoutes from './coupon.routes';
+import countryRoutes from './country.routes';
 
 const routes = (): Router => {
     const router = Router();

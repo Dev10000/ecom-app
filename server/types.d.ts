@@ -1,33 +1,59 @@
+/**
+ * Models
+ */
+
+interface IModel {
+    id?: number; // primary key for model
+    table: string; // name of the table
+    hidden: string[]; // other fields that we want to get excluded in toJSON()
+    created_at?: string;
+    updated_at?: string;
+    save: () => Promise<T>;
+    // static create: (props: T) => T;
+    toJSON: () => Pick<this, Exclude<keyof this, keyof this>>;
+    belongsTo: (otherModel: Constructor<U>, localField?: string, remoteField?: string) => Promise<T>;
+    hasMany(otherModel: Constructor<U>, localField?: string, remoteField?: string): Promise<U[]>;
+}
+
+interface IUserModel extends IModel, IUser {
+    country: () => Promise<ICountry>;
+}
+
 interface IUser {
     id?: number;
     email: string;
     password: string;
-    first_name: string;
-    last_name: string;
+    first_name?: string;
+    last_name?: string;
     address?: string;
+    country_id?: string;
     city?: string;
     postal_code?: string;
     phone_number?: string;
-    created_at?: string;
 }
+
+interface IOrderModel extends IModel, IOrder {}
 
 interface IOrder {
     id?: number;
-    code: string;
-    user_id: number;
-    order_status: string; // Pending | Confirmed | Dispatched | Completed | Canceled;
-    price;
-    created_at?: string;
+    code?: string;
+    user_id?: number;
+    order_status?: string; // Pending | Confirmed | Dispatched | Completed | Canceled;
+    price?;
 }
+
+interface IOrderItemModel extends IModel, IOrderItem {}
 
 interface IOrderItem {
     id?: number;
-    order_id: number;
-    product_id: number;
+    order_id?: number;
+    product_id?: number;
     coupon_code_id?: number;
-    quantity: number;
-    price: number;
+    quantity?: number;
+    price?: number;
 }
+
+interface IProductModel extends IModel, IProduct {}
 
 interface IProduct {
     id?: number;
@@ -40,19 +66,19 @@ interface IProduct {
     discount?: number;
     product_category_id?: number;
     stock_qty?: number;
-    created_at?: string;
-    updated_at?: string;
     deleted_at?: string;
 }
+
+interface IProductCategoryModel extends IModel, IProductCategory {}
 
 interface IProductCategory {
     id?: number;
     title?: string;
     parent_id?: number | null;
     slug?: string;
-    created_at?: string;
-    updated_at?: string;
 }
+
+interface IProductImageModel extends IModel, IProductImage {}
 
 interface IProductImage {
     id?: number;
@@ -61,37 +87,70 @@ interface IProductImage {
     product_id?: number;
 }
 
+interface IProductOptionModel extends IModel, IProductOption {}
+
 interface IProductOption {
     id?: number;
-    title: string;
+    title?: string;
 }
+
+interface IProductSpecModel extends IModel, IProductSpec {}
 
 interface IProductSpec {
     id?: number;
-    product_id: number;
-    product_options_id: number;
-    value: string;
+    product_id?: number;
+    product_options_id?: number;
+    value?: string;
 }
+
+interface ICouponCodeModel extends IModel, ICouponCode {}
 
 interface ICouponCode {
     id?: number;
-    code: string;
+    code?: string;
     quantity?: number;
-    created_at?: string;
     expired_at?: string;
+}
+
+interface ICountryModel extends IModel, ICountry {
+    users: () => Promise<IUser[]>;
 }
 
 interface ICountry {
     id?: number;
-    name: string;
-    alpha2: string;
-    alpha3: string;
-    code: string;
-    iso_3166_2: string;
-    region: string;
-    sub_region: string;
-    intermediate_region: string;
-    region_code: string;
-    sub_region_code: string;
-    intermediate_region_code: string;
+    name?: string;
+    alpha2?: string;
+    alpha3?: string;
+    code?: string;
+    iso_3166_2?: string;
+    region?: string;
+    sub_region?: string;
+    intermediate_region?: string;
+    region_code?: string;
+    sub_region_code?: string;
+    intermediate_region_code?: string;
+}
+
+declare const operators = ['=', '>', '<', '>=', '<=', '<>', '!=', 'LIKE'] as const;
+
+type ConditionOperator = typeof operators[number];
+type ConditionValue = string | number | boolean;
+type SortDirection = 'asc' | 'desc';
+type Constructor<T> = new () => T & IModel;
+type QueryType = 'select' | 'count' | 'delete';
+
+interface ICondition {
+    field: string;
+    operator?: ConditionOperator | ConditionValue;
+    value: ConditionValue;
+}
+
+interface INullCondition {
+    field: string;
+    is_null: boolean;
+}
+
+interface IOrderBy {
+    field: string;
+    direction: SortDirection;
 }

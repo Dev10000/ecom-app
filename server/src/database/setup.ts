@@ -3,21 +3,25 @@ import { useDBSetup } from './utils';
 
 const { runSetupQuery } = useDBSetup();
 
+const timestampColumns = `"created_at" timestamp DEFAULT current_timestamp,
+    "updated_at" timestamp`;
+
 const create_countries_table = async () => {
     const countriesQuery = `DROP TABLE IF EXISTS "countries" cascade;
   CREATE TABLE IF NOT EXISTS "countries" (
-  "id" SERIAL PRIMARY KEY,
-  "name" varchar(200),
-  "alpha2" varchar(5),
-  "alpha3" varchar(5),
-  "code" varchar(5),
-  "iso_3166_2" varchar(100),
-  "region" varchar(200),
-  "sub_region" varchar(200),
-  "intermediate_region" varchar(200),
-  "region_code" varchar(200),
-  "sub_region_code" varchar(200),
-  "intermediate_region_code" varchar(200)
+    "id" SERIAL PRIMARY KEY,
+    "name" varchar(200) UNIQUE NOT NULL,
+    "alpha2" varchar(5) UNIQUE NOT NULL,
+    "alpha3" varchar(5) UNIQUE NOT NULL,
+    "code" varchar(5) UNIQUE NOT NULL,
+    "iso_3166_2" varchar(5) UNIQUE NOT NULL,
+    "region" varchar(200),
+    "sub_region" varchar(200),
+    "intermediate_region" varchar(200),
+    "region_code" varchar(200),
+    "sub_region_code" varchar(200),
+    "intermediate_region_code" varchar(200),
+    ${timestampColumns}
 );`;
 
     return runSetupQuery('countries', countriesQuery);
@@ -36,7 +40,7 @@ const create_users_table = async () => {
     "country_id" int,
     "postal_code" varchar(50) NOT NULL,
     "phone_number" varchar(50) NOT NULL,
-    "created_at" timestamp
+    ${timestampColumns}
 );
 
 ALTER TABLE "users" ADD FOREIGN KEY ("country_id") REFERENCES "countries" ("id") ON DELETE SET NULL;
@@ -57,9 +61,8 @@ const create_products_table = async () => {
   "discount" decimal(2,2),
   "product_category_id" int,
   "stock_qty" int NOT NULL,
-  "created_at" timestamp,
-  "updated_at" timestamp,
-  "deleted_at" timestamp
+  "deleted_at" timestamp,
+  ${timestampColumns}
 );
 
   ALTER TABLE "products" ADD FOREIGN KEY ("product_category_id") REFERENCES "product_categories" ("id") ON DELETE SET NULL;
@@ -76,8 +79,7 @@ const create_product_categories_table = async () => {
   "title" varchar(200),
   "parent_id" int,
   "slug" varchar(200) UNIQUE NOT NULL,
-  "created_at" timestamp,
-  "updated_at" timestamp
+  ${timestampColumns}
 );
 
 ALTER TABLE "product_categories" ADD FOREIGN KEY ("parent_id") REFERENCES "product_categories" ("id") ON DELETE SET NULL;
@@ -90,7 +92,8 @@ const create_product_options_table = async () => {
     const productOptionsQuery = `DROP TABLE IF EXISTS "product_options" cascade;
   CREATE TABLE IF NOT EXISTS "product_options" (
     "id" SERIAL PRIMARY KEY,
-    "title" varchar(200) NOT NULL
+    "title" varchar(200) NOT NULL,
+    ${timestampColumns}
   );`;
 
     return runSetupQuery('product_options', productOptionsQuery);
@@ -102,7 +105,8 @@ const create_product_specs_table = async () => {
     "id" SERIAL PRIMARY KEY,
     "product_id" int NOT NULL,
     "product_options_id" int NOT NULL,
-    "value" varchar
+    "value" varchar,
+    ${timestampColumns}
   );
 
   ALTER TABLE "product_specs" ADD FOREIGN KEY ("product_id") REFERENCES "products" ("id");
@@ -119,7 +123,8 @@ const create_product_images_table = async () => {
     "id" SERIAL PRIMARY KEY,
     "href" varchar,
     "default_img" boolean,
-    "product_id" int
+    "product_id" int,
+    ${timestampColumns}
   );
   
  ALTER TABLE "product_images" ADD FOREIGN KEY ("product_id") REFERENCES "products" ("id") ON DELETE CASCADE;
@@ -136,7 +141,7 @@ const create_orders_table = async () => {
     "user_id" int NOT NULL,
     "order_status" varchar,
     "price" decimal(9,4),
-    "created_at" timestamp
+    ${timestampColumns}
   );
 
   ALTER TABLE "orders" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id") ON DELETE CASCADE;
@@ -154,7 +159,8 @@ const create_order_items_table = async () => {
     "product_id" int NOT NULL,
     "coupon_code_id" int,
     "quantity" int,
-    "price" decimal(8,4)
+    "price" decimal(8,4),
+    ${timestampColumns}
   );
 
   ALTER TABLE "order_items" ADD FOREIGN KEY ("order_id") REFERENCES "orders" ("id");
@@ -172,8 +178,8 @@ const create_coupon_codes_table = async () => {
     "id" SERIAL PRIMARY KEY,
     "code" varchar(100),
     "quantity" int,
-    "created_at" timestamp,
-    "expired_at" timestamp
+    "expired_at" timestamp,
+    ${timestampColumns}
   );`;
 
     return runSetupQuery('coupon_codes', couponCodesQuery);

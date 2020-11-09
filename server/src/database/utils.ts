@@ -30,24 +30,7 @@ export const useDBSetup = (
     return { runSetupQuery };
 };
 
-// export const useModel = (tableName: string) => {
-//     const getAll = async () => {
-//         try {
-//             const res = await DB.query(`SELECT * FROM ${tableName};`);
-//             return res.rows;
-//         } catch (err) {
-//             return Promise.reject(new Error('Could not fetch DB data'));
-//         }
-//     };
-
-//     const findById = async (id: number) => {
-//         try {
-//             const res = await DB.query(`SELECT * FROM ${tableName} WHERE id=$1;`, [id]);
-//             return res.rows[0];
-//         } catch (err) {
-//             return Promise.reject(new Error('Could not fetch DB data'));
-//         }
-//     };
-
-//     return { getAll, findById } as const;
-// };
+export const removeFields = <T, K extends keyof T>(entity: T, props: K[]): Omit<T, K> => {
+    // eslint-disable-next-line no-sequences
+    return props.reduce((s, prop) => (delete s[prop], s), entity);
+};
