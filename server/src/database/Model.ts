@@ -1,5 +1,5 @@
 import pluralize from 'pluralize';
-import { removeFields } from './utils';
+import { removeFields, pascalToSnakeCase } from './utils';
 import DB from '../config/database';
 import QB from './QB';
 
@@ -15,7 +15,7 @@ export default class Model<T> {
      * By default it's the camel case pluralized version of the Model class
      * ex. ProductCategory -> product_categories
      */
-    readonly table = pluralize(this.constructor.name.split(/(?=[A-Z])/).join('_')).toLowerCase();
+    readonly table = pluralize(pascalToSnakeCase(this.constructor.name));
 
     /**
      * An array of fields that should be hidden for the current model.
@@ -34,15 +34,13 @@ export default class Model<T> {
         let text: string;
 
         const { table } = this;
-        const object = removeFields(this, ['table', 'hidden']);
+        let object = removeFields(this, ['table', 'hidden']);
 
-        // WIP
-        object.updated_at = this.updated_at;
+        object = { ...object, updated_at: 'NOW()' };
 
         if (!this.id) {
-            object.created_at = this.created_at;
+            object = { ...object, created_at: 'NOW()' };
         }
-        // WIP
 
         const keys = Object.keys(object);
         const values = Object.values(object);
@@ -55,7 +53,7 @@ export default class Model<T> {
         }
 
         const query = { text, values };
-        console.log(query);
+        // console.log(query);
         // Idealy, this should be probably moved in QB.ts
         return DB.query(query).then((response) => response.rows[0] as T);
     }
@@ -92,11 +90,11 @@ export default class Model<T> {
     /**
      * BelongsTo Model relationship
      * @param otherModel Other Model Name. ex. Country
-     * @param localField [OPTIONAL] ex. country_id | Defaults to the lowercase version of the other model + '_id'
+     * @param localField [OPTIONAL] ex. country_id | Defaults to the snake_case version of the other model + '_id'
      * @param remoteField [OPTIONAL] ex. id | Defaults to 'id'
      */
     belongsTo<U>(otherModel: Constructor<U>, localField?: string, remoteField?: string): Promise<U> {
-        const localFieldKey = (localField as keyof this) || (`${otherModel.name.toLowerCase()}_id` as keyof this); // Country -> country_id
+        const localFieldKey = (localField as keyof this) || (`${pascalToSnakeCase(otherModel.name)}_id` as keyof this); // Country -> country_id
         remoteField = remoteField || `id`; // default field name is 'id' unless specfied otherwise
         const conditionValue = (this[localFieldKey] as unknown) as ConditionValue;
         return QB<U>(otherModel).where(remoteField, conditionValue).first();
@@ -106,11 +104,11 @@ export default class Model<T> {
      * hasMany Model relationship
      * @param otherModel Other Model Name. ex. User
      * @param localField [OPTIONAL] ex. id | Defaults to 'id'
-     * @param remoteField [OPTIONAL] ex. country_id | Defaults to the lowercase version of this model + '_id'
+     * @param remoteField [OPTIONAL] ex. country_id | Defaults to the snake_case version of this model + '_id'
      */
     hasMany<U>(otherModel: Constructor<U>, localField?: string, remoteField?: string): Promise<U[]> {
         const localFieldKey = (localField as keyof this) || (`id` as keyof this); // default field name is 'id' unless specfied otherwise
-        remoteField = remoteField || `${this.constructor.name.toLowerCase()}_id`; // User -> users_id
+        remoteField = remoteField || `${pascalToSnakeCase(this.constructor.name)}_id`; // User -> users_id
         const conditionValue = (this[localFieldKey] as unknown) as ConditionValue;
         return QB<U>(otherModel).where(remoteField, conditionValue).get();
     }

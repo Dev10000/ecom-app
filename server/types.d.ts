@@ -17,6 +17,7 @@ interface IModel {
 
 interface IUserModel extends IModel, IUser {
     country: () => Promise<ICountry>;
+    orders: () => Promise<IOrder[]>;
 }
 
 interface IUser {
@@ -69,7 +70,9 @@ interface IProduct {
     deleted_at?: string;
 }
 
-interface IProductCategoryModel extends IModel, IProductCategory {}
+interface IProductCategoryModel extends IModel, IProductCategory {
+    products: () => Promise<IProduct[]>;
+}
 
 interface IProductCategory {
     id?: number;

@@ -25,5 +25,8 @@ export const getSingle = async (req: Request, res: Response): Promise<Response> 
 };
 
 export const create = async (req: Request, res: Response): Promise<Response> => {
-    return res.send('(Place order | Create a order)');
+    return Order.create<IOrderModel>(req.body as Partial<IOrder>)
+        .save()
+        .then((order) => res.status(201).json({ status: 'success', data: order }))
+        .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
 };

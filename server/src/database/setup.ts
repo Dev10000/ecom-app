@@ -134,10 +134,11 @@ const create_product_images_table = async () => {
 };
 
 const create_orders_table = async () => {
-    const ordersQuery = `DROP TABLE IF EXISTS "orders" cascade;
+    const ordersQuery = `CREATE EXTENSION IF NOT EXISTS "pgcrypto";
+  DROP TABLE IF EXISTS "orders" cascade;
   CREATE TABLE IF NOT EXISTS "orders" (
     "id" SERIAL PRIMARY KEY,
-    "code" uuid UNIQUE NOT NULL,
+    "code" uuid UNIQUE NOT NULL DEFAULT gen_random_uuid(),
     "user_id" int NOT NULL,
     "order_status" varchar,
     "price" decimal(9,4),

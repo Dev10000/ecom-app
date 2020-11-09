@@ -3,7 +3,6 @@
 
 import { QueryConfig } from 'pg';
 import DB from '../config/database';
-import User from '../models/User';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default function QB<T>(model: Constructor<T>) {
