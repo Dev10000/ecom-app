@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import passport from 'passport';
+// import { validCouponCreate, validCouponGetSingle, validCouponEdit, validCouponDelete } from '../validators/coupon';
 
 import { getAll, getSingle, create, edit, destroy } from '../controllers/coupon.controller';
 
