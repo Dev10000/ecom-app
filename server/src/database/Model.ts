@@ -34,15 +34,13 @@ export default class Model<T> {
         let text: string;
 
         const { table } = this;
-        const object = removeFields(this, ['table', 'hidden']);
+        let object = removeFields(this, ['table', 'hidden']);
 
-        // WIP
-        object.updated_at = this.updated_at;
+        object = { ...object, updated_at: 'NOW()' };
 
         if (!this.id) {
-            object.created_at = this.created_at;
+            object = { ...object, created_at: 'NOW()' };
         }
-        // WIP
 
         const keys = Object.keys(object);
         const values = Object.values(object);
@@ -55,7 +53,7 @@ export default class Model<T> {
         }
 
         const query = { text, values };
-        console.log(query);
+        // console.log(query);
         // Idealy, this should be probably moved in QB.ts
         return DB.query(query).then((response) => response.rows[0] as T);
     }
