@@ -19,16 +19,29 @@ const Register: React.FC = (): JSX.Element => {
                 <p className="my-4 text-sm text-gray-600 text-center">
                     Create a FREE account to order our products online.
                 </p>
-                <div className="w-full">
-                    <label htmlFor="fullname" className="block my-4 text-xs font-bold text-gray-700 uppercase">
-                        Full Name
+                <div className="w-full flex">
+                    <label htmlFor="firstname" className="block my-4 text-xs font-bold text-gray-700 uppercase">
+                        First Name
                         <input
                             onChange={(e) => setName(e.target.value)}
                             className={`border ${error ? 'border-red-500' : null} p-4 text-xs w-full`}
                             value={name}
                             type="text"
-                            id="fullname"
-                            name="fullname"
+                            id="firstname"
+                            name="firstname"
+                            placeholder="Enter your full name"
+                            required
+                        />
+                    </label>
+                    <label htmlFor="lastname" className="block my-4 text-xs font-bold text-gray-700 uppercase">
+                        Last Name
+                        <input
+                            onChange={(e) => setName(e.target.value)}
+                            className={`border ${error ? 'border-red-500' : null} p-4 text-xs w-full`}
+                            value={name}
+                            type="text"
+                            id="lastname"
+                            name="lastname"
                             placeholder="Enter your full name"
                             required
                         />
@@ -60,6 +73,19 @@ const Register: React.FC = (): JSX.Element => {
                             id="password"
                             name="password"
                             placeholder="Enter your password"
+                            required
+                        />
+                    </label>
+                    <label htmlFor="confirmpassword" className="block my-4 text-xs font-bold text-gray-700 uppercase">
+                        Confirm Password
+                        <input
+                            onChange={(e) => setPassword(e.target.value)}
+                            className={`border ${error ? 'border-red-500' : null} p-4 text-xs w-full mb-4`}
+                            value={password}
+                            type="confirmpassword"
+                            id="confirmpassword"
+                            name="confirmpassword"
+                            placeholder="Type your password again"
                             required
                         />
                     </label>

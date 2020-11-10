@@ -1,13 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import CategoriesDropdown from './CategoriesDropdown';
 
 const TopMenu: React.FC = (): JSX.Element => {
-    const categoryId: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+    // const categoryId: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+    const [display, setDisplay] = useState<boolean>(false);
+    const openDisplay = () => {
+        setDisplay(true);
+    };
+    const closeDisplay = () => {
+        setDisplay(false);
+    };
     return (
         <div className="mx-10 mt-6">
             <nav className="flex justify-between items-center text-base font-medium">
                 <div>
-                    <NavLink to="/">LOGO</NavLink>
+                    <NavLink className="flex items-center" to="/">
+                        <div className="h-8 w-8 border shadow rounded-lg p-2 bg-blue-500">
+                            <div className="relative h-4 w-4 bg-white transform rotate-45">
+                                <div className="absolute h-2 w-2 ml-1 mt-1 bg-blue-500" />
+                            </div>
+                        </div>
+                        <div className="m-1">E-Shop</div>
+                    </NavLink>
                 </div>
                 <div className="flex space-x-10">
                     <div>
@@ -15,36 +30,19 @@ const TopMenu: React.FC = (): JSX.Element => {
                             HOME
                         </NavLink>
                     </div>
-                    <div className="flex">
-                        <NavLink className="text-gray-800 hover:text-blue-500" to="/categories">
+                    <div className="flex" onMouseEnter={openDisplay}>
+                        <NavLink className="flex items-center text-gray-800 hover:text-blue-500" to="/categories">
                             <p>CATEGORIES</p>
+                            <svg
+                                className="w-4 h-4 hover:text-blue-500 focus:outline-none"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path d="M4 6h16M4 12h16M4 18h16" strokeLinecap="round" strokeWidth="2" />
+                            </svg>
                         </NavLink>
-                        <div className="dropdown right inline-block">
-                            <button type="button">
-                                <svg
-                                    className="w-4 h-4 hover:text-blue-500 focus:outline-none"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path d="M4 6h16M4 12h16M4 18h16" strokeLinecap="round" strokeWidth="2" />
-                                </svg>
-                            </button>
-                            <div className="dropdown-menu absolute right-0 mr-20 hidden text-gray-700 pt-4">
-                                <div className="grid grid-cols-3 border shadow border-gray-400">
-                                    {categoryId.map((category) => (
-                                        <NavLink
-                                            key={category}
-                                            className="hover:text-blue-500 bg-gray-100 py-2 px-4 block whitespace-no-wrap"
-                                            to="/category/1"
-                                        >
-                                            Category {category}
-                                        </NavLink>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
                     </div>
 
                     <div>
@@ -54,6 +52,15 @@ const TopMenu: React.FC = (): JSX.Element => {
                     </div>
                 </div>
             </nav>
+            <div className="container absolute">
+                {display ? (
+                    <div onMouseLeave={closeDisplay} className="border rounded shadow mx-24">
+                        <CategoriesDropdown />
+                    </div>
+                ) : (
+                    ''
+                )}
+            </div>
         </div>
     );
 };
