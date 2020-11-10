@@ -27,7 +27,7 @@ export default function useLogin() {
         setValues((prev) => ({ ...prev, password }));
     };
 
-    const setLoading = () => {
+    const startLoading = () => {
         setValues((prev) => ({ ...prev, loading: true }));
     };
 
@@ -50,8 +50,8 @@ export default function useLogin() {
 
     const login = async () => {
         try {
-            setLoading();
-            // await login...here(values); handleLoginSuccess();
+            startLoading();
+            // await login...here(values); handleLoginSuccess(); git push --set-upstream origin front-hooks
         } catch {
             handleLoginFail();
         }

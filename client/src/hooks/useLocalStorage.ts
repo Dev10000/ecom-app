@@ -7,7 +7,7 @@ export default function useLocalStorage<T>(key: string, initialValue: T) {
             const item = window.localStorage.getItem(key);
             return item ? JSON.parse(item) : initialValue;
         } catch (error) {
-            console.log(new Error(`Cannot read from localStorage item with key "${key}":`), error.message);
+            console.log(new Error(`Cannot READ from localStorage item with key "${key}":`), error.message);
             return initialValue;
         }
     };
@@ -19,7 +19,7 @@ export default function useLocalStorage<T>(key: string, initialValue: T) {
             window.localStorage.setItem(key, JSON.stringify(newValue));
             setValue(storeOrInitialValue);
         } catch (error) {
-            console.log(new Error(`Cannot write to localStorage item with key "${key}":`), error.message);
+            console.log(new Error(`Cannot WRITE to localStorage item with key "${key}":`), error.message);
         }
     };
 
