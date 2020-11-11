@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { validationResult } from 'express-validator';
 import QB from '../database/QB';
 import ProductCategory from '../models/ProductCategory';
 
@@ -22,31 +23,36 @@ export const create = async (req: Request, res: Response): Promise<Response> => 
 export const edit = async (req: Request, res: Response): Promise<Response> => {
     const { id } = req.params;
 
-    const productCategory = (await ProductCategory.find(Number(id))) as ProductCategory;
+    return ProductCategory.find<IProductCategoryModel>(id)
+        .then((category) => {
+            if (!category) {
+                return res.status(404).json({ status: 'error', data: 'Category not found!' });
+            }
 
-    if (!productCategory.id) {
-        return res.status(404).json({ status: 'error', data: 'Product Category not found!' });
-    }
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) return res.status(422).json({ status: 'error', data: errors.array() });
 
-    Object.assign(productCategory, req.body as IProductCategory);
+            Object.assign(category, req.body as IProductCategory);
 
-    return productCategory
-        .save()
-        .then((updCategory) => res.status(200).json({ status: 'success', data: updCategory }))
-        .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
+            return category
+                .save()
+                .then((updatedCategory) => res.status(200).json({ status: 'success', data: updatedCategory }))
+                .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
+        })
+        .catch((e) => Promise.reject(e.message));
 };
 
 export const destroy = async (req: Request, res: Response): Promise<Response> => {
     const { id } = req.params;
 
-    const productCategory = (await ProductCategory.find(Number(id))) as ProductCategory;
+    const productCategory = (await ProductCategory.find(id)) as ProductCategory;
 
     if (!productCategory.id) {
         return res.status(404).json({ status: 'error', data: 'Product Category not found!' });
     }
 
     return QB(ProductCategory)
-        .where('id', Number(id))
+        .where('id', id)
         .delete()
         .then(() => {
             return res.status(200).json({ status: 'success', data: null });
@@ -57,16 +63,20 @@ export const destroy = async (req: Request, res: Response): Promise<Response> =>
 export const listProducts = async (req: Request, res: Response): Promise<Response> => {
     const { id } = req.params;
 
-    const productCategory = (await ProductCategory.find(Number(id))) as ProductCategory;
+    return ProductCategory.find<IProductCategoryModel>(id).then((category) => {
+        if (!category) {
+            return res.status(404).json({ status: 'error', data: 'Product Category not found!' });
+        }
 
-    if (!productCategory.id) {
-        return res.status(404).json({ status: 'error', data: 'Product Category not found!' });
-    }
-
-    return productCategory
-        .products()
-        .then((products) => {
-            return res.status(200).json({ status: 'success', data: products });
-        })
-        .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
+        return QB(ProductCategory)
+            .where('id', id)
+            .delete()
+            .then((response) => {
+                if (response) {
+                    return res.status(200).json({ status: 'success', data: 'Product category successfully removed.' });
+                }
+                return res.status(500).json({ status: 'error', data: 'Error in removing category' });
+            })
+            .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
+    });
 };

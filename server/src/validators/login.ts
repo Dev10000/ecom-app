@@ -1,5 +1,4 @@
-import { body, validationResult } from 'express-validator';
-import { Request, Response, NextFunction } from 'express';
+import { body } from 'express-validator';
 
 export default [
     body('email')
@@ -10,10 +9,4 @@ export default [
         .withMessage('Given Email is not a valid email address.'),
 
     body('password').trim().notEmpty().withMessage('Password is a required field.'),
-
-    (req: Request, res: Response, next: NextFunction) => {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) return res.status(422).json({ errors: errors.array() });
-        next();
-    },
 ];

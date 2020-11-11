@@ -169,8 +169,16 @@ export default function QB<T>(model: Constructor<T>) {
         /**
          * Delete a record from the database.
          */
-        async delete(): Promise<void> {
-            await DB.query(this.query(this.data.table, 'delete'));
+
+        async delete(): Promise<boolean> {
+            try {
+                const res = await DB.query(this.query(this.data.table, 'delete'));
+                if (res.rowCount > 0) return true;
+                return false;
+            } catch (error) {
+                console.log(error);
+                return false;
+            }
         }
 
         /**

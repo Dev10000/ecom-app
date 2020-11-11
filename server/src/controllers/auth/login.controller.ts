@@ -22,11 +22,11 @@ const login = async (req: Request, res: Response): Promise<Response> => {
         .first()
         .then(async (user) => {
             if (!user.id) {
-                return res.status(401).json({ status: 'error', data: 'User with the given email address not found!' });
+                return res.status(401).json({ status: 'error', data: 'Email or password is incorrect!' });
             }
 
             const match = await User.checkPasswords(user.password, password);
-            if (!match) return res.status(401).json({ status: 'error', data: 'Incorrect password!' });
+            if (!match) return res.status(401).json({ status: 'error', data: 'Email or password is incorrect!' });
 
             return res.status(200).json({ status: 'success', data: { token: createToken(user) } });
         })
