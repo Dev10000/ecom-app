@@ -20,7 +20,7 @@ const Register: React.FC = (): JSX.Element => {
                     Create a FREE account to order our products online.
                 </p>
                 <div className="w-full flex">
-                    <label htmlFor="firstname" className="block my-4 text-xs font-bold text-gray-700 uppercase">
+                    <label htmlFor="firstname" className="block my-4 text-xs font-bold text-gray-700 uppercase mr-4">
                         First Name
                         <input
                             onChange={(e) => setName(e.target.value)}

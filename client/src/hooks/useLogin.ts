@@ -5,7 +5,7 @@ interface ILoginFormState {
     password: string;
     error: string[] | string | null;
     loading: boolean;
-    loggedIn: boolean;
+    loggedIn: boolean; // this should be in the AuthContext
 }
 
 const initialState: ILoginFormState = {
