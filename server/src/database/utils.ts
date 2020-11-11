@@ -23,6 +23,7 @@ export const useDBSetup = (
                 'error',
                 `× Table "${tableName}" NOT ${seed ? 'seeded with data' : '(re)created'}. ${error.message}`,
             );
+            // console.log({ error });
             return error.stack;
         }
     };
