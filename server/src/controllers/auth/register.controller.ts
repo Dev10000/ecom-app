@@ -1,8 +1,12 @@
 import { Request, Response } from 'express';
+import { validationResult } from 'express-validator';
 import User from '../../models/User';
 import hashPassword from './utils';
 
 const register = async (req: Request, res: Response): Promise<Response> => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return res.status(422).json({ status: 'error', data: errors.array() });
+
     const reqData = req.body as Partial<IUserModel>;
 
     // hashing password
