@@ -1,0 +1,6 @@
+* text eol=lf
+*.jp?g -text
+*.webp -text
+*.png -text
+*.gif -text
+*.ico -text

@@ -1,0 +1,68 @@
+{
+	"info": {
+		"_postman_id": "1b08e0c5-2f7c-4437-b1f4-a8a5e4531d9d",
+		"name": "Authentication",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"email\": \"angelin.calu@gmail.com\",\r\n\t\"password\": \"secret\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"email\": \"angelin.calu3@gmail.com\", \r\n\t\"password\": \"secret\",\r\n\t\"first_name\": \"Angelin\", \r\n\t\"last_name\": \"Calu\", \r\n\t\"address\": \"Address\", \r\n\t\"city\": \"Turku\", \r\n\t\"country_id\": \"40\",\r\n\t\"postal_code\": \"PCode\", \r\n\t\"phone_number\": \"046...\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"register"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
