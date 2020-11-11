@@ -2,7 +2,6 @@
 // www.typescriptlang.org/docs/handbook/mixins.html
 
 import { QueryConfig } from 'pg';
-import { StringDecoder } from 'string_decoder';
 import DB from '../config/database';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -171,37 +170,14 @@ export default function QB<T>(model: Constructor<T>) {
          * Delete a record from the database.
          */
 
-        // ORIGINAL
-        // async delete(): Promise<void> {
-        //     await DB.query(this.query(this.data.table, 'delete'));
-        // }
-
-        // NEW
-        async delete(): Promise<any> {
+        async delete(): Promise<boolean> {
             try {
-                let status: string;
                 const res = await DB.query(this.query(this.data.table, 'delete'));
-
-                if (res.rowCount > 0) {
-                    status = 'success';
-                } else status = 'unsuccessful';
-
-                console.log(res);
-
-                return {
-                    status,
-                    command: res.command,
-                    count: res.rowCount,
-                    value: this.query(this.data.table).values,
-                    queryname: this.query(this.data.table).name,
-                    querytext: this.query(this.data.table).text,
-                };
-                // V1 return `${res.command}: ${res.rowCount} - Query: ${JSON.stringify(this.query(this.data.table))} `;
-                // V2 return `${res.command}: ${res.rowCount} - Values: ${this.query(this.data.table).values} - Name: ${
-                // this.query(this.data.table).name} - Text: ${this.query(this.data.table).text} `;
-            } catch (err) {
-                console.log(err);
-                return Promise.reject(new Error(`DB Error ${err.message} ${err.stack}`));
+                if (res.rowCount > 0) return true;
+                return false;
+            } catch (error) {
+                console.log(error);
+                return false;
             }
         }
 
