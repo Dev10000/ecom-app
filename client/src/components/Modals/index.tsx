@@ -3,6 +3,8 @@ import Modal from 'react-modal';
 import Login from './Login';
 import Register from './Register';
 
+Modal.setAppElement('#root');
+
 const Modals: React.FC = () => {
     const [modalIsOpen, setIsOpen] = useState<boolean>(false);
     const [visibleModal, setVisibleModal] = useState<string>('');

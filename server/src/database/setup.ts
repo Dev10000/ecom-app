@@ -58,7 +58,7 @@ const create_products_table = async () => {
   "price" decimal(8,4) NOT NULL,
   "weight" decimal(8,4),
   "package_size" varchar(100),
-  "discount" decimal(2,2),
+  "discount" decimal(4,2),
   "product_category_id" int,
   "stock_qty" int NOT NULL,
   "deleted_at" timestamp,
