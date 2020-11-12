@@ -5,7 +5,8 @@ const Checkout: React.FC = () => {
     return (
         <NavLink to="/checkout">
             <div className="flex items-center hover:text-blue-500">
-                <button type="button">
+                <button type="button" className="inline-flex text-xs items-center">
+                    <span className="px-2">Items</span>
                     <svg
                         width="20"
                         height="20"
@@ -20,8 +21,8 @@ const Checkout: React.FC = () => {
                             strokeWidth="2"
                         />
                     </svg>
+                    <span>0.00</span>
                 </button>
-                <div className="text-xs">0.00</div>
             </div>
         </NavLink>
     );
