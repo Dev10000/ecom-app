@@ -5,7 +5,7 @@ import { QueryConfig } from 'pg';
 import DB from '../config/database';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export default function QB<T>(model: Constructor<T>) {
+export default function QueryBuilder<T>(model: Constructor<T>) {
     interface IJoin {
         table: string;
         localField: keyof T;

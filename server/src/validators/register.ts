@@ -1,5 +1,5 @@
 import { body } from 'express-validator';
-import QB from '../database/QB';
+import QueryBuilder from '../database/QueryBuilder';
 import User from '../models/User';
 
 export default [

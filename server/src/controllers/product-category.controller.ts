@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
 import { validationResult } from 'express-validator';
-import QB from '../database/QB';
+import QueryBuilder from '../database/QueryBuilder';
 import ProductCategory from '../models/ProductCategory';
 
 export const getAll = async (req: Request, res: Response): Promise<Response> => {
-    return QB(ProductCategory)
+    return QueryBuilder(ProductCategory)
         .orderBy('title')
         .get()
         .then((categories) => {
@@ -51,7 +51,7 @@ export const destroy = async (req: Request, res: Response): Promise<Response> =>
         return res.status(404).json({ status: 'error', data: 'Product Category not found!' });
     }
 
-    return QB(ProductCategory)
+    return QueryBuilder(ProductCategory)
         .where('id', id)
         .delete()
         .then(() => {
@@ -68,7 +68,7 @@ export const listProducts = async (req: Request, res: Response): Promise<Respons
             return res.status(404).json({ status: 'error', data: 'Product Category not found!' });
         }
 
-        return QB(ProductCategory)
+        return QueryBuilder(ProductCategory)
             .where('id', id)
             .delete()
             .then((response) => {

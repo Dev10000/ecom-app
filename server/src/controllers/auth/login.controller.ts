@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import User from '../../models/User';
 import config from '../../config';
-import QB from '../../database/QB';
+import QueryBuilder from '../../database/QueryBuilder';
 
 function createToken(user: IUser) {
     return jwt.sign({ id: user.id, email: user.email }, config.JWT_SECRET, {
@@ -17,7 +17,7 @@ const login = async (req: Request, res: Response): Promise<Response> => {
     if (!email) return res.status(400).json({ status: 'error', data: 'Email required!' });
     if (!password) return res.status(400).json({ status: 'error', data: 'Password required!' });
 
-    const ret = await QB<IUserModel>(User)
+    const ret = await QueryBuilder<IUserModel>(User)
         .where('email', email)
         .first()
         .then(async (user) => {
