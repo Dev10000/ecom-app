@@ -15,7 +15,7 @@ const Login: React.FC = (): JSX.Element => {
 
     return (
         <div>
-            <form className="flex flex-col w-2xl max-w-sm items-center mx-auto mb-16" onSubmit={handleLogin}>
+            <form className="flex flex-col w-full max-w-sm items-center mx-auto mb-16" onSubmit={handleLogin}>
                 <h1 className="text-gray-600 font-bold text-2xl mt-4">Welcome To The E-shop!</h1>
                 <p className="my-4 text-sm text-gray-600 text-center">Login to buy our products online</p>
                 <div className="w-full">
