@@ -1,6 +1,5 @@
 import { body } from 'express-validator';
-import QB from '../database/QB';
-import User from '../models/User';
+// registerValidator is used for user create and edit endpoints
 
 export default [
     body('email')
