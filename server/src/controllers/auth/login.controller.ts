@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { validationResult } from 'express-validator';
 import jwt from 'jsonwebtoken';
 import User from '../../models/User';
 import config from '../../config';
@@ -13,9 +14,8 @@ function createToken(user: IUser) {
 const login = async (req: Request, res: Response): Promise<Response> => {
     const { email, password } = req.body;
 
-    // TODO: Perform better validation here
-    if (!email) return res.status(400).json({ status: 'error', data: 'Email required!' });
-    if (!password) return res.status(400).json({ status: 'error', data: 'Password required!' });
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return res.status(422).json({ status: 'error', data: errors.array() });
 
     const ret = await QB<IUserModel>(User)
         .where('email', email)
