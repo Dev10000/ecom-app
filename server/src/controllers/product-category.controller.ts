@@ -45,24 +45,6 @@ export const edit = async (req: Request, res: Response): Promise<Response> => {
 export const destroy = async (req: Request, res: Response): Promise<Response> => {
     const { id } = req.params;
 
-    const productCategory = (await ProductCategory.find(id)) as ProductCategory;
-
-    if (!productCategory.id) {
-        return res.status(404).json({ status: 'error', data: 'Product Category not found!' });
-    }
-
-    return QueryBuilder(ProductCategory)
-        .where('id', id)
-        .delete()
-        .then(() => {
-            return res.status(200).json({ status: 'success', data: null });
-        })
-        .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
-};
-
-export const listProducts = async (req: Request, res: Response): Promise<Response> => {
-    const { id } = req.params;
-
     return ProductCategory.find<IProductCategoryModel>(id).then((category) => {
         if (!category) {
             return res.status(404).json({ status: 'error', data: 'Product Category not found!' });
@@ -76,6 +58,23 @@ export const listProducts = async (req: Request, res: Response): Promise<Respons
                     return res.status(200).json({ status: 'success', data: 'Product category successfully removed.' });
                 }
                 return res.status(500).json({ status: 'error', data: 'Error in removing category' });
+            })
+            .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
+    });
+};
+
+export const listProducts = async (req: Request, res: Response): Promise<Response> => {
+    const { id } = req.params;
+
+    return ProductCategory.find<IProductCategoryModel>(id).then((category) => {
+        if (!category) {
+            return res.status(404).json({ status: 'error', data: 'Product Category not found!' });
+        }
+
+        return category
+            .products()
+            .then((products) => {
+                return res.status(200).json({ status: 'success', data: products });
             })
             .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
     });
