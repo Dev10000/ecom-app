@@ -6,6 +6,7 @@ import Contact from '../../views/Contact';
 import E404 from '../../views/errors/404';
 import ViewCart from '../../views/ViewCart';
 import ViewCheckout from '../../views/ViewCheckout';
+import Products from '../../views/Products';
 
 const Router: React.FC = (): JSX.Element => {
     return (
@@ -15,7 +16,7 @@ const Router: React.FC = (): JSX.Element => {
                 <Route exact path="/checkout" component={ViewCheckout} />
                 <Route exact path="/cart" component={ViewCart} />
                 <Route exact path="/categories" component={Categories} />
-                <Route exact path="/categories/:id" />
+                <Route exact path="/categories/:id" component={Products} />
                 <Route exact path="/contact" component={Contact} />
                 <E404 />
             </Switch>

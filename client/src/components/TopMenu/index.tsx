@@ -30,19 +30,34 @@ const TopMenu: React.FC = (): JSX.Element => {
                             HOME
                         </NavLink>
                     </div>
-                    <div className="flex" onMouseEnter={openDisplay}>
-                        <NavLink className="flex items-center text-gray-800 hover:text-blue-500" to="/categories">
-                            <p>CATEGORIES</p>
-                            <svg
-                                className="w-4 h-4 hover:text-blue-500 focus:outline-none"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                                xmlns="http://www.w3.org/2000/svg"
+                    <div onMouseLeave={closeDisplay}>
+                        <button type="button" className="flex" onMouseEnter={openDisplay}>
+                            <NavLink
+                                className="relative flex items-center text-gray-800 hover:text-blue-500"
+                                to="/categories"
                             >
-                                <path d="M4 6h16M4 12h16M4 18h16" strokeLinecap="round" strokeWidth="2" />
-                            </svg>
-                        </NavLink>
+                                <p>CATEGORIES</p>
+                                <svg
+                                    className="w-4 h-4 hover:text-blue-500 focus:outline-none"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path d="M4 6h16M4 12h16M4 18h16" strokeLinecap="round" strokeWidth="2" />
+                                </svg>
+                            </NavLink>
+                        </button>
+                        {display ? (
+                            <div
+                                onMouseLeave={closeDisplay}
+                                className="container absolute w-3/4 inset-x-0 mx-40 border rounded shadow"
+                            >
+                                <CategoriesDropdown />
+                            </div>
+                        ) : (
+                            ''
+                        )}
                     </div>
 
                     <div>
@@ -52,15 +67,6 @@ const TopMenu: React.FC = (): JSX.Element => {
                     </div>
                 </div>
             </nav>
-            <div className="container absolute">
-                {display ? (
-                    <div onMouseLeave={closeDisplay} className="border rounded shadow mx-24">
-                        <CategoriesDropdown />
-                    </div>
-                ) : (
-                    ''
-                )}
-            </div>
         </div>
     );
 };

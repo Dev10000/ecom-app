@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
 import { validationResult } from 'express-validator';
-import QB from '../database/QB';
+import QueryBuilder from '../database/QB';
 import ProductCategory from '../models/ProductCategory';
 
 export const getAll = async (req: Request, res: Response): Promise<Response> => {
-    return QB(ProductCategory)
+    return QueryBuilder(ProductCategory)
         .orderBy('title')
         .get()
         .then((categories) => {
@@ -45,19 +45,22 @@ export const edit = async (req: Request, res: Response): Promise<Response> => {
 export const destroy = async (req: Request, res: Response): Promise<Response> => {
     const { id } = req.params;
 
-    const productCategory = (await ProductCategory.find(id)) as ProductCategory;
+    return ProductCategory.find<IProductCategoryModel>(id).then((category) => {
+        if (!category) {
+            return res.status(404).json({ status: 'error', data: 'Product Category not found!' });
+        }
 
-    if (!productCategory.id) {
-        return res.status(404).json({ status: 'error', data: 'Product Category not found!' });
-    }
-
-    return QB(ProductCategory)
-        .where('id', id)
-        .delete()
-        .then(() => {
-            return res.status(200).json({ status: 'success', data: null });
-        })
-        .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
+        return QueryBuilder(ProductCategory)
+            .where('id', id)
+            .delete()
+            .then((response) => {
+                if (response) {
+                    return res.status(200).json({ status: 'success', data: 'Product category successfully removed.' });
+                }
+                return res.status(500).json({ status: 'error', data: 'Error in removing category' });
+            })
+            .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
+    });
 };
 
 export const listProducts = async (req: Request, res: Response): Promise<Response> => {
@@ -68,14 +71,10 @@ export const listProducts = async (req: Request, res: Response): Promise<Respons
             return res.status(404).json({ status: 'error', data: 'Product Category not found!' });
         }
 
-        return QB(ProductCategory)
-            .where('id', id)
-            .delete()
-            .then((response) => {
-                if (response) {
-                    return res.status(200).json({ status: 'success', data: 'Product category successfully removed.' });
-                }
-                return res.status(500).json({ status: 'error', data: 'Error in removing category' });
+        return category
+            .products()
+            .then((products) => {
+                return res.status(200).json({ status: 'success', data: products });
             })
             .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
     });
