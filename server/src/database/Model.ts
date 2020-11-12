@@ -1,7 +1,7 @@
 import pluralize from 'pluralize';
 import { removeFields, pascalToSnakeCase } from './utils';
 import DB from '../config/database';
-import QB from './QB';
+import QueryBuilder from './QueryBuilder';
 
 export default class Model<T> {
     /**
@@ -106,7 +106,7 @@ export default class Model<T> {
         const localFieldKey = (localField as keyof this) || (`${pascalToSnakeCase(otherModel.name)}_id` as keyof this); // Country -> country_id
         remoteField = remoteField || `id`; // default field name is 'id' unless specfied otherwise
         const conditionValue = (this[localFieldKey] as unknown) as ConditionValue;
-        return QB<U>(otherModel).where(remoteField, conditionValue).first();
+        return QueryBuilder<U>(otherModel).where(remoteField, conditionValue).first();
     }
 
     /**
@@ -119,6 +119,6 @@ export default class Model<T> {
         const localFieldKey = (localField as keyof this) || (`id` as keyof this); // default field name is 'id' unless specfied otherwise
         remoteField = remoteField || `${pascalToSnakeCase(this.constructor.name)}_id`; // User -> users_id
         const conditionValue = (this[localFieldKey] as unknown) as ConditionValue;
-        return QB<U>(otherModel).where(remoteField, conditionValue).get();
+        return QueryBuilder<U>(otherModel).where(remoteField, conditionValue).get();
     }
 }

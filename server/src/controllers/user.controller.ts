@@ -1,11 +1,11 @@
 import { Request, Response } from 'express';
 import { validationResult } from 'express-validator';
-import QB from '../database/QB';
+import QueryBuilder from '../database/QueryBuilder';
 import User from '../models/User';
 import hashPassword from './auth/utils';
 
 export const getAllUsers = async (req: Request, res: Response): Promise<Response> => {
-    return QB(User)
+    return QueryBuilder(User)
         .get()
         .then((users) => {
             const sanitizedUsers = users.map((u) => {
