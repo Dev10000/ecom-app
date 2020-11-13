@@ -78,10 +78,12 @@ const create_product_categories_table = async () => {
   "id" SERIAL PRIMARY KEY,
   "title" varchar(200),
   "parent_id" int,
-  "slug" varchar(200) UNIQUE NOT NULL,
-  ${timestampColumns}
+  "slug" varchar(200) NOT NULL,
+  ${timestampColumns},
+  UNIQUE (slug, parent_id)
 );
 
+CREATE UNIQUE INDEX indx ON product_categories (slug) WHERE parent_id IS NULL;
 ALTER TABLE "product_categories" ADD FOREIGN KEY ("parent_id") REFERENCES "product_categories" ("id") ON DELETE SET NULL;
 `;
 
