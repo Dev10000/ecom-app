@@ -158,3 +158,16 @@ interface IOrderBy {
     field: string;
     direction: SortDirection;
 }
+
+/** Front End Specific */
+
+interface ICartProducts extends IProduct {
+    quantity: number;
+}
+
+interface IUseCart {
+    cartItems: ICartProducts[];
+    addProduct: (product: IProduct) => void;
+    removeProduct: (product: IProduct) => void;
+    updateQuantity: (product: IProduct, newQuantity: number) => void;
+}
