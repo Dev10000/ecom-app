@@ -3,14 +3,17 @@ import Layout from './layout';
 import Router from './router';
 import CartContext from '../context/cart';
 import useCart from '../hooks/useCart';
+import AuthContext, { initialState } from '../context/auth';
 
 function App(): JSX.Element {
     return (
-        <CartContext.Provider value={useCart()}>
-            <Layout>
-                <Router />
-            </Layout>
-        </CartContext.Provider>
+        <AuthContext.Provider value={initialState}>
+            <CartContext.Provider value={useCart()}>
+                <Layout>
+                    <Router />
+                </Layout>
+            </CartContext.Provider>
+        </AuthContext.Provider>
     );
 }
 
