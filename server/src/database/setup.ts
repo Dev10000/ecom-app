@@ -3,8 +3,8 @@ import { useDBSetup } from './utils';
 
 const { runSetupQuery } = useDBSetup();
 
-const timestampColumns = `"created_at" timestamp DEFAULT current_timestamp,
-    "updated_at" timestamp`;
+const timestampColumns = `"created_at" timestamp with time zone DEFAULT current_timestamp,
+    "updated_at" timestamp with time zone `;
 
 const create_countries_table = async () => {
     const countriesQuery = `DROP TABLE IF EXISTS "countries" cascade;
