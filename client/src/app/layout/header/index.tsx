@@ -1,12 +1,12 @@
 import React from 'react';
-import OldHeader from '../../../components/Header';
-import TopMenu from '../../../components/TopMenu';
+import TopNav from './topnav';
+import MainMenu from './mainmenu';
 
 export default function Header(): JSX.Element {
     return (
-        <div>
-            <OldHeader />
-            <TopMenu />
-        </div>
+        <>
+            <TopNav />
+            <MainMenu />
+        </>
     );
 }
