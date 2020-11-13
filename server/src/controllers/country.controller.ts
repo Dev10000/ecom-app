@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
 import { validationResult } from 'express-validator';
-import QB from '../database/QB';
+import QueryBuilder from '../database/QueryBuilder';
 import Country from '../models/Country';
 
 export const getAll = async (req: Request, res: Response): Promise<Response> => {
-    return QB(Country)
+    return QueryBuilder(Country)
         .select('id', 'name')
         .orderBy('name')
         .get()
@@ -54,7 +54,7 @@ export const destroy = async (req: Request, res: Response): Promise<Response> =>
             return res.status(404).json({ status: 'error', data: 'Country not found!' });
         }
 
-        return QB(Country)
+        return QueryBuilder(Country)
             .where('id', id)
             .delete()
             .then((response) => {

@@ -3,7 +3,7 @@ import { validationResult } from 'express-validator';
 import jwt from 'jsonwebtoken';
 import User from '../../models/User';
 import config from '../../config';
-import QB from '../../database/QB';
+import QueryBuilder from '../../database/QueryBuilder';
 
 function createToken(user: IUser) {
     return jwt.sign({ id: user.id, email: user.email }, config.JWT_SECRET, {
@@ -17,7 +17,7 @@ const login = async (req: Request, res: Response): Promise<Response> => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) return res.status(422).json({ status: 'error', data: errors.array() });
 
-    const ret = await QB<IUserModel>(User)
+    const ret = await QueryBuilder<IUserModel>(User)
         .where('email', email)
         .first()
         .then(async (user) => {

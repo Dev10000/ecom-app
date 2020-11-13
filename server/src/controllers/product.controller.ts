@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
 import { validationResult } from 'express-validator';
-import QB from '../database/QB';
+import QueryBuilder from '../database/QueryBuilder';
 import Product from '../models/Product';
 
 export const getAll = async (req: Request, res: Response): Promise<Response> => {
-    return QB(Product)
+    return QueryBuilder(Product)
         .get()
         .then((products) => {
             return res.status(200).json({ status: 'success', data: products });
@@ -62,7 +62,7 @@ export const destroy = async (req: Request, res: Response): Promise<Response> =>
             return res.status(404).json({ status: 'error', data: 'Product not found!' });
         }
 
-        return QB(Product)
+        return QueryBuilder(Product)
             .where('id', id)
             .delete()
             .then((response) => {

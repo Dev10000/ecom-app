@@ -1,5 +1,6 @@
 import { body } from 'express-validator';
-// registerValidator is used for user create and edit endpoints
+// import QueryBuilder from '../database/QueryBuilder';
+// import User from '../models/User';
 
 export default [
     body('email')
@@ -10,7 +11,7 @@ export default [
         .withMessage('Chosen Email is not a valid email address.'),
     // Doesn't work and not sure why?
     // .custom(async (value) => {
-    //     return QB(User)
+    //     return QueryBuilder(User)
     //         .where('email', value)
     //         .first()
     //         .then((user) => {

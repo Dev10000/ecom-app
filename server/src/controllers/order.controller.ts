@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
 import { validationResult } from 'express-validator';
-import QB from '../database/QB';
+import QueryBuilder from '../database/QueryBuilder';
 import Order from '../models/Order';
 
 export const getAll = async (req: Request, res: Response): Promise<Response> => {
-    return QB(Order)
+    return QueryBuilder(Order)
         .get()
         .then((orders) => {
             return res.status(200).json({ status: 'success', data: orders });
