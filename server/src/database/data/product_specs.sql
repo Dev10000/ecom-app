@@ -9,3 +9,4 @@ VALUES
     ( 1, 2, 'Blue'),
     ( 1, 2, 'Red');
 
+ SELECT setval('product_specs_id_seq', (SELECT MAX(id) from "product_specs"));
