@@ -35,7 +35,7 @@ const TopMenu: React.FC = (): JSX.Element => {
                 </button>
             </div>
             <nav className="hidden md:flex justify-between items-center text-base font-medium">
-                <div>
+                <div className="mt-20">
                     <NavLink className="flex items-center" to="/">
                         <svg className="w-12 h-12" fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 44 45">
                             <rect y=".002" width="44" height="44" rx="16" fill="#40BFFF" />
@@ -49,7 +49,7 @@ const TopMenu: React.FC = (): JSX.Element => {
                         <div className="ml-2 font-bold">E-Shop</div>
                     </NavLink>
                 </div>
-                <div className="flex space-x-10">
+                <div className="flex space-x-10 mt-20">
                     <div>
                         <NavLink className="text-gray-800 hover:text-blue-500" to="/">
                             HOME
@@ -57,10 +57,7 @@ const TopMenu: React.FC = (): JSX.Element => {
                     </div>
                     <div onMouseLeave={closeDisplay}>
                         <button type="button" className="flex" onMouseEnter={openDisplay}>
-                            <NavLink
-                                className="relative flex items-center text-gray-800 hover:text-blue-500"
-                                to="/categories"
-                            >
+                            <NavLink className="flex items-center text-gray-800 hover:text-blue-500" to="/categories">
                                 <p>CATEGORIES</p>
                                 <svg
                                     className="w-4 h-4 hover:text-blue-500 focus:outline-none"

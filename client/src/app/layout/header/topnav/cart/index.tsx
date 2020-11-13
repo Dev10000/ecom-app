@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
+import CartContext from '../../../../../context/cart';
 
 const CartIcon: React.FC = () => {
+    const { cartItems } = useContext(CartContext);
+
     return (
         <NavLink to="/cart">
             <div className="flex items-center hover:text-blue-400">
@@ -21,7 +24,7 @@ const CartIcon: React.FC = () => {
                         />
                     </svg>
                     <span className="absolute top-0 right-0 block h-6 w-6 transform -translate-y-2 translate-x-3 rounded-full text-xs pt-px font-medium text-white shadow-solid bg-red-500 border-2 border-white">
-                        0
+                        {cartItems.reduce((acc, item) => acc + item.quantity, 0)}
                     </span>
                 </button>
             </div>

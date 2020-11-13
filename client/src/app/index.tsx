@@ -5,10 +5,8 @@ import CartContext from '../context/cart';
 import useCart from '../hooks/useCart';
 
 function App(): JSX.Element {
-    const { cartItems } = useCart();
-
     return (
-        <CartContext.Provider value={cartItems}>
+        <CartContext.Provider value={useCart()}>
             <Layout>
                 <Router />
             </Layout>

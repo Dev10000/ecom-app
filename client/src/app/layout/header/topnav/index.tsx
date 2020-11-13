@@ -6,7 +6,8 @@ import Modals from '../../../modals';
 
 const Header: React.FC = (): JSX.Element => {
     return (
-        <div>
+        // this is just an idea
+        <div className="bg-white fixed w-full z-10 	bg-opacity-100">
             <div className="mx-10">
                 <nav className="hidden md:flex items-center justify-between py-6">
                     <div>
