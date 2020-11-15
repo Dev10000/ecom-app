@@ -4,19 +4,20 @@ async function slugify(title: string, table: string, column1: string, column2: s
     let slug = title.toLowerCase().replace(/ /gi, '-');
     let selectValues: string[] = [title];
     const selectQuery = `SELECT ${column1} FROM ${table} WHERE ${column1} = $1`;
-    const resSelect = await DB.query(selectQuery, selectValues);
+    let resSelect = await DB.query(selectQuery, selectValues);
 
     // This while loop checks if title exist in the db and adds 1 until not exist
     let i = 1;
     if (resSelect.rowCount > 0) {
+        // eslint-disable-next-line no-constant-condition
         while (true) {
             i += 1;
-            const new_title = `${title}-${i}`;
-            selectValues = [new_title];
+            const newTitle = `${title}-${i}`;
+            selectValues = [newTitle];
             // eslint-disable-next-line no-await-in-loop
-            const res_exist2 = await DB.query(selectQuery, selectValues);
+            resSelect = await DB.query(selectQuery, selectValues);
 
-            if (res_exist2.rowCount === 0) {
+            if (resSelect.rowCount === 0) {
                 slug = `${slug}-${i}`;
                 title = `${title}-${i}`;
                 break;
