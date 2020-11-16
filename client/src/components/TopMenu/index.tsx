@@ -3,7 +3,6 @@ import { NavLink } from 'react-router-dom';
 import CategoriesDropdown from './CategoriesDropdown';
 
 const TopMenu: React.FC = (): JSX.Element => {
-    // const categoryId: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9];
     const [display, setDisplay] = useState<boolean>(false);
     const openDisplay = () => {
         setDisplay(true);
@@ -16,12 +15,16 @@ const TopMenu: React.FC = (): JSX.Element => {
             <nav className="flex justify-between items-center text-base font-medium">
                 <div>
                     <NavLink className="flex items-center" to="/">
-                        <div className="h-8 w-8 border shadow rounded-lg p-2 bg-blue-500">
-                            <div className="relative h-4 w-4 bg-white transform rotate-45">
-                                <div className="absolute h-2 w-2 ml-1 mt-1 bg-blue-500" />
-                            </div>
-                        </div>
-                        <div className="m-1">E-Shop</div>
+                        <svg width="39" height="40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect y=".027" width="39" height="39" rx="16" fill="#40BFFF" />
+                            <path
+                                fillRule="evenodd"
+                                clipRule="evenodd"
+                                d="M27.532 17.995a2.167 2.167 0 010 3.064l-6.5 6.5a2.167 2.167 0 01-3.064 0l-6.5-6.5a2.167 2.167 0 010-3.064l6.5-6.5a2.167 2.167 0 013.064 0l6.5 6.5zM19.5 16.09l-3.436 3.436 3.436 3.436 3.436-3.436L19.5 16.09z"
+                                fill="#fff"
+                            />
+                        </svg>
+                        <div className="text-base mx-2 font-medium">E-Shop</div>
                     </NavLink>
                 </div>
                 <div className="flex space-x-10">
@@ -31,7 +34,7 @@ const TopMenu: React.FC = (): JSX.Element => {
                         </NavLink>
                     </div>
                     <div onMouseLeave={closeDisplay}>
-                        <button type="button" className="flex" onMouseEnter={openDisplay}>
+                        <button type="button" className="flex" onMouseEnter={openDisplay} onClick={closeDisplay}>
                             <NavLink
                                 className="relative flex items-center text-gray-800 hover:text-blue-500"
                                 to="/categories"
@@ -53,7 +56,7 @@ const TopMenu: React.FC = (): JSX.Element => {
                                 onMouseLeave={closeDisplay}
                                 className="container absolute w-3/4 inset-x-0 mx-40 border rounded shadow"
                             >
-                                <CategoriesDropdown />
+                                <CategoriesDropdown action={closeDisplay} />
                             </div>
                         ) : (
                             ''
