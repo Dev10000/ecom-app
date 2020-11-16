@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './style.css';
-import ContactImage from './contact1.png';
+import ContactImage from './contact.png';
 
 const Contact: React.FC = (): JSX.Element => {
     const [fullName, setFullName] = useState('');
