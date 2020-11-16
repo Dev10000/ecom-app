@@ -30,3 +30,5 @@ VALUES
     (23, 'Speakers', 'speakers', null),
     (24, 'Bicycles', 'bicycles', null),
     (25, 'Crockeries', 'crockeries', null);
+
+    SELECT setval('product_categories_id_seq', (SELECT MAX(id) from "product_categories"));

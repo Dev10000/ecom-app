@@ -11,20 +11,41 @@ const TopMenu: React.FC = (): JSX.Element => {
         setDisplay(false);
     };
     return (
-        <div className="mx-10 mt-6">
-            <nav className="flex justify-between items-center text-base font-medium">
+        <div className="mx-10 mb-6">
+            <div className="-mr-2 -my-2 md:hidden">
+                <button
+                    type="button"
+                    className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out"
+                >
+                    <svg
+                        className="h-6 w-6"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                    >
+                        <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M4 6h16M4 12h16M4 18h16"
+                        />
+                    </svg>
+                </button>
+            </div>
+            <nav className="hidden md:flex justify-between items-center text-base font-medium">
                 <div>
                     <NavLink className="flex items-center" to="/">
-                        <svg width="39" height="40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <rect y=".027" width="39" height="39" rx="16" fill="#40BFFF" />
+                        <svg className="w-12 h-12" fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 44 45">
+                            <rect y=".002" width="44" height="44" rx="16" fill="#40BFFF" />
                             <path
                                 fillRule="evenodd"
                                 clipRule="evenodd"
-                                d="M27.532 17.995a2.167 2.167 0 010 3.064l-6.5 6.5a2.167 2.167 0 01-3.064 0l-6.5-6.5a2.167 2.167 0 010-3.064l6.5-6.5a2.167 2.167 0 013.064 0l6.5 6.5zM19.5 16.09l-3.436 3.436 3.436 3.436 3.436-3.436L19.5 16.09z"
+                                d="M31.062 20.274a2.444 2.444 0 010 3.457l-7.334 7.333a2.444 2.444 0 01-3.456 0l-7.334-7.333a2.444 2.444 0 010-3.457l7.334-7.333a2.444 2.444 0 013.457 0l7.333 7.333zM22 18.126l-3.876 3.876L22 25.88l3.876-3.877L22 18.126z"
                                 fill="#fff"
                             />
                         </svg>
-                        <div className="text-base mx-2 font-medium">E-Shop</div>
+                        <div className="ml-2 font-bold">E-Shop</div>
                     </NavLink>
                 </div>
                 <div className="flex space-x-10">

@@ -8,11 +8,11 @@ interface ILayoutProps {
 
 const Layout: React.FC<ILayoutProps> = ({ children }): JSX.Element => {
     return (
-        <>
+        <div className="relative">
             <Header />
             {children}
             <Footer />
-        </>
+        </div>
     );
 };
 
