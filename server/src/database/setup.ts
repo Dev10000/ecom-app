@@ -3,8 +3,8 @@ import { useDBSetup } from './utils';
 
 const { runSetupQuery } = useDBSetup();
 
-const timestampColumns = `"created_at" timestamp DEFAULT current_timestamp,
-    "updated_at" timestamp`;
+const timestampColumns = `"created_at" timestamp with time zone DEFAULT current_timestamp,
+    "updated_at" timestamp with time zone`;
 
 const create_countries_table = async () => {
     const countriesQuery = `DROP TABLE IF EXISTS "countries" cascade;
@@ -78,10 +78,12 @@ const create_product_categories_table = async () => {
   "id" SERIAL PRIMARY KEY,
   "title" varchar(200),
   "parent_id" int,
-  "slug" varchar(200) UNIQUE NOT NULL,
+  "slug" varchar(200) NOT NULL,
   ${timestampColumns}
 );
 
+ALTER TABLE "product_categories" ADD CONSTRAINT "unique_slug_parent_id" UNIQUE("parent_id", "slug");
+ALTER TABLE "product_categories" ADD CONSTRAINT "unique_title_parent_id" UNIQUE("parent_id", "title");
 ALTER TABLE "product_categories" ADD FOREIGN KEY ("parent_id") REFERENCES "product_categories" ("id") ON DELETE SET NULL;
 `;
 
