@@ -1,11 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { NavLink } from 'react-router-dom';
-
-const AUTH_TOKEN =
-    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMCwiZW1haWwiOiJhbmdlbGluLmNhbHUxMEBnbWFpbC5jb20iLCJpYXQiOjE2MDUxNjk0MTQsImV4cCI6MTYwNTI1NTgxNH0.kddknkSWA2psj5BAOjLyUsKacYYFFq_1kjusURpFV8w';
-axios.defaults.headers.common.Authorization = AUTH_TOKEN;
+import axios from 'axios';
 
 const Categories: React.FC = () => {
     const [categories, setCategories] = useState<IProductCategory[]>([]);

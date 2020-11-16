@@ -25,7 +25,7 @@ const PriceSummary: React.FC = (): JSX.Element => {
             </div>
             <button
                 type="button"
-                className="block w-full mt-2 items-center px-1 py-1 text-md border rounded border-gray-400 bg-blue-600 hover:bg-blue-700 text-white hover:shadow-md select-none focus:outline-none transition ease-in-out duration-150"
+                className="block w-full mt-2 items-center px-1 py-1 text-md border rounded border-gray-400 bg-blue-500 hover:bg-blue-700 text-white hover:shadow-md select-none focus:outline-none transition ease-in-out duration-150"
             >
                 Checkout
             </button>

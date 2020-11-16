@@ -2,21 +2,17 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 const AUTH_TOKEN =
-    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMCwiZW1haWwiOiJhbmdlbGluLmNhbHUxMEBnbWFpbC5jb20iLCJpYXQiOjE2MDUxNjk0MTQsImV4cCI6MTYwNTI1NTgxNH0.kddknkSWA2psj5BAOjLyUsKacYYFFq_1kjusURpFV8w';
+    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMCwiZW1haWwiOiJhbmdlbGluLmNhbHVAZ21haWwuY29tIiwiaWF0IjoxNjA1MzA0Mzg1LCJleHAiOjE2MDUzOTA3ODV9.mQVBKSMidByA5O5NdH-CXxCkLub_udVNrzXqXYOycoA';
 axios.defaults.headers.common.Authorization = AUTH_TOKEN;
 
 const Products: React.FC = () => {
     // const [products, setProducts] = useState<IProduct[]>([]);
     const [products, setProducts] = useState<IProduct[]>([]);
-    const [categoryId, setCategoryId] = useState<number | null>(1);
-    const setState = () => {
-        setCategoryId(2);
-    };
+    const [categoryId] = useState<number | null>(1);
     useEffect(() => {
         axios
-            .get(`http://localhost:5000/api/categories/5/products`)
+            .get(`http://localhost:5000/api/categories/${categoryId}/products`)
             .then((response) => {
-                console.log(response.data.data);
                 setProducts(response.data.data);
             })
             .catch((err) => {
@@ -25,9 +21,6 @@ const Products: React.FC = () => {
     }, [categoryId]);
     return (
         <div>
-            <button type="button" onClick={setState}>
-                Click me to get new category id
-            </button>
             <div>
                 {categoryId}
                 {products.map((product) => product.title)}
