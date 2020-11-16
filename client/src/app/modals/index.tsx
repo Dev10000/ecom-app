@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Modal from 'react-modal';
 import Login from './Login';
 import Register from './Register';
+import AuthContext from '../../context/auth';
 
 Modal.setAppElement('#root');
 
 const Modals: React.FC = () => {
     const [modalIsOpen, setIsOpen] = useState<boolean>(false);
     const [visibleModal, setVisibleModal] = useState<string>('');
+    const { isLoggedIn } = useContext(AuthContext);
 
     const openModal = (status: string): void => {
         setIsOpen(true);
@@ -18,7 +20,7 @@ const Modals: React.FC = () => {
         setIsOpen(false);
     };
 
-    return (
+    return !isLoggedIn ? (
         <div className="flex items-center">
             <div>
                 <button
@@ -95,6 +97,24 @@ const Modals: React.FC = () => {
                     </button>
                 </Modal>
             </div>
+        </div>
+    ) : (
+        <div className="inline-flex items-center hover:text-blue-400 cursor-pointer">
+            <svg
+                className="w-5 h-5 mr-1"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+            >
+                <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                />
+            </svg>
+            <span>My Profile</span>
         </div>
     );
 };

@@ -178,10 +178,11 @@ interface ILoginFormState {
     error: string[] | string | null;
     loading: boolean;
     loggedIn: boolean;
-    token: string | null;
+}
+
+interface IUseAuth {
+    isLoggedIn: boolean;
     user: IUser | null;
-    // setEmail: (email: string) => void;
-    // setPassword: (password: string) => void;
-    // login: () => Promise<void>;
-    // logout: () => void;
+    token: string | null;
+    login: (email: string, password: string) => Promise<void>;
 }

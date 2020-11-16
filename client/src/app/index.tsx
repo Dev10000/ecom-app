@@ -7,9 +7,8 @@ import AuthContext from '../context/auth';
 import useAuth from '../hooks/useAuth';
 
 function App(): JSX.Element {
-    const { values } = useAuth();
     return (
-        <AuthContext.Provider value={values}>
+        <AuthContext.Provider value={useAuth()}>
             <CartContext.Provider value={useCart()}>
                 <Layout>
                     <Router />

@@ -1,6 +1,13 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import { createContext } from 'react';
-import { initialState } from '../hooks/useAuth';
 
-const AuthContext = createContext<ILoginFormState>(initialState);
+const initialState = {
+    isLoggedIn: false,
+    user: null,
+    token: null,
+    login: async () => {},
+};
+
+const AuthContext = createContext<IUseAuth>(initialState);
 
 export default AuthContext;
