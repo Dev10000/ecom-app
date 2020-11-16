@@ -1,25 +1,25 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable no-console */
 import { useState } from 'react';
 import axios from 'axios';
+import jwt from 'jsonwebtoken';
 
-interface ILoginFormState {
-    email: string;
-    password: string;
-    error: string[] | string | null;
-    loading: boolean;
-    loggedIn: boolean; // this should be in the AuthContext
-}
-
-const initialState: ILoginFormState = {
+export const initialState: ILoginFormState = {
     email: '',
     password: '',
     error: null,
     loading: false,
     loggedIn: false,
+    token: null,
+    user: null,
+    // setEmail: () => {},
+    // setPassword: () => {},
+    // login: async () => {},
+    // logout: () => {},
 };
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export default function useLogin() {
+export default function useAuth() {
     const [values, setValues] = useState(initialState);
 
     const setEmail = (email: string) => {
@@ -47,7 +47,7 @@ export default function useLogin() {
             ...prev,
             loggedIn: false,
             loading: false,
-            error: 'Invalid email or password',
+            error: 'Invalid email or password', // get the server error(s) here
         }));
     };
 
@@ -55,23 +55,35 @@ export default function useLogin() {
         try {
             startLoading();
 
-            // probably this needs to go to authcontext
             axios
-                .post('login', {
-                    email: values.email,
-                    password: values.password,
-                })
+                .post('login', { email: values.email, password: values.password })
                 .then((response) => {
-                    const res = response.data;
+                    if (response.data.status === 'success') {
+                        const { token } = response.data.data;
+                        const { id } = jwt.decode(token, { json: true }) as { id: string };
 
-                    if (res.status === 'success') {
-                        const { token } = res.data;
                         localStorage.setItem('token', JSON.stringify(token));
+
+                        axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+                        axios.get(`users/${id}`).then((res) => {
+                            const user = res.data.data as IUser;
+
+                            setValues({
+                                email: '',
+                                password: '',
+                                error: null,
+                                loading: false,
+                                loggedIn: true,
+                                token,
+                                user,
+                            });
+                        });
                     }
                 })
                 .catch((err) => {
                     return err;
                 });
+
             handleLoginSuccess();
         } catch {
             handleLoginFail();

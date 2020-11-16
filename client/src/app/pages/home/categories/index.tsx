@@ -29,7 +29,7 @@ const Categories: React.FC = (): JSX.Element => {
                             {categories
                                 .filter((category, index) => index < 4)
                                 .map((category) => (
-                                    <li className="mx-4">
+                                    <li key={category.id} className="mx-4">
                                         <button type="button" className="text hover:text-bg-400">
                                             {category.title}
                                         </button>

@@ -1,15 +1,6 @@
 import { createContext } from 'react';
+import { initialState } from '../hooks/useAuth';
 
-interface IAuthContext {
-    user: IUser | null;
-    token: string;
-}
-
-export const initialState = {
-    user: null,
-    token: '',
-};
-
-const AuthContext = createContext<IAuthContext>(initialState);
+const AuthContext = createContext<ILoginFormState>(initialState);
 
 export default AuthContext;

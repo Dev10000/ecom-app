@@ -1,8 +1,8 @@
 import React from 'react';
-import useLogin from '../../hooks/useLogin';
+import useAuth from '../../hooks/useAuth';
 
 const Login: React.FC = (): JSX.Element => {
-    const { values, setEmail, setPassword, login } = useLogin();
+    const { values, setEmail, setPassword, login } = useAuth();
 
     const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();

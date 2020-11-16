@@ -171,3 +171,17 @@ interface IUseCart {
     removeProduct: (product: IProduct) => void;
     updateQuantity: (product: IProduct, newQuantity: number) => void;
 }
+
+interface ILoginFormState {
+    email: string;
+    password: string;
+    error: string[] | string | null;
+    loading: boolean;
+    loggedIn: boolean;
+    token: string | null;
+    user: IUser | null;
+    // setEmail: (email: string) => void;
+    // setPassword: (password: string) => void;
+    // login: () => Promise<void>;
+    // logout: () => void;
+}
