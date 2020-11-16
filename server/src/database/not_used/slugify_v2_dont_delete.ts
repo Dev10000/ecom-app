@@ -1,63 +1,23 @@
 import { QueryResult } from 'pg';
-import DB from '../config/database';
+import DB from '../../config/database';
 
-export const colorLog = (status: string, info: string): void => {
-    let color = '';
-
-    if (status === 'success') color = '\x1b[32m%s\x1b[0m'; // green
-    if (status === 'error') color = '\x1b[31m%s\x1b[0m'; // red
-    // if (status === 'info') color = '\x1b[36m%s\x1b[0m'; // cyan
-
-    console.log(color, info);
-};
-
-export const useDBSetup = (
-    seed?: boolean,
-): { runSetupQuery(tableName: string, queryString: string): Promise<unknown> } => {
-    const runSetupQuery = async (tableName: string, queryString: string) => {
-        try {
-            const ret = await DB.query(queryString);
-            colorLog('success', `√ Table "${tableName}" successfully ${seed ? 'seeded with data' : '(re)created'}.`);
-            return ret;
-        } catch (error) {
-            colorLog(
-                'error',
-                `× Table "${tableName}" NOT ${seed ? 'seeded with data' : '(re)created'}. ${error.message}`,
-            );
-            // console.log({ error });
-            return error.stack;
-        }
-    };
-
-    return { runSetupQuery };
-};
-
-export const removeFields = <T, K extends keyof T>(entity: T, props: K[]): Omit<T, K> => {
-    // eslint-disable-next-line no-sequences
-    return props.reduce((s, prop) => (delete s[prop], s), entity);
-};
-
-export const pascalToSnakeCase = (input: string): string => {
-    return input
-        .split(/(?=[A-Z])/)
-        .join('_')
-        .toLowerCase();
-};
-
-//* *SLUGIFY START* */
 /**
  * Input parameters and types
  * @param query Query string
  * @param values Array of values for the query
  */
-// DBQUERY function - is used for all the queries in slugify. Returns either success or error response object
-async function dbQuery(query: string, values: (string | number)[]): Promise<QueryResult | ErrorEvent> {
+// DBQUERY function - is used for all the queries in slugify. Returns and Console.logs either success resposne or error response
+async function dbQuery(query: string, values: (string | number)[]): Promise<QueryResult> {
     // async/await
     try {
         const response = await DB.query(query, values);
+        console.log('Success:');
+        console.log(response.rows[0]);
         return response.rows[0];
     } catch (err) {
-        throw new Error(err);
+        console.log('Error: ');
+        console.log(err.message);
+        return err.message;
     }
 }
 
@@ -68,7 +28,7 @@ async function dbQuery(query: string, values: (string | number)[]): Promise<Quer
  * @param slug Autogenretated slug
  * @param selectQuery Select query needs to include correct query string inlduing correct table and column1. column2 "slug" not needed as the check is done on title
  */
-// Checks if the parent_id and the title unique constrain exist in the table
+// Checks if parent_id and title unique constrain exist in the table
 // and generates incrementing postfix number until not exist (title-1, title-2...)
 // WHILE LOOP function
 async function postfixLoop(
@@ -108,13 +68,13 @@ async function postfixLoop(
  * @param table The name of the table to be inserted
  */
 // MAIN SLUGIFY function
-export const slugify = async (
+async function slugify(
     title: string,
     parent_id: number,
     column1: string,
     column2: string,
     table?: string,
-): Promise<QueryResult | ErrorEvent> => {
+): Promise<void> {
     // Slugify the string
     let slug = title
         .normalize('NFD') // normalize()ing to NFD Unicode normal form decomposes combined graphemes into the combination of simple ones. The è of Crème ends up expressed as e +  ̀.
@@ -138,8 +98,8 @@ export const slugify = async (
     // Final Insert query into table
     const insertValues = [parent_id, title, slug];
     const insertQuery = `INSERT INTO ${table}(${column1}, parent_id, ${column2}) VALUES($2, $1, $3) RETURNING *`;
-    const insertRes = await dbQuery(insertQuery, insertValues);
 
-    return insertRes;
-};
-//* *SLUGIFY END* */
+    await dbQuery(insertQuery, insertValues);
+}
+
+slugify('Test Titleäööö///and&&üÿü22', 81, 'title', 'slug', 'product_categories');
