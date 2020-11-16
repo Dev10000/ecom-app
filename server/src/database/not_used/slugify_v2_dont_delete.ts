@@ -1,5 +1,5 @@
 import { QueryResult } from 'pg';
-import DB from '../config/database';
+import DB from '../../config/database';
 
 /**
  * Input parameters and types
