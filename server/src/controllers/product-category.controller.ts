@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { validationResult } from 'express-validator';
 import QueryBuilder from '../database/QueryBuilder';
 import ProductCategory from '../models/ProductCategory';
+import { slugify } from '../database/utils';
 
 export const getAll = async (req: Request, res: Response): Promise<Response> => {
     return QueryBuilder(ProductCategory)
@@ -16,6 +17,9 @@ export const getAll = async (req: Request, res: Response): Promise<Response> => 
 export const create = async (req: Request, res: Response): Promise<Response> => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) return res.status(422).json({ status: 'error', data: errors.array() });
+    console.log(req.body);
+    const { title, parent_id } = req.body;
+    console.log(title + parent_id);
     return ProductCategory.create(req.body as Partial<ProductCategory>)
         .save()
         .then((category) => res.status(201).json({ status: 'success', data: category }))
@@ -80,4 +84,14 @@ export const listProducts = async (req: Request, res: Response): Promise<Respons
             })
             .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
     });
+};
+
+export const createAndSlugify = async (req: Request, res: Response): Promise<Response> => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return res.status(422).json({ status: 'error', data: errors.array() });
+
+    const { title, parent_id } = req.body;
+    return slugify(title, parent_id, 'title', 'slug', 'product_categories')
+        .then((category) => res.status(201).json({ status: 'success', data: category }))
+        .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
 };

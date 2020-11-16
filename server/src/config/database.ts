@@ -3,22 +3,13 @@ import { Pool } from 'pg';
 import config from '.';
 
 const pool = new Pool({
-    host: '3.21.55.190',
+    host: config.DB.HOST,
     user: config.DB.USER,
-    database: 'dev_db',
-    password: 'G$oFt78$8qiZMBsbX!%!7HWVTwwU*s',
+    database: config.DB.NAME,
+    password: config.DB.PASS,
     port: Number(config.DB.PORT),
     max: 20,
 });
-
-// const pool = new Pool({
-//     host: config.DB.HOST,
-//     user: config.DB.USER,
-//     database: config.DB.NAME,
-//     password: config.DB.PASS,
-//     port: Number(config.DB.PORT),
-//     max: 20,
-// });
 
 pool.on('error', (err, _client) => {
     console.error('Unexpected error on idle client', err);
