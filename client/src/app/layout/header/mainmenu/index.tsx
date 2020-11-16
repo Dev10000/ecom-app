@@ -3,7 +3,6 @@ import { NavLink } from 'react-router-dom';
 import CategoriesDropdown from './CategoriesDropdown';
 
 const TopMenu: React.FC = (): JSX.Element => {
-    // const categoryId: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9];
     const [display, setDisplay] = useState<boolean>(false);
     const openDisplay = () => {
         setDisplay(true);
@@ -56,8 +55,11 @@ const TopMenu: React.FC = (): JSX.Element => {
                         </NavLink>
                     </div>
                     <div onMouseLeave={closeDisplay}>
-                        <button type="button" className="flex" onMouseEnter={openDisplay}>
-                            <NavLink className="flex items-center text-gray-800 hover:text-blue-500" to="/categories">
+                        <button type="button" className="flex" onMouseEnter={openDisplay} onClick={closeDisplay}>
+                            <NavLink
+                                className="relative flex items-center text-gray-800 hover:text-blue-500"
+                                to="/categories"
+                            >
                                 <p>CATEGORIES</p>
                                 <svg
                                     className="w-4 h-4 hover:text-blue-500 focus:outline-none"
@@ -75,7 +77,7 @@ const TopMenu: React.FC = (): JSX.Element => {
                                 onMouseLeave={closeDisplay}
                                 className="container absolute w-3/4 inset-x-0 mx-40 border rounded shadow"
                             >
-                                <CategoriesDropdown />
+                                <CategoriesDropdown action={closeDisplay} />
                             </div>
                         ) : (
                             ''

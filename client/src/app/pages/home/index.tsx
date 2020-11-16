@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Hero from './hero';
+
 import Product from '../../../ui/components/product';
+import Hero from './hero';
 
 const Home: React.FC = (): JSX.Element => {
     const [products, setProducts] = useState<IProduct[]>([]);
