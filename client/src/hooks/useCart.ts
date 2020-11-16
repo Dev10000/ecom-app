@@ -5,9 +5,9 @@ const useCart = (): IUseCart => {
 
     const addProduct = (product: IProduct): void => {
         setCartItems((prev) => {
-            const existing = cartItems.find((item) => item.id === product.id);
+            const existingInCart = cartItems.find((item) => item.id === product.id);
 
-            return !existing
+            return !existingInCart
                 ? [...prev, { ...product, quantity: 1 }]
                 : [
                       ...cartItems.map((item) =>

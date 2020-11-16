@@ -1,4 +1,6 @@
+/* eslint-disable no-console */
 import { useState } from 'react';
+import axios from 'axios';
 
 interface ILoginFormState {
     email: string;
@@ -16,6 +18,7 @@ const initialState: ILoginFormState = {
     loggedIn: false,
 };
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default function useLogin() {
     const [values, setValues] = useState(initialState);
 
@@ -51,7 +54,24 @@ export default function useLogin() {
     const login = async () => {
         try {
             startLoading();
-            // await login...here(values); handleLoginSuccess();
+
+            // probably this needs to go to authcontext
+            axios
+                .post('login', {
+                    email: values.email,
+                    password: values.password,
+                })
+                .then((response) => {
+                    const res = response.data;
+
+                    if (res.status === 'success') {
+                        const { token } = res.data;
+                        localStorage.setItem('token', JSON.stringify(token));
+                    }
+                })
+                .catch((err) => {
+                    return err;
+                });
             handleLoginSuccess();
         } catch {
             handleLoginFail();

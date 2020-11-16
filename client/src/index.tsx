@@ -4,11 +4,14 @@ import { BrowserRouter } from 'react-router-dom';
 import axios from 'axios';
 import App from './app';
 
-const AUTH_TOKEN =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMCwiZW1haWwiOiJhbmdlbGluLmNhbHVAZ21haWwuY29tIiwiaWF0IjoxNjA1Mjc0ODUyLCJleHAiOjE2MDUzNjEyNTJ9.J5FJCWNjin6K-7my1pdTUm9nxCdKdUxPu0OLJjHt6do';
-
 axios.defaults.baseURL = 'http://localhost:5000/api';
-axios.defaults.headers.common.Authorization = `Bearer ${AUTH_TOKEN}`;
+
+let AUTH_TOKEN = localStorage.getItem('token');
+
+if (AUTH_TOKEN) {
+    AUTH_TOKEN = JSON.parse(AUTH_TOKEN);
+    axios.defaults.headers.common.Authorization = `Bearer ${AUTH_TOKEN}`;
+}
 
 ReactDOM.render(
     <React.StrictMode>
