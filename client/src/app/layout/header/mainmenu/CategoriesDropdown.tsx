@@ -16,7 +16,7 @@ const CategoryDropdown: React.FC<IProps> = (props: IProps) => {
     };
     useEffect(() => {
         axios
-            .get('http://localhost:5000/api/categories')
+            .get('categories')
             .then((response) => {
                 setCategories(response.data.data);
             })
