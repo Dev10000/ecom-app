@@ -16,7 +16,7 @@ const Product: React.FC<IProductProps> = (props: IProduct): JSX.Element => {
             className="max-w-2xl bg-gray-300 rounded-md flex flex-col"
         >
             <div className="flex items-center text-center mx-auto h-40">
-                <img src="https://picsum.photos/250/150" alt="Lorem ipsum" />
+                <img src="https://via.placeholder.com/250x150?text=Product Image" alt="Lorem ipsum" />
                 <div
                     className={`${
                         visibleButtons ? 'block' : 'hidden'
@@ -50,11 +50,18 @@ const Product: React.FC<IProductProps> = (props: IProduct): JSX.Element => {
                 <div className="text-center text-lg text-blue-900 font-extrabold py-2 flex-1">{title}</div>
                 <div className="text-center py-2 text-sm">Rating here</div>
                 <div className="text-center py-2 space-x-2 flex-end">
-                    {/* TODO: same STUPID thing */}
                     <span className="font-extrabold text-blue-400">
-                        €{(((price || 1) * (100 - (discount || 1))) / 100).toFixed(2)}
+                        {(price * ((100 - discount) / 100)).toLocaleString('en-IN', {
+                            style: 'currency',
+                            currency: 'EUR',
+                        })}
                     </span>
-                    <span className="text-gray-700 line-through">€{Number(price).toFixed(2)}</span>
+                    <span className="text-gray-700 line-through">
+                        {price.toLocaleString('en-IN', {
+                            style: 'currency',
+                            currency: 'EUR',
+                        })}
+                    </span>
                     <span className="font-bold text-red-500">{discount}% Off</span>
                 </div>
             </div>
