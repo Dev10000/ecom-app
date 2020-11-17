@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function Footer(): JSX.Element {
     return (
-        <div>
+        <div className="mt-8">
             <div className="w-screen bg-blue-200 text-xs flex flex-row justify-between p-16">
                 <div className="flex flex-col w-48">
                     <div className="flex items-center">

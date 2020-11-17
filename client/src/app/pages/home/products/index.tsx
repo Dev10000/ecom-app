@@ -5,7 +5,7 @@ const Products: React.FC = () => {
     const [products, setProducts] = useState<IProduct[]>([]);
     useEffect(() => {
         axios
-            .get(`http://localhost:5000/api/products`)
+            .get('products')
             .then((response) => {
                 setProducts(response.data.data);
             })
@@ -15,7 +15,7 @@ const Products: React.FC = () => {
     }, []);
 
     return (
-        <div className="flex flex-row gap-0 items-center mx-20">
+        <div className="flex w-full items-center mx-auto justify-center">
             {products
                 .filter((product, index) => index < 3)
                 .map((product) => (

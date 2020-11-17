@@ -15,7 +15,7 @@ const TopMenu: React.FC = (): JSX.Element => {
             <div className="-mr-2 -my-2 md:hidden">
                 <button
                     type="button"
-                    className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out"
+                    className="mt-4 inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out"
                 >
                     <svg
                         className="h-6 w-6"

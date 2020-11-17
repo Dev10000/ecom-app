@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 
 const Register: React.FC = (): JSX.Element => {
-    const [name, setName] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [passwordConfirmation, setPasswordConfirmation] = useState('');
     const error = null;
 
     //    let history = useHistory();
@@ -23,9 +25,9 @@ const Register: React.FC = (): JSX.Element => {
                     <label htmlFor="firstname" className="block my-4 text-xs font-bold text-gray-700 uppercase mr-4">
                         First Name
                         <input
-                            onChange={(e) => setName(e.target.value)}
+                            onChange={(e) => setFirstName(e.target.value)}
                             className={`border ${error ? 'border-red-500' : null} p-4 text-xs w-full`}
-                            value={name}
+                            value={firstName}
                             type="text"
                             id="firstname"
                             name="firstname"
@@ -36,9 +38,9 @@ const Register: React.FC = (): JSX.Element => {
                     <label htmlFor="lastname" className="block my-4 text-xs font-bold text-gray-700 uppercase">
                         Last Name
                         <input
-                            onChange={(e) => setName(e.target.value)}
+                            onChange={(e) => setLastName(e.target.value)}
                             className={`border ${error ? 'border-red-500' : null} p-4 text-xs w-full`}
-                            value={name}
+                            value={lastName}
                             type="text"
                             id="lastname"
                             name="lastname"
@@ -79,10 +81,10 @@ const Register: React.FC = (): JSX.Element => {
                     <label htmlFor="confirmpassword" className="block my-4 text-xs font-bold text-gray-700 uppercase">
                         Confirm Password
                         <input
-                            onChange={(e) => setPassword(e.target.value)}
+                            onChange={(e) => setPasswordConfirmation(e.target.value)}
                             className={`border ${error ? 'border-red-500' : null} p-4 text-xs w-full mb-4`}
-                            value={password}
-                            type="confirmpassword"
+                            value={passwordConfirmation}
+                            type="password"
                             id="confirmpassword"
                             name="confirmpassword"
                             placeholder="Type your password again"

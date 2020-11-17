@@ -73,7 +73,7 @@ const Modals: React.FC = () => {
 
             <div>
                 <Modal
-                    overlayClassName="fixed z-10 inset-0 overflow-y-auto flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center bg-gray-600 bg-opacity-75 transition-opacity"
+                    overlayClassName="fixed z-10 inset-0 overflow-y-auto flex items-end justify-center min-h-screen pt-4 mt-16 px-4 pb-20 text-center bg-gray-600 bg-opacity-75 transition-opacity"
                     className="items-center align-bottom inline-block h-auto w-full max-w-5xl m-auto relative top-2 left-2 right-2 bottom-2 bg-white bg-opacity-100 rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all focus:outline-none"
                     isOpen={modalIsOpen}
                     onRequestClose={closeModal}
@@ -99,7 +99,7 @@ const Modals: React.FC = () => {
             </div>
         </div>
     ) : (
-        <div className="inline-flex items-center hover:text-blue-400 cursor-pointer">
+        <div className="inline-flex items-center hover:text-blue-400 cursor-pointer select-none">
             <svg
                 className="w-5 h-5 mr-1"
                 xmlns="http://www.w3.org/2000/svg"
