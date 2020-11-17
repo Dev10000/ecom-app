@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Quantity from './Quantity';
+import Quantity from './obs_Quantity';
 
 const ProductList: React.FC = (): JSX.Element => {
     interface IProduct {

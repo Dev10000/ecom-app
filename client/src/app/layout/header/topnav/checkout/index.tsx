@@ -9,10 +9,9 @@ const Checkout: React.FC = () => {
             <div className="inline-flex text-md items-center">
                 <span className="pr-2 select-none">Items</span>
                 <span className="text-gray-600">
-                    €
                     {cartItems
                         .reduce((acc, item) => acc + (item.quantity * item.price * (100 - item.discount)) / 100, 0)
-                        .toFixed(2)}
+                        .toLocaleString('en-IN', { style: 'currency', currency: 'EUR' })}
                 </span>
             </div>
         </div>
