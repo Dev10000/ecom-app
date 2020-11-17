@@ -7,7 +7,7 @@ const Categories: React.FC = () => {
     const [categories, setCategories] = useState<IProductCategory[]>([]);
     useEffect(() => {
         axios
-            .get('http://localhost:5000/api/categories')
+            .get('categories')
             .then((response) => {
                 setCategories(response.data.data);
             })
@@ -55,7 +55,7 @@ const Categories: React.FC = () => {
                                 ))}
                         </ul>
                     </div>
-                    <div className="border rounded bg-gray-300 h-96 mt-10">Popular categories</div>
+                    <div className="border rounded bg-gray-300 h-72 mt-10">Popular categories</div>
                     <button type="button" className="border rounded bg-gray-300 mt-10">
                         Show more
                     </button>

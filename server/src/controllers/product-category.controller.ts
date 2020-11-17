@@ -7,6 +7,7 @@ import { checkIfStringExistsInTable, insertTitleAndSlug, postfixNumberGenerator,
 
 export const getAll = async (req: Request, res: Response): Promise<Response> => {
     return QueryBuilder(ProductCategory)
+        .whereNull('parent_id')
         .orderBy('title')
         .get()
         .then((categories) => {

@@ -49,8 +49,15 @@ export const edit = async (req: Request, res: Response): Promise<Response> => {
 
             Object.assign(product, req.body as IProduct);
 
+            const { images } = req.body;
+
+            if (images) {
+                // do the images logic here
+                // build up the uuid, store the image in the storage folder
+            }
+
             return product
-                .save()
+                .save() // this should handle the database change
                 .then((updatedProduct) => res.status(200).json({ status: 'success', data: updatedProduct }))
                 .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
         })

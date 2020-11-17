@@ -24,10 +24,10 @@ const productsSeeder = async (): Promise<void> => {
     await runSetupQuery('products', productsSQL);
 };
 
-const productImagesSeeder = async (): Promise<void> => {
-    const productImagesSQL = await fs.readFileSync('./src/database/data/product_images.sql').toString();
-    await runSetupQuery('product_images', productImagesSQL);
-};
+// const productImagesSeeder = async (): Promise<void> => {
+//     const productImagesSQL = await fs.readFileSync('./src/database/data/product_images.sql').toString();
+//     await runSetupQuery('product_images', productImagesSQL);
+// };
 
 const productOptionsSeeder = async (): Promise<void> => {
     const productOptionsSQL = await fs.readFileSync('./src/database/data/product_options.sql').toString();
@@ -47,7 +47,7 @@ const seedData = async () => {
         usersSeeder(),
         productCategoriesSeeder(),
         productsSeeder(),
-        productImagesSeeder(),
+        // productImagesSeeder(),
         productOptionsSeeder(),
         productSpecsSeeder(),
     ]);

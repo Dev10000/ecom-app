@@ -1,6 +1,18 @@
+/**
+ *
+ *
+ *  NOT IN USE !!
+ *
+ *
+ *
+ *
+ *
+ */
+
 /* eslint-disable no-console */
 import { useState } from 'react';
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default function useLocalStorage<T>(key: string, initialValue: T) {
     const storeOrInitialValue = () => {
         try {

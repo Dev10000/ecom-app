@@ -16,7 +16,7 @@ const CategoryDropdown: React.FC<IProps> = (props: IProps) => {
     };
     useEffect(() => {
         axios
-            .get('http://localhost:5000/api/categories')
+            .get('categories')
             .then((response) => {
                 setCategories(response.data.data);
             })
@@ -52,7 +52,7 @@ const CategoryDropdown: React.FC<IProps> = (props: IProps) => {
             </div>
             <div className="mb-5 text-sm">
                 <button
-                    className="inline-flex block px-2 py-1 items-center text-md border rounded border-gray-400 bg-blue-500 hover:bg-blue-700 text-white hover:shadow-md select-none focus:outline-none transition ease-in-out duration-150"
+                    className="inline-flex px-2 py-1 items-center text-md border rounded border-gray-400 bg-blue-500 hover:bg-blue-700 text-white hover:shadow-md select-none focus:outline-none transition ease-in-out duration-150"
                     type="button"
                     onClick={handleMore}
                 >

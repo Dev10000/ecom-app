@@ -62,10 +62,10 @@ interface IProduct {
     title?: string;
     slug?: string;
     description?: string;
-    price?: number;
+    price: number;
     weight?: number;
     package_size?: string;
-    discount?: number;
+    discount: number;
     product_category_id?: number;
     stock_qty?: number;
     deleted_at?: string;
@@ -157,4 +157,32 @@ interface INullCondition {
 interface IOrderBy {
     field: string;
     direction: SortDirection;
+}
+
+/** Front End Specific */
+
+interface ICartProducts extends IProduct {
+    quantity: number;
+}
+
+interface IUseCart {
+    cartItems: ICartProducts[];
+    addProduct: (product: IProduct) => void;
+    removeProduct: (product: IProduct) => void;
+    updateQuantity: (product: IProduct, newQuantity: number) => void;
+}
+
+interface ILoginFormState {
+    email: string;
+    password: string;
+    error: string[] | string | null;
+    loading: boolean;
+    loggedIn: boolean;
+}
+
+interface IUseAuth {
+    isLoggedIn: boolean;
+    user: IUser | null;
+    token: string | null;
+    login: (email: string, password: string) => Promise<void>;
 }

@@ -1,16 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
+import useLogin from '../../hooks/useLogin';
 
 const Login: React.FC = (): JSX.Element => {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const error = null;
-
-    //  const authContext = useContext(AuthContext);
-
-    //   const history = useHistory();
+    const { values, setEmail, setPassword, doLogin } = useLogin();
 
     const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        doLogin();
     };
 
     return (
@@ -22,15 +18,15 @@ const Login: React.FC = (): JSX.Element => {
                     <label
                         htmlFor="email"
                         className={`block my-4 text-xs font-bold ${
-                            error ? 'text-red-500' : 'text-gray-700'
+                            values.error ? 'text-red-500' : 'text-gray-700'
                         }  uppercase`}
                     >
                         Email
                         <input
-                            onChange={(e) => setUsername(e.target.value)}
-                            className={`border ${error ? 'border-red-500' : null} p-4 text-xs w-full`}
+                            onChange={(e) => setEmail(e.target.value)}
+                            className={`border ${values.error ? 'border-red-500' : null} p-4 text-xs w-full`}
                             type="text"
-                            value={username}
+                            value={values.email}
                             id="email"
                             name="email"
                             placeholder="Enter your email"
@@ -42,22 +38,22 @@ const Login: React.FC = (): JSX.Element => {
                     <label
                         htmlFor="password"
                         className={`block my-4 text-xs font-bold ${
-                            error ? 'text-red-500' : 'text-gray-700'
+                            values.error ? 'text-red-500' : 'text-gray-700'
                         }  uppercase`}
                     >
                         Password
                         <input
                             onChange={(e) => setPassword(e.target.value)}
-                            className={`border ${error ? 'border-red-500' : null} p-4 text-xs w-full mb-4`}
+                            className={`border ${values.error ? 'border-red-500' : null} p-4 text-xs w-full mb-4`}
                             type="password"
-                            value={password}
+                            value={values.password}
                             id="password"
                             name="password"
-                            placeholder="Enter your password required"
+                            placeholder="Enter your password"
                         />
                     </label>
                 </div>
-                {error ? <p className="text-red-500 pt-2 pb-5">{error}</p> : null}
+                {values.error ? <p className="text-red-500 pt-2 pb-5">{values.error}</p> : null}
 
                 <button
                     type="submit"

@@ -1,14 +1,8 @@
-import { useState } from 'react';
+/* eslint-disable @typescript-eslint/no-empty-function */
+import { useState, useContext } from 'react';
+import AuthContext from '../context/auth';
 
-interface ILoginFormState {
-    email: string;
-    password: string;
-    error: string[] | string | null;
-    loading: boolean;
-    loggedIn: boolean; // this should be in the AuthContext
-}
-
-const initialState: ILoginFormState = {
+export const initialState: ILoginFormState = {
     email: '',
     password: '',
     error: null,
@@ -16,8 +10,10 @@ const initialState: ILoginFormState = {
     loggedIn: false,
 };
 
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default function useLogin() {
     const [values, setValues] = useState(initialState);
+    const { login } = useContext(AuthContext);
 
     const setEmail = (email: string) => {
         setValues((prev) => ({ ...prev, email }));
@@ -44,23 +40,23 @@ export default function useLogin() {
             ...prev,
             loggedIn: false,
             loading: false,
-            error: 'Invalid email or password',
+            error: 'Invalid email or password', // get the server error(s) here
         }));
     };
 
-    const login = async () => {
+    const doLogin = async () => {
         try {
             startLoading();
-            // await login...here(values); handleLoginSuccess();
+            await login(values.email, values.password);
             handleLoginSuccess();
         } catch {
             handleLoginFail();
         }
     };
 
-    const logout = () => {
+    const doLogout = () => {
         setValues(initialState);
     };
 
-    return { values, setEmail, setPassword, login, logout };
+    return { values, setEmail, setPassword, doLogin, doLogout };
 }

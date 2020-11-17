@@ -19,7 +19,7 @@ const Products: React.FC = () => {
             {products
                 .filter((product, index) => index < 3)
                 .map((product) => (
-                    <div>
+                    <div key={product.id}>
                         <div className="relative">
                             <div className="absolute z-10 hover:z-0">
                                 <div>

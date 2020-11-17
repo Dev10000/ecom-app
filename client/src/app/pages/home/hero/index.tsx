@@ -1,9 +1,10 @@
 import React from 'react';
+import HeroImg from './hero1.png';
 
 const Hero: React.FC = (): JSX.Element => {
     return (
-        <div className="w-screen mt-8 border">
-            <img className="w-full h-96 object-cover mt-0" src="/assets/thumbnails/nike_blue.jpeg" alt="shoes" />
+        <div className="w-screen mt-8">
+            <img className="w-full h-72 object-cover" src={HeroImg} alt="shoes" />
         </div>
     );
 };

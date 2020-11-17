@@ -22,7 +22,9 @@ export const useDBSetup = (
         } catch (error) {
             colorLog(
                 'error',
-                `× Table "${tableName}" NOT ${seed ? 'seeded with data' : '(re)created'}. ${error.message}`,
+                `× Table "${tableName}" NOT ${seed ? 'seeded with data' : '(re)created'}. ${
+                    error.message
+                } \n Details: \n ${error.detail}`,
             );
             // console.log({ error });
             return error.stack;
