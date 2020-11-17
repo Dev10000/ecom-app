@@ -55,7 +55,7 @@ const Categories: React.FC = () => {
                                 ))}
                         </ul>
                     </div>
-                    <div className="border rounded bg-gray-300 h-96 mt-10">Popular categories</div>
+                    <div className="border rounded bg-gray-300 h-72 mt-10">Popular categories</div>
                     <button type="button" className="border rounded bg-gray-300 mt-10">
                         Show more
                     </button>
