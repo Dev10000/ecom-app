@@ -61,10 +61,10 @@ interface IProduct {
     title?: string;
     slug?: string;
     description?: string;
-    price?: number;
+    price: number;
     weight?: number;
     package_size?: string;
-    discount?: number;
+    discount: number;
     product_category_id?: number;
     stock_qty?: number;
     deleted_at?: string;

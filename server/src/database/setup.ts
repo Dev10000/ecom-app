@@ -127,21 +127,22 @@ const create_product_specs_table = async () => {
     return runSetupQuery('product_specs', productSpecsQuery);
 };
 
-const create_product_images_table = async () => {
-    const productImagesQuery = `DROP TABLE IF EXISTS "product_images" cascade;
-  CREATE TABLE IF NOT EXISTS "product_images" (
-    "id" SERIAL PRIMARY KEY,
-    "href" varchar,
-    "default_img" boolean,
-    "product_id" int,
-    ${timestampColumns}
-  );
-  
- ALTER TABLE "product_images" ADD FOREIGN KEY ("product_id") REFERENCES "products" ("id") ON DELETE CASCADE;
- CREATE INDEX ON "product_images" ("product_id");`;
+// NOT USED
+// const create_product_images_table = async () => {
+//     const productImagesQuery = `DROP TABLE IF EXISTS "product_images" cascade;
+//   CREATE TABLE IF NOT EXISTS "product_images" (
+//     "id" SERIAL PRIMARY KEY,
+//     "href" varchar,
+//     "default_img" boolean,
+//     "product_id" int,
+//     ${timestampColumns}
+//   );
 
-    return runSetupQuery('product_images', productImagesQuery);
-};
+//  ALTER TABLE "product_images" ADD FOREIGN KEY ("product_id") REFERENCES "products" ("id") ON DELETE CASCADE;
+//  CREATE INDEX ON "product_images" ("product_id");`;
+
+//     return runSetupQuery('product_images', productImagesQuery);
+// };
 
 const create_orders_table = async () => {
     const ordersQuery = `CREATE EXTENSION IF NOT EXISTS "pgcrypto";
@@ -204,7 +205,7 @@ const setup = (): void => {
         create_product_categories_table(),
         create_product_specs_table(),
         create_product_options_table(),
-        create_product_images_table(),
+        // create_product_images_table(),
         create_products_table(),
         create_order_items_table(),
         create_orders_table(),
