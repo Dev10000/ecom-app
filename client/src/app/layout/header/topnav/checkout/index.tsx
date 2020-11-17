@@ -25,7 +25,6 @@ const Checkout: React.FC = () => {
                         />
                     </svg>
                     <span className="text-gray-600">
-                        {/* TODO: Find a solution for this STUPID typescript thing where I need to set the default price */}
                         {cartItems
                             .reduce((acc, item) => acc + (item.quantity * item.price * (100 - item.discount)) / 100, 0)
                             .toFixed(2)}
