@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './style.css';
-// import ContactImage from './contact.png';
+import ContactImage from './call.png';
 
 const Contact: React.FC = (): JSX.Element => {
     const [fullName, setFullName] = useState('');
@@ -15,7 +15,9 @@ const Contact: React.FC = (): JSX.Element => {
     return (
         <div className="flex-container">
             <div className="flex-item-left">
-                <div className="sub-left">{/* <img className="img-left" src={ContactImage} alt="img" /> */}</div>
+                <div className="sub-left">
+                    <img className="img-left" src={ContactImage} alt="img" />
+                </div>
                 <div className="sub-middle">
                     <div>
                         <h2>
