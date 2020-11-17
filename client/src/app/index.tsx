@@ -1,12 +1,20 @@
 import React from 'react';
 import Layout from './layout';
 import Router from './router';
+import CartContext from '../context/cart';
+import useCart from '../hooks/useCart';
+import AuthContext from '../context/auth';
+import useAuth from '../hooks/useAuth';
 
 function App(): JSX.Element {
     return (
-        <Layout>
-            <Router />
-        </Layout>
+        <AuthContext.Provider value={useAuth()}>
+            <CartContext.Provider value={useCart()}>
+                <Layout>
+                    <Router />
+                </Layout>
+            </CartContext.Provider>
+        </AuthContext.Provider>
     );
 }
 

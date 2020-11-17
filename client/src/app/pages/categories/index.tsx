@@ -7,7 +7,7 @@ const Categories: React.FC = () => {
     const [categories, setCategories] = useState<IProductCategory[]>([]);
     useEffect(() => {
         axios
-            .get('http://localhost:5000/api/categories')
+            .get('categories')
             .then((response) => {
                 setCategories(response.data.data);
             })

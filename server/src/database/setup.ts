@@ -79,11 +79,19 @@ const create_product_categories_table = async () => {
   "title" varchar(200),
   "parent_id" int,
   "slug" varchar(200) NOT NULL,
+<<<<<<< HEAD
   ${timestampColumns}
 );
 
 ALTER TABLE "product_categories" ADD CONSTRAINT "unique_slug_parent_id" UNIQUE("parent_id", "slug");
 ALTER TABLE "product_categories" ADD CONSTRAINT "unique_title_parent_id" UNIQUE("parent_id", "title");
+=======
+  ${timestampColumns},
+  UNIQUE (slug, parent_id)
+);
+
+CREATE UNIQUE INDEX indx ON product_categories (slug) WHERE parent_id IS NULL;
+>>>>>>> frontend-restructuring
 ALTER TABLE "product_categories" ADD FOREIGN KEY ("parent_id") REFERENCES "product_categories" ("id") ON DELETE SET NULL;
 `;
 
