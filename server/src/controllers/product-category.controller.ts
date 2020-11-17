@@ -2,7 +2,8 @@ import { Request, Response } from 'express';
 import { validationResult } from 'express-validator';
 import QueryBuilder from '../database/QueryBuilder';
 import ProductCategory from '../models/ProductCategory';
-import { slugify } from '../database/utils';
+import { checkIfStringExistsInTable, insertTitleAndSlug, postfixNumberGenerator, slugify } from '../database/utils';
+// import { slugify } from '../database/utils';
 
 export const getAll = async (req: Request, res: Response): Promise<Response> => {
     return QueryBuilder(ProductCategory)
@@ -91,7 +92,21 @@ export const createAndSlugify = async (req: Request, res: Response): Promise<Res
     if (!errors.isEmpty()) return res.status(422).json({ status: 'error', data: errors.array() });
 
     const { title, parent_id } = req.body;
-    return slugify(title, parent_id, 'title', 'slug', 'product_categories')
+    const slug = await slugify(title);
+
+    return checkIfStringExistsInTable(title, parent_id, 'title', 'product_categories')
+        .then((ifExists) => {
+            if (!ifExists) {
+                return insertTitleAndSlug(parent_id, title, slug);
+            }
+            return postfixNumberGenerator(title, parent_id, slug).then((script) =>
+                insertTitleAndSlug(parent_id, script[0], script[1]),
+            );
+        })
         .then((category) => res.status(201).json({ status: 'success', data: category }))
         .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
+
+    // return slugify(title, parent_id, 'title', 'slug', 'product_categories')
+    //     .then((category) => res.status(201).json({ status: 'success', data: category }))
+    //     .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
 };
