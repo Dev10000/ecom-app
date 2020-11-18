@@ -5,6 +5,7 @@ import Checkout from '../pages/checkout';
 import Contact from '../pages/contact';
 import Products from '../pages/products';
 import Search from '../pages/search';
+import Profile from '../pages/profile';
 
 export default [
     { path: '/', name: 'Home', Component: Home },
@@ -14,4 +15,5 @@ export default [
     { path: '/checkout', name: 'Checkout', Component: Checkout },
     { path: '/contact', name: 'Contact', Component: Contact },
     { path: '/search', name: 'Search', Component: Search },
+    { path: '/profile', name: 'Profile', Component: Profile },
 ];

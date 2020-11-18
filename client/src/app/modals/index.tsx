@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react';
 import Modal from 'react-modal';
+import { NavLink } from 'react-router-dom';
 import Login from './Login';
 import Register from './Register';
 import AuthContext from '../../context/auth';
@@ -9,7 +10,7 @@ Modal.setAppElement('#root');
 const Modals: React.FC = () => {
     const [modalIsOpen, setIsOpen] = useState<boolean>(false);
     const [visibleModal, setVisibleModal] = useState<string>('');
-    const { isLoggedIn } = useContext(AuthContext);
+    const { isLoggedIn, logout } = useContext(AuthContext);
 
     const openModal = (status: string): void => {
         setIsOpen(true);
@@ -29,18 +30,15 @@ const Modals: React.FC = () => {
                     onClick={() => openModal('register')}
                 >
                     <svg
-                        width="20"
-                        height="20"
+                        className="w-5 h-5 mr-1"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
                         xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
                     >
                         <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
+                            fillRule="evenodd"
+                            d="M3 3a1 1 0 011 1v12a1 1 0 11-2 0V4a1 1 0 011-1zm7.707 3.293a1 1 0 010 1.414L9.414 9H17a1 1 0 110 2H9.414l1.293 1.293a1 1 0 01-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0z"
+                            clipRule="evenodd"
                         />
                     </svg>
                     <div className="text-md">Register</div>
@@ -53,18 +51,15 @@ const Modals: React.FC = () => {
                     onClick={() => openModal('login')}
                 >
                     <svg
-                        width="20"
-                        height="20"
+                        className="w-5 h-5 mr-1"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
                         xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
                     >
                         <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
+                            fillRule="evenodd"
+                            d="M3 3a1 1 0 011 1v12a1 1 0 11-2 0V4a1 1 0 011-1zm7.707 3.293a1 1 0 010 1.414L9.414 9H17a1 1 0 110 2H9.414l1.293 1.293a1 1 0 01-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0z"
+                            clipRule="evenodd"
                         />
                     </svg>
                     <span className="text-md">Login</span>
@@ -99,23 +94,44 @@ const Modals: React.FC = () => {
             </div>
         </div>
     ) : (
-        <div className="inline-flex items-center hover:text-blue-400 cursor-pointer select-none">
-            <svg
-                className="w-5 h-5 mr-1"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
+        <>
+            <div className="inline-flex items-center hover:text-blue-400 cursor-pointer select-none">
+                <svg
+                    className="w-5 h-5 mr-1"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                >
+                    <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                    />
+                </svg>
+                <NavLink to="/profile">My Profile</NavLink>
+            </div>
+            <button
+                className="inline-flex items-center hover:text-blue-400 cursor-pointer select-none"
+                type="button"
+                onClick={() => logout()}
             >
-                <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                />
-            </svg>
-            <span>My Profile</span>
-        </div>
+                <svg
+                    className="w-4 h-4 mr-1"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                >
+                    <path
+                        fillRule="evenodd"
+                        d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z"
+                        clipRule="evenodd"
+                    />
+                </svg>
+                <span>Logout</span>
+            </button>
+        </>
     );
 };
 
