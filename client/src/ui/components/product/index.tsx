@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react';
 import CartContext from '../../../context/cart';
+import { formatCurrency } from '../../../utils';
 
 type IProductProps = IProduct;
 
@@ -51,17 +52,9 @@ const Product: React.FC<IProductProps> = (props: IProduct): JSX.Element => {
                 <div className="text-center py-2 text-sm">Rating here</div>
                 <div className="text-center py-2 space-x-2 flex-end">
                     <span className="font-extrabold text-blue-400">
-                        {(price * ((100 - discount) / 100)).toLocaleString('en-IN', {
-                            style: 'currency',
-                            currency: 'EUR',
-                        })}
+                        {formatCurrency(price * ((100 - discount) / 100))}
                     </span>
-                    <span className="text-gray-700 line-through">
-                        {price.toLocaleString('en-IN', {
-                            style: 'currency',
-                            currency: 'EUR',
-                        })}
-                    </span>
+                    <span className="text-gray-700 line-through">{formatCurrency(price)}</span>
                     <span className="font-bold text-red-500">{discount}% Off</span>
                 </div>
             </div>

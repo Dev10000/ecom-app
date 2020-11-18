@@ -12,6 +12,7 @@ const Router: React.FC = (): JSX.Element => {
             {routes.map(({ path, name, Component }) => (
                 // <React.Fragment key={name}>
                 //     <Breadcrumbs routes={routes} />
+                // component need to be swapped with render={props =>
                 <Route exact path={path} component={Component} />
                 // </React.Fragment>
             ))}

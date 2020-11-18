@@ -4,6 +4,7 @@ import Cart from '../pages/cart';
 import Checkout from '../pages/checkout';
 import Contact from '../pages/contact';
 import Products from '../pages/products';
+import Search from '../pages/search';
 
 export default [
     { path: '/', name: 'Home', Component: Home },
@@ -12,4 +13,5 @@ export default [
     { path: '/cart', name: 'Cart', Component: Cart },
     { path: '/checkout', name: 'Checkout', Component: Checkout },
     { path: '/contact', name: 'Contact', Component: Contact },
+    { path: '/search', name: 'Search', Component: Search },
 ];

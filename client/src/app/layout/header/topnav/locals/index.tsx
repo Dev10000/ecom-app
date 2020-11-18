@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Languages: React.FC = (): JSX.Element => {
+const Locals: React.FC = (): JSX.Element => {
     return (
         <div className="flex items-center text-md">
             <div className="px-1">
@@ -17,4 +17,4 @@ const Languages: React.FC = (): JSX.Element => {
     );
 };
 
-export default Languages;
+export default Locals;
