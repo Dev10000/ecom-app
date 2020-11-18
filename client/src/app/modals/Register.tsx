@@ -1,4 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import axios from 'axios';
+import AuthContext from '../../context/auth';
+
+interface IFormError {
+    value: string;
+    msg: string;
+    param: string;
+    location: string;
+}
 
 const Register: React.FC = (): JSX.Element => {
     const [firstName, setFirstName] = useState('');
@@ -6,12 +15,29 @@ const Register: React.FC = (): JSX.Element => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [passwordConfirmation, setPasswordConfirmation] = useState('');
-    const error = null;
+    const [errors, setErrors] = useState<IFormError[]>([]);
+
+    const { login } = useContext(AuthContext);
 
     //    let history = useHistory();
 
     const handleRegister = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+
+        axios
+            .post('register', {
+                first_name: firstName,
+                last_name: lastName,
+                email,
+                password,
+                passwordConfirmation,
+            })
+            .then((response) => {
+                if (response.data.data.id) {
+                    login(email, password);
+                }
+            })
+            .catch((err) => setErrors(err.response.data.data));
     };
 
     return (
@@ -26,27 +52,49 @@ const Register: React.FC = (): JSX.Element => {
                         First Name
                         <input
                             onChange={(e) => setFirstName(e.target.value)}
-                            className={`border ${error ? 'border-red-500' : null} p-4 text-xs w-full`}
+                            className={`border ${
+                                errors.filter((error) => error.param === 'first_name').length
+                                    ? 'border-red-500 text-red-500'
+                                    : null
+                            } p-4 text-xs w-full`}
                             value={firstName}
                             type="text"
                             id="firstname"
                             name="firstname"
-                            placeholder="Enter your full name"
+                            placeholder="Enter your first name"
                             required
                         />
+                        {errors.filter((error) => error.param === 'first_name').length ? (
+                            <div className="text-red-500 normal-case font-light text-xs">
+                                {errors.filter((error) => error.param === 'first_name')[0].msg}
+                            </div>
+                        ) : (
+                            ''
+                        )}
                     </label>
                     <label htmlFor="lastname" className="block my-4 text-xs font-bold text-gray-700 uppercase">
                         Last Name
                         <input
                             onChange={(e) => setLastName(e.target.value)}
-                            className={`border ${error ? 'border-red-500' : null} p-4 text-xs w-full`}
+                            className={`border ${
+                                errors.filter((error) => error.param === 'last_name').length
+                                    ? 'border-red-500 text-red-500'
+                                    : null
+                            } p-4 text-xs w-full`}
                             value={lastName}
                             type="text"
                             id="lastname"
                             name="lastname"
-                            placeholder="Enter your full name"
+                            placeholder="Enter your last name"
                             required
                         />
+                        {errors.filter((error) => error.param === 'last_name').length ? (
+                            <div className="text-red-500 normal-case font-light text-xs">
+                                {errors.filter((error) => error.param === 'last_name')[0].msg}
+                            </div>
+                        ) : (
+                            ''
+                        )}
                     </label>
                 </div>
                 <div className="w-full">
@@ -54,7 +102,11 @@ const Register: React.FC = (): JSX.Element => {
                         Email
                         <input
                             onChange={(e) => setEmail(e.target.value)}
-                            className={`border ${error ? 'border-red-500' : null} p-4 text-xs w-full`}
+                            className={`border ${
+                                errors.filter((error) => error.param === 'email').length
+                                    ? 'border-red-500 text-red-500'
+                                    : null
+                            } p-4 text-xs w-full`}
                             value={email}
                             type="email"
                             id="email"
@@ -62,6 +114,13 @@ const Register: React.FC = (): JSX.Element => {
                             placeholder="Enter your email"
                             required
                         />
+                        {errors.filter((error) => error.param === 'email').length ? (
+                            <div className="text-red-500 normal-case font-light text-xs">
+                                {errors.filter((error) => error.param === 'email')[0].msg}
+                            </div>
+                        ) : (
+                            ''
+                        )}
                     </label>
                 </div>
                 <div className="w-full mb-6">
@@ -69,7 +128,11 @@ const Register: React.FC = (): JSX.Element => {
                         Password
                         <input
                             onChange={(e) => setPassword(e.target.value)}
-                            className={`border ${error ? 'border-red-500' : null} p-4 text-xs w-full mb-4`}
+                            className={`border ${
+                                errors.filter((error) => error.param === 'password').length
+                                    ? 'border-red-500 text-red-500'
+                                    : null
+                            } p-4 text-xs w-full mb-4`}
                             value={password}
                             type="password"
                             id="password"
@@ -77,12 +140,23 @@ const Register: React.FC = (): JSX.Element => {
                             placeholder="Enter your password"
                             required
                         />
+                        {errors.filter((error) => error.param === 'password').length ? (
+                            <div className="text-red-500 normal-case font-light text-xs">
+                                {errors.filter((error) => error.param === 'password')[0].msg}
+                            </div>
+                        ) : (
+                            ''
+                        )}
                     </label>
                     <label htmlFor="confirmpassword" className="block my-4 text-xs font-bold text-gray-700 uppercase">
                         Confirm Password
                         <input
                             onChange={(e) => setPasswordConfirmation(e.target.value)}
-                            className={`border ${error ? 'border-red-500' : null} p-4 text-xs w-full mb-4`}
+                            className={`border ${
+                                errors.filter((error) => error.param === 'passwordConfirmation').length
+                                    ? 'border-red-500 text-red-500'
+                                    : null
+                            } p-4 text-xs w-full mb-4`}
                             value={passwordConfirmation}
                             type="password"
                             id="confirmpassword"
@@ -90,9 +164,16 @@ const Register: React.FC = (): JSX.Element => {
                             placeholder="Type your password again"
                             required
                         />
+                        {errors.filter((error) => error.param === 'passwordConfirmation').length ? (
+                            <div className="text-red-500 normal-case font-light text-xs">
+                                {errors.filter((error) => error.param === 'passwordConfirmation')[0].msg}
+                            </div>
+                        ) : (
+                            ''
+                        )}
                     </label>
                 </div>
-                {error ? <p className="text-red-500 pt-2 pb-5">{error}</p> : null}
+                {/* {error ? <p className="text-red-500 pt-2 pb-5">{error}</p> : null} */}
                 <button
                     type="submit"
                     className="inline-flex items-center py-2 px-4 mx-3 font-serif rounded shadow font-bold border border-gray-400 bg-blue-700 text-white hover:shadow-lg select-none transition ease-in-out duration-150"

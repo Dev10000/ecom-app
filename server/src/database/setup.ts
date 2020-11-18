@@ -35,11 +35,11 @@ const create_users_table = async () => {
     "password" varchar(100) NOT NULL,
     "first_name" varchar(30) NOT NULL,
     "last_name" varchar(100) NOT NULL,
-    "address" varchar(100) NOT NULL,
-    "city" varchar(100) NOT NULL,
+    "address" varchar(100),
+    "city" varchar(100),
     "country_id" int,
-    "postal_code" varchar(50) NOT NULL,
-    "phone_number" varchar(50) NOT NULL,
+    "postal_code" varchar(50),
+    "phone_number" varchar(50),
     ${timestampColumns}
 );
 
@@ -79,19 +79,11 @@ const create_product_categories_table = async () => {
   "title" varchar(200),
   "parent_id" int,
   "slug" varchar(200) NOT NULL,
-<<<<<<< HEAD
   ${timestampColumns}
 );
 
 ALTER TABLE "product_categories" ADD CONSTRAINT "unique_slug_parent_id" UNIQUE("parent_id", "slug");
 ALTER TABLE "product_categories" ADD CONSTRAINT "unique_title_parent_id" UNIQUE("parent_id", "title");
-=======
-  ${timestampColumns},
-  UNIQUE (slug, parent_id)
-);
-
-CREATE UNIQUE INDEX indx ON product_categories (slug) WHERE parent_id IS NULL;
->>>>>>> frontend-restructuring
 ALTER TABLE "product_categories" ADD FOREIGN KEY ("parent_id") REFERENCES "product_categories" ("id") ON DELETE SET NULL;
 `;
 
