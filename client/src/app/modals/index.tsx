@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react';
 import Modal from 'react-modal';
+import { NavLink } from 'react-router-dom';
 import Login from './Login';
 import Register from './Register';
 import AuthContext from '../../context/auth';
@@ -109,7 +110,7 @@ const Modals: React.FC = () => {
                         d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
                     />
                 </svg>
-                <span>My Profile</span>
+                <NavLink to="/profile">My Profile</NavLink>
             </div>
             <button
                 className="inline-flex items-center hover:text-blue-400 cursor-pointer select-none"
