@@ -55,11 +55,8 @@ const TopMenu: React.FC = (): JSX.Element => {
                         </NavLink>
                     </div>
                     <div onMouseLeave={closeDisplay}>
-                        <button type="button" className="flex" onMouseEnter={openDisplay} onClick={closeDisplay}>
-                            <NavLink
-                                className="relative flex items-center text-gray-800 hover:text-blue-500"
-                                to="/categories"
-                            >
+                        <button type="button" className="flex" onClick={openDisplay}>
+                            <div className="relative flex items-center text-gray-800 hover:text-blue-500">
                                 <p>CATEGORIES</p>
                                 <svg
                                     className="w-4 h-4 hover:text-blue-500 focus:outline-none"
@@ -70,13 +67,10 @@ const TopMenu: React.FC = (): JSX.Element => {
                                 >
                                     <path d="M4 6h16M4 12h16M4 18h16" strokeLinecap="round" strokeWidth="2" />
                                 </svg>
-                            </NavLink>
+                            </div>
                         </button>
                         {display ? (
-                            <div
-                                onMouseLeave={closeDisplay}
-                                className="container absolute w-3/4 inset-x-0 mx-40 border rounded shadow"
-                            >
+                            <div onMouseLeave={closeDisplay} className="container">
                                 <CategoriesDropdown action={closeDisplay} />
                             </div>
                         ) : (
