@@ -1,7 +1,19 @@
+import { extname } from 'path';
 import { Request, Response } from 'express';
+import fileUpload from 'express-fileupload';
+import { v4 as uuidv4 } from 'uuid';
 import { validationResult } from 'express-validator';
 import QueryBuilder from '../database/QueryBuilder';
 import Product from '../models/Product';
+
+// the uploaded files can be accessed with browser at http://localhost:5000/product_images/test.txt
+function moveUploadedFile(file: fileUpload.UploadedFile) {
+    const storePath = 'storage/product_images/';
+    const newFileName = uuidv4() + extname(file.name);
+    file.mv(storePath + newFileName);
+    console.log(`Uploaded ${file.name} to ${storePath + newFileName}`);
+    // TODO: save the filenames to the DB
+}
 
 export const getAll = async (req: Request, res: Response): Promise<Response> => {
     return QueryBuilder(Product)
@@ -35,6 +47,7 @@ export const create = async (req: Request, res: Response): Promise<Response> => 
         .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
 };
 
+// when including the images-field for uploading product images, the content-type sent must be multipart/form-data
 export const edit = async (req: Request, res: Response): Promise<Response> => {
     const { id } = req.params;
 
@@ -49,11 +62,11 @@ export const edit = async (req: Request, res: Response): Promise<Response> => {
 
             Object.assign(product, req.body as IProduct);
 
-            const { images } = req.body;
-
-            if (images) {
-                // do the images logic here
-                // build up the uuid, store the image in the storage folder
+            if (req.files?.images) {
+                const { images } = req.files;
+                // multi or a single file upload
+                if (Array.isArray(images)) images.forEach(moveUploadedFile);
+                else moveUploadedFile(images);
             }
 
             return product
