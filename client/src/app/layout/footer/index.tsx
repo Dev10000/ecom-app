@@ -2,8 +2,8 @@ import React from 'react';
 
 export default function Footer(): JSX.Element {
     return (
-        <div>
-            <div className="w-screen bg-blue-200 text-xs flex flex-row justify-between p-16">
+        <div className="mt-8">
+            <div className="w-full bg-blue-200 text-xs flex flex-row justify-between p-16">
                 <div className="flex flex-col w-48">
                     <div className="flex items-center">
                         <svg width="39" height="40" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -48,7 +48,7 @@ export default function Footer(): JSX.Element {
                 </div>
             </div>
 
-            <div className="w-screen bg-blue-200 text-xs flex flex-col p-16">
+            <div className="w-full bg-blue-200 text-xs flex flex-col p-16">
                 <div className="flex flex-row justify-between">
                     <div className="flex flex-col w-48">
                         <div className="text-base">Information</div>

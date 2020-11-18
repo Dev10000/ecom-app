@@ -2,7 +2,7 @@
 import { createContext } from 'react';
 
 const initialState = {
-    cartItems: [] as ICartProducts[],
+    cartItems: [],
     addProduct: () => {},
     removeProduct: () => {},
     updateQuantity: () => {},

@@ -10,6 +10,6 @@ router.get('/', getAll);
 router.post('/', passport.authenticate('jwt', { session: false }), categoryValidator, createAndSlugify);
 router.patch('/:id', passport.authenticate('jwt', { session: false }), categoryValidator, edit);
 router.delete('/:id', passport.authenticate('jwt', { session: false }), destroy);
-router.get('/:id/products', passport.authenticate('jwt', { session: false }), listProducts);
+router.get('/:id/products', listProducts);
 
 export default router;

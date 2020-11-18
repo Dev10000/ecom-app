@@ -1,37 +1,24 @@
 import React, { useContext } from 'react';
-import { NavLink } from 'react-router-dom';
 import CartContext from '../../../../../context/cart';
+import { formatCurrency } from '../../../../../utils';
 
 const Checkout: React.FC = () => {
     const { cartItems } = useContext(CartContext);
 
     return (
-        <NavLink to="/checkout">
-            <div className="flex items-center hover:text-blue-500">
-                <button type="button" className="inline-flex text-md items-center">
-                    <span className="pr-2">Items</span>
-                    <svg
-                        width="20"
-                        height="20"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg"
-                    >
-                        <path
-                            d="M14.121 15.536c-1.171 1.952-3.07 1.952-4.242 0-1.172-1.953-1.172-5.119 0-7.072 1.171-1.952 3.07-1.952 4.242 0M8 10.5h4m-4 3h4m9-1.5a9 9 0 11-18 0 9 9 0 0118 0z"
-                            strokeLinecap="round"
-                            strokeWidth="2"
-                        />
-                    </svg>
-                    <span className="text-gray-600">
-                        {cartItems
-                            .reduce((acc, item) => acc + (item.quantity * item.price * (100 - item.discount)) / 100, 0)
-                            .toFixed(2)}
-                    </span>
-                </button>
+        <div className="flex items-center">
+            <div className="inline-flex text-md items-center">
+                <span className="pr-2 select-none">Items</span>
+                <span className="text-gray-600">
+                    {formatCurrency(
+                        cartItems.reduce(
+                            (acc, item) => acc + (item.quantity * item.price * (100 - item.discount)) / 100,
+                            0,
+                        ),
+                    )}
+                </span>
             </div>
-        </NavLink>
+        </div>
     );
 };
 

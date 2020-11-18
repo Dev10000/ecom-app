@@ -6,6 +6,7 @@ const initialState = {
     user: null,
     token: null,
     login: async () => {},
+    logout: () => {},
 };
 
 const AuthContext = createContext<IUseAuth>(initialState);

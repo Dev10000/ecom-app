@@ -18,7 +18,7 @@ const Categories: React.FC = () => {
 
     return (
         <div className="font-poppins flex flex-col items-center text-base mt-10">
-            <div className="bg-gray-100 w-screen">
+            <div className="bg-gray-100 w-full">
                 <div className="flex items-center text-sm p-2">
                     <span className="text-blue-600">
                         <NavLink to="/">Home</NavLink>

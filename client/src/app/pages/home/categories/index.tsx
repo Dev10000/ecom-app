@@ -5,7 +5,7 @@ const Categories: React.FC = (): JSX.Element => {
     const [categories, setCategories] = useState<IProductCategory[]>([]);
     useEffect(() => {
         axios
-            .get('http://localhost:5000/api/categories')
+            .get('categories')
             .then((response) => {
                 setCategories(response.data.data);
             })
@@ -17,7 +17,7 @@ const Categories: React.FC = (): JSX.Element => {
     return (
         <div>
             <div className="mt-40 text-center font-medium text-2xl">BEST SELLER</div>
-            <div className="w-screen mt-6">
+            <div className="w-full mt-6">
                 <div className="text-base space-x-4 text-center items-center flex flex-row bg-white list-none justify-center">
                     <div>
                         <button type="button" className="text-blue-400">

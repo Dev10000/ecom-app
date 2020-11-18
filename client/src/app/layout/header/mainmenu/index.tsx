@@ -15,7 +15,7 @@ const TopMenu: React.FC = (): JSX.Element => {
             <div className="-mr-2 -my-2 md:hidden">
                 <button
                     type="button"
-                    className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out"
+                    className="mt-4 inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out"
                 >
                     <svg
                         className="h-6 w-6"
@@ -34,7 +34,7 @@ const TopMenu: React.FC = (): JSX.Element => {
                 </button>
             </div>
             <nav className="hidden md:flex justify-between items-center text-base font-medium">
-                <div className="mt-20">
+                <div className="mt-24">
                     <NavLink className="flex items-center" to="/">
                         <svg className="w-12 h-12" fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 44 45">
                             <rect y=".002" width="44" height="44" rx="16" fill="#40BFFF" />
@@ -48,19 +48,16 @@ const TopMenu: React.FC = (): JSX.Element => {
                         <div className="ml-2 font-bold">E-Shop</div>
                     </NavLink>
                 </div>
-                <div className="flex space-x-10 mt-20">
+                <div className="flex space-x-10 mt-24">
                     <div>
                         <NavLink className="text-gray-800 hover:text-blue-500" to="/">
                             HOME
                         </NavLink>
                     </div>
                     <div onMouseLeave={closeDisplay}>
-                        <button type="button" className="flex" onMouseEnter={openDisplay} onClick={closeDisplay}>
-                            <NavLink
-                                className="relative flex items-center text-gray-800 hover:text-blue-500"
-                                to="/categories"
-                            >
-                                <p>CATEGORIES</p>
+                        <button type="button" className="flex" onClick={openDisplay}>
+                            <div className="relative flex items-center text-gray-800 hover:text-blue-500">
+                                <span className="font-medium mr-1">CATEGORIES</span>
                                 <svg
                                     className="w-4 h-4 hover:text-blue-500 focus:outline-none"
                                     fill="none"
@@ -70,13 +67,10 @@ const TopMenu: React.FC = (): JSX.Element => {
                                 >
                                     <path d="M4 6h16M4 12h16M4 18h16" strokeLinecap="round" strokeWidth="2" />
                                 </svg>
-                            </NavLink>
+                            </div>
                         </button>
                         {display ? (
-                            <div
-                                onMouseLeave={closeDisplay}
-                                className="container absolute w-3/4 inset-x-0 mx-40 border rounded shadow"
-                            >
+                            <div onMouseLeave={closeDisplay} className="container">
                                 <CategoriesDropdown action={closeDisplay} />
                             </div>
                         ) : (
@@ -85,8 +79,8 @@ const TopMenu: React.FC = (): JSX.Element => {
                     </div>
 
                     <div>
-                        <NavLink className="text-gray-800 hover:text-blue-500" to="/contact">
-                            CONTACT US
+                        <NavLink className="text-gray-800 hover:text-blue-500 uppercase" to="/contact">
+                            Contact us
                         </NavLink>
                     </div>
                 </div>

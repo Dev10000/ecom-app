@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 const AUTH_TOKEN =
-    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMCwiZW1haWwiOiJhbmdlbGluLmNhbHVAZ21haWwuY29tIiwiaWF0IjoxNjA1MzA0Mzg1LCJleHAiOjE2MDUzOTA3ODV9.mQVBKSMidByA5O5NdH-CXxCkLub_udVNrzXqXYOycoA';
+    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMywiZW1haWwiOiJhbmdlbGluLmNhbHUxMEBnbWFpbC5jb20iLCJpYXQiOjE2MDU2MTM2MDAsImV4cCI6MTYwNTcwMDAwMH0.4bqc-Ohup1E8rMyObeaPBA18FA9zCJk3VwEGUGM5mVU';
+
 axios.defaults.headers.common.Authorization = AUTH_TOKEN;
 
 const Products: React.FC = () => {
