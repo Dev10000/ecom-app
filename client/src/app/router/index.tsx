@@ -1,23 +1,20 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
-import Home from '../pages/home';
-import Categories from '../pages/categories';
-import ViewCart from '../pages/cart';
-import ViewCheckout from '../pages/checkout';
-import Contact from '../pages/contact';
+import routes from './routes';
 import E404 from '../pages/errors/404';
-import Products from '../pages/products';
+import Breadcrumbs from '../../ui/breadcrumbs';
 
 const Router: React.FC = (): JSX.Element => {
     return (
         <Switch>
-            <Route exact path="/" component={Home} />
-            <Route exact path="/checkout" component={ViewCheckout} />
-            <Route exact path="/cart" component={ViewCart} />
-            <Route exact path="/categories" component={Categories} />
-            <Route exact path="/categories/:id" component={Products} />
-            <Route exact path="/contact" component={Contact} />
+            {routes.map(({ path, name, Component }) => (
+                // <React.Fragment key={name}>
+                //     <Breadcrumbs routes={routes} />
+                <Route exact path={path} component={Component} />
+                // </React.Fragment>
+            ))}
             <E404 />
         </Switch>
     );
