@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react';
 import axios from 'axios';
+import { isArray } from 'util';
 import AuthContext from '../../context/auth';
 
 interface IFormError {
@@ -53,7 +54,7 @@ const Register: React.FC = (): JSX.Element => {
                         <input
                             onChange={(e) => setFirstName(e.target.value)}
                             className={`border ${
-                                errors.filter((error) => error.param === 'first_name').length
+                                isArray(errors) && errors.filter((error) => error.param === 'first_name').length
                                     ? 'border-red-500 text-red-500'
                                     : null
                             } p-4 text-xs w-full`}
@@ -64,9 +65,9 @@ const Register: React.FC = (): JSX.Element => {
                             placeholder="Enter your first name"
                             required
                         />
-                        {errors.filter((error) => error.param === 'first_name').length ? (
+                        {isArray(errors) && errors.filter((error) => error.param === 'first_name').length ? (
                             <div className="text-red-500 normal-case font-light text-xs">
-                                {errors.filter((error) => error.param === 'first_name')[0].msg}
+                                {isArray(errors) && errors.filter((error) => error.param === 'first_name')[0].msg}
                             </div>
                         ) : (
                             ''
@@ -77,7 +78,7 @@ const Register: React.FC = (): JSX.Element => {
                         <input
                             onChange={(e) => setLastName(e.target.value)}
                             className={`border ${
-                                errors.filter((error) => error.param === 'last_name').length
+                                isArray(errors) && errors.filter((error) => error.param === 'last_name').length
                                     ? 'border-red-500 text-red-500'
                                     : null
                             } p-4 text-xs w-full`}
@@ -88,9 +89,9 @@ const Register: React.FC = (): JSX.Element => {
                             placeholder="Enter your last name"
                             required
                         />
-                        {errors.filter((error) => error.param === 'last_name').length ? (
+                        {isArray(errors) && errors.filter((error) => error.param === 'last_name').length ? (
                             <div className="text-red-500 normal-case font-light text-xs">
-                                {errors.filter((error) => error.param === 'last_name')[0].msg}
+                                {isArray(errors) && errors.filter((error) => error.param === 'last_name')[0].msg}
                             </div>
                         ) : (
                             ''
@@ -103,7 +104,7 @@ const Register: React.FC = (): JSX.Element => {
                         <input
                             onChange={(e) => setEmail(e.target.value)}
                             className={`border ${
-                                errors.filter((error) => error.param === 'email').length
+                                isArray(errors) && errors.filter((error) => error.param === 'email').length
                                     ? 'border-red-500 text-red-500'
                                     : null
                             } p-4 text-xs w-full`}
@@ -114,9 +115,9 @@ const Register: React.FC = (): JSX.Element => {
                             placeholder="Enter your email"
                             required
                         />
-                        {errors.filter((error) => error.param === 'email').length ? (
+                        {isArray(errors) && errors.filter((error) => error.param === 'email').length ? (
                             <div className="text-red-500 normal-case font-light text-xs">
-                                {errors.filter((error) => error.param === 'email')[0].msg}
+                                {isArray(errors) && errors.filter((error) => error.param === 'email')[0].msg}
                             </div>
                         ) : (
                             ''
@@ -129,7 +130,7 @@ const Register: React.FC = (): JSX.Element => {
                         <input
                             onChange={(e) => setPassword(e.target.value)}
                             className={`border ${
-                                errors.filter((error) => error.param === 'password').length
+                                isArray(errors) && errors.filter((error) => error.param === 'password').length
                                     ? 'border-red-500 text-red-500'
                                     : null
                             } p-4 text-xs w-full mb-4`}
@@ -140,9 +141,9 @@ const Register: React.FC = (): JSX.Element => {
                             placeholder="Enter your password"
                             required
                         />
-                        {errors.filter((error) => error.param === 'password').length ? (
+                        {isArray(errors) && errors.filter((error) => error.param === 'password').length ? (
                             <div className="text-red-500 normal-case font-light text-xs">
-                                {errors.filter((error) => error.param === 'password')[0].msg}
+                                {isArray(errors) && errors.filter((error) => error.param === 'password')[0].msg}
                             </div>
                         ) : (
                             ''
@@ -153,6 +154,7 @@ const Register: React.FC = (): JSX.Element => {
                         <input
                             onChange={(e) => setPasswordConfirmation(e.target.value)}
                             className={`border ${
+                                isArray(errors) &&
                                 errors.filter((error) => error.param === 'passwordConfirmation').length
                                     ? 'border-red-500 text-red-500'
                                     : null
@@ -164,9 +166,10 @@ const Register: React.FC = (): JSX.Element => {
                             placeholder="Type your password again"
                             required
                         />
-                        {errors.filter((error) => error.param === 'passwordConfirmation').length ? (
+                        {isArray(errors) && errors.filter((error) => error.param === 'passwordConfirmation').length ? (
                             <div className="text-red-500 normal-case font-light text-xs">
-                                {errors.filter((error) => error.param === 'passwordConfirmation')[0].msg}
+                                {isArray(errors) &&
+                                    errors.filter((error) => error.param === 'passwordConfirmation')[0].msg}
                             </div>
                         ) : (
                             ''
