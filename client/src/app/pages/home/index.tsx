@@ -4,6 +4,10 @@ import axios from 'axios';
 
 import Hero from './hero';
 import Product from '../../../ui/components/product';
+import StoreFeatures from './store-features';
+import News from './news';
+import Featured from './featured';
+import Hero2 from './hero2';
 
 const Home: React.FC = (): JSX.Element => {
     const [products, setProducts] = useState<IProduct[]>([]);
@@ -74,6 +78,10 @@ const Home: React.FC = (): JSX.Element => {
                     <Product key={product.id} {...product} />
                 ))}
             </div>
+            <Hero2 />
+            <StoreFeatures />
+            <News />
+            <Featured />
         </div>
     );
 };
