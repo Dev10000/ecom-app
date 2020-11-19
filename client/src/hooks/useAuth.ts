@@ -44,8 +44,8 @@ const useAuth = (): IUseAuth => {
                     logTokenIn(authToken);
                 }
             })
-            .catch((err) => {
-                return err;
+            .catch((err: Error) => {
+                throw err;
             });
     };
 

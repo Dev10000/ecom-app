@@ -1,12 +1,22 @@
-import React from 'react';
-import useLogin from '../../hooks/useLogin';
+import React, { useState, useContext } from 'react';
+import AuthContext from '../../context/auth';
+import { fieldError } from '../../utils';
 
 const Login: React.FC = (): JSX.Element => {
-    const { values, setEmail, setPassword, doLogin } = useLogin();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [errors, setErrors] = useState<IFormError[]>([]);
+
+    const { login } = useContext(AuthContext);
 
     const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        doLogin();
+        try {
+            login(email, password);
+        } catch (err) {
+            console.log('catch it here');
+            setErrors(err.response.data.data);
+        }
     };
 
     return (
@@ -18,43 +28,49 @@ const Login: React.FC = (): JSX.Element => {
                     <label
                         htmlFor="email"
                         className={`block my-4 text-xs font-bold ${
-                            values.error ? 'text-red-500' : 'text-gray-700'
+                            fieldError('email', errors) ? 'text-red-500' : 'text-gray-700'
                         }  uppercase`}
                     >
                         Email
                         <input
                             onChange={(e) => setEmail(e.target.value)}
-                            className={`border ${values.error ? 'border-red-500' : null} p-4 text-xs w-full`}
+                            className={`border ${
+                                fieldError('email', errors) ? 'border-red-500' : null
+                            } p-4 text-xs w-full`}
                             type="text"
-                            value={values.email}
+                            value={email}
                             id="email"
                             name="email"
                             placeholder="Enter your email"
                             required
                         />
+                        <div className="text-red-500 normal-case font-light text-xs">{fieldError('email', errors)}</div>
                     </label>
                 </div>
                 <div className="w-full mb-6">
                     <label
                         htmlFor="password"
                         className={`block my-4 text-xs font-bold ${
-                            values.error ? 'text-red-500' : 'text-gray-700'
+                            fieldError('password', errors) ? 'text-red-500' : 'text-gray-700'
                         }  uppercase`}
                     >
                         Password
                         <input
                             onChange={(e) => setPassword(e.target.value)}
-                            className={`border ${values.error ? 'border-red-500' : null} p-4 text-xs w-full mb-4`}
+                            className={`border ${
+                                fieldError('password', errors) ? 'border-red-500' : null
+                            } p-4 text-xs w-full mb-4`}
                             type="password"
-                            value={values.password}
+                            value={password}
                             id="password"
                             name="password"
                             placeholder="Enter your password"
                         />
+                        <div className="text-red-500 normal-case font-light text-xs">
+                            {fieldError('password', errors)}
+                        </div>
                     </label>
                 </div>
-                {values.error ? <p className="text-red-500 pt-2 pb-5">{values.error}</p> : null}
-
                 <button
                     type="submit"
                     className="inline-flex items-center py-2 px-4 mx-3 font-serif rounded shadow font-bold border border-gray-400 bg-blue-700 text-white hover:shadow-lg select-none transition ease-in-out duration-150"
