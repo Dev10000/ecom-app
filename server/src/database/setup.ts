@@ -191,23 +191,17 @@ const create_coupon_codes_table = async () => {
 
 const setup = async () => {
     console.log('\x1b[36m%s\x1b[0m', 'ℹ Started database (re)structuring...');
-
-    await Promise.all([
-        await create_countries_table(),
-        await create_product_categories_table(),
-        await create_product_specs_table(),
-        await create_product_options_table(),
-        // create_product_images_table(),
-        await create_products_table(),
-        await create_order_items_table(),
-        await create_orders_table(),
-        await create_users_table(),
-        await create_coupon_codes_table(),
-    ])
-        .then(() => {
-            console.log('\x1b[36m%s\x1b[0m', 'ℹ Database (re)structuring complete!');
-        })
-        .catch((err) => console.log(err));
+    await create_countries_table();
+    await create_product_categories_table();
+    await create_product_specs_table();
+    await create_product_options_table();
+    // create_product_images_table();
+    await create_products_table();
+    await create_order_items_table();
+    await create_orders_table();
+    await create_users_table();
+    await create_coupon_codes_table();
+    console.log('\x1b[36m%s\x1b[0m', 'ℹ Database (re)structuring complete!');
 };
 
 setup();
