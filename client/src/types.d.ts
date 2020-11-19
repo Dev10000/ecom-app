@@ -187,3 +187,10 @@ interface IUseAuth {
     login: (email: string, password: string) => Promise<void>;
     logout: () => void;
 }
+
+interface IFormError {
+    value: string;
+    msg: string;
+    param: string;
+    location: string;
+}

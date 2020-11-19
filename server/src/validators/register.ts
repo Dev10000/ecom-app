@@ -24,11 +24,11 @@ export default [
     body('passwordConfirmation')
         .trim()
         .notEmpty()
-        .isLength({ min: 6, max: 250 })
         .custom((value, { req }) => {
             if (value !== req.body.password) throw new Error('Password confirmation field must match password field.');
             return true;
         })
+        .isLength({ min: 6, max: 250 })
         .withMessage('Invalid Password confirmation field.'),
 
     body('first_name')
