@@ -14,7 +14,14 @@ import E404 from '../pages/main/errors/404';
 
 // Admin Pages
 import Dashboard from '../pages/admin/dashboard';
+import News from '../pages/main/home/news';
 import Users from '../pages/admin/users';
+import Products from '../pages/admin/products';
+import ProductCategories from '../pages/admin/product-categories';
+import Countries from '../pages/admin/countries';
+import Orders from '../pages/admin/orders';
+import Reports from '../pages/admin/reports';
+import Settings from '../pages/admin/settings';
 
 // Components
 import Breadcrumbs from '../../ui/breadcrumbs';
@@ -30,7 +37,14 @@ const Router: React.FC = (): JSX.Element => {
                 <AdminLayout>
                     <Switch>
                         <Route exact path="/admin" component={Dashboard} />
+                        <Route exact path="/admin/news" component={News} />
                         <Route exact path="/admin/users" component={Users} />
+                        <Route exact path="/admin/products" component={Products} />
+                        <Route exact path="/admin/categories" component={ProductCategories} />
+                        <Route exact path="/admin/countries" component={Countries} />
+                        <Route exact path="/admin/orders" component={Orders} />
+                        <Route exact path="/admin/reports" component={Reports} />
+                        <Route exact path="/admin/settings" component={Settings} />
                         <E404 />
                     </Switch>
                 </AdminLayout>

@@ -4,6 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import axios from 'axios';
 import App from './app';
 
+// import styles
 import './assets/styles.css';
 
 axios.defaults.baseURL = 'http://localhost:5000/api';
