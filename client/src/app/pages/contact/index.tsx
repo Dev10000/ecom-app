@@ -36,11 +36,10 @@ const Contact: React.FC = (): JSX.Element => {
             <div className="p-2 flex flex-1">
                 <form className="pt-8 px-10 w-full" onSubmit={handleSubmit}>
                     <div>
-                        <label htmlFor="fullname" className="text-sm">
+                        <label htmlFor="fullname" className="my-2 text-xs font-medium mr-4 uppercase">
                             Fullname
-                            <br />
                             <input
-                                className="p-3 w-full border border-gray-400 focus:border-blue-400 mb-6 text-xs"
+                                className="border mb-2 p-4 text-xs w-full"
                                 type="text"
                                 name="fullname"
                                 id="fullname"
@@ -49,15 +48,13 @@ const Contact: React.FC = (): JSX.Element => {
                                 placeholder="Enter your Fullname.."
                                 required
                             />
-                            <br />
                         </label>
                     </div>
                     <div>
-                        <label htmlFor="email" className="text-sm">
+                        <label htmlFor="email" className="my-2 text-xs font-medium mr-4 uppercase">
                             Email
-                            <br />
                             <input
-                                className="p-3 w-full border border-gray-400 focus:border-blue-400 mb-6 text-xs"
+                                className="border mb-2 p-4 text-xs w-full"
                                 type="text"
                                 name="email"
                                 value={email}
@@ -66,21 +63,18 @@ const Contact: React.FC = (): JSX.Element => {
                                 placeholder="Enter your Email.."
                                 required
                             />
-                            <br />
                         </label>
                     </div>
                     <div>
-                        <label htmlFor="message" className="text-sm">
+                        <label htmlFor="message" className="my-2 text-xs font-medium mr-4 uppercase">
                             Message
-                            <br />
                             <textarea
-                                className="p-3 w-full border border-gray-400 focus:border-blue-400 mb-6 text-xs h-32"
+                                className="border mb-2 p-4 text-xs w-full h-32"
                                 value={message}
                                 id="message"
                                 onChange={(e) => setMessage(e.target.value)}
                                 placeholder="Enter your Message.."
                             />
-                            <br />
                         </label>
                     </div>
                     <div>

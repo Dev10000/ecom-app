@@ -27,16 +27,16 @@ const Login: React.FC = (): JSX.Element => {
                 <div className="w-full">
                     <label
                         htmlFor="email"
-                        className={`block my-4 text-xs font-bold ${
+                        className={`block my-2 text-xs font-medium mr-4 uppercase ${
                             fieldError('email', errors) ? 'text-red-500' : 'text-gray-700'
-                        }  uppercase`}
+                        }`}
                     >
                         Email
                         <input
                             onChange={(e) => setEmail(e.target.value)}
-                            className={`border ${
-                                fieldError('email', errors) ? 'border-red-500' : null
-                            } p-4 text-xs w-full`}
+                            className={`border mb-2 p-4 text-xs w-full ${
+                                fieldError('email', errors) ? 'border-red-500' : ''
+                            }`}
                             type="text"
                             value={email}
                             id="email"
@@ -50,16 +50,16 @@ const Login: React.FC = (): JSX.Element => {
                 <div className="w-full mb-6">
                     <label
                         htmlFor="password"
-                        className={`block my-4 text-xs font-bold ${
+                        className={`block my-2 text-xs font-medium mr-4 uppercase ${
                             fieldError('password', errors) ? 'text-red-500' : 'text-gray-700'
-                        }  uppercase`}
+                        }`}
                     >
                         Password
                         <input
                             onChange={(e) => setPassword(e.target.value)}
-                            className={`border ${
-                                fieldError('password', errors) ? 'border-red-500' : null
-                            } p-4 text-xs w-full mb-4`}
+                            className={`border p-4 text-xs w-full mb-4 ${
+                                fieldError('password', errors) ? 'border-red-500' : ''
+                            }`}
                             type="password"
                             value={password}
                             id="password"

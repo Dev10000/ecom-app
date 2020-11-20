@@ -42,16 +42,16 @@ const Register: React.FC = (): JSX.Element => {
                 <div className="w-full flex">
                     <label
                         htmlFor="firstname"
-                        className={`block my-2 text-xs font-bold text-gray-700 uppercase mr-4 ${
-                            fieldError('first_name', errors) ? 'text-red-500' : null
+                        className={`block my-2 text-xs font-medium mr-4 uppercase mr-4 ${
+                            fieldError('first_name', errors) ? 'text-red-500' : ''
                         }`}
                     >
                         First Name
                         <input
                             onChange={(e) => setFirstName(e.target.value)}
-                            className={`border ${
-                                fieldError('first_name', errors) ? 'border-red-500' : null
-                            } p-4 text-xs w-full`}
+                            className={`border mb-2 p-4 text-xs w-full ${
+                                fieldError('first_name', errors) ? 'border-red-500' : ''
+                            }`}
                             value={firstName}
                             type="text"
                             id="firstname"
@@ -65,15 +65,15 @@ const Register: React.FC = (): JSX.Element => {
                     </label>
                     <label
                         htmlFor="lastname"
-                        className={`block my-2 text-xs font-bold text-gray-700 uppercase ${
-                            fieldError('last_name', errors) ? 'text-red-500' : null
+                        className={`block my-2 text-xs font-medium mr-4 uppercase  ${
+                            fieldError('last_name', errors) ? 'text-red-500' : ''
                         }`}
                     >
                         Last Name
                         <input
                             onChange={(e) => setLastName(e.target.value)}
-                            className={`border p-4 text-xs w-full ${
-                                fieldError('last_name', errors) ? 'border-red-500' : null
+                            className={`border mb-2 p-4 text-xs w-full ${
+                                fieldError('last_name', errors) ? 'border-red-500' : ''
                             }`}
                             value={lastName}
                             type="text"
@@ -90,15 +90,15 @@ const Register: React.FC = (): JSX.Element => {
                 <div className="w-full">
                     <label
                         htmlFor="email"
-                        className={`block my-2 text-xs font-bold text-gray-700 uppercase ${
-                            fieldError('email', errors) ? 'text-red-500' : null
+                        className={`block my-2 text-xs font-medium mr-4 uppercase  ${
+                            fieldError('email', errors) ? 'text-red-500' : ''
                         }`}
                     >
                         Email
                         <input
                             onChange={(e) => setEmail(e.target.value)}
-                            className={`border p-4 text-xs w-full ${
-                                fieldError('email', errors) ? 'border-red-500' : null
+                            className={`border mb-2 p-4 text-xs w-full ${
+                                fieldError('email', errors) ? 'border-red-500' : ''
                             }`}
                             value={email}
                             type="email"
@@ -113,15 +113,15 @@ const Register: React.FC = (): JSX.Element => {
                 <div className="w-full">
                     <label
                         htmlFor="password"
-                        className={`block my-2 text-xs font-bold text-gray-700 uppercase ${
-                            fieldError('password', errors) ? 'text-red-500' : null
+                        className={`block my-2 text-xs font-medium mr-4 uppercase  ${
+                            fieldError('password', errors) ? 'text-red-500' : ''
                         }`}
                     >
                         Password
                         <input
                             onChange={(e) => setPassword(e.target.value)}
-                            className={`border p-4 text-xs w-full ${
-                                fieldError('password', errors) ? 'border-red-500 text-red-500' : null
+                            className={`border mb-2 p-4 text-xs w-full ${
+                                fieldError('password', errors) ? 'border-red-500 text-red-500' : ''
                             }`}
                             value={password}
                             type="password"
@@ -138,15 +138,15 @@ const Register: React.FC = (): JSX.Element => {
                 <div className="w-full">
                     <label
                         htmlFor="confirmpassword"
-                        className={`block my-2 text-xs font-bold text-gray-700 uppercase ${
-                            fieldError('passwordConfirmation', errors) ? 'text-red-500' : null
+                        className={`block my-2 text-xs font-medium mr-4 uppercase ${
+                            fieldError('passwordConfirmation', errors) ? 'text-red-500' : ''
                         }`}
                     >
                         Confirm Password
                         <input
                             onChange={(e) => setPasswordConfirmation(e.target.value)}
-                            className={`border p-4 text-xs w-full ${
-                                fieldError('passwordConfirmation', errors) ? 'border-red-500 text-red-500' : null
+                            className={`border mb-2 p-4 text-xs w-full ${
+                                fieldError('passwordConfirmation', errors) ? 'border-red-500 text-red-500' : ''
                             }`}
                             value={passwordConfirmation}
                             type="password"
