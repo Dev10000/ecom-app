@@ -24,7 +24,7 @@ const Contact: React.FC = (): JSX.Element => {
                             get in <br /> touch
                         </h2>
                     </div>
-                    <div className="text-white text-sm flex flex-col space-y-4 whitespace-no-wrap">
+                    <div className="text-white text-sm flex flex-col space-y-4 whitespace-nowrap">
                         <p>contact@eshop.fi</p>
                         <p>+358-44-6736783721</p>
                         <p>koulukatu 22</p>

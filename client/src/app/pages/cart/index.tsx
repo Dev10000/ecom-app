@@ -48,7 +48,7 @@ const Cart: React.FC = (): JSX.Element => {
                                                     </svg>
                                                 </button>
                                             </td>
-                                            <td className="relative inline-flex items-center lg:whitespace-no-wrap">
+                                            <td className="relative inline-flex items-center lg:whitespace-nowrap">
                                                 <img
                                                     className="mr-3 my-4 rounded shadow"
                                                     src="https://via.placeholder.com/140x95?text=ProductImage"
@@ -56,7 +56,7 @@ const Cart: React.FC = (): JSX.Element => {
                                                 />
                                                 <div>{item.title}</div>
                                             </td>
-                                            <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 mx-auto">
+                                            <td className="px-6 py-4 whitespace-nowrap text-sm leading-5 mx-auto">
                                                 <div className="inline-flex w-24 items-center justify-between">
                                                     <button
                                                         className="w-12 text-blue-400 font-medium text-lg p-2 bg-gray-200 rounded-l-md border border-gray-300 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue select-none"
@@ -77,7 +77,7 @@ const Cart: React.FC = (): JSX.Element => {
                                                     </button>
                                                 </div>
                                             </td>
-                                            <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5">
+                                            <td className="px-6 py-4 whitespace-nowrap text-sm leading-5">
                                                 {/* TODO: what to do? :) The almighty typescript swears that my variable is a NUMBER but it's nothing but a STRING! */}
                                                 {!item.discount ? (
                                                     formatCurrency(item.price * 1)
@@ -92,7 +92,7 @@ const Cart: React.FC = (): JSX.Element => {
                                                     </div>
                                                 )}
                                             </td>
-                                            <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5">
+                                            <td className="px-6 py-4 whitespace-nowrap text-sm leading-5">
                                                 {!item.discount ? (
                                                     formatCurrency(item.price * item.quantity)
                                                 ) : (
