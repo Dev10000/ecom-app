@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
-import { formatCurrency } from '../../../utils';
-import CartContext from '../../../context/cart';
+import { formatCurrency } from '../../../../utils';
+import CartContext from '../../../../context/cart';
 
 const PriceSummary: React.FC = (): JSX.Element => {
     const [couponCode, setCouponCode] = useState('');

@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import AuthContext from '../../../context/auth';
+import AuthContext from '../../../../context/auth';
 
 const Profile: React.FC = (): JSX.Element => {
     const { user } = useContext(AuthContext);

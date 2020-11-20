@@ -34,7 +34,6 @@ const useAuth = (): IUseAuth => {
     }, [token]);
 
     const login = async (email: string, password: string) => {
-        console.log('before axios call');
         await axios.post('login', { email, password }).then((response) => {
             if (response.data.status === 'success') {
                 const authToken = response.data.data.token;
