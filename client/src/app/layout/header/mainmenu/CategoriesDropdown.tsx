@@ -25,7 +25,7 @@ const CategoryDropdown: React.FC<IProps> = (props: IProps) => {
             });
     }, []);
     return (
-        <div className="flex flex-col items-center absolute z-20 right-0 bg-white border rounded shadow">
+        <div className="flex flex-col items-center absolute z-20 right-0 bg-white dark:bg-gray-900 border rounded shadow">
             <div className="text-sm hover:text-white mt-4">
                 <button
                     type="button"
@@ -37,7 +37,7 @@ const CategoryDropdown: React.FC<IProps> = (props: IProps) => {
                     </NavLink>
                 </button>
             </div>
-            <div className="grid gap-y-4 gap-x-16 grid-cols-6 text-sm bg-white items-center list-none px-32 py-14">
+            <div className="grid gap-y-4 gap-x-16 grid-cols-6 text-sm bg-white dark:bg-gray-900 items-center list-none px-32 py-14">
                 {categories
                     .filter((category, index) => index < more)
                     .map((category) => (

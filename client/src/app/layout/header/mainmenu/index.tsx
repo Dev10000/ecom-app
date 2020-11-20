@@ -15,7 +15,7 @@ const TopMenu: React.FC = (): JSX.Element => {
             <div className="-mr-2 -my-2 md:hidden">
                 <button
                     type="button"
-                    className="mt-4 inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out"
+                    className="mt-4 inline-flex items-center justify-center p-2 rounded-md text-gray-400 dark:text-white hover:text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-800 focus:text-gray-500 transition duration-150 ease-in-out"
                 >
                     <svg
                         className="h-6 w-6"
@@ -50,14 +50,17 @@ const TopMenu: React.FC = (): JSX.Element => {
                 </div>
                 <div className="flex space-x-10 mt-24">
                     <div>
-                        <NavLink className="text-gray-800 hover:text-blue-500" to="/">
-                            HOME
+                        <NavLink
+                            className="text-gray-800 dark:text-gray-100 hover:text-blue-500 dark:hover:text-blue-500 uppercase"
+                            to="/"
+                        >
+                            Home
                         </NavLink>
                     </div>
                     <div onMouseLeave={closeDisplay}>
                         <button type="button" className="flex" onClick={openDisplay}>
-                            <div className="relative flex items-center text-gray-800 hover:text-blue-500">
-                                <span className="font-medium mr-1">CATEGORIES</span>
+                            <div className="relative flex items-center text-gray-800 dark:text-gray-100 hover:text-blue-500 dark:hover:text-blue-500 uppercase">
+                                <span className="font-medium mr-1">Categories</span>
                                 <svg
                                     className="w-4 h-4 hover:text-blue-500 focus:outline-none"
                                     fill="none"
@@ -79,7 +82,10 @@ const TopMenu: React.FC = (): JSX.Element => {
                     </div>
 
                     <div>
-                        <NavLink className="text-gray-800 hover:text-blue-500 uppercase" to="/contact">
+                        <NavLink
+                            className="text-gray-800 dark:text-gray-100 hover:text-blue-500 dark:hover:text-blue-500 uppercase"
+                            to="/contact"
+                        >
                             Contact us
                         </NavLink>
                     </div>

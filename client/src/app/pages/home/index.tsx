@@ -53,7 +53,7 @@ const Home: React.FC = (): JSX.Element => {
             <div>
                 <div className="mt-20 text-center font-medium text-2xl">BEST SELLER</div>
 
-                <ul className="text-base space-x-4 text-center items-center flex flex-row bg-white list-none justify-center">
+                <ul className="text-base space-x-4 text-center items-center flex flex-row list-none justify-center">
                     <button type="button" className="text hover:text-blue-400" onClick={handleAll}>
                         All
                     </button>

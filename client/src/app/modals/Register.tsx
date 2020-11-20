@@ -35,8 +35,8 @@ const Register: React.FC = (): JSX.Element => {
     return (
         <div>
             <form className="flex flex-col w-full max-w-sm items-center mx-auto mb-16" onSubmit={handleRegister}>
-                <h1 className="text-gray-600 font-bold text-2xl mt-4">Create a New Account!</h1>
-                <p className="my-4 text-sm text-gray-600 text-center">
+                <h1 className="text-gray-600 dark:text-gray-200 font-bold text-2xl mt-4">Create a New Account!</h1>
+                <p className="my-4 text-sm text-gray-600 dark:text-gray-200  text-center">
                     Create a FREE account to order our products online.
                 </p>
                 <div className="w-full flex">
@@ -49,7 +49,7 @@ const Register: React.FC = (): JSX.Element => {
                         First Name
                         <input
                             onChange={(e) => setFirstName(e.target.value)}
-                            className={`border mb-2 p-4 text-xs w-full ${
+                            className={`border dark:border-gray-700 mb-2 p-4 text-xs w-full dark:bg-gray-800 ${
                                 fieldError('first_name', errors) ? 'border-red-500' : ''
                             }`}
                             value={firstName}
@@ -72,7 +72,7 @@ const Register: React.FC = (): JSX.Element => {
                         Last Name
                         <input
                             onChange={(e) => setLastName(e.target.value)}
-                            className={`border mb-2 p-4 text-xs w-full ${
+                            className={`border dark:border-gray-700 mb-2 p-4 text-xs w-full dark:bg-gray-800 ${
                                 fieldError('last_name', errors) ? 'border-red-500' : ''
                             }`}
                             value={lastName}
@@ -97,7 +97,7 @@ const Register: React.FC = (): JSX.Element => {
                         Email
                         <input
                             onChange={(e) => setEmail(e.target.value)}
-                            className={`border mb-2 p-4 text-xs w-full ${
+                            className={`border dark:border-gray-700 mb-2 p-4 text-xs w-full dark:bg-gray-800 ${
                                 fieldError('email', errors) ? 'border-red-500' : ''
                             }`}
                             value={email}
@@ -120,7 +120,7 @@ const Register: React.FC = (): JSX.Element => {
                         Password
                         <input
                             onChange={(e) => setPassword(e.target.value)}
-                            className={`border mb-2 p-4 text-xs w-full ${
+                            className={`border dark:border-gray-700 mb-2 p-4 text-xs w-full dark:bg-gray-800 ${
                                 fieldError('password', errors) ? 'border-red-500 text-red-500' : ''
                             }`}
                             value={password}
@@ -145,7 +145,7 @@ const Register: React.FC = (): JSX.Element => {
                         Confirm Password
                         <input
                             onChange={(e) => setPasswordConfirmation(e.target.value)}
-                            className={`border mb-2 p-4 text-xs w-full ${
+                            className={`border dark:border-gray-700 mb-2 p-4 text-xs w-full dark:bg-gray-800 ${
                                 fieldError('passwordConfirmation', errors) ? 'border-red-500 text-red-500' : ''
                             }`}
                             value={passwordConfirmation}
@@ -162,11 +162,14 @@ const Register: React.FC = (): JSX.Element => {
                 </div>
                 <button
                     type="submit"
-                    className="inline-flex items-center py-2 px-4 mx-3 font-serif rounded shadow font-bold border border-gray-400 bg-blue-700 text-white hover:shadow-lg select-none transition ease-in-out duration-150"
+                    className="bg-blue-400 hover:bg-blue-500 items-center py-2 px-4 font-serif rounded shadow font-bold border border-gray-200 text-white hover:shadow-lg select-none transition ease-in-out duration-150"
                 >
                     Sign Up
                 </button>
-                <button type="button" className="pt-8 text-blue-700 hover:underline cursor-pointer focus:outline-none">
+                <button
+                    type="button"
+                    className="pt-8 text-blue-700 dark:text-white hover:underline cursor-pointer focus:outline-none"
+                >
                     Already have an account?
                 </button>
             </form>

@@ -8,7 +8,7 @@ interface ILayoutProps {
 
 const Layout: React.FC<ILayoutProps> = ({ children }): JSX.Element => {
     return (
-        <div className="relative">
+        <div className="relative bg-white dark:bg-gray-900 dark:text-white">
             <Header />
             {children}
             <Footer />
