@@ -34,19 +34,19 @@ const useAuth = (): IUseAuth => {
     }, [token]);
 
     const login = async (email: string, password: string) => {
-        await axios
-            .post('login', { email, password })
-            .then((response) => {
-                if (response.data.status === 'success') {
-                    const authToken = response.data.data.token;
-                    setToken(authToken);
-                    localStorage.setItem('token', JSON.stringify(authToken));
-                    logTokenIn(authToken);
-                }
-            })
-            .catch((err: Error) => {
-                throw err;
-            });
+        console.log('before axios call');
+        await axios.post('login', { email, password }).then((response) => {
+            if (response.data.status === 'success') {
+                const authToken = response.data.data.token;
+                setToken(authToken);
+                localStorage.setItem('token', JSON.stringify(authToken));
+                logTokenIn(authToken);
+            }
+        });
+        // .catch((err: any) => {
+        //     // console.log(err.response.data);
+        //     throw new Error(err.response.data.data);
+        // });
     };
 
     const logout = () => {

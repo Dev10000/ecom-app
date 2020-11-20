@@ -7,13 +7,17 @@ import Products from '../pages/products';
 import Search from '../pages/search';
 import Profile from '../pages/profile';
 
+import Dashboard from '../pages/errors/404'; // temporary
+
 export default [
-    { path: '/', name: 'Home', Component: Home },
-    { path: '/categories', name: 'Categories', Component: Categories },
-    { path: '/categories/:slug', name: 'Products', Component: Products },
-    { path: '/cart', name: 'Cart', Component: Cart },
-    { path: '/checkout', name: 'Checkout', Component: Checkout },
-    { path: '/contact', name: 'Contact', Component: Contact },
-    { path: '/search', name: 'Search', Component: Search },
-    { path: '/profile', name: 'Profile', Component: Profile },
+    { path: '/', name: 'Home', Component: Home, auth: false },
+    { path: '/categories', name: 'Categories', Component: Categories, auth: false },
+    { path: '/categories/:slug', name: 'Products', Component: Products, auth: false },
+    { path: '/cart', name: 'Cart', Component: Cart, auth: false },
+    { path: '/contact', name: 'Contact', Component: Contact, auth: false },
+    { path: '/search', name: 'Search', Component: Search, auth: false },
+    { path: '/checkout', name: 'Checkout', Component: Checkout, auth: true },
+    { path: '/profile', name: 'Profile', Component: Profile, auth: true },
 ];
+
+export const adminRoutes = [{ path: '/admin/dashboard', name: 'Dashboard', Component: Dashboard, auth: true }];

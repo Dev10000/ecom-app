@@ -2,7 +2,7 @@ import React from 'react';
 import CartIcon from './cart';
 import Locals from './locals';
 import Checkout from './checkout';
-import Modals from '../../../modals';
+import Modals from '../../../../modals';
 
 const Header: React.FC = (): JSX.Element => {
     return (

@@ -1,5 +1,4 @@
 import React from 'react';
-import Layout from './layout';
 import Router from './router';
 import CartContext from '../context/cart';
 import useCart from '../hooks/useCart';
@@ -10,9 +9,7 @@ function App(): JSX.Element {
     return (
         <AuthContext.Provider value={useAuth()}>
             <CartContext.Provider value={useCart()}>
-                <Layout>
-                    <Router />
-                </Layout>
+                <Router />
             </CartContext.Provider>
         </AuthContext.Provider>
     );

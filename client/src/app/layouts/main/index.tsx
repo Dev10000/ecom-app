@@ -6,7 +6,7 @@ interface ILayoutProps {
     children: React.ReactElement;
 }
 
-const Layout: React.FC<ILayoutProps> = ({ children }): JSX.Element => {
+const MainLayout: React.FC<ILayoutProps> = ({ children }): JSX.Element => {
     return (
         <div className="relative bg-white dark:bg-gray-900 dark:text-white">
             <Header />
@@ -16,4 +16,4 @@ const Layout: React.FC<ILayoutProps> = ({ children }): JSX.Element => {
     );
 };
 
-export default Layout;
+export default MainLayout;

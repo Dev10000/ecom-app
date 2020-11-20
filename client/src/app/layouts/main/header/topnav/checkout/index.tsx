@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
-import CartContext from '../../../../../context/cart';
-import { formatCurrency } from '../../../../../utils';
+import CartContext from '../../../../../../context/cart';
+import { formatCurrency } from '../../../../../../utils';
 
 const Checkout: React.FC = () => {
     const { cartItems } = useContext(CartContext);

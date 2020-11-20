@@ -5,18 +5,16 @@ import { fieldError } from '../../utils';
 const Login: React.FC = (): JSX.Element => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [errors, setErrors] = useState<IFormError[]>([]);
+    const [errors, setErrors] = useState<IFormError[] | string>('');
 
     const { login } = useContext(AuthContext);
 
     const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        try {
-            login(email, password);
-        } catch (err) {
-            console.log('catch it here');
+
+        login(email, password).catch((err) => {
             setErrors(err.response.data.data);
-        }
+        });
     };
 
     return (
