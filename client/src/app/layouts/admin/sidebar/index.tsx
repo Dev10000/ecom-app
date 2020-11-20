@@ -34,7 +34,7 @@ const Sidebar: React.FC = (): JSX.Element => {
                             <NavLink
                                 exact
                                 to="/admin"
-                                activeClassName="text-white bg-blue-500"
+                                activeClassName="text-white bg-blue-500 hover:bg-blue-500"
                                 className="group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md hover:text-white hover:bg-blue-400"
                             >
                                 {/* Heroicon name: home */}
@@ -56,7 +56,7 @@ const Sidebar: React.FC = (): JSX.Element => {
                                 Dashboard
                             </NavLink>
                             <NavLink
-                                activeClassName="text-white bg-blue-500"
+                                activeClassName="text-white bg-blue-500 hover:bg-blue-500"
                                 to="/admin/news"
                                 className="group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md hover:text-white hover:bg-blue-400"
                             >
@@ -78,7 +78,7 @@ const Sidebar: React.FC = (): JSX.Element => {
                                 News
                             </NavLink>
                             <NavLink
-                                activeClassName="text-white bg-blue-500"
+                                activeClassName="text-white bg-blue-500 hover:bg-blue-500"
                                 to="/admin/users"
                                 className="group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md hover:text-white hover:bg-blue-400"
                             >
@@ -100,7 +100,7 @@ const Sidebar: React.FC = (): JSX.Element => {
                                 Users
                             </NavLink>
                             <NavLink
-                                activeClassName="text-white bg-blue-500"
+                                activeClassName="text-white bg-blue-500 hover:bg-blue-500"
                                 to="/admin/products"
                                 className="group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md hover:text-white hover:bg-blue-400"
                             >
@@ -122,7 +122,7 @@ const Sidebar: React.FC = (): JSX.Element => {
                                 Products
                             </NavLink>
                             <NavLink
-                                activeClassName="text-white bg-blue-500"
+                                activeClassName="text-white bg-blue-500 hover:bg-blue-500"
                                 to="/admin/categories"
                                 className="group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md hover:text-white hover:bg-blue-400"
                             >
@@ -144,7 +144,7 @@ const Sidebar: React.FC = (): JSX.Element => {
                                 Product Categories
                             </NavLink>
                             <NavLink
-                                activeClassName="text-white bg-blue-500"
+                                activeClassName="text-white bg-blue-500 hover:bg-blue-500"
                                 to="/admin/countries"
                                 className="group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md hover:text-white hover:bg-blue-400"
                             >
@@ -166,7 +166,7 @@ const Sidebar: React.FC = (): JSX.Element => {
                                 Countries
                             </NavLink>
                             <NavLink
-                                activeClassName="text-white bg-blue-500"
+                                activeClassName="text-white bg-blue-500 hover:bg-blue-500"
                                 to="/admin/orders"
                                 className="group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md hover:text-white hover:bg-blue-400"
                             >
@@ -188,7 +188,7 @@ const Sidebar: React.FC = (): JSX.Element => {
                                 Orders
                             </NavLink>
                             <NavLink
-                                activeClassName="text-white bg-blue-500"
+                                activeClassName="text-white bg-blue-500 hover:bg-blue-500"
                                 to="/admin/reports"
                                 className="group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md hover:text-white hover:bg-blue-400"
                             >
@@ -213,7 +213,7 @@ const Sidebar: React.FC = (): JSX.Element => {
                         <div className="mt-6 pt-6">
                             <div className="px-2 space-y-1 text-blue-900">
                                 <NavLink
-                                    activeClassName="text-white bg-blue-500"
+                                    activeClassName="text-white bg-blue-500 hover:bg-blue-500"
                                     to="/admin/settings"
                                     className="group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md hover:text-white hover:bg-blue-400"
                                 >
