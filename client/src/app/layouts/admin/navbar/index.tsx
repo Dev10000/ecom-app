@@ -6,7 +6,11 @@ import { useHistory } from 'react-router-dom';
 import { Transition } from '@headlessui/react';
 import AuthContext from '../../../../context/auth';
 
-const Navbar: React.FC = (): JSX.Element => {
+interface INavbarProps {
+    setSidebarVisible: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const Navbar: React.FC<INavbarProps> = ({ setSidebarVisible }): JSX.Element => {
     const { user, logout } = useContext(AuthContext);
     const [searchTerm, setSearchTerm] = useState('');
     const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -35,6 +39,7 @@ const Navbar: React.FC = (): JSX.Element => {
     const handleLogoutClick = () => {
         logout();
         setDropdownOpen(false);
+        history.push('/');
     };
 
     const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
@@ -45,6 +50,7 @@ const Navbar: React.FC = (): JSX.Element => {
         <div className="fixed absolute top-0 right-0 left-0 ml-0 lg:ml-64 focus:outline-none">
             <div className="relative z-10 flex-shrink-0 flex h-16 bg-white border-b border-gray-200 lg:border-none">
                 <button
+                    onClick={() => setSidebarVisible((prev) => !prev)}
                     type="button"
                     className="px-4 border-r border-gray-200 text-gray-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-400 lg:hidden"
                 >
