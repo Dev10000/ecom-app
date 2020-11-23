@@ -12,32 +12,7 @@ const Dashboard: React.FC = (): JSX.Element => {
                     </div>
                 </div>
             </div>
-            <div>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates sequi, vero, recusandae excepturi
-                soluta dolore iusto, praesentium accusamus distinctio voluptatum dolorum. Ab iusto similique nemo vitae
-                autem magni saepe corporis! Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates sequi,
-                vero, recusandae excepturi soluta dolore iusto, praesentium accusamus distinctio voluptatum dolorum. Ab
-                iusto similique nemo vitae autem magni saepe corporis! Lorem ipsum dolor sit amet consectetur
-                adipisicing elit. Voluptates sequi, vero, recusandae excepturi soluta dolore iusto, praesentium
-                accusamus distinctio voluptatum dolorum. Ab iusto similique nemo vitae autem magni saepe corporis! Lorem
-                ipsum dolor sit amet consectetur adipisicing elit. Voluptates sequi, vero, recusandae excepturi soluta
-                dolore iusto, praesentium accusamus distinctio voluptatum dolorum. Ab iusto similique nemo vitae autem
-                magni saepe corporis! Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates sequi, vero,
-                recusandae excepturi soluta dolore iusto, praesentium accusamus distinctio voluptatum dolorum. Ab iusto
-                similique nemo vitae autem magni saepe corporis! Lorem ipsum dolor sit amet consectetur adipisicing
-                elit. Voluptates sequi, vero, recusandae excepturi soluta dolore iusto, praesentium accusamus distinctio
-                voluptatum dolorum. Ab iusto similique nemo vitae autem magni saepe corporis! Lorem ipsum dolor sit amet
-                consectetur adipisicing elit. Voluptates sequi, vero, recusandae excepturi soluta dolore iusto,
-                praesentium accusamus distinctio voluptatum dolorum. Ab iusto similique nemo vitae autem magni saepe
-                corporis! Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates sequi, vero, recusandae
-                excepturi soluta dolore iusto, praesentium accusamus distinctio voluptatum dolorum. Ab iusto similique
-                nemo vitae autem magni saepe corporis! Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Voluptates sequi, vero, recusandae excepturi soluta dolore iusto, praesentium accusamus distinctio
-                voluptatum dolorum. Ab iusto similique nemo vitae autem magni saepe corporis! Lorem ipsum dolor sit amet
-                consectetur adipisicing elit. Voluptates sequi, vero, recusandae excepturi soluta dolore iusto,
-                praesentium accusamus distinctio voluptatum dolorum. Ab iusto similique nemo vitae autem magni saepe
-                corporis!
-            </div>
+            <div className="p-4">Sales & stuff tiles / cards here.</div>
         </div>
     );
 };

@@ -12,7 +12,7 @@ const Settings: React.FC = (): JSX.Element => {
                     </div>
                 </div>
             </div>
-            <div>Actual content</div>
+            <div className="p-4">Actual content</div>
         </div>
     );
 };
