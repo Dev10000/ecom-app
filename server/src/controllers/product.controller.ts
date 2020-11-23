@@ -9,7 +9,7 @@ import Product from '../models/Product';
 // the uploaded files can be accessed with browser at http://localhost:5000/product_images/test.txt
 function moveUploadedFile(file: fileUpload.UploadedFile) {
     const storePath = 'storage/product_images/';
-    const newFileName = uuidv4() + extname(file.name);
+    const newFileName = uuidv4() + extname(file.name); // save the file uuid with original extension
     file.mv(storePath + newFileName);
     console.log(`Uploaded ${file.name} to ${storePath + newFileName}`);
     // TODO: save the filenames to the DB
@@ -33,6 +33,22 @@ export const getSingle = async (req: Request, res: Response): Promise<Response> 
                 return res.status(200).json({ status: 'success', data: product });
             }
             return res.status(404).json({ status: 'error', data: 'Resource not found!' });
+        })
+        .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
+};
+
+export const search = async (req: Request, res: Response): Promise<Response> => {
+    const { keywords } = req.params;
+    // split search keywords, remove spaces and join them with |
+    const regex = keywords
+        .split(' ')
+        .filter((i) => i)
+        .join('|');
+    return QueryBuilder(Product)
+        .where('title', '~*', `(${regex})`) // Matches regular expression, case insensitive
+        .get()
+        .then((products) => {
+            return res.status(200).json({ status: 'success', data: products });
         })
         .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
 };
