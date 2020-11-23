@@ -79,25 +79,11 @@ const create_product_categories_table = async () => {
   "title" varchar(200),
   "parent_id" int,
   "slug" varchar(200) NOT NULL,
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 76238de63a08a6f47974090a6034d99d14dbe44c
   ${timestampColumns}
 );
 
 ALTER TABLE "product_categories" ADD CONSTRAINT "unique_slug_parent_id" UNIQUE("parent_id", "slug");
 ALTER TABLE "product_categories" ADD CONSTRAINT "unique_title_parent_id" UNIQUE("parent_id", "title");
-<<<<<<< HEAD
-=======
-=======
-  ${timestampColumns},
-  UNIQUE (slug, parent_id)
-);
-
-CREATE UNIQUE INDEX indx ON product_categories (slug) WHERE parent_id IS NULL;
->>>>>>> frontend-restructuring
->>>>>>> 76238de63a08a6f47974090a6034d99d14dbe44c
 ALTER TABLE "product_categories" ADD FOREIGN KEY ("parent_id") REFERENCES "product_categories" ("id") ON DELETE SET NULL;
 `;
 
@@ -138,6 +124,8 @@ const create_product_specs_table = async () => {
 //     const productImagesQuery = `DROP TABLE IF EXISTS "product_images" cascade;
 //   CREATE TABLE IF NOT EXISTS "product_images" (
 //     "id" SERIAL PRIMARY KEY,
+//     "uuid" uuid,
+//     "filename" text,
 //     "href" varchar,
 //     "default_img" boolean,
 //     "product_id" int,
