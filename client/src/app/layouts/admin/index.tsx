@@ -12,7 +12,7 @@ const AdminLayout: React.FC<ILayoutProps> = ({ children }): JSX.Element => {
             <Sidebar />
             <div className="w-full flex flex-col">
                 <Navbar />
-                <main className="flex-1 relative pb-8 z-0 overflow-y-auto">{children}</main>
+                <main className="mt-16 flex-1 relative pb-8 z-0 overflow-y-auto">{children}</main>
             </div>
         </div>
     );

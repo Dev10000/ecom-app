@@ -8,49 +8,46 @@ const Sidebar: React.FC = (): JSX.Element => {
             <div className="flex flex-col w-64">
                 <div className="flex flex-col flex-grow bg-gray-300 pt-5 pb-4 overflow-y-auto">
                     <div className="flex items-center flex-shrink-0 px-4">
-                        <div className="inline-flex items-center">
-                            <svg
-                                className="h-8 w-auto"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 44 45"
-                            >
-                                <rect y=".002" width="44" height="44" rx="16" fill="#40BFFF" />
-                                <path
-                                    fillRule="evenodd"
-                                    clipRule="evenodd"
-                                    d="M31.062 20.274a2.444 2.444 0 010 3.457l-7.334 7.333a2.444 2.444 0 01-3.456 0l-7.334-7.333a2.444 2.444 0 010-3.457l7.334-7.333a2.444 2.444 0 013.457 0l7.333 7.333zM22 18.126l-3.876 3.876L22 25.88l3.876-3.877L22 18.126z"
-                                    fill="#fff"
-                                />
-                            </svg>
-                            <div className="ml-2 font-bold select-none">E-Shop</div>
-                        </div>
+                        <NavLink exact to="/">
+                            <div className="inline-flex items-center">
+                                <svg
+                                    className="h-8 w-auto"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 44 45"
+                                >
+                                    <rect y=".002" width="44" height="44" rx="16" fill="#40BFFF" />
+                                    <path
+                                        fillRule="evenodd"
+                                        clipRule="evenodd"
+                                        d="M31.062 20.274a2.444 2.444 0 010 3.457l-7.334 7.333a2.444 2.444 0 01-3.456 0l-7.334-7.333a2.444 2.444 0 010-3.457l7.334-7.333a2.444 2.444 0 013.457 0l7.333 7.333zM22 18.126l-3.876 3.876L22 25.88l3.876-3.877L22 18.126z"
+                                        fill="#fff"
+                                    />
+                                </svg>
+                                <div className="ml-2 font-bold select-none">E-Shop</div>
+                            </div>
+                        </NavLink>
                     </div>
                     <nav
-                        className="mt-5 flex-1 flex flex-col divide-y divide-blue-800 overflow-y-auto"
+                        className="mt-5 flex-1 flex flex-col divide-y divide-gray-400 overflow-y-auto"
                         aria-label="Sidebar"
                     >
-                        <div className="px-2 space-y-1 text-blue-900">
+                        <div className="px-2 space-y-1 text-gray-600">
                             <NavLink
                                 exact
                                 to="/admin"
                                 activeClassName="text-white bg-blue-500 hover:bg-blue-500"
-                                className="group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md hover:text-white hover:bg-blue-400"
+                                className="group flex items-center px-2 py-2 text-sm leading-6 rounded-md hover:text-white hover:bg-blue-400"
                             >
-                                {/* Heroicon name: home */}
                                 <svg
-                                    className="mr-4 h-6 w-6"
-                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="mr-4 h-7 w-7"
                                     fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                    aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 101 101"
                                 >
                                     <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+                                        d="M89.5 14.962h-79a1.5 1.5 0 00-1.5 1.5V65.65a1.5 1.5 0 001.5 1.5h28.233l-1.405 14.753c-.004.045.001.089.001.134h-7.451a1.5 1.5 0 100 3h41.736a1.5 1.5 0 100-3h-8.197c0-.045.005-.088.001-.134L62.013 67.15H89.5a1.5 1.5 0 001.5-1.5V16.46a1.5 1.5 0 00-1.5-1.5zM60.416 82.038H40.328l1.418-14.887h17.253l1.417 14.887zM88 64.152H12v-46.19h76v46.19z"
+                                        fill="currentColor"
                                     />
                                 </svg>
                                 Dashboard
@@ -58,21 +55,21 @@ const Sidebar: React.FC = (): JSX.Element => {
                             <NavLink
                                 activeClassName="text-white bg-blue-500 hover:bg-blue-500"
                                 to="/admin/news"
-                                className="group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md hover:text-white hover:bg-blue-400"
+                                className="group flex items-center px-2 py-2 text-sm leading-6 rounded-md hover:text-white hover:bg-blue-400"
                             >
-                                {/* Heroicon name: shopping-bag */}
                                 <svg
-                                    className="mr-4 h-6 w-6"
+                                    className="mr-4 h-7 w-7"
                                     fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
                                     xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 100 100"
                                 >
                                     <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"
+                                        d="M89.81 73H74V32a12 12 0 00-12-12H18.5c-.23 0-.46-.06-.7-.08a12.272 12.272 0 00-9.13 3.26 11.2 11.2 0 00-3.59 8.22 1.5 1.5 0 001.5 1.5H26v40.81A12.13 12.13 0 0037.19 86h42.16a11.75 11.75 0 0012-11.5 1.5 1.5 0 00-1.54-1.5zM8.22 29.9a8.3 8.3 0 012.51-4.53A9.17 9.17 0 0116.15 23c.116.014.234.014.35 0h1.9a9.05 9.05 0 017.33 6.9H8.22zM37.37 83A9.13 9.13 0 0129 73.71V32.19A12.45 12.45 0 0025 23h37a9 9 0 019 9v41H48.42a1.5 1.5 0 00-1.5 1.5 8.23 8.23 0 01-2.65 6 9.26 9.26 0 01-6.9 2.5zm42 0H46l.31-.28A11.24 11.24 0 0049.82 76h38.35a8.86 8.86 0 01-8.82 7h.02z"
+                                        fill="currentColor"
+                                    />
+                                    <path
+                                        d="M36.5 42h27a1.5 1.5 0 100-3h-27a1.5 1.5 0 100 3zM36.5 51h27a1.5 1.5 0 100-3h-27a1.5 1.5 0 100 3zM52 58.5a1.5 1.5 0 00-1.5-1.5h-14a1.5 1.5 0 100 3h14a1.5 1.5 0 001.5-1.5z"
+                                        fill="currentColor"
                                     />
                                 </svg>
                                 News
@@ -80,21 +77,17 @@ const Sidebar: React.FC = (): JSX.Element => {
                             <NavLink
                                 activeClassName="text-white bg-blue-500 hover:bg-blue-500"
                                 to="/admin/users"
-                                className="group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md hover:text-white hover:bg-blue-400"
+                                className="group flex items-center px-2 py-2 text-sm leading-6 rounded-md hover:text-white hover:bg-blue-400"
                             >
-                                {/* Heroicon name: users */}
                                 <svg
-                                    className="mr-4 h-6 w-6"
+                                    className="mr-4 h-7 w-7"
                                     fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
                                     xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 96 72"
                                 >
                                     <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
+                                        d="M65.1 39.7c-16.928 0-30.7 13.771-30.7 30.7a1.5 1.5 0 001.5 1.5h58.4a1.5 1.5 0 001.5-1.5c0-16.928-13.773-30.7-30.7-30.7zM37.44 68.9c.782-14.578 12.889-26.2 27.66-26.2s26.878 11.622 27.66 26.2H37.44zM64.5 35.6c9.76 0 17.7-7.94 17.7-17.7C82.2 8.14 74.26.2 64.5.2c-9.76 0-17.7 7.94-17.7 17.7 0 9.76 7.94 17.7 17.7 17.7zm0-32.4c8.105 0 14.7 6.594 14.7 14.7 0 8.105-6.595 14.7-14.7 14.7s-14.7-6.594-14.7-14.7c0-8.106 6.595-14.7 14.7-14.7zM23.4 50.2c3.623 0 7.16.965 10.234 2.79a1.5 1.5 0 001.533-2.58 23.046 23.046 0 00-11.766-3.21C10.607 47.2.2 57.608.2 70.4a1.5 1.5 0 001.5 1.5h27a1.5 1.5 0 100-3H3.255c.77-10.44 9.511-18.7 20.145-18.7zM23.1 42.6c7.499 0 13.6-6.1 13.6-13.6 0-7.499-6.101-13.6-13.6-13.6S9.5 21.501 9.5 29c0 7.5 6.101 13.6 13.6 13.6zm0-24.2c5.845 0 10.6 4.755 10.6 10.6s-4.755 10.6-10.6 10.6S12.5 34.845 12.5 29s4.755-10.6 10.6-10.6z"
+                                        fill="currentColor"
                                     />
                                 </svg>
                                 Users
@@ -102,21 +95,17 @@ const Sidebar: React.FC = (): JSX.Element => {
                             <NavLink
                                 activeClassName="text-white bg-blue-500 hover:bg-blue-500"
                                 to="/admin/products"
-                                className="group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md hover:text-white hover:bg-blue-400"
+                                className="group flex items-center px-2 py-2 text-sm leading-6 rounded-md hover:text-white hover:bg-blue-400"
                             >
-                                {/* Heroicon name: shopping-bag */}
                                 <svg
-                                    className="mr-4 h-6 w-6"
                                     fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
                                     xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 101 101"
+                                    className="mr-4 h-7 w-7"
                                 >
                                     <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
+                                        d="M21.5 33a1.5 1.5 0 00-1.5 1.5v32a1.5 1.5 0 103 0v-32a1.5 1.5 0 00-1.5-1.5zM29.5 33a1.5 1.5 0 00-1.5 1.5v32a1.5 1.5 0 103 0v-32a1.5 1.5 0 00-1.5-1.5zM34.5 33a1.5 1.5 0 00-1.5 1.5v32a1.5 1.5 0 103 0v-32a1.5 1.5 0 00-1.5-1.5zM63.5 33a1.5 1.5 0 00-1.5 1.5v32a1.5 1.5 0 103 0v-32a1.5 1.5 0 00-1.5-1.5zM68.5 33a1.5 1.5 0 00-1.5 1.5v32a1.5 1.5 0 103 0v-32a1.5 1.5 0 00-1.5-1.5zM45.5 33a1.5 1.5 0 00-1.5 1.5v32a1.5 1.5 0 103 0v-32a1.5 1.5 0 00-1.5-1.5zM55.5 33a1.5 1.5 0 00-1.5 1.5v32a1.5 1.5 0 103 0v-32a1.5 1.5 0 00-1.5-1.5zM82 66.5v-32a1.5 1.5 0 10-3 0v32a1.5 1.5 0 103 0zM10.5 38a1.5 1.5 0 001.5-1.5V28h8.5a1.5 1.5 0 100-3h-10A1.5 1.5 0 009 26.5v10a1.5 1.5 0 001.5 1.5zM91.5 25h-10a1.5 1.5 0 100 3H90v8.5a1.5 1.5 0 103 0v-10a1.5 1.5 0 00-1.5-1.5zM20.5 74H12v-7.5a1.5 1.5 0 10-3 0v9a1.5 1.5 0 001.5 1.5h10a1.5 1.5 0 100-3zM91.5 65a1.5 1.5 0 00-1.5 1.5V74h-8.5a1.5 1.5 0 100 3h10a1.5 1.5 0 001.5-1.5v-9a1.5 1.5 0 00-1.5-1.5z"
+                                        fill="currentColor"
                                     />
                                 </svg>
                                 Products
@@ -124,21 +113,17 @@ const Sidebar: React.FC = (): JSX.Element => {
                             <NavLink
                                 activeClassName="text-white bg-blue-500 hover:bg-blue-500"
                                 to="/admin/categories"
-                                className="group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md hover:text-white hover:bg-blue-400"
+                                className="group flex items-center px-2 py-2 text-sm leading-6 rounded-md hover:text-white hover:bg-blue-400"
                             >
-                                {/* Heroicon name: shopping-bag */}
                                 <svg
-                                    className="mr-4 h-6 w-6"
+                                    className="mr-4 h-7 w-7"
                                     fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
                                     xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 100 100"
                                 >
                                     <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+                                        d="M87.5 59H80V27.5a1.5 1.5 0 00-1.5-1.5H67V11.5a1.5 1.5 0 00-1.5-1.5h-31a1.5 1.5 0 00-1.5 1.5V26H21.5a1.5 1.5 0 00-1.5 1.5V59h-7.5a1.5 1.5 0 00-1.5 1.5v19a1.5 1.5 0 001.5 1.5h19a1.5 1.5 0 001.5-1.5v-19a1.5 1.5 0 00-1.5-1.5H23V29h10v13.5a1.5 1.5 0 001.5 1.5H49v15h-8.5a1.5 1.5 0 00-1.5 1.5v19a1.5 1.5 0 001.5 1.5h19a1.5 1.5 0 001.5-1.5v-19a1.5 1.5 0 00-1.5-1.5H52V44h13.5a1.5 1.5 0 001.5-1.5V29h10v30h-8.5a1.5 1.5 0 00-1.5 1.5v19a1.5 1.5 0 001.5 1.5h19a1.5 1.5 0 001.5-1.5v-19a1.5 1.5 0 00-1.5-1.5zM30 78H14V62h16v16zm28 0H42V62h16v16zm6-37H36V13h28v28zm22 37H70V62h16v16z"
+                                        fill="currentColor"
                                     />
                                 </svg>
                                 Product Categories
@@ -146,21 +131,25 @@ const Sidebar: React.FC = (): JSX.Element => {
                             <NavLink
                                 activeClassName="text-white bg-blue-500 hover:bg-blue-500"
                                 to="/admin/countries"
-                                className="group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md hover:text-white hover:bg-blue-400"
+                                className="group flex items-center px-2 py-2 text-sm leading-6 rounded-md hover:text-white hover:bg-blue-400"
                             >
-                                {/* Heroicon name: shopping-bag */}
                                 <svg
-                                    className="mr-4 h-6 w-6"
+                                    className="mr-4 h-7 w-7"
                                     fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
                                     xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 101 101"
                                 >
                                     <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"
+                                        d="M69.55 58.903h-.016a1.502 1.502 0 01-1.273-.732L54.003 34.226a1.49 1.49 0 01-.103-.208 18.608 18.608 0 01-2.716-9.693c.018-10.31 8.414-18.689 18.72-18.689h.023a18.58 18.58 0 0113.226 5.501 18.595 18.595 0 015.453 13.238c0 3.378-.934 6.705-2.704 9.642a1.442 1.442 0 01-.134.277L70.823 58.2a1.508 1.508 0 01-1.273.704zm-12.83-25.98L69.58 54.524 83.057 32.97c.034-.092.077-.182.13-.267 1.582-2.527 2.418-5.407 2.418-8.328v-.002a15.614 15.614 0 00-4.578-11.119 15.607 15.607 0 00-11.104-4.618h-.02c-8.655 0-15.705 7.035-15.719 15.692 0 2.954.831 5.836 2.402 8.332.054.083.098.172.133.264z"
+                                        fill="currentColor"
+                                    />
+                                    <path
+                                        d="M69.909 31.352h-.016a7.857 7.857 0 01-5.596-2.323 7.868 7.868 0 01-2.315-5.61 7.86 7.86 0 012.326-5.594 7.873 7.873 0 015.595-2.312h.008c4.365.005 7.914 3.563 7.91 7.932a7.864 7.864 0 01-2.326 5.597 7.862 7.862 0 01-5.586 2.31zm-.007-12.839a4.89 4.89 0 00-3.476 1.437 4.878 4.878 0 00-1.444 3.473 4.893 4.893 0 001.439 3.487 4.878 4.878 0 003.475 1.442h.01a4.882 4.882 0 003.47-1.434 4.88 4.88 0 001.445-3.475 4.929 4.929 0 00-4.914-4.929h-.005zm6.419 4.931h.01-.01zM94.4 80.181H4.54a1.5 1.5 0 01-1.379-2.09l16.345-38.242a1.501 1.501 0 011.38-.911h38.567a1.5 1.5 0 110 3H21.876L6.813 77.18h85.313L77.528 43.03a1.5 1.5 0 112.76-1.179l15.49 36.239a1.502 1.502 0 01-1.379 2.091z"
+                                        fill="currentColor"
+                                    />
+                                    <path
+                                        d="M69.727 79.912a1.5 1.5 0 01-1.488-1.33c-.01-.074-.967-7.454-11.3-9.207-.961-.163-2.494-.312-4.27-.483-9.78-.946-18.7-2.174-20.42-6.747-1.11-2.95.513-5.199 1.815-7.006 1.426-1.978 1.896-2.842 1.168-4.083-.461-.786-1.93-1.426-3.35-2.045-2.78-1.212-6.587-2.872-6.607-7.422a1.5 1.5 0 011.493-1.507h.007a1.5 1.5 0 011.5 1.493c.01 2.42 1.824 3.385 4.808 4.686 1.86.811 3.783 1.649 4.738 3.278 1.785 3.044-.011 5.536-1.322 7.355-1.23 1.706-1.958 2.821-1.44 4.195 1.205 3.203 12.48 4.293 17.9 4.818 1.833.177 3.416.33 4.482.511 12.532 2.127 13.734 11.43 13.779 11.825a1.5 1.5 0 01-1.493 1.669z"
+                                        fill="currentColor"
                                     />
                                 </svg>
                                 Countries
@@ -168,21 +157,17 @@ const Sidebar: React.FC = (): JSX.Element => {
                             <NavLink
                                 activeClassName="text-white bg-blue-500 hover:bg-blue-500"
                                 to="/admin/orders"
-                                className="group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md hover:text-white hover:bg-blue-400"
+                                className="group flex items-center px-2 py-2 text-sm leading-6 rounded-md hover:text-white hover:bg-blue-400"
                             >
-                                {/* Heroicon name: shopping-cart */}
                                 <svg
-                                    className="mr-4 h-6 w-6"
+                                    className="mr-4 h-7 w-7"
                                     fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
                                     xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 73 75"
                                 >
                                     <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+                                        d="M71.428 21.69h-5.5V2.19a1.5 1.5 0 00-1.5-1.5h-24a1.5 1.5 0 00-1.5 1.5v11.5h-9.5a1.5 1.5 0 00-1.5 1.5v19.5h-10v-20.5a1.5 1.5 0 00-1.5-1.5h-14a1.5 1.5 0 100 3h12.5v49.5a1.506 1.506 0 000 .17v.33a9 9 0 1017.94-1h22.12a9.003 9.003 0 008.439 10.022 9.001 9.001 0 009.5-9.023v-.33a1.46 1.46 0 000-.17v-42a1.5 1.5 0 00-1.5-1.5zm-1.5 13h-18v-10h18v10zm-28-31h21v18h-11v-6.5a1.5 1.5 0 00-1.5-1.5h-8.5v-10zm-11 13h18v18h-18v-18zm-7 55a6 6 0 110-12 6 6 0 010 12zm8.5-10a1.476 1.476 0 00-.42.07A9 9 0 0017.928 59V37.69h52V59a9 9 0 00-14.05 2.69h-23.45zm31.5 10a6 6 0 110-12 6 6 0 010 12z"
+                                        fill="currentColor"
                                     />
                                 </svg>
                                 Orders
@@ -190,53 +175,48 @@ const Sidebar: React.FC = (): JSX.Element => {
                             <NavLink
                                 activeClassName="text-white bg-blue-500 hover:bg-blue-500"
                                 to="/admin/reports"
-                                className="group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md hover:text-white hover:bg-blue-400"
+                                className="group flex items-center px-2 py-2 text-sm leading-6 rounded-md hover:text-white hover:bg-blue-400"
                             >
                                 {/* Heroicon name: reports */}
                                 <svg
-                                    className="mr-4 h-6 w-6"
+                                    className="mr-4 h-7 w-7"
                                     fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
                                     xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 101 101"
                                 >
                                     <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M8 13v-1m4 1v-3m4 3V8M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"
+                                        d="M80.5 11H61V7.5A1.5 1.5 0 0059.5 6h-18A1.5 1.5 0 0040 7.5V11H21.5a1.5 1.5 0 00-1.5 1.5v72a1.5 1.5 0 001.5 1.5h59a1.5 1.5 0 001.5-1.5v-72a1.5 1.5 0 00-1.5-1.5zM43 9h15v6H43V9zm36 74H23V14h17v2.5a1.5 1.5 0 001.5 1.5h18a1.5 1.5 0 001.5-1.5V14h18v69z"
+                                        fill="currentColor"
+                                    />
+                                    <path
+                                        d="M33.5 34h-5a1.5 1.5 0 100 3h5a1.5 1.5 0 100-3zM40.5 34a1.5 1.5 0 100 3h33a1.5 1.5 0 100-3h-33zM33.5 47h-5a1.5 1.5 0 100 3h5a1.5 1.5 0 100-3zM73.5 47h-33a1.5 1.5 0 100 3h33a1.5 1.5 0 100-3zM33.5 60h-5a1.5 1.5 0 100 3h5a1.5 1.5 0 100-3zM73.5 60h-33a1.5 1.5 0 100 3h33a1.5 1.5 0 100-3z"
+                                        fill="currentColor"
                                     />
                                 </svg>
                                 Reports
                             </NavLink>
                         </div>
                         <div className="mt-6 pt-6">
-                            <div className="px-2 space-y-1 text-blue-900">
+                            <div className="px-2 space-y-1 text-gray-600">
                                 <NavLink
                                     activeClassName="text-white bg-blue-500 hover:bg-blue-500"
                                     to="/admin/settings"
-                                    className="group flex items-center px-2 py-2 text-sm leading-6 font-medium rounded-md hover:text-white hover:bg-blue-400"
+                                    className="group flex items-center px-2 py-2 text-sm leading-6 rounded-md hover:text-white hover:bg-blue-400"
                                 >
                                     {/* Heroicon name: cog */}
                                     <svg
-                                        className="mr-4 h-6 w-6"
-                                        xmlns="http://www.w3.org/2000/svg"
                                         fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke="currentColor"
-                                        aria-hidden="true"
+                                        className="mr-4 h-7 w-7"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 93 93"
                                     >
                                         <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth={2}
-                                            d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+                                            d="M46 27.5c-10.201 0-18.5 8.299-18.5 18.5S35.799 64.5 46 64.5 64.5 56.201 64.5 46 56.201 27.5 46 27.5zm0 34c-8.547 0-15.5-6.953-15.5-15.5S37.453 30.5 46 30.5 61.5 37.453 61.5 46 54.547 61.5 46 61.5z"
+                                            fill="currentColor"
                                         />
                                         <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth={2}
-                                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                                            d="M91.225 38.501L79.257 36.69a33.974 33.974 0 00-2.651-6.425l7.176-9.733a1.501 1.501 0 00-.146-1.951L74.42 9.366a1.501 1.501 0 00-1.951-.147l-9.702 7.152a33.925 33.925 0 00-6.466-2.691L54.5 1.776A1.5 1.5 0 0053.017.5H39.985a1.5 1.5 0 00-1.483 1.276L36.701 13.68a33.99 33.99 0 00-6.466 2.691l-9.702-7.152a1.5 1.5 0 00-1.951.147l-9.215 9.215a1.501 1.501 0 00-.147 1.951l7.176 9.733a33.974 33.974 0 00-2.651 6.425L1.777 38.501a1.5 1.5 0 00-1.276 1.483v13.032a1.5 1.5 0 001.275 1.483l12.027 1.82a34.073 34.073 0 002.647 6.341l-7.231 9.808a1.501 1.501 0 00.147 1.951l9.215 9.215a1.5 1.5 0 001.951.147l9.84-7.254a33.973 33.973 0 006.3 2.607l1.829 12.09a1.5 1.5 0 001.483 1.276h13.032a1.5 1.5 0 001.483-1.276l1.829-12.09a33.973 33.973 0 006.3-2.607l9.84 7.254c.597.44 1.426.377 1.951-.147l9.216-9.215a1.5 1.5 0 00.146-1.951L76.55 62.66a33.939 33.939 0 002.647-6.341l12.027-1.82a1.5 1.5 0 001.275-1.483V39.984a1.499 1.499 0 00-1.274-1.483zM89.5 51.726l-11.703 1.771a1.502 1.502 0 00-1.224 1.09 31.012 31.012 0 01-3.103 7.432c-.3.517-.265 1.162.09 1.643l7.04 9.549-7.391 7.391-9.578-7.061a1.499 1.499 0 00-1.637-.093 30.946 30.946 0 01-7.395 3.06 1.5 1.5 0 00-1.094 1.225l-1.78 11.769H41.273l-1.78-11.769a1.502 1.502 0 00-1.094-1.225 30.946 30.946 0 01-7.395-3.06 1.502 1.502 0 00-1.637.093l-9.578 7.061-7.391-7.391 7.04-9.549a1.5 1.5 0 00.09-1.643 30.995 30.995 0 01-3.103-7.432 1.5 1.5 0 00-1.224-1.09L3.498 51.726V41.274l11.65-1.762a1.5 1.5 0 001.226-1.099 30.971 30.971 0 013.099-7.514 1.5 1.5 0 00-.093-1.638l-6.982-9.471 7.391-7.391 9.443 6.961a1.5 1.5 0 001.644.089 30.98 30.98 0 017.55-3.142 1.5 1.5 0 001.095-1.225l1.752-11.583h10.452l1.752 11.583a1.5 1.5 0 001.095 1.225 30.997 30.997 0 017.55 3.142 1.499 1.499 0 001.644-.089l9.443-6.961L80.6 19.79l-6.982 9.471a1.5 1.5 0 00-.093 1.638 31.011 31.011 0 013.099 7.514 1.501 1.501 0 001.226 1.099l11.65 1.762v10.452z"
+                                            fill="currentColor"
                                         />
                                     </svg>
                                     Settings

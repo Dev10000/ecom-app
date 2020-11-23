@@ -14,7 +14,7 @@ import E404 from '../pages/main/errors/404';
 
 // Admin Pages
 import Dashboard from '../pages/admin/dashboard';
-import News from '../pages/main/home/news';
+import News from '../pages/admin/news';
 import Users from '../pages/admin/users';
 import Products from '../pages/admin/products';
 import ProductCategories from '../pages/admin/product-categories';
