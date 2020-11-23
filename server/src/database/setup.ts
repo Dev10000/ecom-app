@@ -35,11 +35,11 @@ const create_users_table = async () => {
     "password" varchar(100) NOT NULL,
     "first_name" varchar(30) NOT NULL,
     "last_name" varchar(100) NOT NULL,
-    "address" varchar(100) NOT NULL,
-    "city" varchar(100) NOT NULL,
+    "address" varchar(100),
+    "city" varchar(100),
     "country_id" int,
-    "postal_code" varchar(50) NOT NULL,
-    "phone_number" varchar(50) NOT NULL,
+    "postal_code" varchar(50),
+    "phone_number" varchar(50),
     ${timestampColumns}
 );
 
@@ -191,25 +191,19 @@ const create_coupon_codes_table = async () => {
     return runSetupQuery('coupon_codes', couponCodesQuery);
 };
 
-const setup = (): void => {
+const setup = async () => {
     console.log('\x1b[36m%s\x1b[0m', 'ℹ Started database (re)structuring...');
-
-    Promise.all([
-        create_countries_table(),
-        create_product_categories_table(),
-        create_product_specs_table(),
-        create_product_options_table(),
-        // create_product_images_table(),
-        create_products_table(),
-        create_order_items_table(),
-        create_orders_table(),
-        create_users_table(),
-        create_coupon_codes_table(),
-    ])
-        .then(() => {
-            console.log('\x1b[36m%s\x1b[0m', 'ℹ Database (re)structuring complete!');
-        })
-        .catch((err) => console.log(err));
+    await create_countries_table();
+    await create_product_categories_table();
+    await create_product_specs_table();
+    await create_product_options_table();
+    // create_product_images_table();
+    await create_products_table();
+    await create_order_items_table();
+    await create_orders_table();
+    await create_users_table();
+    await create_coupon_codes_table();
+    console.log('\x1b[36m%s\x1b[0m', 'ℹ Database (re)structuring complete!');
 };
 
 setup();

@@ -33,7 +33,7 @@ const PriceSummary: React.FC = (): JSX.Element => {
                     />
                     <button
                         type="submit"
-                        className="inline-flex -mx-1 px-4 py-3 items-center text-md border rounded-r-md border-gray-400 bg-blue-600 hover:bg-blue-700 text-white hover:shadow-md select-none focus:outline-none transition ease-in-out duration-150"
+                        className="inline-flex -mx-1 px-4 py-3 items-center text-md border rounded-r-md border-gray-400 bg-blue-400 hover:bg-blue-500 text-white hover:shadow-md select-none focus:outline-none transition ease-in-out duration-150"
                     >
                         Redeem
                     </button>
@@ -62,7 +62,7 @@ const PriceSummary: React.FC = (): JSX.Element => {
                 </div>
                 <button
                     type="button"
-                    className="block w-full mt-3 items-center px-1 py-3 text-md border rounded border-gray-400 bg-blue-500 hover:bg-blue-700 text-white hover:shadow-md select-none focus:outline-none transition ease-in-out duration-150"
+                    className="block w-full mt-3 items-center px-1 py-3 text-md border rounded border-gray-200 bg-blue-400 hover:bg-blue-500 text-white hover:shadow-md select-none focus:outline-none transition ease-in-out duration-150"
                     onClick={handleCheckout}
                 >
                     Check out

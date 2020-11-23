@@ -42,15 +42,13 @@ const productSpecsSeeder = async (): Promise<void> => {
 const seedData = async () => {
     console.log('\x1b[36m%s\x1b[0m', 'ℹ Started database seeding...');
 
-    await Promise.all([
-        countriesSeeder(),
-        usersSeeder(),
-        productCategoriesSeeder(),
-        productsSeeder(),
-        // productImagesSeeder(),
-        productOptionsSeeder(),
-        productSpecsSeeder(),
-    ]);
+    await countriesSeeder();
+    await usersSeeder();
+    await productCategoriesSeeder();
+    await productsSeeder();
+    // await productImagesSeeder();
+    await productOptionsSeeder();
+    await productSpecsSeeder();
 
     console.log('\x1b[36m%s\x1b[0m', 'ℹ Database Seeding complete!');
 };

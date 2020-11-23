@@ -13,22 +13,28 @@ export const colorLog = (status: string, info: string): void => {
 
 export const useDBSetup = (
     seed?: boolean,
-): { runSetupQuery(tableName: string, queryString: string): Promise<unknown> } => {
-    const runSetupQuery = async (tableName: string, queryString: string) => {
-        try {
-            const ret = await DB.query(queryString);
-            colorLog('success', `√ Table "${tableName}" successfully ${seed ? 'seeded with data' : '(re)created'}.`);
-            return ret;
-        } catch (error) {
-            colorLog(
-                'error',
-                `× Table "${tableName}" NOT ${seed ? 'seeded with data' : '(re)created'}. ${
-                    error.message
-                } \n Details: \n ${error.detail}`,
-            );
-            // console.log({ error });
-            return error.stack;
-        }
+): {
+    runSetupQuery(tableName: string, queryString: string): Promise<unknown>;
+} => {
+    const runSetupQuery = (tableName: string, queryString: string) => {
+        return (
+            DB.query(queryString)
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                .then((_result) => {
+                    colorLog(
+                        'success',
+                        `√ Table "${tableName}" successfully ${seed ? 'seeded with data' : '(re)created'}.`,
+                    );
+                })
+                .catch((error) => {
+                    colorLog(
+                        'error',
+                        `× Table "${tableName}" NOT ${seed ? 'seeded with data' : '(re)created'}. ${
+                            error.message
+                        } \n Details: \n ${error.detail}`,
+                    );
+                })
+        );
     };
 
     return { runSetupQuery };

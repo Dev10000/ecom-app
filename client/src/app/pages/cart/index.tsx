@@ -22,7 +22,7 @@ const Cart: React.FC = (): JSX.Element => {
                         <div className="min-w-full">
                             <table className="min-w-full divide-y divide-gray-200" cellSpacing={0} cellPadding={0}>
                                 <thead>
-                                    <tr className="uppercase text-gray-700 p-4 mx-10 text-base font-medium">
+                                    <tr className="uppercase text-gray-700 dark:text-gray-200 p-4 mx-10 text-base font-medium">
                                         <th className="w-12">&nbsp;</th>
                                         <th>Product</th>
                                         <th>QTY</th>
@@ -48,7 +48,7 @@ const Cart: React.FC = (): JSX.Element => {
                                                     </svg>
                                                 </button>
                                             </td>
-                                            <td className="relative inline-flex items-center lg:whitespace-no-wrap">
+                                            <td className="relative inline-flex items-center lg:whitespace-nowrap">
                                                 <img
                                                     className="mr-3 my-4 rounded shadow"
                                                     src="https://via.placeholder.com/140x95?text=ProductImage"
@@ -56,20 +56,20 @@ const Cart: React.FC = (): JSX.Element => {
                                                 />
                                                 <div>{item.title}</div>
                                             </td>
-                                            <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5 mx-auto">
+                                            <td className="px-6 py-4 whitespace-nowrap text-sm leading-5 mx-auto">
                                                 <div className="inline-flex w-24 items-center justify-between">
                                                     <button
-                                                        className="w-12 text-blue-400 font-medium text-lg p-2 bg-gray-200 rounded-l-md border border-gray-300 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue select-none"
+                                                        className="w-12 text-blue-400 font-medium text-lg p-2 bg-gray-200 dark:bg-gray-800 rounded-l-md border border-gray-300 dark:border-gray-700 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue select-none"
                                                         type="button"
                                                         onClick={() => updateQuantity(item, item.quantity - 1)}
                                                     >
                                                         -
                                                     </button>
-                                                    <div className="w-full text-center text-lg border-t border-b border-gray-300 bg-gray-200 p-2">
+                                                    <div className="w-full text-center text-lg border-t border-b border-gray-300 dark:border-gray-700 bg-gray-200 dark:bg-gray-800 p-2">
                                                         {item.quantity}
                                                     </div>
                                                     <button
-                                                        className="w-12 text-blue-400 font-medium text-lg p-2 bg-gray-200 rounded-r-md border border-gray-300 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue select-none"
+                                                        className="w-12 text-blue-400 font-medium text-lg p-2 bg-gray-200 dark:bg-gray-800 rounded-r-md border border-gray-300 dark:border-gray-700 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue select-none"
                                                         type="button"
                                                         onClick={() => updateQuantity(item, item.quantity + 1)} // TODO: prevent adding more than item.stock_qty
                                                     >
@@ -77,7 +77,7 @@ const Cart: React.FC = (): JSX.Element => {
                                                     </button>
                                                 </div>
                                             </td>
-                                            <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5">
+                                            <td className="px-6 py-4 whitespace-nowrap text-sm leading-5">
                                                 {/* TODO: what to do? :) The almighty typescript swears that my variable is a NUMBER but it's nothing but a STRING! */}
                                                 {!item.discount ? (
                                                     formatCurrency(item.price * 1)
@@ -92,7 +92,7 @@ const Cart: React.FC = (): JSX.Element => {
                                                     </div>
                                                 )}
                                             </td>
-                                            <td className="px-6 py-4 whitespace-no-wrap text-sm leading-5">
+                                            <td className="px-6 py-4 whitespace-nowrap text-sm leading-5">
                                                 {!item.discount ? (
                                                     formatCurrency(item.price * item.quantity)
                                                 ) : (

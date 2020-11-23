@@ -96,6 +96,7 @@ export default function QueryBuilder<T>(model: Constructor<T>) {
         // ...then, use something like a Proxy()
         // Kept here for when I'll be able to fill the blanks.
         // Until then, I'll try a join approach
+
         // with(...relationships: (keyof T)[]): this {
         //     const model: T = new this.Model();
         //     console.log(Object.keys(model));
