@@ -89,6 +89,30 @@ export default class Model<T> {
     }
 
     /**
+     * Finds a record by the ID and returns a promise of an instance.
+     * @param id
+     */
+    static async findProduct<U>(id: number | string): Promise<U | undefined> {
+        // eslint-disable-next-line no-restricted-globals
+        if (isNaN(Number(id))) {
+            return undefined;
+        }
+
+        const { table } = new this<U>();
+        const text = `SELECT * FROM ${table} AS a INNER JOIN ( SELECT json_agg(a.*) AS image, product_id FROM product_images AS a GROUP BY product_id) AS b ON a.id = b.product_id WHERE a.id=$1;`;
+        const values = [id];
+        const query = { text, values };
+        return DB.query(query).then((response) => {
+            if (response.rowCount) {
+                const instance = new this<U>();
+                Object.assign(instance, response.rows[0]);
+                return (instance as unknown) as U;
+            }
+            return undefined;
+        });
+    }
+
+    /**
      * This will return the object without the internal and hidden fields.
      */
     toJSON(): Pick<this, Exclude<keyof this, keyof this>> {

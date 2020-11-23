@@ -54,8 +54,8 @@ const create_products_table = async () => {
   "id" SERIAL PRIMARY KEY,
   "title" varchar(200),
   "slug" varchar(200) UNIQUE NOT NULL,
-  "description" text NOT NULL,
-  "price" decimal(8,4) NOT NULL,
+  "description" text,
+  "price" decimal(12,4) NOT NULL,
   "weight" decimal(8,4),
   "package_size" varchar(100),
   "discount" decimal(4,2),
@@ -124,6 +124,8 @@ const create_product_specs_table = async () => {
 //     const productImagesQuery = `DROP TABLE IF EXISTS "product_images" cascade;
 //   CREATE TABLE IF NOT EXISTS "product_images" (
 //     "id" SERIAL PRIMARY KEY,
+//     "uuid" uuid,
+//     "filename" text,
 //     "href" varchar,
 //     "default_img" boolean,
 //     "product_id" int,

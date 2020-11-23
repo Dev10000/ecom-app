@@ -27,7 +27,7 @@ export const getAll = async (req: Request, res: Response): Promise<Response> => 
 export const getSingle = async (req: Request, res: Response): Promise<Response> => {
     const { id } = req.params;
     // console.log(req.params);
-    return Product.find<IProductModel>(id)
+    return Product.findProduct<IProductModel>(id)
         .then((product) => {
             if (product && product.id) {
                 return res.status(200).json({ status: 'success', data: product });
