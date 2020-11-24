@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import fs from 'fs';
-import { useDBSetup } from './utils';
+import { useDBSetup, csvImport } from './utils';
 
 const { runSetupQuery } = useDBSetup(true);
 
@@ -29,6 +29,11 @@ const productsSeeder = async (): Promise<void> => {
 //     await runSetupQuery('product_images', productImagesSQL);
 // };
 
+const productImagesSeeder = async (): Promise<void> => {
+    const filePath = await fs.createReadStream('./src/database/data/images.csv');
+    await csvImport(filePath, 'product_images');
+};
+
 const productOptionsSeeder = async (): Promise<void> => {
     const productOptionsSQL = await fs.readFileSync('./src/database/data/product_options.sql').toString();
     await runSetupQuery('product_options', productOptionsSQL);
@@ -46,9 +51,9 @@ const seedData = async () => {
     await usersSeeder();
     await productCategoriesSeeder();
     await productsSeeder();
-    // await productImagesSeeder();
     await productOptionsSeeder();
     await productSpecsSeeder();
+    await productImagesSeeder();
 
     console.log('\x1b[36m%s\x1b[0m', 'ℹ Database Seeding complete!');
 };

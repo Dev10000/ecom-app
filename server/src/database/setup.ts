@@ -119,24 +119,23 @@ const create_product_specs_table = async () => {
     return runSetupQuery('product_specs', productSpecsQuery);
 };
 
-// NOT USED
-// const create_product_images_table = async () => {
-//     const productImagesQuery = `DROP TABLE IF EXISTS "product_images" cascade;
-//   CREATE TABLE IF NOT EXISTS "product_images" (
-//     "id" SERIAL PRIMARY KEY,
-//     "uuid" uuid,
-//     "filename" text,
-//     "href" varchar,
-//     "default_img" boolean,
-//     "product_id" int,
-//     ${timestampColumns}
-//   );
+const create_product_images_table = async () => {
+    const productImagesQuery = `DROP TABLE IF EXISTS "product_images" cascade;
+  CREATE TABLE IF NOT EXISTS "product_images" (
+    "id" SERIAL PRIMARY KEY,
+    "uuid" uuid,
+    "filename" text,
+    "href" varchar,
+    "default_img" boolean,
+    "product_id" int,
+    ${timestampColumns}
+  );
 
-//  ALTER TABLE "product_images" ADD FOREIGN KEY ("product_id") REFERENCES "products" ("id") ON DELETE CASCADE;
-//  CREATE INDEX ON "product_images" ("product_id");`;
+ ALTER TABLE "product_images" ADD FOREIGN KEY ("product_id") REFERENCES "products" ("id") ON DELETE CASCADE;
+ CREATE INDEX ON "product_images" ("product_id");`;
 
-//     return runSetupQuery('product_images', productImagesQuery);
-// };
+    return runSetupQuery('product_images', productImagesQuery);
+};
 
 const create_orders_table = async () => {
     const ordersQuery = `CREATE EXTENSION IF NOT EXISTS "pgcrypto";
@@ -197,7 +196,7 @@ const setup = async () => {
     await create_product_categories_table();
     await create_product_specs_table();
     await create_product_options_table();
-    // create_product_images_table();
+    await create_product_images_table();
     await create_products_table();
     await create_order_items_table();
     await create_orders_table();
