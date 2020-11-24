@@ -1,4 +1,6 @@
 import { QueryResult } from 'pg';
+import fs from 'fs';
+import { from } from 'pg-copy-streams';
 import DB from '../config/database';
 
 export const colorLog = (status: string, info: string): void => {
@@ -177,3 +179,43 @@ export const insertTitleAndSlug = async (
 };
 
 //* *SLUGIFY END* */
+
+/** PgAdmin CSV settings HARD CODED
+// @param Encoding= UTF8
+// @param Delimiter= [tab]
+// @param Header = On
+// @param Quote = "
+// @param Escape = '
+// @param NULL String = NULL
+// @param Quoting is not used for data values
+* */
+// IMPORT CSV TO DEV_DB
+export const csvImport = async (filePath: fs.ReadStream, tableName: string): Promise<unknown> => {
+    return DB.connect((err, client, done) => {
+        if (err) {
+            console.log(`Can not connect to the DB${err}`);
+        }
+        const queryStream = client.query(
+            from(
+                `COPY ${tableName} FROM STDIN WITH (FORMAT CSV, DELIMITER '\t', HEADER, ENCODING 'UTF8', NULL 'NULL')`,
+            ),
+        );
+        const errorCall = (error: Error): void => {
+            if (error) {
+                // done();
+                colorLog(
+                    'error',
+                    `× Table "${tableName}" NOT 'seeded with data' : '(re)created'}. ${error.message} \n Details: \n ${error}`,
+                );
+            }
+            done();
+            colorLog('success', `√ Table "${tableName}" successfully 'seeded with data' : '(re)created'.`);
+        };
+        const fileStream = filePath;
+        fileStream.on('error', errorCall);
+        queryStream.on('error', errorCall);
+        queryStream.on('finish', errorCall);
+        fileStream.pipe(queryStream).on('error', errorCall);
+        // DB.end();
+    });
+};
