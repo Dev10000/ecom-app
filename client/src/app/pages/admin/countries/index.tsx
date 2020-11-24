@@ -1,6 +1,72 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import DataTable from '../../../../ui/datatable';
 
 const Countries: React.FC = (): JSX.Element => {
+    const [countries, setCountries] = useState<ICountryModel[]>([]);
+
+    useEffect(() => {
+        axios
+            .get('countries/full')
+            .then((response) => {
+                setCountries(response.data.data);
+            })
+            .catch((err) => {
+                return err;
+            });
+    }, []);
+
+    const columns: IColumn<ICountryModel>[] = [
+        {
+            display: 'Name',
+            db: 'name',
+        },
+        {
+            display: 'Alpha 2',
+            db: 'alpha2',
+        },
+        {
+            display: 'Alpha 3',
+            db: 'alpha3',
+        },
+        {
+            display: 'Code',
+            db: 'code',
+        },
+        {
+            display: 'ISO 3166 2',
+            db: 'iso_3166_2',
+        },
+        {
+            display: 'Region',
+            db: 'region',
+        },
+        {
+            display: 'Sub Region',
+            db: 'sub_region',
+        },
+        {
+            display: 'Intermediate Region',
+            db: 'intermediate_region',
+        },
+        {
+            display: 'Region Code',
+            db: 'region_code',
+        },
+        {
+            display: 'Sub Region Code',
+            db: 'sub_region_code',
+        },
+        {
+            display: 'Intermediate Region Code',
+            db: 'intermediate_region_code',
+        },
+        {
+            display: 'Created',
+            db: 'created_at',
+        },
+    ];
+
     return (
         <div>
             <div className="bg-white shadow">
@@ -12,7 +78,9 @@ const Countries: React.FC = (): JSX.Element => {
                     </div>
                 </div>
             </div>
-            <div className="p-4">Actual content</div>
+            <div className="p-4">
+                <DataTable<ICountryModel> items={countries} columns={columns} />
+            </div>
         </div>
     );
 };

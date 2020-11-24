@@ -16,21 +16,44 @@ const Users: React.FC = (): JSX.Element => {
             });
     }, []);
 
-    const buildRow = (row: IUserModel) => {
-        return (
-            <tr>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{row.first_name}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{row.last_name}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{row.email}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{row.address}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{row.postal_code}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{row.city}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{row.country_id}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{row.phone_number}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{row.created_at}</td>
-            </tr>
-        );
-    };
+    const columns: IColumn<IUserModel>[] = [
+        {
+            display: 'First Name',
+            db: 'first_name',
+        },
+        {
+            display: 'Last Name',
+            db: 'last_name',
+        },
+        {
+            display: 'E-mail',
+            db: 'email',
+        },
+        {
+            display: 'Address',
+            db: 'address',
+        },
+        {
+            display: 'Postal Code',
+            db: 'postal_code',
+        },
+        {
+            display: 'City',
+            db: 'city',
+        },
+        {
+            display: 'Country',
+            db: 'country_id',
+        },
+        {
+            display: 'Phone Number',
+            db: 'phone_number',
+        },
+        {
+            display: 'Created',
+            db: 'created_at',
+        },
+    ];
 
     return (
         <div>
@@ -44,43 +67,7 @@ const Users: React.FC = (): JSX.Element => {
                 </div>
             </div>
             <div className="p-4">
-                <DataTable
-                    items={users}
-                    buildHead={() => {
-                        return (
-                            <tr>
-                                <th className="px-6 py-3 bg-blue-100 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    First Name
-                                </th>
-                                <th className="px-6 py-3 bg-blue-100 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Last Name
-                                </th>
-                                <th className="px-6 py-3 bg-blue-100 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    E-mail
-                                </th>
-                                <th className="px-6 py-3 bg-blue-100 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Address
-                                </th>
-                                <th className="px-6 py-3 bg-blue-100 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Postal Code
-                                </th>
-                                <th className="px-6 py-3 bg-blue-100 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    City
-                                </th>
-                                <th className="px-6 py-3 bg-blue-100 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Country
-                                </th>
-                                <th className="px-6 py-3 bg-blue-100 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Phone Number
-                                </th>
-                                <th className="px-6 py-3 bg-blue-100 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                    Created
-                                </th>
-                            </tr>
-                        );
-                    }}
-                    buildRow={buildRow}
-                />
+                <DataTable<IUserModel> items={users} columns={columns} />
             </div>
         </div>
     );

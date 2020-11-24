@@ -14,6 +14,15 @@ export const getAll = async (req: Request, res: Response): Promise<Response> => 
         .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
 };
 
+export const getFullData = async (req: Request, res: Response): Promise<Response> => {
+    return QueryBuilder(Country)
+        .get()
+        .then((countries) => {
+            return res.status(200).json({ status: 'success', data: countries });
+        })
+        .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
+};
+
 export const create = async (req: Request, res: Response): Promise<Response> => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) return res.status(422).json({ status: 'error', data: errors.array() });
