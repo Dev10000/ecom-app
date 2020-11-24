@@ -194,3 +194,15 @@ interface IFormError {
     param: string;
     location: string;
 }
+
+// Data Table stuff.. WIP
+
+interface IColumn<T> {
+    display: string;
+    db: keyof T;
+}
+
+interface IDataTableProps<T> {
+    items: (T & IModel)[];
+    columns: IColumn<T>[];
+}

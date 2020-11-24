@@ -2,41 +2,65 @@
 import React, { useContext } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 
-import E404 from '../pages/errors/404';
-import Breadcrumbs from '../../ui/breadcrumbs';
-import routes, { adminRoutes } from './routes';
+import routes from './routes';
 import AuthContext from '../../context/auth';
+
+// Layouts
 import MainLayout from '../layouts/main';
 import AdminLayout from '../layouts/admin';
+
+// Error Pages
+import E404 from '../pages/main/errors/404';
+
+// Admin Pages
+import Dashboard from '../pages/admin/dashboard';
+import News from '../pages/admin/news';
+import Users from '../pages/admin/users';
+import Products from '../pages/admin/products';
+import ProductCategories from '../pages/admin/product-categories';
+import Countries from '../pages/admin/countries';
+import Orders from '../pages/admin/orders';
+import Reports from '../pages/admin/reports';
+import Settings from '../pages/admin/settings';
+
+// Components
+import Breadcrumbs from '../../ui/breadcrumbs';
 
 const Router: React.FC = (): JSX.Element => {
     const authContext = useContext(AuthContext);
 
     return (
         <Switch>
+            {/* Admin Routes registration */}
+            {/* TODO: Guard these routes properly! */}
             <Route path="/admin">
                 <AdminLayout>
                     <Switch>
-                        {adminRoutes.map(({ path, name, Component, auth }) => {
-                            return auth && !authContext.isLoggedIn ? (
-                                <Redirect key="404" to="/404" />
-                            ) : (
-                                <Route exact key={name} path={path} component={Component} />
-                            );
-                        })}
+                        <Route exact path="/admin" component={Dashboard} />
+                        <Route exact path="/admin/news" component={News} />
+                        <Route exact path="/admin/users" component={Users} />
+                        <Route exact path="/admin/products" component={Products} />
+                        <Route exact path="/admin/categories" component={ProductCategories} />
+                        <Route exact path="/admin/countries" component={Countries} />
+                        <Route exact path="/admin/orders" component={Orders} />
+                        <Route exact path="/admin/reports" component={Reports} />
+                        <Route exact path="/admin/settings" component={Settings} />
+                        <E404 />
                     </Switch>
                 </AdminLayout>
             </Route>
 
+            {/* Main (non Admin) Routes registration */}
             <Route>
                 <MainLayout>
                     <Switch>
                         {routes.map(({ path, name, Component, auth }) => {
-                            //     <Breadcrumbs routes={routes} />
-                            // component need to be swapped with render={props =>
+                            // <Breadcrumbs routes={routes} />
+                            // TODO: make this work!
+                            // Try swapping it to render={props =>
 
                             return auth && !authContext.isLoggedIn ? (
-                                <Redirect key="homepage" to="/" />
+                                <Route exact key={name} path={path} component={E404} />
                             ) : (
                                 <Route exact key={name} path={path} component={Component} />
                             );

@@ -1,13 +1,11 @@
-import Home from '../pages/home';
-import Categories from '../pages/categories';
-import Cart from '../pages/cart';
-import Checkout from '../pages/checkout';
-import Contact from '../pages/contact';
-import Products from '../pages/products';
-import Search from '../pages/home/search';
-import Profile from '../pages/profile';
-
-import Dashboard from '../pages/errors/404'; // temporary
+import Home from '../pages/main/home';
+import Categories from '../pages/main/categories';
+import Cart from '../pages/main/cart';
+import Checkout from '../pages/main/checkout';
+import Contact from '../pages/main/contact';
+import Products from '../pages/main/products';
+import Search from '../pages/main/search';
+import Profile from '../pages/main/profile';
 
 export default [
     { path: '/', name: 'Home', Component: Home, auth: false },
@@ -19,5 +17,3 @@ export default [
     { path: '/checkout', name: 'Checkout', Component: Checkout, auth: true },
     { path: '/profile', name: 'Profile', Component: Profile, auth: true },
 ];
-
-export const adminRoutes = [{ path: '/admin/dashboard', name: 'Dashboard', Component: Dashboard, auth: true }];

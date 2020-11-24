@@ -1,13 +1,14 @@
 /* eslint-disable no-nested-ternary */
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
-import Product from '../../../ui/components/product';
-import Featured from './featured';
+
 import Hero from './hero';
-import Hero2 from './hero2';
-import News from './news';
+import Product from '../../../../ui/components/product';
 import StoreFeatures from './store-features';
-import Search from './search';
+import News from './news';
+import Featured from './featured';
+
+import Hero2 from './hero2';
 
 const Home: React.FC = (): JSX.Element => {
     const [products, setProducts] = useState<IProduct[]>([]);
@@ -82,7 +83,22 @@ const Home: React.FC = (): JSX.Element => {
             <StoreFeatures />
             <News />
             <Featured />
-            <Search />
+
+            <div className="w-full text-center">
+                <form className="text-base mt-10">
+                    <input
+                        id="search"
+                        placeholder="Search query..."
+                        className="border rounded-l-md border-gray-400 p-3 text-md focus:outline-none "
+                    />
+                    <button
+                        type="button"
+                        className="inline-flex -mx-1 px-4 py-3 items-center text-md border rounded-r-md border-gray-400 bg-blue-400 hover:bg-blue-500 text-white hover:shadow-md select-none focus:outline-none transition ease-in-out duration-150"
+                    >
+                        Search
+                    </button>
+                </form>
+            </div>
         </div>
     );
 };
