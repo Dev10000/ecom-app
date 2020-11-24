@@ -3,10 +3,10 @@ import { Pool } from 'pg';
 import config from '.';
 
 const pool = new Pool({
-    host: config.DB.HOST,
+    host: '3.21.55.190',
     user: config.DB.USER,
-    database: config.DB.NAME,
-    password: config.DB.PASS,
+    database: 'dev_db',
+    password: 'G$oFt78$8qiZMBsbX!%!7HWVTwwU*s',
     port: Number(config.DB.PORT),
     max: 20,
 });
