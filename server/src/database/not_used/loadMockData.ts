@@ -1,7 +1,7 @@
 import fs from 'fs';
 import { from, to } from 'pg-copy-streams';
 import pool, { pool_test_db } from '../../config/database';
-import zlib from 'zlib';
+// import zlib from 'zlib';
 
 // CREATE EMPTY TABLE
 const create_datafiniti_electronics = async () => {
@@ -147,7 +147,7 @@ const import_csv = () => {
         // done()
     });
 };
-// import_csv();
+//import_csv();
 
 // CSV EXPORT test_db
 const export_csv = () => {
@@ -279,5 +279,46 @@ const setup_tim = (): void => {
 
 // create_datafiniti_electronics();
 
-pool_test_db.end();
-pool.end();
+/** PgAdmin CSV settings
+// @param Encoding= UTF8
+// @param Delimiter= [tab]
+// @param Header = On
+// @param Quote = “
+// @param Escape = ‘
+// @param NULL String = NULL
+// @param Quoting is not used for data values
+* */
+// IMPORT CSV TO DEV_DB
+const import_csv2 = () => {
+    const file_csv = './images_test_final.csv';
+
+    pool.connect((err, client, done) => {
+        if (err) {
+            console.log(`Can not connect to the DB${err}`);
+        }
+        const queryStream = client.query(
+            from(
+                "COPY product_images FROM STDIN WITH (FORMAT CSV, DELIMITER '\t', HEADER, ENCODING 'UTF8', NULL 'NULL')",
+            ),
+        );
+        const erro = (error2: ErrorEvent) => {
+            if (error2) {
+                console.log(`Uh oh!${error2}`);
+                process.exit(-1);
+            } else {
+                console.log(`All done!${error2}`);
+                done();
+            }
+        };
+        const fileStream = fs.createReadStream(file_csv);
+        fileStream.on('error', erro);
+        queryStream.on('error', erro);
+        queryStream.on('finish', erro);
+        fileStream.pipe(queryStream);
+    });
+    pool.end();
+};
+// import_csv2();
+
+// pool_test_db.end();
+// pool.end();
