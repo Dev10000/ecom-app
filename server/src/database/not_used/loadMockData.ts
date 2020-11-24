@@ -262,7 +262,7 @@ const select_products_flipkart_v2 = async () => {
     console.log(res);
     return res;
 };
-select_products_flipkart_v2();
+// select_products_flipkart_v2();
 
 const setup_tim = (): void => {
     console.log('Starting database structuring tim');
