@@ -11,9 +11,7 @@ const Hero2: React.FC = (): JSX.Element => {
                         <br />
                     </h2>
 
-                    <span className="text-white mt-1 py-2 text-sm">
-                        Performancew and design.Taken right to the edge
-                    </span>
+                    <span className="text-white mt-1 py-2 text-sm">Performance and design.Taken right to the edge</span>
                     <span className="text-white text-sm py-3 underline">Show now</span>
                 </div>
 
