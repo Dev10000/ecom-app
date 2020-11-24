@@ -1,8 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 function DataTable<T>(props: IDataTableProps<T>): JSX.Element {
     const { items, columns } = props;
     const [search, setSearch] = useState('');
+    const [filteredItems, setFilteredItems] = useState(items);
+
+    useEffect(() => {
+        const regex = new RegExp(search.replace(' ', '*.+'), 'i');
+
+        // This might not be the fastest filter
+        // TODO: Find a better way
+        setFilteredItems(
+            items.filter((item) =>
+                columns.some((column) => {
+                    const dbValue = item[column.db];
+                    if (!dbValue) return false;
+                    return regex.test(`${dbValue}`);
+                }),
+            ),
+        );
+    }, [search, items, columns]);
 
     return (
         <>
@@ -34,7 +51,7 @@ function DataTable<T>(props: IDataTableProps<T>): JSX.Element {
                             </thead>
                             <tbody className="bg-white divide-y divide-gray-200">
                                 {items.length ? (
-                                    items.map((row) => {
+                                    filteredItems.map((row) => {
                                         return (
                                             <tr key={row.id}>
                                                 {columns.map((column) => (
@@ -62,7 +79,9 @@ function DataTable<T>(props: IDataTableProps<T>): JSX.Element {
             </div>
             {items.length ? (
                 <div className="w-full text-right py-3 sm:px-6 lg:px-8 mb-4">
-                    <p className="text-xs text-gray-700">Displaying {items.length} records.</p>
+                    <p className="text-xs text-gray-700">
+                        Displaying {filteredItems.length} of {items.length} records.
+                    </p>
                 </div>
             ) : (
                 ''
