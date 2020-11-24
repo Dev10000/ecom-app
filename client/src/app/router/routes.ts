@@ -4,7 +4,7 @@ import Cart from '../pages/cart';
 import Checkout from '../pages/checkout';
 import Contact from '../pages/contact';
 import Products from '../pages/products';
-import Search from '../pages/search';
+import Search from '../pages/home/search';
 import Profile from '../pages/profile';
 
 import Dashboard from '../pages/errors/404'; // temporary

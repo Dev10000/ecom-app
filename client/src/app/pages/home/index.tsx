@@ -1,13 +1,13 @@
 /* eslint-disable no-nested-ternary */
-import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-
-import Hero from './hero';
+import React, { useEffect, useState } from 'react';
 import Product from '../../../ui/components/product';
-import StoreFeatures from './store-features';
-import News from './news';
 import Featured from './featured';
+import Hero from './hero';
 import Hero2 from './hero2';
+import News from './news';
+import StoreFeatures from './store-features';
+import Search from './search';
 
 const Home: React.FC = (): JSX.Element => {
     const [products, setProducts] = useState<IProduct[]>([]);
@@ -82,6 +82,7 @@ const Home: React.FC = (): JSX.Element => {
             <StoreFeatures />
             <News />
             <Featured />
+            <Search />
         </div>
     );
 };
