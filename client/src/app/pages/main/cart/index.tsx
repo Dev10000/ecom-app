@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 import PriceSummary from './PriceSummary';
-import CartContext from '../../../context/cart';
+import CartContext from '../../../../context/cart';
 import EmptyCart from './empty.svg';
-import { formatCurrency } from '../../../utils';
+import { formatCurrency } from '../../../../utils';
 
 const Cart: React.FC = (): JSX.Element => {
     const { cartItems, removeProduct, updateQuantity } = useContext(CartContext);
