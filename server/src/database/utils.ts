@@ -202,7 +202,7 @@ export const csvImport = async (filePath: fs.ReadStream, tableName: string): Pro
         );
         const errorCall = (error: Error): void => {
             if (error) {
-                // done();
+                done();
                 colorLog(
                     'error',
                     `× Table "${tableName}" NOT 'seeded with data' : '(re)created'}. ${error.message} \n Details: \n ${error}`,
