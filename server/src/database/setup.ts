@@ -106,7 +106,7 @@ const create_product_specs_table = async () => {
   CREATE TABLE IF NOT EXISTS "product_specs" (
     "id" SERIAL PRIMARY KEY,
     "product_id" int NOT NULL,
-    "product_options_id" int NOT NULL,
+    "product_options_id" int,
     "value" varchar,
     ${timestampColumns}
   );
