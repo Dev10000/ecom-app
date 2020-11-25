@@ -200,6 +200,7 @@ interface IFormError {
 interface IColumn<T> {
     display: string;
     db: keyof T;
+    type?: 'string' | 'number' | 'datetime';
 }
 
 interface IDataTableProps<T> {
