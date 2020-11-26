@@ -64,6 +64,7 @@ const Countries: React.FC = (): JSX.Element => {
         {
             display: 'Created',
             db: 'created_at',
+            type: 'datetime',
         },
     ];
 
