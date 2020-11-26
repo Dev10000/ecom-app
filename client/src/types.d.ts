@@ -61,6 +61,7 @@ interface IProduct {
     id?: number;
     title?: string;
     slug?: string;
+    image?: IProductImage[];
     description?: string;
     price: number;
     weight?: number;

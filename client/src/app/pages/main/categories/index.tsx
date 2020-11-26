@@ -43,10 +43,7 @@ const Categories: React.FC = () => {
                                 .map((category) => (
                                     <li className="mt-4 flex justify-between">
                                         <li>
-                                            <NavLink
-                                                className="text hover:text-bg-400"
-                                                to={`/categories/${category.id}`}
-                                            >
+                                            <NavLink className="text hover:text-bg-400" to="/categories/:slug">
                                                 {category.title}
                                             </NavLink>
                                         </li>
