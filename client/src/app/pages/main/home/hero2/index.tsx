@@ -3,7 +3,7 @@ import HeroImg2 from './hero2.png';
 
 const Hero2: React.FC = (): JSX.Element => {
     return (
-        <div className="flex max-w-screen mt-8 bg-blue-400 h-64">
+        <div className="flex max-w-screen mt-8 bg-blue-400 h-72">
             <div className="flex flex-row justify-between w-full text-xs p-16">
                 <div className="flex flex-col w-48 sm:w-96 md:w-96">
                     <h2 className="text-white text-2xl font-bold -mt-6">
@@ -16,7 +16,7 @@ const Hero2: React.FC = (): JSX.Element => {
                 </div>
 
                 <div className="flex flex-col w-48 sm:w-96 md:w-96 relative">
-                    <img className="w-full h-60 absolute -mt-24" src={HeroImg2} alt="shoe" />
+                    <img className="w-full h-auto absolute -mt-24" src={HeroImg2} alt="shoe" />
                 </div>
             </div>
         </div>
