@@ -2,7 +2,7 @@ import React from 'react';
 
 const StoreFeatures: React.FC = (): JSX.Element => {
     return (
-        <div className="flex max-w-screen mt-8">
+        <div className="flex max-w-screen mt-10">
             <div className="flex flex-row justify-between w-full text-xs p-16">
                 <div className="flex flex-col w-48 sm:w-96 md:w-96">
                     <div className="flex items-center">
