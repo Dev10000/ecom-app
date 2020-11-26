@@ -3,7 +3,7 @@ import React from 'react';
 const News: React.FC = (): JSX.Element => {
     return (
         <div className="flex max-w-screen mt-1">
-            <div className="flex-cols-3 w-full sm:flex flex-row justify-between w-full dark:bg-gray-800 text-xs p-16">
+            <div className="flex-cols-3 w-screen sm:flex flex-row justify-between w-full dark:bg-gray-800 text-xs p-16">
                 <div className="flex flex-cols-2 gap-4">
                     <div className="flex items-center w-28">
                         <img
