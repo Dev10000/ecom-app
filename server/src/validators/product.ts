@@ -1,4 +1,4 @@
-import { body } from 'express-validator';
+import { body, query } from 'express-validator';
 
 export default [
     body('title').trim().notEmpty().withMessage('title is a required field.'),
@@ -48,4 +48,9 @@ export default [
         .withMessage('stock_qty is a required field.')
         .isInt()
         .withMessage('stock_qty must be an integer.'),
+];
+
+export const productQuery = [
+    query('page').optional().isInt().withMessage('page must be an integer.').toInt(),
+    query('items').optional().isInt().withMessage('page must be an integer.').toInt(),
 ];

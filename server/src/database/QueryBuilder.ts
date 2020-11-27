@@ -2,6 +2,8 @@
 // www.typescriptlang.org/docs/handbook/mixins.html
 
 import { QueryConfig } from 'pg';
+import { timingSafeEqual } from 'crypto';
+import { threadId } from 'worker_threads';
 import DB from '../config/database';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -15,6 +17,7 @@ export default function QueryBuilder<T>(model: Constructor<T>) {
     interface IQueryOptions {
         table: string;
         limit: number;
+        paginate: { page: number; limit: number };
         select: string[] | '*';
         orderBy: IOrderBy;
         conditions: ICondition[];
@@ -26,6 +29,7 @@ export default function QueryBuilder<T>(model: Constructor<T>) {
         data: IQueryOptions = {
             table: '',
             limit: 0,
+            paginate: { page: 1, limit: 1 },
             select: '*',
             orderBy: { field: '', direction: 'asc' },
             conditions: [],
@@ -80,6 +84,17 @@ export default function QueryBuilder<T>(model: Constructor<T>) {
          */
         limit(limit: number): this {
             this.data.limit = limit;
+            return this;
+        }
+
+        /**
+         * Paginate the query results.
+         * @param page number
+         * @param limit number
+         */
+        paginate(page: number, limit: number): this {
+            this.data.paginate = { page, limit };
+            // console.log(this);
             return this;
         }
 
@@ -142,9 +157,9 @@ export default function QueryBuilder<T>(model: Constructor<T>) {
          */
         query(table: string, action?: QueryType): QueryConfig {
             const prefix = this.buildPrefix(action || 'select');
-            const text = `${prefix} ${table} ${this.buildJoins()} ${this.buildConditions()} ${this.buildOrderBy()}${this.buildLimit()}`;
+            const text = `${prefix} ${table} ${this.buildJoins()} ${this.buildConditions()} ${this.buildOrderBy()}${this.buildPagination()}${this.buildLimit()}`;
             const values = this.buildValues();
-            // console.log(text, values);
+            console.log(text, values);
             return { text, values };
         }
 
@@ -214,7 +229,10 @@ export default function QueryBuilder<T>(model: Constructor<T>) {
          * Builds an array of values to be passed with the query.
          */
         private buildValues(): ConditionValue[] {
-            return this.data.conditions.map((where) => where.value);
+            const values = this.data.conditions.map((where) => where.value);
+            const offset = (this.data.paginate.page - 1) * this.data.paginate.limit;
+
+            return this.data.paginate.limit === 1 ? values : [...values, this.data.paginate.limit, offset];
         }
 
         /**
@@ -245,6 +263,16 @@ export default function QueryBuilder<T>(model: Constructor<T>) {
          */
         private buildLimit(): string {
             return this.data.limit ? ` LIMIT ${this.data.limit}` : '';
+        }
+
+        /**
+         * Builds the LIMIT and OFFSET part of the query for pagination.
+         */
+        private buildPagination(): string {
+            this.data.limit = 0;
+            return this.data.paginate.limit === 1
+                ? ''
+                : ` LIMIT $${this.data.conditions.length + 1} OFFSET $${this.data.conditions.length + 2}`;
         }
 
         /**
