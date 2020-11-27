@@ -146,16 +146,4 @@ export default class Model<T> {
         const conditionValue = (this[localFieldKey] as unknown) as ConditionValue;
         return QueryBuilder<U>(otherModel).where(remoteField, conditionValue).get();
     }
-
-    /**
-     * Pagination LIMIT and OFFSET method.
-     */
-    // static async pagination<U>(page: number, items: number): Promise<QueryResult> {
-    //     const { table } = new this<U>();
-    //     const offset = (page - 1) * items;
-    //     const queryValues = [items, offset];
-    //     const query = `SELECT * FROM ${table} LIMIT $1 OFFSET $2`;
-    //     const response = await DB.query(query, queryValues);
-    //     return response;
-    // }
 }
