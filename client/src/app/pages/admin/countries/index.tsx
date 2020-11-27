@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import DataTable from '../../../../ui/datatable';
+import Delete from './actions/delete';
 
 const Countries: React.FC = (): JSX.Element => {
     const [countries, setCountries] = useState<ICountryModel[]>([]);
+    const [forDeletion, setForDeletion] = useState<number>(-1);
+    const [deleted, setDeleted] = useState<number>(-1);
 
     useEffect(() => {
         axios
@@ -14,7 +17,7 @@ const Countries: React.FC = (): JSX.Element => {
             .catch((err) => {
                 return err;
             });
-    }, []);
+    }, [deleted]);
 
     const columns: IColumn<ICountryModel>[] = [
         {
@@ -68,6 +71,21 @@ const Countries: React.FC = (): JSX.Element => {
         },
     ];
 
+    const actions: IOption[] = [
+        {
+            display: 'Edit',
+            action: (rowId: number) => {
+                console.log(`clicked edit on ${rowId}`);
+            },
+        },
+        {
+            display: 'Delete',
+            action: (rowId: number) => {
+                setForDeletion(rowId);
+            },
+        },
+    ];
+
     return (
         <div>
             <div className="bg-white shadow">
@@ -79,8 +97,9 @@ const Countries: React.FC = (): JSX.Element => {
                     </div>
                 </div>
             </div>
+            <Delete forDeletion={forDeletion} setForDeletion={setForDeletion} setDeleted={setDeleted} />
             <div className="p-4">
-                <DataTable<ICountryModel> items={countries} columns={columns} />
+                <DataTable<ICountryModel> items={countries} columns={columns} actions={actions} />
             </div>
         </div>
     );
