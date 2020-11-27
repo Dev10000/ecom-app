@@ -1,75 +1,41 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Modal from 'react-modal';
 import axios from 'axios';
 
 Modal.setAppElement('#root');
 
-interface IDeleteConfirmationProps {
-    forDeletion: number;
-    setForDeletion: React.Dispatch<React.SetStateAction<number>>;
-    setDeleted: React.Dispatch<React.SetStateAction<number>>;
+interface IAddProps {
+    visible: boolean;
+    setVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Delete: React.FC<IDeleteConfirmationProps> = ({ forDeletion, setForDeletion, setDeleted }): JSX.Element => {
-    const [isOpen, setIsOpen] = useState(false);
+const Add: React.FC<IAddProps> = ({ visible, setVisible }): JSX.Element => {
     const [loading, setLoading] = useState(false);
 
-    useEffect(() => {
-        setIsOpen(forDeletion !== -1);
-    }, [forDeletion]);
-
     const closeModal = (): void => {
-        setIsOpen(false);
-        setForDeletion(-1);
+        setVisible(false);
     };
 
-    const handleDelete = () => {
+    const handleCreate = () => {
         setLoading(true);
-        axios
-            .delete(`countries/${forDeletion}`)
-            .then(() => {
-                setDeleted(forDeletion);
-                setLoading(false);
-                closeModal();
-            })
-            // eslint-disable-next-line no-console
-            .catch((err) => console.error(err));
+        axios.post('countries', {
+            body: null,
+        });
+        setLoading(false);
     };
 
     return (
         <Modal
             overlayClassName="fixed z-50 inset-0 -top-16 overflow-y-auto flex items-end justify-center min-h-screen pt-4 mt-16 px-4 pb-20 text-center bg-gray-600 bg-opacity-75"
             className="items-center align-bottom inline-block h-auto w-full max-w-xl m-auto relative top-2 left-2 right-2 bottom-2 bg-white dark:bg-gray-900 dark:text-white bg-opacity-100 rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all focus:outline-none"
-            isOpen={isOpen}
+            isOpen={visible}
             onRequestClose={closeModal}
         >
             <div className="sm:flex sm:items-end md:flex-col">
-                <div className="mx-auto flex-shrink-0 flex items-center justify-center h-14 md:h-12 w-14 md:w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10 sm:self-start md:mb-4">
-                    <svg
-                        className="w-8 h-8 md:w-6 md:h-6 text-red-600"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg"
-                    >
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
-                        />
-                    </svg>
-                </div>
                 <div className="mt-3 sm:mt-0 sm:ml-4 sm:text-left md:w-full">
-                    <h3 className="text-lg leading-6 font-medium text-gray-900">Delete Country?</h3>
+                    <h3 className="text-lg leading-6 font-medium text-gray-900">Add Country</h3>
                     <div className="mt-2">
-                        <p className="text-sm py-2 text-gray-500">
-                            Are you sure you want to delete selected country? <br />
-                            This action cannot be undone.
-                            <br />
-                            <br />
-                            TODO: Write here if there are any dependencies
-                        </p>
+                        <p className="text-sm py-2 text-gray-500">content here</p>
                     </div>
 
                     <button
@@ -90,10 +56,10 @@ const Delete: React.FC<IDeleteConfirmationProps> = ({ forDeletion, setForDeletio
                 <div className="mt-5 sm:mt-4 sm:ml-10 sm:pl-4 sm:flex">
                     <button
                         type="button"
-                        className={`inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:w-auto sm:text-sm ${
+                        className={`inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:w-auto sm:text-sm ${
                             loading ? 'cursor-not-allowed' : ''
                         }`}
-                        onClick={handleDelete}
+                        onClick={handleCreate}
                         disabled={loading}
                     >
                         {loading ? (
@@ -121,7 +87,7 @@ const Delete: React.FC<IDeleteConfirmationProps> = ({ forDeletion, setForDeletio
                                 <span>Please wait...</span>
                             </>
                         ) : (
-                            'Delete'
+                            'Create'
                         )}
                     </button>
                     <button
@@ -140,4 +106,4 @@ const Delete: React.FC<IDeleteConfirmationProps> = ({ forDeletion, setForDeletio
     );
 };
 
-export default Delete;
+export default Add;
