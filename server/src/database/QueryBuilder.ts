@@ -2,8 +2,6 @@
 // www.typescriptlang.org/docs/handbook/mixins.html
 
 import { QueryConfig } from 'pg';
-import { timingSafeEqual } from 'crypto';
-import { threadId } from 'worker_threads';
 import DB from '../config/database';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -107,18 +105,12 @@ export default function QueryBuilder<T>(model: Constructor<T>) {
             return this;
         }
 
-        // Need to filter only relevant methods to make this work!!!
-        // ...then, use something like a Proxy()
-        // Kept here for when I'll be able to fill the blanks.
-        // Until then, I'll try a join approach
-
-        // with(...relationships: (keyof T)[]): this {
-        //     const model: T = new this.Model();
-        //     console.log(Object.keys(model));
-        //     console.log({ relationships });
-        //     this.data.relationships = relationships.map((relationship) => model[relationship]();
-        //     return this;
-        // }
+        with(...relationships: (keyof T)[]): this {
+            relationships.forEach((relationship) => {
+                console.log(String(new this.Model()[relationship]));
+            });
+            return this;
+        }
 
         /**
          * Ads a join part to the built query.
@@ -324,7 +316,7 @@ export default function QueryBuilder<T>(model: Constructor<T>) {
 //     .then((user) => console.log(user))
 //     .catch((err) => console.log(err.message));
 
-// QB<IUserModel>(User)
+// QueryBuilder<IUserModel>(User)
 //     .where('id', '=', '777')
 //     .first()
 //     .then((user) => {
@@ -334,3 +326,5 @@ export default function QueryBuilder<T>(model: Constructor<T>) {
 //             .catch((err) => console.log({ err }));
 //     })
 //     .catch((err) => console.log({ err }));
+
+// QueryBuilder<IUserModel>(User).with('country').where('id', '=', '777').first();
