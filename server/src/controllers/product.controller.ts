@@ -25,20 +25,18 @@ function moveUploadedFile(file: fileUpload.UploadedFile) {
 // };
 
 export const getAll = async (req: Request, res: Response): Promise<Response> => {
-    let [pageInt, itemsInt] = [1, 25]; // Default values for pagination
     const { page, items } = req.query;
 
-    // Check if values given and convert string to int
-    if (page) {
-        pageInt = +page;
-    }
-    if (items) {
-        itemsInt = +items;
-    }
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return res.status(422).json({ status: 'error', data: errors.array() });
 
-    return Product.pagination(pageInt, itemsInt)
+    console.log({ page }, { items });
+
+    return QueryBuilder(Product)
+        .paginate(Number(page) || 1, Number(items) || 25)
+        .get()
         .then((products) => {
-            return res.status(200).json({ status: 'success', data: products.rows });
+            return res.status(200).json({ status: 'success', data: products });
         })
         .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
 };

@@ -1,11 +1,11 @@
 import { Router } from 'express';
 import passport from 'passport';
-import productValidator from '../validators/product';
+import productValidator, { productQuery } from '../validators/product';
 import { getAll, getSingle, search, create, edit, destroy } from '../controllers/product.controller';
 
 const router = Router();
 
-router.get('/', getAll);
+router.get('/', productQuery, getAll);
 router.get('/:id', getSingle);
 router.get('/search/:keywords', search);
 router.post('/', passport.authenticate('jwt', { session: false }), productValidator, create);
