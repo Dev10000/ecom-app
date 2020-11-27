@@ -150,12 +150,12 @@ export default class Model<T> {
     /**
      * Pagination LIMIT and OFFSET method.
      */
-    static async pagination<U>(page: number, items: number): Promise<QueryResult> {
-        const { table } = new this<U>();
-        const offset = (page - 1) * items;
-        const queryValues = [items, offset];
-        const query = `SELECT * FROM ${table} LIMIT $1 OFFSET $2`;
-        const response = await DB.query(query, queryValues);
-        return response;
-    }
+    // static async pagination<U>(page: number, items: number): Promise<QueryResult> {
+    //     const { table } = new this<U>();
+    //     const offset = (page - 1) * items;
+    //     const queryValues = [items, offset];
+    //     const query = `SELECT * FROM ${table} LIMIT $1 OFFSET $2`;
+    //     const response = await DB.query(query, queryValues);
+    //     return response;
+    // }
 }
