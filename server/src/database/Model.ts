@@ -1,4 +1,5 @@
 import pluralize from 'pluralize';
+import { QueryResult } from 'pg';
 import { removeFields, pascalToSnakeCase } from './utils';
 import DB from '../config/database';
 import QueryBuilder from './QueryBuilder';
@@ -144,5 +145,17 @@ export default class Model<T> {
         remoteField = remoteField || `${pascalToSnakeCase(this.constructor.name)}_id`; // User -> users_id
         const conditionValue = (this[localFieldKey] as unknown) as ConditionValue;
         return QueryBuilder<U>(otherModel).where(remoteField, conditionValue).get();
+    }
+
+    /**
+     * Pagination LIMIT and OFFSET method.
+     */
+    static async pagination<U>(page: number, items: number): Promise<QueryResult> {
+        const { table } = new this<U>();
+        const offset = (page - 1) * items;
+        const queryValues = [items, offset];
+        const query = `SELECT * FROM ${table} LIMIT $1 OFFSET $2`;
+        const response = await DB.query(query, queryValues);
+        return response;
     }
 }

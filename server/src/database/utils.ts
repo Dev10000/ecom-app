@@ -85,7 +85,7 @@ export const slugify = async (input: string): Promise<string> => {
         .toLowerCase()
         .replace(/\s+/g, '-') // Replace spaces with -
         .replace(/[^\w-]+/g, '') // Removes anything not alphanumeric
-        .replace(/\-\-+/g, '-'); // Replace multiple - with single -
+        .replace(/--+/g, '-'); // Replace multiple - with single -
     return slug;
 };
 
