@@ -15,7 +15,7 @@ const News: React.FC = (): JSX.Element => {
                     <div className="w-32">
                         <h4 className="text-gray-300 mb-1">16.12.2020</h4>
                         <h2 className="font-bold mb-1">Fashion Industry</h2>
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum.</p>
+                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
                     </div>
                 </div>
                 <div className="flex flex-cols-2 gap-4 w-54">
@@ -29,7 +29,7 @@ const News: React.FC = (): JSX.Element => {
                     <div className="w-32">
                         <h4 className="text-gray-300 mb-1">16.12.2020</h4>
                         <h2 className="font-bold mb-1">Best Design tools</h2>
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum.</p>
+                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
                     </div>
                 </div>
                 <div className="flex flex-cols-2 gap-4 w-54">
@@ -43,7 +43,7 @@ const News: React.FC = (): JSX.Element => {
                     <div className="w-32">
                         <h4 className="text-gray-300 mb-1">16.12.2020</h4>
                         <h2 className="font-bold mb-1">HR Community</h2>
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum.</p>
+                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
                     </div>
                 </div>
             </div>
