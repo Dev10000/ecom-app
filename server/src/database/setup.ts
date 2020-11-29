@@ -190,6 +190,21 @@ const create_coupon_codes_table = async () => {
     return runSetupQuery('coupon_codes', couponCodesQuery);
 };
 
+/** Database Views (at least before we get the query builder able to get relationship data through eager loading)  */
+
+const create_products_view = async () => {
+    const productsViewSQL = `DROP VIEW IF EXISTS "products_view"; 
+    CREATE VIEW "products_view" AS SELECT *
+    FROM products as a
+    INNER JOIN (
+    SELECT json_agg(a.*)  image,
+    product_id
+    FROM product_images as a
+    GROUP BY product_id) AS b ON a.id = b.product_id`;
+
+    return runSetupQuery('products_view', productsViewSQL);
+};
+
 const setup = async () => {
     console.log('\x1b[36m%s\x1b[0m', 'ℹ Started database (re)structuring...');
     await create_countries_table();
@@ -202,6 +217,7 @@ const setup = async () => {
     await create_orders_table();
     await create_users_table();
     await create_coupon_codes_table();
+    await create_products_view();
     console.log('\x1b[36m%s\x1b[0m', 'ℹ Database (re)structuring complete!');
 };
 

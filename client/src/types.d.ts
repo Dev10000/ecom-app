@@ -207,4 +207,15 @@ interface IColumn<T> {
 interface IDataTableProps<T> {
     items: (T & IModel)[];
     columns: IColumn<T>[];
+    actions?: IOption[];
+}
+
+interface IOption {
+    display: string;
+    action: (rowId: number) => any;
+}
+
+interface IOPtionsProps {
+    rowId: number;
+    actions?: IOption[];
 }
