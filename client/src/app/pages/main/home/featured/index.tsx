@@ -2,12 +2,12 @@ import React from 'react';
 
 const Featured: React.FC = (): JSX.Element => {
     return (
-        <div className="flex flex-cols-3 gap-4 max-w-screen mt-1 ml-12 mr-12">
+        <div className="flex flex-cols-3 gap-4 max-w-screen mb-16">
             <div className="max-w-md mx-auto bg-white rounded-xl rounded-yl shadow-md overflow-hidden md:max-w-2xl">
                 <div className="md:flex">
                     <div className="flex-1 md:flex-shrink-0">
                         <img
-                            className="h-56 w-full object-cover md:w-48"
+                            className="h-56 w-full object-cover md:w-62"
                             src="https://via.placeholder.com/250x150?text=Product Image"
                             alt="img"
                         />
@@ -32,7 +32,7 @@ const Featured: React.FC = (): JSX.Element => {
                 <div className="md:flex">
                     <div className="flex-1 md:flex-shrink-0">
                         <img
-                            className="h-56 w-full object-cover md:w-48"
+                            className="h-56 w-full object-cover md:w-62"
                             src="https://via.placeholder.com/250x150?text=Product Image"
                             alt="img"
                         />
@@ -57,7 +57,7 @@ const Featured: React.FC = (): JSX.Element => {
                 <div className="md:flex">
                     <div className="flex-1 md:flex-shrink-0">
                         <img
-                            className="h-56 w-full object-cover md:w-48"
+                            className="h-56 w-full object-cover md:w-62"
                             src="https://via.placeholder.com/250x150?text=Product Image"
                             alt="img"
                         />
