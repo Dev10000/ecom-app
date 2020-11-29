@@ -15,8 +15,25 @@ function moveUploadedFile(file: fileUpload.UploadedFile) {
     // TODO: save the filenames to the DB
 }
 
+// export const getAll = async (req: Request, res: Response): Promise<Response> => {
+//     return QueryBuilder(Product)
+//         .get()
+//         .then((products) => {
+//             return res.status(200).json({ status: 'success', data: products });
+//         })
+//         .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
+// };
+
 export const getAll = async (req: Request, res: Response): Promise<Response> => {
+    const { page, items } = req.query;
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return res.status(422).json({ status: 'error', data: errors.array() });
+
+    console.log({ page }, { items });
+
     return QueryBuilder(Product)
+        .paginate(Number(page) || 1, Number(items) || 25)
         .get()
         .then((products) => {
             return res.status(200).json({ status: 'success', data: products });

@@ -1,4 +1,5 @@
 import pluralize from 'pluralize';
+import { QueryResult } from 'pg';
 import { removeFields, pascalToSnakeCase } from './utils';
 import DB from '../config/database';
 import QueryBuilder from './QueryBuilder';

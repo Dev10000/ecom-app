@@ -15,6 +15,7 @@ export default function QueryBuilder<T>(model: Constructor<T>) {
     interface IQueryOptions {
         table: string;
         limit: number;
+        paginate: { page: number; limit: number };
         select: string[] | '*';
         orderBy: IOrderBy;
         conditions: ICondition[];
@@ -26,6 +27,7 @@ export default function QueryBuilder<T>(model: Constructor<T>) {
         data: IQueryOptions = {
             table: '',
             limit: 0,
+            paginate: { page: 1, limit: 1 },
             select: '*',
             orderBy: { field: '', direction: 'asc' },
             conditions: [],
@@ -84,6 +86,17 @@ export default function QueryBuilder<T>(model: Constructor<T>) {
         }
 
         /**
+         * Paginate the query results.
+         * @param page number
+         * @param limit number
+         */
+        paginate(page: number, limit: number): this {
+            this.data.paginate = { page, limit };
+            // console.log(this);
+            return this;
+        }
+
+        /**
          * Used to specify the fields we want to retrieve from the query. Default is '*'
          * @param args string[]
          */
@@ -92,18 +105,12 @@ export default function QueryBuilder<T>(model: Constructor<T>) {
             return this;
         }
 
-        // Need to filter only relevant methods to make this work!!!
-        // ...then, use something like a Proxy()
-        // Kept here for when I'll be able to fill the blanks.
-        // Until then, I'll try a join approach
-
-        // with(...relationships: (keyof T)[]): this {
-        //     const model: T = new this.Model();
-        //     console.log(Object.keys(model));
-        //     console.log({ relationships });
-        //     this.data.relationships = relationships.map((relationship) => model[relationship]();
-        //     return this;
-        // }
+        with(...relationships: (keyof T)[]): this {
+            relationships.forEach((relationship) => {
+                console.log(String(new this.Model()[relationship]));
+            });
+            return this;
+        }
 
         /**
          * Ads a join part to the built query.
@@ -142,9 +149,9 @@ export default function QueryBuilder<T>(model: Constructor<T>) {
          */
         query(table: string, action?: QueryType): QueryConfig {
             const prefix = this.buildPrefix(action || 'select');
-            const text = `${prefix} ${table} ${this.buildJoins()} ${this.buildConditions()} ${this.buildOrderBy()}${this.buildLimit()}`;
+            const text = `${prefix} ${table} ${this.buildJoins()} ${this.buildConditions()} ${this.buildOrderBy()}${this.buildPagination()}${this.buildLimit()}`;
             const values = this.buildValues();
-            // console.log(text, values);
+            console.log(text, values);
             return { text, values };
         }
 
@@ -214,7 +221,10 @@ export default function QueryBuilder<T>(model: Constructor<T>) {
          * Builds an array of values to be passed with the query.
          */
         private buildValues(): ConditionValue[] {
-            return this.data.conditions.map((where) => where.value);
+            const values = this.data.conditions.map((where) => where.value);
+            const offset = (this.data.paginate.page - 1) * this.data.paginate.limit;
+
+            return this.data.paginate.limit === 1 ? values : [...values, this.data.paginate.limit, offset];
         }
 
         /**
@@ -245,6 +255,16 @@ export default function QueryBuilder<T>(model: Constructor<T>) {
          */
         private buildLimit(): string {
             return this.data.limit ? ` LIMIT ${this.data.limit}` : '';
+        }
+
+        /**
+         * Builds the LIMIT and OFFSET part of the query for pagination.
+         */
+        private buildPagination(): string {
+            this.data.limit = 0;
+            return this.data.paginate.limit === 1
+                ? ''
+                : ` LIMIT $${this.data.conditions.length + 1} OFFSET $${this.data.conditions.length + 2}`;
         }
 
         /**
@@ -296,7 +316,7 @@ export default function QueryBuilder<T>(model: Constructor<T>) {
 //     .then((user) => console.log(user))
 //     .catch((err) => console.log(err.message));
 
-// QB<IUserModel>(User)
+// QueryBuilder<IUserModel>(User)
 //     .where('id', '=', '777')
 //     .first()
 //     .then((user) => {
@@ -306,3 +326,5 @@ export default function QueryBuilder<T>(model: Constructor<T>) {
 //             .catch((err) => console.log({ err }));
 //     })
 //     .catch((err) => console.log({ err }));
+
+// QueryBuilder<IUserModel>(User).with('country').where('id', '=', '777').first();
