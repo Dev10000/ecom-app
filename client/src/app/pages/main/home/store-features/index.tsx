@@ -7,7 +7,7 @@ const StoreFeatures: React.FC = (): JSX.Element => {
                 <div className="flex flex-col w-48 sm:w-96 md:w-96">
                     <div className="flex items-center">
                         <svg
-                            className="w-20 h-16 mr-auto ml-auto display-block"
+                            className="w-24 h-20 mr-auto ml-auto display-block"
                             fill="none"
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 102 67"
@@ -20,16 +20,18 @@ const StoreFeatures: React.FC = (): JSX.Element => {
                     </div>
                     <div className="mt-6 dark:text-white">
                         <div className="font-semibold mb-4 text-center tracking-widest text-lg">FREE SHIPPING</div>
-                        <div className="text-center mb-4">
-                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
-                            been the industry standard dummy text ever.Since the 1500s, when an unknown printer.
+                        <div className="text-center">
+                            Lorem Ipsum is simply dummy text of the printing and the
+                            <br /> typesetting industry. Lorem Ipsum has been the industry
+                            <br /> standard dummy text ever.Since the 1500s, when an
+                            <br /> unknown printer.
                         </div>
                     </div>
                 </div>
                 <div className="flex flex-col w-48 sm:w-96 md:w-96">
                     <div className="flex items-center">
                         <svg
-                            className="w-20 h-16 mr-auto ml-auto display-block"
+                            className="w-24 h-20 mr-auto ml-auto display-block"
                             fill="none"
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 70 79"
@@ -42,16 +44,18 @@ const StoreFeatures: React.FC = (): JSX.Element => {
                     </div>
                     <div className="mt-6 dark:text-white">
                         <div className="font-semibold mb-4 text-center tracking-widest text-lg">100% REFUND</div>
-                        <div className="text-center mb-4">
-                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
-                            been the industry standard dummy text ever.Since the 1500s, when an unknown printer.
+                        <div className="text-center">
+                            Lorem Ipsum is simply dummy text of the printing and the
+                            <br /> typesetting industry. Lorem Ipsum has been the industry
+                            <br /> standard dummy text ever.Since the 1500s, when an
+                            <br /> unknown printer.
                         </div>
                     </div>
                 </div>
                 <div className="flex flex-col w-48 sm:w-96 md:w-96">
                     <div className="flex items-center">
                         <svg
-                            className="w-20 h-16 mr-auto ml-auto display-block"
+                            className="w-24 h-20 mr-auto ml-auto display-block"
                             fill="none"
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 69 90"
@@ -68,9 +72,11 @@ const StoreFeatures: React.FC = (): JSX.Element => {
                     </div>
                     <div className="mt-6 dark:text-white">
                         <div className="font-semibold mb-4 text-center tracking-widest text-lg">SUPPORT 24/7</div>
-                        <div className="text-center mb-4">
-                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
-                            been the industry standard dummy text ever.Since the 1500s, when an unknown printer.
+                        <div className="text-center">
+                            Lorem Ipsum is simply dummy text of the printing and the
+                            <br /> typesetting industry. Lorem Ipsum has been the industry
+                            <br /> standard dummy text ever.Since the 1500s, when an
+                            <br /> unknown printer.
                         </div>
                     </div>
                 </div>
