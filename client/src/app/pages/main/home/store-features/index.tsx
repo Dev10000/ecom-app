@@ -4,7 +4,7 @@ const StoreFeatures: React.FC = (): JSX.Element => {
     return (
         <div className="flex max-w-full mt-8">
             <div className="flex-cols-3 w-full m-4 sm:flex flex-row justify-between w-full m-x-auto text-xs p-16">
-                <div className="flex flex-col w-48 mr-auto ml-auto display-block sm:w-96 md:w-96">
+                <div className="flex flex-col w-auto mr-auto ml-auto display-block sm:w-96 md:w-96">
                     <div className="flex items-center">
                         <svg
                             className="w-24 h-20 mr-auto ml-auto display-block"
@@ -30,7 +30,7 @@ const StoreFeatures: React.FC = (): JSX.Element => {
                         </div>
                     </div>
                 </div>
-                <div className="flex flex-col w-48 mr-auto ml-auto display-block sm:w-96 md:w-96">
+                <div className="flex flex-col w-auto mr-auto ml-auto display-block sm:w-96 md:w-96">
                     <div className="flex items-center">
                         <svg
                             className="w-24 h-20 mr-auto ml-auto display-block"
@@ -56,7 +56,7 @@ const StoreFeatures: React.FC = (): JSX.Element => {
                         </div>
                     </div>
                 </div>
-                <div className="flex flex-col w-48 mr-auto ml-auto display-block sm:w-96 md:w-96">
+                <div className="flex flex-col w-auto mr-auto ml-auto display-block sm:w-96 md:w-96">
                     <div className="flex items-center">
                         <svg
                             className="w-24 h-20 mr-auto ml-auto display-block"
