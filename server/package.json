@@ -7,8 +7,8 @@
     "watch": "nodemon",
     "db:reset": "ts-node -r dotenv/config src/database/setup.ts",
     "db:seed": "ts-node -r dotenv/config src/database/seeders.ts",
-    "db:fresh": "npm run db:reset && npm run db:seed",
-    "test": "npx mocha --require ts-node/register 'test/**/*.ts'"
+    "test": "npx mocha --timeout 15000 -r ts-node/register -r dotenv/config dotenv_config_path=./.tests.env 'test/**/*.ts' --exit",
+    "db:fresh": "npm run db:reset && npm run db:seed"
   },
   "keywords": [],
   "author": "",
@@ -44,6 +44,7 @@
     "@types/pluralize": "0.0.29",
     "@types/uuid": "^8.3.0",
     "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
     "eslint": "^7.13.0",
     "eslint-config-airbnb-typescript-prettier": "^3.1.0",
     "mocha": "^8.2.1",

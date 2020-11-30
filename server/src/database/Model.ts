@@ -144,7 +144,7 @@ export default class Model<T> {
             name: relationshipName,
             constructor: OtherModel,
             table: new OtherModel().table,
-            localField: localFieldKey,
+            localField: localField as keyof T,
             remoteField,
         });
         return QueryBuilder<U>(OtherModel).where(remoteField, conditionValue).first();
