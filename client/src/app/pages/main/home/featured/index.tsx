@@ -2,7 +2,7 @@ import React from 'react';
 
 const Featured: React.FC = (): JSX.Element => {
     return (
-        <div className="flex flex-cols-3 gap-4 max-w-screen mb-16">
+        <div className="flex flex-cols-3 gap-4 max-w-full mb-16">
             <div className="max-w-md mx-auto bg-white rounded-xl rounded-yl shadow-md overflow-hidden md:max-w-2xl">
                 <div className="md:flex">
                     <div className="flex-1 md:flex-shrink-0">
