@@ -56,6 +56,11 @@ export const getSingle = async (req: Request, res: Response): Promise<Response> 
 
 export const search = async (req: Request, res: Response): Promise<Response> => {
     const { keywords } = req.params;
+    const { page, items } = req.query;
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return res.status(422).json({ status: 'error', data: errors.array() });
+
     // split search keywords, remove spaces and join them with |
     const regex = keywords
         .split(' ')
@@ -63,6 +68,7 @@ export const search = async (req: Request, res: Response): Promise<Response> => 
         .join('|');
     return QueryBuilder(Product)
         .where('title', '~*', `(${regex})`) // Matches regular expression, case insensitive
+        .paginate(Number(page) || 1, Number(items) || 25)
         .get()
         .then((products) => {
             return res.status(200).json({ status: 'success', data: products });
