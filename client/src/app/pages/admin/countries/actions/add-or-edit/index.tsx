@@ -1,5 +1,6 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import axios from 'axios';
 import { fieldError } from '../../../../../../utils';
@@ -10,9 +11,11 @@ interface IAddProps {
     visible: boolean;
     setVisible: React.Dispatch<React.SetStateAction<boolean>>;
     setUpdated: React.Dispatch<React.SetStateAction<number>>;
+    setForEdit: React.Dispatch<React.SetStateAction<number>>;
+    edit: number;
 }
 
-const Add: React.FC<IAddProps> = ({ visible, setVisible, setUpdated }): JSX.Element => {
+const AddOrEdit: React.FC<IAddProps> = ({ visible, setVisible, setUpdated, edit, setForEdit }): JSX.Element => {
     const [loading, setLoading] = useState(false);
     const [name, setName] = useState('');
     const [alpha2, setAlpha2] = useState('');
@@ -27,6 +30,29 @@ const Add: React.FC<IAddProps> = ({ visible, setVisible, setUpdated }): JSX.Elem
     const [intermediateRegionCode, setIntermediateRegionCode] = useState('');
 
     const [errors, setErrors] = useState<IFormError[]>([]);
+
+    useEffect(() => {
+        if (edit) {
+            setLoading(true);
+            axios.get(`countries/${edit}`).then((response) => {
+                if (response.data.data.id) {
+                    const { data } = response.data;
+                    setName(data.name);
+                    setAlpha2(data.alpha2);
+                    setAlpha3(data.alpha3);
+                    setCode(data.code);
+                    setISO31162(data.iso_3166_2);
+                    setRegion(data.region);
+                    setRegionCode(data.region_code);
+                    setSubRegion(data.sub_region);
+                    setSubRegionCode(data.sub_region_code);
+                    setIntermediateRegion(data.intermediate_region);
+                    setIntermediateRegionCode(data.intermediate_region_code);
+                }
+            });
+            setLoading(false);
+        }
+    }, [edit, loading]);
 
     const closeModal = (): void => {
         setVisible(false);
@@ -43,11 +69,13 @@ const Add: React.FC<IAddProps> = ({ visible, setVisible, setUpdated }): JSX.Elem
         setIntermediateRegion('');
         setIntermediateRegionCode('');
         setErrors([]);
+        setForEdit(0);
     };
 
     const handleCreate = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setLoading(true);
+        setErrors([]);
         axios
             .post('countries', {
                 name,
@@ -65,6 +93,36 @@ const Add: React.FC<IAddProps> = ({ visible, setVisible, setUpdated }): JSX.Elem
             .then((response) => {
                 if (response.data.data.id) {
                     setUpdated(response.data.data.id);
+                    closeModal();
+                }
+            })
+            .catch((err) => setErrors(err.response.data.data));
+        setLoading(false);
+    };
+
+    const handleUpdate = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setLoading(true);
+        setErrors([]);
+        axios
+            .patch(`countries/${edit}`, {
+                name,
+                alpha2,
+                alpha3,
+                code,
+                iso_3166_2: ISO31162,
+                region,
+                region_code: regionCode,
+                sub_region: subRegion,
+                sub_region_code: subRegionCode,
+                intermediate_region: intermediateRegion,
+                intermediate_region_code: intermediateRegionCode,
+            })
+            .then((response) => {
+                if (response.data.data.id) {
+                    setUpdated(response.data.data.id);
+                    setForEdit(0);
+                    closeModal();
                 }
             })
             .catch((err) => setErrors(err.response.data.data));
@@ -78,10 +136,10 @@ const Add: React.FC<IAddProps> = ({ visible, setVisible, setUpdated }): JSX.Elem
             isOpen={visible}
             onRequestClose={closeModal}
         >
-            <form onSubmit={handleCreate}>
+            <form onSubmit={edit ? handleUpdate : handleCreate}>
                 <div className="p-5 sm:flex sm:items-end sm:flex-col">
                     <div className="mt-3 sm:mt-0 sm:ml-4 w-full">
-                        <h3 className="text-lg leading-6 font-medium text-gray-900">Add Country</h3>
+                        <h3 className="text-lg leading-6 font-medium text-gray-900">{edit ? 'Edit' : 'Add'} Country</h3>
 
                         <div className="mt-6 grid grid-cols-1 gap-y-4 gap-x-4 sm:grid-cols-6">
                             <div className="sm:col-span-6">
@@ -390,7 +448,7 @@ const Add: React.FC<IAddProps> = ({ visible, setVisible, setUpdated }): JSX.Elem
                     <div className="mt-6 sm:mt-10 sm:flex sm:flex-1">
                         <button
                             type="submit"
-                            className={`inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 sm:w-auto sm:text-sm ${
+                            className={`inline-flex justify-center w-full rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-400 text-base font-medium text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:w-auto sm:text-sm ${
                                 loading ? 'cursor-not-allowed' : ''
                             }`}
                             disabled={loading}
@@ -419,6 +477,8 @@ const Add: React.FC<IAddProps> = ({ visible, setVisible, setUpdated }): JSX.Elem
                                     </svg>
                                     <span>Please wait...</span>
                                 </>
+                            ) : edit ? (
+                                'Update'
                             ) : (
                                 'Create'
                             )}
@@ -440,4 +500,4 @@ const Add: React.FC<IAddProps> = ({ visible, setVisible, setUpdated }): JSX.Elem
     );
 };
 
-export default Add;
+export default AddOrEdit;

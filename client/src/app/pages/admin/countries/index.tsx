@@ -2,13 +2,14 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import DataTable from '../../../../ui/datatable';
 import Delete from './actions/delete';
-import Add from './actions/add';
+import AddOrEdit from './actions/add-or-edit';
 
 const Countries: React.FC = (): JSX.Element => {
     const [countries, setCountries] = useState<ICountryModel[]>([]);
     const [forDeletion, setForDeletion] = useState<number>(-1);
+    const [forEdit, setForEdit] = useState<number>(0);
     const [updated, setUpdated] = useState<number>(-1);
-    const [createDisplay, setCreateDisplay] = useState(false);
+    const [addOrEditDisplay, setAddOrEditDisplay] = useState(false);
 
     useEffect(() => {
         axios
@@ -77,7 +78,8 @@ const Countries: React.FC = (): JSX.Element => {
         {
             display: 'Edit',
             action: (rowId: number) => {
-                console.log(`clicked edit on ${rowId}`);
+                setForEdit(rowId);
+                setAddOrEditDisplay(true);
             },
         },
         {
@@ -99,7 +101,7 @@ const Countries: React.FC = (): JSX.Element => {
                         <button
                             type="button"
                             className="mt-4 md:mt-0 text-center inline-flex items-center pl-2 pr-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-400 hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                            onClick={() => setCreateDisplay(true)}
+                            onClick={() => setAddOrEditDisplay(true)}
                         >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -119,7 +121,13 @@ const Countries: React.FC = (): JSX.Element => {
                     </div>
                 </div>
             </div>
-            <Add visible={createDisplay} setVisible={setCreateDisplay} setUpdated={setUpdated} />
+            <AddOrEdit
+                visible={addOrEditDisplay}
+                setVisible={setAddOrEditDisplay}
+                setUpdated={setUpdated}
+                edit={forEdit}
+                setForEdit={setForEdit}
+            />
             <Delete forDeletion={forDeletion} setForDeletion={setForDeletion} setUpdated={setUpdated} />
             <div className="p-4">
                 <DataTable<ICountryModel> items={countries} columns={columns} actions={actions} />

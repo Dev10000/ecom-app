@@ -23,12 +23,10 @@ export default [
 
     body('code')
         .trim()
-        .isLength({ min: 2, max: 2 })
-        .withMessage('Length must be 2 characters.')
-        .isAlpha()
-        .withMessage('The characters must be letters.')
-        .isUppercase()
-        .withMessage('The letters must be uppercase.'),
+        .isLength({ min: 1, max: 3 })
+        .withMessage('Length must be between 1 and 3 digits.')
+        .isNumeric()
+        .withMessage('The code must be numeric.'),
 
     body('iso_3166_2')
         .trim()

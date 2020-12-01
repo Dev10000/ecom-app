@@ -211,7 +211,7 @@ interface IDataTableProps<T> {
 
 interface IOption {
     display: string;
-    action: (rowId: number) => any;
+    action: (rowId: number) => unknown; // WIP
 }
 
 interface IOPtionsProps {

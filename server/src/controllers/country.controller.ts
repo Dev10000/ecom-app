@@ -14,6 +14,19 @@ export const getAll = async (req: Request, res: Response): Promise<Response> => 
         .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
 };
 
+export const getSingle = async (req: Request, res: Response): Promise<Response> => {
+    const { id } = req.params;
+
+    return Country.find<ICountryModel>(id)
+        .then((country) => {
+            if (country) {
+                return res.status(200).json({ status: 'success', data: country });
+            }
+            return res.status(404).json({ status: 'error', data: 'Country not found!' });
+        })
+        .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
+};
+
 export const getFullData = async (req: Request, res: Response): Promise<Response> => {
     return QueryBuilder(Country)
         .get()
