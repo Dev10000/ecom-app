@@ -44,6 +44,7 @@ const Product: React.FC = () => {
             setSliderProductLeftDisplay(true);
             setSliderIndex(sliderIndex + 1);
             setSliderProduct(categoryProducts[sliderIndex]);
+            console.log(sliderIndex);
         }
     };
 
@@ -51,31 +52,31 @@ const Product: React.FC = () => {
         if (sliderIndex < 0) {
             setSliderProductLeftDisplay(false);
         } else {
+            console.log(sliderIndex);
             setSliderProductRightDisplay(true);
             setSliderIndex(sliderIndex - 1);
             setSliderProduct(categoryProducts[sliderIndex]);
+            console.log(sliderIndex);
         }
     };
 
     const featureProductRight = (): void => {
-        if (sliderIndex > categoryProducts.length - 5) {
+        if (featureIndex > categoryProducts.length - 4) {
             setFeatureProductRightDisplay(false);
         } else {
             setFeatureProductLeftDisplay(true);
             setFeatureIndices(featureIndex + 1);
-            const productsArray = [...categoryProducts].splice(featureIndex, 4);
-            setFeatureProducts([...productsArray]);
+            setFeatureProducts([...categoryProducts].splice(featureIndex, 4));
         }
     };
 
     const featureProductLeft = (): void => {
-        if (sliderIndex > categoryProducts.length - 5) {
+        if (featureIndex < 0) {
             setFeatureProductLeftDisplay(false);
         } else {
             setFeatureProductRightDisplay(true);
             setFeatureIndices(featureIndex - 1);
-            const productsArray = [...categoryProducts].splice(featureIndex, 4);
-            setFeatureProducts([...productsArray]);
+            setFeatureProducts([...categoryProducts].splice(featureIndex, 4));
         }
     };
 
@@ -331,20 +332,22 @@ const Product: React.FC = () => {
                     <div className="flex flex-row items-center justify-center mt-12 sm:mt-0">
                         {sliderProductLeftDisplay ? (
                             <button type="button" onClick={sliderProductLeft}>
-                                <svg
-                                    className="w-6 h-6"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M15 19l-7-7 7-7"
-                                    />
-                                </svg>
+                                <div className="flex flex-col justify-center border rounded-full bg-gray-100 hover:bg-blue-400 hover:text-white h-10 w-10">
+                                    <svg
+                                        className="w-10 h-10 p-2 flex flex-row content-center"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth="2"
+                                            d="M15 19l-7-7 7-7"
+                                        />
+                                    </svg>
+                                </div>
                             </button>
                         ) : (
                             ''
@@ -385,9 +388,9 @@ const Product: React.FC = () => {
                         </div>
                         {sliderProductRightDisplay ? (
                             <button type="button" onClick={sliderProductRight}>
-                                <div>
+                                <div className="flex flex-col justify-center border rounded-full bg-gray-100 hover:bg-blue-400 hover:text-white h-10 w-10">
                                     <svg
-                                        className="w-6 h-6"
+                                        className="w-10 h-10 p-2 flex flex-row content-center"
                                         xmlns="http://www.w3.org/2000/svg"
                                         fill="none"
                                         stroke="currentColor"
@@ -414,15 +417,22 @@ const Product: React.FC = () => {
             <div className="flex flex-row items-center space-y-5 justify-center mt-10">
                 {featureProductLeftDisplay ? (
                     <button type="button" onClick={featureProductLeft}>
-                        <svg
-                            className="w-6 h-6"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                        >
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
-                        </svg>
+                        <div className="flex flex-col justify-center border rounded-full bg-gray-100 hover:bg-blue-400 hover:text-white h-10 w-10">
+                            <svg
+                                className="w-10 h-10 p-2 flex flex-row content-center"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    d="M15 19l-7-7 7-7"
+                                />
+                            </svg>
+                        </div>
                     </button>
                 ) : (
                     ''
@@ -463,15 +473,17 @@ const Product: React.FC = () => {
                 </div>
                 {featureProductRightDisplay ? (
                     <button type="button" onClick={featureProductRight}>
-                        <svg
-                            className="w-6 h-6"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                        >
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
-                        </svg>
+                        <div className="flex flex-col justify-center border rounded-full bg-gray-100 hover:bg-blue-400 hover:text-white h-10 w-10">
+                            <svg
+                                className="w-10 h-10 p-2 flex flex-row content-center"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </div>
                     </button>
                 ) : (
                     ''
