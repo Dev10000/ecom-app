@@ -1,43 +1,82 @@
 /* eslint-disable array-callback-return */
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import CartContext from '../../../../context/cart';
 
 const Product: React.FC = () => {
+    const { addProducts } = useContext(CartContext);
     const [product, setProduct] = useState<IProduct>();
     const [productId] = useState<number>(1);
     const [categoryName, setCategoryName] = useState<string>('');
-    const [categoryId, setCategoryId] = useState<number>(223);
+    const [categoryId, setCategoryId] = useState<number>(105);
     const [categoryProducts, setCategoryProducts] = useState<IProduct[]>([]);
     const [sliderProduct, setSliderProduct] = useState<IProduct>();
-    const [sliderIndex, setSliderIndex] = useState<number>(0);
+    const [sliderIndex, setSliderIndex] = useState<number>(1);
     const [featureProducts, setFeatureProducts] = useState<IProduct[]>([]);
     const [featureIndex, setFeatureIndices] = useState<number>(0);
     const [productImage, setProductImage] = useState<IProductImage>();
+    const [quantity, setQuantity] = useState<number>(1);
+    const [sliderProductRightDisplay, setSliderProductRightDisplay] = useState<boolean>(true);
+    const [sliderProductLeftDisplay, setSliderProductLeftDisplay] = useState<boolean>(false);
+    const [featureProductRightDisplay, setFeatureProductRightDisplay] = useState<boolean>(true);
+    const [featureProductLeftDisplay, setFeatureProductLeftDisplay] = useState<boolean>(false);
+
+    const addCounter = () => {
+        // eslint-disable-next-line camelcase
+        if (product && product.stock_qty && quantity < product.stock_qty) {
+            setQuantity(quantity + 1);
+        }
+    };
+    const subtractCounter = () => {
+        if (quantity > 1) {
+            setQuantity(quantity - 1);
+        }
+    };
 
     const imageDisplay = (id: number | undefined) => {
         setProductImage(product?.image?.find((image) => image.id === id));
     };
 
     const sliderProductRight = (): void => {
-        setSliderIndex(sliderIndex + 1);
-        setSliderProduct([...categoryProducts][sliderIndex]);
+        if (sliderIndex > categoryProducts.length - 2) {
+            setSliderProductRightDisplay(false);
+        } else {
+            setSliderProductLeftDisplay(true);
+            setSliderIndex(sliderIndex + 1);
+            setSliderProduct(categoryProducts[sliderIndex]);
+        }
     };
 
     const sliderProductLeft = (): void => {
-        setSliderIndex(sliderIndex - 1);
-        setSliderProduct([...categoryProducts][sliderIndex]);
+        if (sliderIndex < 0) {
+            setSliderProductLeftDisplay(false);
+        } else {
+            setSliderProductRightDisplay(true);
+            setSliderIndex(sliderIndex - 1);
+            setSliderProduct(categoryProducts[sliderIndex]);
+        }
     };
 
     const featureProductRight = (): void => {
-        setFeatureIndices(featureIndex + 1);
-        const productsArray = categoryProducts.splice(featureIndex, 4);
-        setFeatureProducts([...productsArray]);
+        if (sliderIndex > categoryProducts.length - 5) {
+            setFeatureProductRightDisplay(false);
+        } else {
+            setFeatureProductLeftDisplay(true);
+            setFeatureIndices(featureIndex + 1);
+            const productsArray = [...categoryProducts].splice(featureIndex, 4);
+            setFeatureProducts([...productsArray]);
+        }
     };
 
     const featureProductLeft = (): void => {
-        setFeatureIndices(featureIndex - 1);
-        const productsArray = categoryProducts.splice(featureIndex, 4);
-        setFeatureProducts([...productsArray]);
+        if (sliderIndex > categoryProducts.length - 5) {
+            setFeatureProductLeftDisplay(false);
+        } else {
+            setFeatureProductRightDisplay(true);
+            setFeatureIndices(featureIndex - 1);
+            const productsArray = [...categoryProducts].splice(featureIndex, 4);
+            setFeatureProducts([...productsArray]);
+        }
     };
 
     useEffect(() => {
@@ -66,8 +105,8 @@ const Product: React.FC = () => {
             .get(`/categories/${categoryId}/products`)
             .then((response) => {
                 setCategoryProducts(response.data.data);
-                setFeatureProducts(response.data.data.splice(0, 4));
                 setSliderProduct(response.data.data[0]);
+                setFeatureProducts(response.data.data.filter((item: IProduct, index: number) => index < 4));
                 return response.data.data;
             })
             .catch((err) => {
@@ -174,15 +213,17 @@ const Product: React.FC = () => {
                                             <div className="mb-4">
                                                 <div className="inline-flex w-24 items-center justify-between border border-shadow rounded">
                                                     <button
+                                                        onClick={subtractCounter}
                                                         className="w-12 p-1 text-blue-400 font-medium text-base bg-gray-200 dark:bg-gray-800 border-gray-300 dark:border-gray-700 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue select-none"
                                                         type="button"
                                                     >
                                                         -
                                                     </button>
                                                     <div className="w-full p-1 text-center text-base border-gray-300 dark:border-gray-700 bg-gray-200 dark:bg-gray-800">
-                                                        1
+                                                        {quantity}
                                                     </div>
                                                     <button
+                                                        onClick={addCounter}
                                                         className="w-12 p-1 text-blue-400 font-medium text-base bg-gray-200 dark:bg-gray-800 border-gray-300 dark:border-gray-700 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue select-none"
                                                         type="button"
                                                     >
@@ -192,6 +233,7 @@ const Product: React.FC = () => {
                                             </div>
                                             <div className="mb-4">
                                                 <button
+                                                    onClick={() => (product ? addProducts(product, quantity) : '')}
                                                     type="button"
                                                     className="flex flex-row space-x-5 text-blue-500 bg-blue-100 border rounded shadow p-2"
                                                 >
@@ -286,23 +328,27 @@ const Product: React.FC = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="flex flex-row items-center justify-center">
-                        <button type="button" onClick={sliderProductLeft}>
-                            <svg
-                                className="w-6 h-6"
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth="2"
-                                    d="M15 19l-7-7 7-7"
-                                />
-                            </svg>
-                        </button>
+                    <div className="flex flex-row items-center justify-center mt-12 sm:mt-0">
+                        {sliderProductLeftDisplay ? (
+                            <button type="button" onClick={sliderProductLeft}>
+                                <svg
+                                    className="w-6 h-6"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth="2"
+                                        d="M15 19l-7-7 7-7"
+                                    />
+                                </svg>
+                            </button>
+                        ) : (
+                            ''
+                        )}
                         <div className="w-60 border shadow border-gray-300 mx-4 flex flex-col">
                             <div className="w-60 h-48 flex flex-col justify-center">
                                 <div className="flex flex-row justify-center">
@@ -337,85 +383,99 @@ const Product: React.FC = () => {
                                 )}
                             </div>
                         </div>
-                        <button type="button" onClick={sliderProductRight}>
-                            <div>
-                                <svg
-                                    className="w-6 h-6"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M9 5l7 7-7 7"
-                                    />
-                                </svg>
-                            </div>
-                        </button>
+                        {sliderProductRightDisplay ? (
+                            <button type="button" onClick={sliderProductRight}>
+                                <div>
+                                    <svg
+                                        className="w-6 h-6"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth="2"
+                                            d="M9 5l7 7-7 7"
+                                        />
+                                    </svg>
+                                </div>
+                            </button>
+                        ) : (
+                            ''
+                        )}
                     </div>
                 </div>
             </div>
             <div className="mx-10 text-2xl mt-16 font-medium flex flex-row justify-center">
                 <div>RELATED PRODUCTS</div>
             </div>
-            <div className="flex flex-col sm:flex-row items-center space-y-5 justify-center mt-10">
-                <button type="button" onClick={featureProductLeft}>
-                    <svg
-                        className="w-6 h-6"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                    >
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
-                    </svg>
-                </button>
-                {featureProducts.map((elem) => (
-                    <ul key={elem.id} className="w-60 border shadow border-gray-300 mx-4">
-                        <li className="w-60 h-48 flex flex-col justify-center">
-                            <div className="flex flex-row justify-center">
-                                <img
-                                    className="h-48 w-auto p-4"
-                                    src={`${elem.image?.filter((image) => image.default_img === true)[0].href}`}
-                                    alt={`${elem.title}`}
-                                />
-                            </div>
-                        </li>
-                        <li className="border-t border-gray-300 h-36 flex flex-col justify-center">
-                            <div className="flex flex-row justify-center">
-                                <div className="text-sm text-center font-semibold">{elem.title}</div>
-                            </div>
-                            <div className="flex flex-row justify-center mt-1">
-                                <div className="text-xs">Rating</div>
-                            </div>
-                            {elem.discount && elem.discount > 0 ? (
-                                <div className="flex flex-row justify-center space-x-5 mt-1">
-                                    <div className="text-blue-400">{elem.price * (1 - elem.discount * 0.01)}</div>
-                                    <div className="line-through">{elem.price}</div>
-                                    <div className="text-red-800">{elem.discount}</div>
+            <div className="flex flex-row items-center space-y-5 justify-center mt-10">
+                {featureProductLeftDisplay ? (
+                    <button type="button" onClick={featureProductLeft}>
+                        <svg
+                            className="w-6 h-6"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
+                        </svg>
+                    </button>
+                ) : (
+                    ''
+                )}
+                <div className="flex flex-col sm:flex-row">
+                    {featureProducts.map((elem) => (
+                        <ul key={elem.id} className="w-60 border shadow border-gray-300 mx-4 mt-12 sm:mt-0">
+                            <li className="w-60 h-48 flex flex-col justify-center">
+                                <div className="flex flex-row justify-center">
+                                    <img
+                                        className="h-48 w-auto p-4"
+                                        src={`${elem.image?.filter((image) => image.default_img === true)[0].href}`}
+                                        alt={`${elem.title}`}
+                                    />
                                 </div>
-                            ) : (
-                                <div className="flex flex-row justify-center space-x-5 mt-1 mb-1">
-                                    <div className="text-blue-400">€{elem.price}</div>
+                            </li>
+                            <li className="border-t border-gray-300 h-36 flex flex-col justify-center">
+                                <div className="flex flex-row justify-center">
+                                    <div className="text-sm text-center font-semibold">{elem.title}</div>
                                 </div>
-                            )}
-                        </li>
-                    </ul>
-                ))}
-                <button type="button" onClick={featureProductRight}>
-                    <svg
-                        className="w-6 h-6"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                    >
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
-                    </svg>
-                </button>
+                                <div className="flex flex-row justify-center mt-1">
+                                    <div className="text-xs">Rating</div>
+                                </div>
+                                {elem.discount && elem.discount > 0 ? (
+                                    <div className="flex flex-row justify-center space-x-5 mt-1">
+                                        <div className="text-blue-400">{elem.price * (1 - elem.discount * 0.01)}</div>
+                                        <div className="line-through">{elem.price}</div>
+                                        <div className="text-red-800">{elem.discount}</div>
+                                    </div>
+                                ) : (
+                                    <div className="flex flex-row justify-center space-x-5 mt-1 mb-1">
+                                        <div className="text-blue-400">€{elem.price}</div>
+                                    </div>
+                                )}
+                            </li>
+                        </ul>
+                    ))}
+                </div>
+                {featureProductRightDisplay ? (
+                    <button type="button" onClick={featureProductRight}>
+                        <svg
+                            className="w-6 h-6"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                ) : (
+                    ''
+                )}
             </div>
         </div>
     );

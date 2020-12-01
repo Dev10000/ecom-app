@@ -169,6 +169,7 @@ interface ICartProducts extends IProduct {
 interface IUseCart {
     cartItems: ICartProducts[];
     addProduct: (product: IProduct) => void;
+    addProducts: (product: IProduct, quantity: number) => void;
     removeProduct: (product: IProduct) => void;
     updateQuantity: (product: IProduct, newQuantity: number) => void;
 }
