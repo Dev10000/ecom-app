@@ -2,9 +2,21 @@
 
 // dotenv.config();
 
-const { PORT, DB_USER, DB_PASS, DB_HOST, DB_NAME, DB_PORT, JWT_SECRET, JWT_EXPIRATION_TIME, SALT_ROUNDS } = process.env;
+const {
+    NODE_ENV,
+    PORT,
+    DB_USER,
+    DB_PASS,
+    DB_HOST,
+    DB_NAME,
+    DB_PORT,
+    JWT_SECRET,
+    JWT_EXPIRATION_TIME,
+    SALT_ROUNDS,
+} = process.env;
 
 export default {
+    NODE_ENV: NODE_ENV || 'production', // this can be 'production', 'development' or 'testing'
     PORT: PORT || 5000,
     DB: {
         USER: DB_USER || 'postgres',
