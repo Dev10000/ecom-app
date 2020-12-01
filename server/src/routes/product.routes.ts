@@ -7,7 +7,7 @@ const router = Router();
 
 router.get('/', productQuery, getAll);
 router.get('/:id', getSingle);
-router.get('/search/:keywords', search);
+router.get('/search/:keywords', productQuery, search);
 router.post('/', passport.authenticate('jwt', { session: false }), productValidator, create);
 router.patch('/:id', passport.authenticate('jwt', { session: false }), productValidator, edit);
 router.delete('/:id', passport.authenticate('jwt', { session: false }), destroy);
