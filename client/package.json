@@ -1,5 +1,5 @@
 {
-  "name": "client",
+  "name": "project-cyan-client",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -7,10 +7,6 @@
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
-    "@types/jest": "^26.0.15",
-    "@types/node": "^12.0.0",
-    "@types/react-dom": "^16.9.8",
-    "@types/react-modal": "^3.10.6",
     "autoprefixer": "^10.0.2",
     "axios": "^0.21.0",
     "jsonwebtoken": "^8.5.1",
@@ -49,7 +45,11 @@
     ]
   },
   "devDependencies": {
+    "@types/jest": "^26.0.15",
     "@types/jsonwebtoken": "^8.5.0",
+    "@types/node": "^12.0.0",
+    "@types/react-dom": "^16.9.8",
+    "@types/react-modal": "^3.10.6",
     "@types/react": "^16.9.54",
     "@types/react-router-dom": "^5.1.6",
     "eslint": "^7.12.1",
