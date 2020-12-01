@@ -1,4 +1,4 @@
-import { body } from 'express-validator';
+import { body, query } from 'express-validator';
 
 export default [
     // body('code')
@@ -28,4 +28,9 @@ export default [
         .withMessage('price is a required field.')
         .isNumeric()
         .withMessage('price must be a numeric value.'),
+];
+
+export const orderQuery = [
+    query('page').optional().isInt().withMessage('page must be an integer.').toInt(),
+    query('items').optional().isInt().withMessage('page must be an integer.').toInt(),
 ];
