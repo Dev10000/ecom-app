@@ -13,7 +13,7 @@ const Countries: React.FC = (): JSX.Element => {
 
     useEffect(() => {
         axios
-            .get('countries/full')
+            .get('countries')
             .then((response) => {
                 setCountries(response.data.data);
             })
@@ -90,6 +90,12 @@ const Countries: React.FC = (): JSX.Element => {
         },
     ];
 
+    const writeCountriesToFile = () => {
+        // fs.writeFileSync('countries.json', JSON.stringify(countries), 'utf-8');
+        // this should be done server side...
+        console.log('this should be sent to the server for handling');
+    };
+
     return (
         <div>
             <div className="bg-white shadow">
@@ -98,26 +104,49 @@ const Countries: React.FC = (): JSX.Element => {
                         <h1 className="ml-3 text-2xl font-bold leading-7 text-gray-700 sm:leading-9 sm:truncate">
                             Countries
                         </h1>
-                        <button
-                            type="button"
-                            className="mt-4 md:mt-0 text-center inline-flex items-center pl-2 pr-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-400 hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                            onClick={() => setAddOrEditDisplay(true)}
-                        >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                className="w-6 h-6 mr-2"
-                                viewBox="0 0 24 24"
+                        <div>
+                            <button
+                                type="button"
+                                className="mt-4 mr-4 md:mt-0 text-center inline-flex items-center pl-2 pr-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-400 hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                                onClick={() => setAddOrEditDisplay(true)}
                             >
-                                <circle cx="12" cy="12" r="10" />
-                                <path d="M12 8v8M8 12h8" />
-                            </svg>
-                            <span> Create</span>
-                        </button>
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    className="w-6 h-6 mr-2"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <circle cx="12" cy="12" r="10" />
+                                    <path d="M12 8v8M8 12h8" />
+                                </svg>
+                                <span> Create</span>
+                            </button>
+
+                            <button
+                                type="button"
+                                className="mt-4 md:mt-0 text-center inline-flex items-center pl-2 pr-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-400 hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                                onClick={() => writeCountriesToFile()}
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="2"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    className="w-6 h-6 mr-2"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
+                                    <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" />
+                                </svg>
+                                <span> Generate Config</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

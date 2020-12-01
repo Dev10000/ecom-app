@@ -49,10 +49,10 @@ const AddOrEdit: React.FC<IAddProps> = ({ visible, setVisible, setUpdated, edit,
                     setIntermediateRegion(data.intermediate_region);
                     setIntermediateRegionCode(data.intermediate_region_code);
                 }
+                setLoading(false);
             });
-            setLoading(false);
         }
-    }, [edit, loading]);
+    }, [edit]);
 
     const closeModal = (): void => {
         setVisible(false);
@@ -95,9 +95,12 @@ const AddOrEdit: React.FC<IAddProps> = ({ visible, setVisible, setUpdated, edit,
                     setUpdated(response.data.data.id);
                     closeModal();
                 }
+                setLoading(false);
             })
-            .catch((err) => setErrors(err.response.data.data));
-        setLoading(false);
+            .catch((err) => {
+                setErrors(err.response.data.data);
+                setLoading(false);
+            });
     };
 
     const handleUpdate = (e: React.FormEvent<HTMLFormElement>) => {
@@ -123,10 +126,13 @@ const AddOrEdit: React.FC<IAddProps> = ({ visible, setVisible, setUpdated, edit,
                     setUpdated(response.data.data.id);
                     setForEdit(0);
                     closeModal();
+                    setLoading(false);
                 }
             })
-            .catch((err) => setErrors(err.response.data.data));
-        setLoading(false);
+            .catch((err) => {
+                setErrors(err.response.data.data);
+                setLoading(false);
+            });
     };
 
     return (
