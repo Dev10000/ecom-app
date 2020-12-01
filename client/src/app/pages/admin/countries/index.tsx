@@ -7,7 +7,7 @@ import Add from './actions/add';
 const Countries: React.FC = (): JSX.Element => {
     const [countries, setCountries] = useState<ICountryModel[]>([]);
     const [forDeletion, setForDeletion] = useState<number>(-1);
-    const [deleted, setDeleted] = useState<number>(-1);
+    const [updated, setUpdated] = useState<number>(-1);
     const [createDisplay, setCreateDisplay] = useState(false);
 
     useEffect(() => {
@@ -19,7 +19,7 @@ const Countries: React.FC = (): JSX.Element => {
             .catch((err) => {
                 return err;
             });
-    }, [deleted]);
+    }, [updated]);
 
     const columns: IColumn<ICountryModel>[] = [
         {
@@ -119,8 +119,8 @@ const Countries: React.FC = (): JSX.Element => {
                     </div>
                 </div>
             </div>
-            <Add visible={createDisplay} setVisible={setCreateDisplay} />
-            <Delete forDeletion={forDeletion} setForDeletion={setForDeletion} setDeleted={setDeleted} />
+            <Add visible={createDisplay} setVisible={setCreateDisplay} setUpdated={setUpdated} />
+            <Delete forDeletion={forDeletion} setForDeletion={setForDeletion} setUpdated={setUpdated} />
             <div className="p-4">
                 <DataTable<ICountryModel> items={countries} columns={columns} actions={actions} />
             </div>

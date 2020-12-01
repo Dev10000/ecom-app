@@ -9,9 +9,10 @@ Modal.setAppElement('#root');
 interface IAddProps {
     visible: boolean;
     setVisible: React.Dispatch<React.SetStateAction<boolean>>;
+    setUpdated: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const Add: React.FC<IAddProps> = ({ visible, setVisible }): JSX.Element => {
+const Add: React.FC<IAddProps> = ({ visible, setVisible, setUpdated }): JSX.Element => {
     const [loading, setLoading] = useState(false);
     const [name, setName] = useState('');
     const [alpha2, setAlpha2] = useState('');
@@ -63,7 +64,7 @@ const Add: React.FC<IAddProps> = ({ visible, setVisible }): JSX.Element => {
             })
             .then((response) => {
                 if (response.data.data.id) {
-                    console.log('success');
+                    setUpdated(response.data.data.id);
                 }
             })
             .catch((err) => setErrors(err.response.data.data));
