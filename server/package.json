@@ -7,7 +7,7 @@
     "watch": "nodemon",
     "db:reset": "ts-node -r dotenv/config src/database/setup.ts",
     "db:seed": "ts-node -r dotenv/config src/database/seeders.ts",
-    "test": "npx mocha --timeout 15000 -r ts-node/register -r dotenv/config dotenv_config_path=./.tests.env 'test/**/*.ts' --exit",
+    "test": "npx mocha --timeout 15000 -r ts-node/register -r dotenv/config dotenv_config_path=./.tests.env 'test/**/*.ts' -s 0 --exit",
     "db:fresh": "npm run db:reset && npm run db:seed"
   },
   "keywords": [],
