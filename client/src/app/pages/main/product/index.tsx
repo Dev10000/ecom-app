@@ -1,12 +1,19 @@
 /* eslint-disable array-callback-return */
 import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { RouteComponentProps, useLocation } from 'react-router';
 import CartContext from '../../../../context/cart';
+
+interface IProductState {
+    productId: number;
+}
 
 const Product: React.FC = () => {
     const { addProducts } = useContext(CartContext);
+    const location = useLocation<IProductState>();
     const [product, setProduct] = useState<IProduct>();
-    const [productId] = useState<number>(1);
+    const [productId, setProductId] = useState<number | undefined>(undefined);
     const [categoryName, setCategoryName] = useState<string>('');
     const [categoryId, setCategoryId] = useState<number>(105);
     const [categoryProducts, setCategoryProducts] = useState<IProduct[]>([]);
@@ -15,28 +22,35 @@ const Product: React.FC = () => {
     const [featureProducts, setFeatureProducts] = useState<IProduct[]>([]);
     const [featureIndex, setFeatureIndices] = useState<number>(0);
     const [productImage, setProductImage] = useState<IProductImage>();
+    const [productImages, setProductImages] = useState<IProductImage[]>([]);
+    const [allProductImages, setAllProductImages] = useState<IProductImage[]>([]);
+    const [imageIndex, setImageIndex] = useState<number>(0);
     const [quantity, setQuantity] = useState<number>(1);
     const [sliderProductRightDisplay, setSliderProductRightDisplay] = useState<boolean>(true);
     const [sliderProductLeftDisplay, setSliderProductLeftDisplay] = useState<boolean>(false);
     const [featureProductRightDisplay, setFeatureProductRightDisplay] = useState<boolean>(true);
     const [featureProductLeftDisplay, setFeatureProductLeftDisplay] = useState<boolean>(false);
+    const [productImagesRightDisplay, setProductImagesRightDisplay] = useState<boolean>(true);
+    const [productImagesLeftDisplay, setProductImagesLeftDisplay] = useState<boolean>(false);
 
+    // increase number of items
     const addCounter = () => {
         // eslint-disable-next-line camelcase
         if (product && product.stock_qty && quantity < product.stock_qty) {
             setQuantity(quantity + 1);
         }
     };
+    // decrease number of items
     const subtractCounter = () => {
         if (quantity > 1) {
             setQuantity(quantity - 1);
         }
     };
-
+    // set product display images
     const imageDisplay = (id: number | undefined) => {
         setProductImage(product?.image?.find((image) => image.id === id));
     };
-
+    // slides product images right
     const sliderProductRight = (): void => {
         if (sliderIndex > categoryProducts.length - 2) {
             setSliderProductRightDisplay(false);
@@ -44,22 +58,19 @@ const Product: React.FC = () => {
             setSliderProductLeftDisplay(true);
             setSliderIndex(sliderIndex + 1);
             setSliderProduct(categoryProducts[sliderIndex]);
-            console.log(sliderIndex);
         }
     };
-
+    // slides product images left
     const sliderProductLeft = (): void => {
         if (sliderIndex < 0) {
             setSliderProductLeftDisplay(false);
         } else {
-            console.log(sliderIndex);
             setSliderProductRightDisplay(true);
             setSliderIndex(sliderIndex - 1);
             setSliderProduct(categoryProducts[sliderIndex]);
-            console.log(sliderIndex);
         }
     };
-
+    // slides product images right
     const featureProductRight = (): void => {
         if (featureIndex > categoryProducts.length - 4) {
             setFeatureProductRightDisplay(false);
@@ -69,7 +80,7 @@ const Product: React.FC = () => {
             setFeatureProducts([...categoryProducts].splice(featureIndex, 4));
         }
     };
-
+    // slides product images left
     const featureProductLeft = (): void => {
         if (featureIndex < 0) {
             setFeatureProductLeftDisplay(false);
@@ -80,13 +91,38 @@ const Product: React.FC = () => {
         }
     };
 
+    // slides product images right
+    const productImagesRight = (): void => {
+        if (imageIndex > allProductImages.length - 4) {
+            setProductImagesRightDisplay(false);
+        } else {
+            setProductImagesLeftDisplay(true);
+            setImageIndex(imageIndex + 1);
+            setProductImages([...allProductImages].splice(imageIndex, 4));
+        }
+    };
+    // slides product images left
+    const productImagesLeft = (): void => {
+        if (imageIndex > allProductImages.length - 4) {
+            setProductImagesLeftDisplay(false);
+        } else {
+            setProductImagesRightDisplay(true);
+            setImageIndex(imageIndex + 1);
+            setProductImages([...allProductImages].splice(imageIndex, 4));
+        }
+    };
+    useEffect(() => {
+        setProductId(location.state.productId);
+    }, [location]);
     useEffect(() => {
         axios
             .get(`/products/${productId}`)
             .then((response) => {
                 setProduct(response.data.data);
                 setCategoryId(response.data.data.product_category_id);
-                setProductImage(response.data.data.image?.find((image: IProductImage) => image.default_img === true));
+                setProductImage(response.data.data.image.find((image: IProductImage) => image.default_img === true));
+                setAllProductImages(response.data.data.image);
+                setProductImages(response.data.data.image.filter((image: IProductImage, index: number) => index < 4));
             })
             .catch((err) => {
                 return err;
@@ -132,15 +168,61 @@ const Product: React.FC = () => {
                                         />
                                     </div>
                                     <div className="flex flex-row space-x-2">
-                                        {product?.image?.map((element) => (
+                                        {productImagesLeftDisplay ? (
+                                            <button
+                                                type="button"
+                                                onClick={productImagesLeft}
+                                                className="hover:text-blue-400"
+                                            >
+                                                <svg
+                                                    className="w-10 h-10 p-2 flex flex-row content-center"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    fill="none"
+                                                    stroke="currentColor"
+                                                    viewBox="0 0 24 24"
+                                                >
+                                                    <path
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                        strokeWidth="2"
+                                                        d="M15 19l-7-7 7-7"
+                                                    />
+                                                </svg>
+                                            </button>
+                                        ) : (
+                                            ''
+                                        )}
+                                        {productImages.map((element) => (
                                             <div
                                                 key={element.id}
-                                                className="border shadow border-gray-300"
+                                                className="border shadow border-gray-300 w-24 flex flex-col justify-center"
                                                 onMouseEnter={() => imageDisplay(element.id)}
                                             >
-                                                <img className="h-24 w-auto p-2" src={`${element.href}`} alt="" />
+                                                <div className="flex flex-row justify-center">
+                                                    <img className="h-24 w-auto p-2" src={`${element.href}`} alt="" />
+                                                </div>
                                             </div>
                                         ))}
+                                        {productImagesRightDisplay ? (
+                                            <button type="button" onClick={productImagesRight}>
+                                                <svg
+                                                    className="w-10 h-10 p-2 flex flex-row content-center"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    fill="none"
+                                                    stroke="currentColor"
+                                                    viewBox="0 0 24 24"
+                                                >
+                                                    <path
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                        strokeWidth="2"
+                                                        d="M9 5l7 7-7 7"
+                                                    />
+                                                </svg>
+                                            </button>
+                                        ) : (
+                                            ''
+                                        )}
                                     </div>
                                 </div>
                             </div>
