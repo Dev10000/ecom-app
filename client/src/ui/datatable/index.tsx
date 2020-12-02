@@ -57,7 +57,7 @@ function DataTable<T>(props: IDataTableProps<T>): JSX.Element {
                             </thead>
                             <tbody className="bg-white divide-y divide-gray-200">
                                 {items.length ? (
-                                    filteredItems.length ? (
+                                    filteredItems.length || search === '' ? ( // this will prevent the 'No results found' flickering
                                         filteredItems.map((row) => {
                                             return (
                                                 <tr key={row.id}>
