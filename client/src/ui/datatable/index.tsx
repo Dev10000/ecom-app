@@ -1,6 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import React, { useState, useEffect } from 'react';
-import { formatLocalDateTime } from '../../utils';
+import { formatLocalDateTime, formatCurrency } from '../../utils';
 import Options from './options';
 
 function DataTable<T>(props: IDataTableProps<T>): JSX.Element {
@@ -68,6 +68,8 @@ function DataTable<T>(props: IDataTableProps<T>): JSX.Element {
                                                         >
                                                             {column.type && column.type === 'datetime'
                                                                 ? formatLocalDateTime(String(row[column.db]))
+                                                                : column.type && column.type === 'currency'
+                                                                ? formatCurrency(Number(row[column.db]))
                                                                 : row[column.db]}
                                                         </td>
                                                     ))}
