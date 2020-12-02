@@ -17,12 +17,12 @@ export const getAll = async (req: Request, res: Response): Promise<Response> => 
 export const getSingle = async (req: Request, res: Response): Promise<Response> => {
     const { id } = req.params;
 
-    return ProductSpec.find<IProductSpec>(id)
-        .then((coupon) => {
-            if (coupon) {
-                return res.status(200).json({ status: 'success', data: coupon });
+    return ProductSpec.findCustom<IProductSpec>(id, 'product_id')
+        .then((spec) => {
+            if (spec) {
+                return res.status(200).json({ status: 'success', data: spec });
             }
-            return res.status(404).json({ status: 'error', data: 'Coupon not found!' });
+            return res.status(404).json({ status: 'error', data: 'Product specification not found!' });
         })
         .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
 };

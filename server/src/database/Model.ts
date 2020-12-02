@@ -91,6 +91,31 @@ export default class Model<T> {
     }
 
     /**
+     * Finds a record by the ID or custom column and returns a promise of an instance.
+     * @param id
+     * @param column OPTINAL default id
+     */
+    static async findCustom<U>(id: number | string, column = 'id'): Promise<U | undefined> {
+        // eslint-disable-next-line no-restricted-globals
+        if (isNaN(Number(id))) {
+            return undefined;
+        }
+
+        const { table } = new this<U>();
+        const text = `SELECT * FROM ${table} WHERE ${column}=$1 LIMIT 1;`;
+        const values = [id];
+        const query = { text, values };
+        return DB.query(query).then((response) => {
+            if (response.rowCount) {
+                const instance = new this<U>();
+                Object.assign(instance, response.rows[0]);
+                return (instance as unknown) as U;
+            }
+            return undefined;
+        });
+    }
+
+    /**
      * Finds a record by the ID and returns a promise of an instance.
      * @param id
      */
