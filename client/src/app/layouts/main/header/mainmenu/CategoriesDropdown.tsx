@@ -26,13 +26,13 @@ const CategoryDropdown: React.FC<IProps> = (props: IProps) => {
     }, []);
     return (
         <div className="flex flex-col items-center absolute z-20 right-0 bg-white dark:bg-gray-900 border rounded shadow">
-            <div className="text-sm hover:text-white mt-4">
+            <div className="text-sm mt-4">
                 <button
                     type="button"
                     className="inline-flex block px-2 py-1 items-center text-md border rounded border-gray-400 bg-blue-500 hover:bg-blue-700 text-white hover:shadow-md select-none focus:outline-none transition ease-in-out duration-150"
                     onClick={action}
                 >
-                    <NavLink className="hover:text-blue-500" to="/categories">
+                    <NavLink className="text-white" to="/categories">
                         All categories
                     </NavLink>
                 </button>

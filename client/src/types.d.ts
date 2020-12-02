@@ -61,6 +61,7 @@ interface IProduct {
     id?: number;
     title?: string;
     slug?: string;
+    image?: IProductImage[];
     description?: string;
     price: number;
     weight?: number;
@@ -168,6 +169,7 @@ interface ICartProducts extends IProduct {
 interface IUseCart {
     cartItems: ICartProducts[];
     addProduct: (product: IProduct) => void;
+    addProducts: (product: IProduct, quantity: number) => void;
     removeProduct: (product: IProduct) => void;
     updateQuantity: (product: IProduct, newQuantity: number) => void;
 }
