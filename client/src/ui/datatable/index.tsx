@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React, { useState, useEffect } from 'react';
 import { formatLocalDateTime } from '../../utils';
 import Options from './options';
@@ -37,8 +38,8 @@ function DataTable<T>(props: IDataTableProps<T>): JSX.Element {
             </div>
             <div className="w-full overflow-x-auto overflow-y-auto max-h-96">
                 <div className="align-middle inline-block min-w-full sm:px-6 lg:px-8">
-                    <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-                        <table className="min-w-full divide-y divide-gray-200" cellSpacing={0} cellPadding={0}>
+                    <div className="shadow bg-white overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                        <table className="min-w-full divide-y divide-gray-200 mb-6" cellSpacing={0} cellPadding={0}>
                             <thead>
                                 <tr>
                                     {columns.map((column) => (
@@ -56,25 +57,42 @@ function DataTable<T>(props: IDataTableProps<T>): JSX.Element {
                             </thead>
                             <tbody className="bg-white divide-y divide-gray-200">
                                 {items.length ? (
-                                    filteredItems.map((row) => {
-                                        return (
-                                            <tr key={row.id}>
-                                                {columns.map((column) => (
-                                                    <td
-                                                        key={column.db.toString()}
-                                                        className="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
-                                                    >
-                                                        {column.type && column.type === 'datetime'
-                                                            ? formatLocalDateTime(String(row[column.db]))
-                                                            : row[column.db]}
+                                    filteredItems.length ? (
+                                        filteredItems.map((row) => {
+                                            return (
+                                                <tr key={row.id}>
+                                                    {columns.map((column) => (
+                                                        <td
+                                                            key={column.db.toString()}
+                                                            className="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                                                        >
+                                                            {column.type && column.type === 'datetime'
+                                                                ? formatLocalDateTime(String(row[column.db]))
+                                                                : row[column.db]}
+                                                        </td>
+                                                    ))}
+                                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                                        <Options actions={actions} rowId={row.id || -1} />
                                                     </td>
-                                                ))}
-                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                    <Options actions={actions} rowId={row.id || -1} />
-                                                </td>
-                                            </tr>
-                                        );
-                                    })
+                                                </tr>
+                                            );
+                                        })
+                                    ) : (
+                                        <tr>
+                                            <td
+                                                className="w-full text-center p-10 text-gray-800"
+                                                colSpan={columns.length + 1}
+                                            >
+                                                <p>
+                                                    <span>No Results Found!</span>
+                                                    <br />
+                                                    <i className="italic mt-2 text-xs text-gray-600">
+                                                        Please consider updating your search input!
+                                                    </i>
+                                                </p>
+                                            </td>
+                                        </tr>
+                                    )
                                 ) : (
                                     <tr>
                                         <td className="w-full text-center p-10" colSpan={columns.length + 1}>

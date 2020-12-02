@@ -1,9 +1,8 @@
 /* eslint-disable no-nested-ternary */
-/* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import axios from 'axios';
-import { fieldError } from '../../../../../../utils';
+import ModalInput from '../../../../../../ui/components/modal-input';
 
 Modal.setAppElement('#root');
 
@@ -149,289 +148,101 @@ const AddOrEdit: React.FC<IAddProps> = ({ visible, setVisible, setUpdated, edit,
 
                         <div className="mt-6 grid grid-cols-1 gap-y-4 gap-x-4 sm:grid-cols-6">
                             <div className="sm:col-span-6">
-                                <label
-                                    htmlFor="name"
-                                    className={`block text-sm font-medium text-gray-500 mb-1 ${
-                                        fieldError('name', errors) ? 'text-red-500' : ''
-                                    }`}
-                                >
-                                    Name
-                                </label>
-                                <div className="mt-1">
-                                    <input
-                                        type="text"
-                                        name="name"
-                                        id="name"
-                                        className={`p-2 block w-full border shadow-sm sm:text-sm border-gray-300 rounded-md ${
-                                            fieldError('name', errors) ? 'border-red-500' : ''
-                                        }`}
-                                        value={name}
-                                        onChange={(e) => setName(e.target.value)}
-                                    />
-                                </div>
-                                <div className="text-red-500 normal-case font-light text-xs">
-                                    {fieldError('name', errors)}
-                                </div>
+                                <ModalInput id="name" label="Name" value={name} setValue={setName} errors={errors} />
                             </div>
 
                             <div className="sm:col-span-3">
-                                <label
-                                    htmlFor="alpha2"
-                                    className={`block text-sm font-medium text-gray-500 mb-1 ${
-                                        fieldError('alpha2', errors) ? 'text-red-500' : ''
-                                    }`}
-                                >
-                                    Alpha-2
-                                </label>
-                                <div className="mt-1 sm:mt-0 sm:col-span-2">
-                                    <input
-                                        type="text"
-                                        name="alpha2"
-                                        id="alpha2"
-                                        className={`p-2 block w-full border shadow-sm sm:text-sm border-gray-300 rounded-md ${
-                                            fieldError('alpha2', errors) ? 'border-red-500' : ''
-                                        }`}
-                                        value={alpha2}
-                                        onChange={(e) => setAlpha2(e.target.value)}
-                                    />
-                                </div>
-                                <div className="text-red-500 normal-case font-light text-xs">
-                                    {fieldError('alpha2', errors)}
-                                </div>
+                                <ModalInput
+                                    id="alpha2"
+                                    label="Alpha-2"
+                                    value={alpha2}
+                                    setValue={setAlpha2}
+                                    errors={errors}
+                                />
                             </div>
 
                             <div className="sm:col-span-3">
-                                <label
-                                    htmlFor="alpha3"
-                                    className={`block text-sm font-medium text-gray-500 mb-1 ${
-                                        fieldError('alpha3', errors) ? 'text-red-500' : ''
-                                    }`}
-                                >
-                                    Alpha-3
-                                </label>
-                                <div className="mt-1 sm:mt-0 sm:col-span-2">
-                                    <input
-                                        type="text"
-                                        name="alpha3"
-                                        id="alpha3"
-                                        className={`p-2 block w-full border shadow-sm sm:text-sm border-gray-300 rounded-md ${
-                                            fieldError('alpha3', errors) ? 'border-red-500' : ''
-                                        }`}
-                                        value={alpha3}
-                                        onChange={(e) => setAlpha3(e.target.value)}
-                                    />
-                                </div>
-                                <div className="text-red-500 normal-case font-light text-xs">
-                                    {fieldError('alpha3', errors)}
-                                </div>
+                                <ModalInput
+                                    id="alpha3"
+                                    label="Alpha-3"
+                                    value={alpha3}
+                                    setValue={setAlpha3}
+                                    errors={errors}
+                                />
                             </div>
 
                             <div className="sm:col-span-3">
-                                <label
-                                    htmlFor="code"
-                                    className={`block text-sm font-medium text-gray-500 mb-1 ${
-                                        fieldError('code', errors) ? 'text-red-500' : ''
-                                    }`}
-                                >
-                                    Code
-                                </label>
-                                <div className="mt-1 sm:mt-0 sm:col-span-2">
-                                    <input
-                                        type="text"
-                                        name="code"
-                                        id="code"
-                                        className={`p-2 block w-full border shadow-sm sm:text-sm border-gray-300 rounded-md ${
-                                            fieldError('code', errors) ? 'border-red-500' : ''
-                                        }`}
-                                        value={code}
-                                        onChange={(e) => setCode(e.target.value)}
-                                    />
-                                </div>
-                                <div className="text-red-500 normal-case font-light text-xs">
-                                    {fieldError('code', errors)}
-                                </div>
+                                <ModalInput id="code" label="Code" value={code} setValue={setCode} errors={errors} />
                             </div>
 
                             <div className="sm:col-span-3">
-                                <label
-                                    htmlFor="iso-3166-2"
-                                    className={`block text-sm font-medium text-gray-500 mb-1 ${
-                                        fieldError('iso_3166_2', errors) ? 'text-red-500' : ''
-                                    }`}
-                                >
-                                    ISO 3166-2
-                                </label>
-                                <div className="mt-1 sm:mt-0 sm:col-span-2">
-                                    <input
-                                        type="text"
-                                        name="iso-3166-2"
-                                        id="iso-3166-2"
-                                        className={`p-2 block w-full border shadow-sm sm:text-sm border-gray-300 rounded-md ${
-                                            fieldError('iso_3166_2', errors) ? 'border-red-500' : ''
-                                        }`}
-                                        value={ISO31162}
-                                        onChange={(e) => setISO31162(e.target.value)}
-                                    />
-                                </div>
-                                <div className="text-red-500 normal-case font-light text-xs">
-                                    {fieldError('iso_3166_2', errors)}
-                                </div>
+                                <ModalInput
+                                    id="iso-3166-2"
+                                    label="ISO 3166-2"
+                                    value={ISO31162}
+                                    setValue={setISO31162}
+                                    errors={errors}
+                                />
                             </div>
 
                             <div className="sm:col-span-3">
-                                <label
-                                    htmlFor="region"
-                                    className={`block text-sm font-medium text-gray-500 mb-1 ${
-                                        fieldError('region', errors) ? 'text-red-500' : ''
-                                    }`}
-                                >
-                                    Region
-                                </label>
-                                <div className="mt-1 sm:mt-0 sm:col-span-2">
-                                    <input
-                                        type="text"
-                                        name="region"
-                                        id="region"
-                                        className={`p-2 block w-full border shadow-sm sm:text-sm border-gray-300 rounded-md ${
-                                            fieldError('region', errors) ? 'border-red-500' : ''
-                                        }`}
-                                        value={region}
-                                        onChange={(e) => setRegion(e.target.value)}
-                                    />
-                                </div>
-                                <div className="text-red-500 normal-case font-light text-xs">
-                                    {fieldError('region', errors)}
-                                </div>
+                                <ModalInput
+                                    id="region"
+                                    label="Region"
+                                    value={region}
+                                    setValue={setRegion}
+                                    errors={errors}
+                                />
                             </div>
 
                             <div className="sm:col-span-3">
-                                <label
-                                    htmlFor="region_code"
-                                    className={`block text-sm font-medium text-gray-500 mb-1 ${
-                                        fieldError('region_code', errors) ? 'text-red-500' : ''
-                                    }`}
-                                >
-                                    Region Code
-                                </label>
-                                <div className="mt-1 sm:mt-0 sm:col-span-2">
-                                    <input
-                                        type="text"
-                                        name="region_code"
-                                        id="region_code"
-                                        className={`p-2 block w-full border shadow-sm sm:text-sm border-gray-300 rounded-md ${
-                                            fieldError('region_code', errors) ? 'border-red-500' : ''
-                                        }`}
-                                        value={regionCode}
-                                        onChange={(e) => setRegionCode(e.target.value)}
-                                    />
-                                </div>
-                                <div className="text-red-500 normal-case font-light text-xs">
-                                    {fieldError('region_code', errors)}
-                                </div>
+                                <ModalInput
+                                    id="region_code"
+                                    label="Region Code"
+                                    value={regionCode}
+                                    setValue={setRegionCode}
+                                    errors={errors}
+                                />
                             </div>
 
                             <div className="sm:col-span-3">
-                                <label
-                                    htmlFor="sub_region"
-                                    className={`block text-sm font-medium text-gray-500 mb-1 ${
-                                        fieldError('sub_region', errors) ? 'text-red-500' : ''
-                                    }`}
-                                >
-                                    Sub Region
-                                </label>
-                                <div className="mt-1 sm:mt-0 sm:col-span-2">
-                                    <input
-                                        type="text"
-                                        name="sub_region"
-                                        id="sub_region"
-                                        className={`p-2 block w-full border shadow-sm sm:text-sm border-gray-300 rounded-md ${
-                                            fieldError('sub_region', errors) ? 'border-red-500' : ''
-                                        }`}
-                                        value={subRegion}
-                                        onChange={(e) => setSubRegion(e.target.value)}
-                                    />
-                                </div>
-                                <div className="text-red-500 normal-case font-light text-xs">
-                                    {fieldError('sub_region', errors)}
-                                </div>
+                                <ModalInput
+                                    id="sub_region"
+                                    label="Sub Region"
+                                    value={subRegion}
+                                    setValue={setSubRegion}
+                                    errors={errors}
+                                />
                             </div>
 
                             <div className="sm:col-span-3">
-                                <label
-                                    htmlFor="sub_region_code"
-                                    className={`block text-sm font-medium text-gray-500 mb-1 ${
-                                        fieldError('sub_region_code', errors) ? 'text-red-500' : ''
-                                    }`}
-                                >
-                                    Sub Region Code
-                                </label>
-                                <div className="mt-1 sm:mt-0 sm:col-span-2">
-                                    <input
-                                        type="text"
-                                        name="sub_region_code"
-                                        id="sub_region_code"
-                                        className={`p-2 block w-full border shadow-sm sm:text-sm border-gray-300 rounded-md ${
-                                            fieldError('sub_region_code', errors) ? 'border-red-500' : ''
-                                        }`}
-                                        value={subRegionCode}
-                                        onChange={(e) => setSubRegionCode(e.target.value)}
-                                    />
-                                </div>
-                                <div className="text-red-500 normal-case font-light text-xs">
-                                    {fieldError('sub_region_code', errors)}
-                                </div>
+                                <ModalInput
+                                    id="sub_region_code"
+                                    label="Sub Region Code"
+                                    value={subRegionCode}
+                                    setValue={setSubRegionCode}
+                                    errors={errors}
+                                />
                             </div>
 
                             <div className="sm:col-span-3">
-                                <label
-                                    htmlFor="intermediate_region"
-                                    className={`block text-sm font-medium text-gray-500 mb-1 ${
-                                        fieldError('intermediate_region', errors) ? 'text-red-500' : ''
-                                    }`}
-                                >
-                                    Intermediate Region
-                                </label>
-                                <div className="mt-1 sm:mt-0 sm:col-span-2">
-                                    <input
-                                        type="text"
-                                        name="intermediate_region"
-                                        id="intermediate_region"
-                                        className={`p-2 block w-full border shadow-sm sm:text-sm border-gray-300 rounded-md ${
-                                            fieldError('intermediate_region', errors) ? 'border-red-500' : ''
-                                        }`}
-                                        value={intermediateRegion}
-                                        onChange={(e) => setIntermediateRegion(e.target.value)}
-                                    />
-                                </div>
-                                <div className="text-red-500 normal-case font-light text-xs">
-                                    {fieldError('intermediate_region', errors)}
-                                </div>
+                                <ModalInput
+                                    id="intermediate_region"
+                                    label="Intermediate Region"
+                                    value={intermediateRegion}
+                                    setValue={setIntermediateRegion}
+                                    errors={errors}
+                                />
                             </div>
 
                             <div className="sm:col-span-3">
-                                <label
-                                    htmlFor="intermediate_region_code"
-                                    className={`block text-sm font-medium text-gray-500 mb-1 ${
-                                        fieldError('intermediate_region_code', errors) ? 'text-red-500' : ''
-                                    }`}
-                                >
-                                    Intermediate Region Code
-                                </label>
-                                <div className="mt-1 sm:mt-0 sm:col-span-2">
-                                    <input
-                                        type="text"
-                                        name="intermediate_region_code"
-                                        id="intermediate_region_code"
-                                        className={`p-2 block w-full border shadow-sm sm:text-sm border-gray-300 rounded-md ${
-                                            fieldError('intermediate_region_code', errors) ? 'border-red-500' : ''
-                                        }`}
-                                        value={intermediateRegionCode}
-                                        onChange={(e) => setIntermediateRegionCode(e.target.value)}
-                                    />
-                                </div>
-                                <div className="text-red-500 normal-case font-light text-xs">
-                                    {fieldError('intermediate_region_code', errors)}
-                                </div>
+                                <ModalInput
+                                    id="intermediate_region_code"
+                                    label="Intermediate Region Code"
+                                    value={intermediateRegionCode}
+                                    setValue={setIntermediateRegionCode}
+                                    errors={errors}
+                                />
                             </div>
                         </div>
 
