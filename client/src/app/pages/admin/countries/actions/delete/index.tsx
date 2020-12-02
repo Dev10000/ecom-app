@@ -7,10 +7,10 @@ Modal.setAppElement('#root');
 interface IDeleteConfirmationProps {
     forDeletion: number;
     setForDeletion: React.Dispatch<React.SetStateAction<number>>;
-    setDeleted: React.Dispatch<React.SetStateAction<number>>;
+    setUpdated: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const Delete: React.FC<IDeleteConfirmationProps> = ({ forDeletion, setForDeletion, setDeleted }): JSX.Element => {
+const Delete: React.FC<IDeleteConfirmationProps> = ({ forDeletion, setForDeletion, setUpdated }): JSX.Element => {
     const [isOpen, setIsOpen] = useState(false);
     const [loading, setLoading] = useState(false);
 
@@ -28,7 +28,7 @@ const Delete: React.FC<IDeleteConfirmationProps> = ({ forDeletion, setForDeletio
         axios
             .delete(`countries/${forDeletion}`)
             .then(() => {
-                setDeleted(forDeletion);
+                setUpdated(forDeletion);
                 setLoading(false);
                 closeModal();
             })
