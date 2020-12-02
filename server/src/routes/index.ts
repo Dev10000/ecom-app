@@ -6,6 +6,7 @@ import productRoutes from './product.routes';
 import productCategoriesRoutes from './product-category.routes';
 import couponRoutes from './coupon.routes';
 import countryRoutes from './country.routes';
+import specRoutes from './product-spec.routes';
 
 const routes = (): Router => {
     const router = Router();
@@ -17,6 +18,7 @@ const routes = (): Router => {
     router.use('/api/categories', productCategoriesRoutes);
     router.use('/api/coupons', couponRoutes);
     router.use('/api/countries', countryRoutes);
+    router.use('/api/specs', specRoutes);
 
     return router;
 };
