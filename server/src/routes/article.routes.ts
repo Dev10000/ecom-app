@@ -1,13 +1,14 @@
 import { Router } from 'express';
-import passport from 'passport';
-import { getAll, getSingle, create, edit, destroy } from '../controllers/article.controller';
+import authenticated from '../middleware/authenticated';
+import { getAll, getPublished, getSingle, create, edit, destroy } from '../controllers/article.controller';
 
 const router = Router();
 
-router.get('/', getAll);
-router.get('/:id', passport.authenticate('jwt', { session: false }), getSingle);
-router.post('/', passport.authenticate('jwt', { session: false }), create);
-router.patch('/:id', passport.authenticate('jwt', { session: false }), edit);
-router.delete('/:id', passport.authenticate('jwt', { session: false }), destroy);
+router.get('/', getPublished);
+router.get('/all', authenticated, getAll);
+router.get('/:id', authenticated, getSingle);
+router.post('/', authenticated, create);
+router.patch('/:id', authenticated, edit);
+router.delete('/:id', authenticated, destroy);
 
 export default router;

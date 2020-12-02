@@ -1,12 +1,12 @@
 import { Router } from 'express';
-import passport from 'passport';
+import authenticated from '../middleware/authenticated';
 import orderValidator, { orderQuery } from '../validators/order';
 import { getAll, getSingle, create } from '../controllers/order.controller';
 
 const router = Router();
 
-router.get('/', passport.authenticate('jwt', { session: false }), orderQuery, getAll);
-router.get('/:id', passport.authenticate('jwt', { session: false }), getSingle);
-router.post('/', passport.authenticate('jwt', { session: false }), orderValidator, create);
+router.get('/', authenticated, orderQuery, getAll);
+router.get('/:id', authenticated, getSingle);
+router.post('/', authenticated, orderValidator, create);
 
 export default router;

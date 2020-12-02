@@ -1,15 +1,14 @@
 import { Router } from 'express';
-import passport from 'passport';
-
-import { getAll, createAndSlugify, edit, destroy, listProducts } from '../controllers/product-category.controller';
+import authenticated from '../middleware/authenticated';
 import categoryValidator from '../validators/category';
+import { getAll, createAndSlugify, edit, destroy, listProducts } from '../controllers/product-category.controller';
 
 const router = Router();
 
 router.get('/', getAll);
-router.post('/', passport.authenticate('jwt', { session: false }), categoryValidator, createAndSlugify);
-router.patch('/:id', passport.authenticate('jwt', { session: false }), categoryValidator, edit);
-router.delete('/:id', passport.authenticate('jwt', { session: false }), destroy);
+router.post('/', authenticated, categoryValidator, createAndSlugify);
+router.patch('/:id', authenticated, categoryValidator, edit);
+router.delete('/:id', authenticated, destroy);
 router.get('/:id/products', listProducts);
 
 export default router;

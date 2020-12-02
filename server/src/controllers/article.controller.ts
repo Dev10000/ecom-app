@@ -12,6 +12,16 @@ export const getAll = async (req: Request, res: Response): Promise<Response> => 
         .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
 };
 
+export const getPublished = async (req: Request, res: Response): Promise<Response> => {
+    return QueryBuilder(Article)
+        .whereNotNull('published_at')
+        .get()
+        .then((article) => {
+            return res.status(200).json({ status: 'success', data: article });
+        })
+        .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
+};
+
 export const getSingle = async (req: Request, res: Response): Promise<Response> => {
     const { id } = req.params;
 
