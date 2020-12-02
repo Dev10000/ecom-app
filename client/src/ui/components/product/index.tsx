@@ -6,13 +6,13 @@ import { formatCurrency } from '../../../utils';
 type IProductProps = IProduct;
 
 const Product: React.FC<IProductProps> = (props: IProduct): JSX.Element => {
-    const { id, title, price, discount } = props;
+    const { id, title, price, discount, slug } = props;
     const [visibleButtons, setVisibleButtons] = useState(false);
     const { addProduct } = useContext(CartContext);
     const history = useHistory();
 
     const displayProductPage = () => {
-        history.push({ pathname: `/products/${id}`, state: { productId: id } });
+        history.push({ pathname: `/products/${slug}`, state: { productId: id } });
     };
 
     return (
