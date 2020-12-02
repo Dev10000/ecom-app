@@ -61,6 +61,7 @@ interface IProduct {
     id?: number;
     title?: string;
     slug?: string;
+    image?: IProductImage[];
     description?: string;
     price: number;
     weight?: number;
@@ -168,6 +169,7 @@ interface ICartProducts extends IProduct {
 interface IUseCart {
     cartItems: ICartProducts[];
     addProduct: (product: IProduct) => void;
+    addProducts: (product: IProduct, quantity: number) => void;
     removeProduct: (product: IProduct) => void;
     updateQuantity: (product: IProduct, newQuantity: number) => void;
 }
@@ -200,7 +202,7 @@ interface IFormError {
 interface IColumn<T> {
     display: string;
     db: keyof T;
-    type?: 'string' | 'number' | 'datetime';
+    type?: 'string' | 'number' | 'datetime' | 'currency';
 }
 
 interface IDataTableProps<T> {
@@ -211,7 +213,7 @@ interface IDataTableProps<T> {
 
 interface IOption {
     display: string;
-    action: (rowId: number) => any;
+    action: (rowId: number) => unknown; // WIP
 }
 
 interface IOPtionsProps {

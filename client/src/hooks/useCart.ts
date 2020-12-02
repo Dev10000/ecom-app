@@ -10,6 +10,21 @@ const getCartItems = (): ICartProducts[] => {
 const useCart = (): IUseCart => {
     const [cartItems, setCartItems] = useState<ICartProducts[]>(getCartItems());
 
+    // adds items from product page
+    const addProducts = (product: IProduct, quantity: number) => {
+        const existingInCart = cartItems.find((item) => item.id === product.id);
+        const updatedCart = !existingInCart
+            ? [...cartItems, { ...product, quantity }]
+            : [
+                  ...cartItems.map((item) =>
+                      item.id === product.id ? { ...item, quantity: item.quantity + quantity } : item,
+                  ),
+              ];
+
+        setCartItems(updatedCart);
+        localStorage.setItem('cart', JSON.stringify(updatedCart));
+    };
+
     const addProduct = (product: IProduct): void => {
         const existingInCart = cartItems.find((item) => item.id === product.id);
 
@@ -43,6 +58,7 @@ const useCart = (): IUseCart => {
     return {
         cartItems,
         addProduct,
+        addProducts,
         removeProduct,
         updateQuantity,
     };
