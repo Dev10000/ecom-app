@@ -1,10 +1,13 @@
 import { Request, Response } from 'express';
 import { validationResult } from 'express-validator';
-import QB from '../database/QB';
+import QueryBuilder from '../database/QueryBuilder';
 import ProductCategory from '../models/ProductCategory';
+import { checkIfStringExistsInTable, insertTitleAndSlug, postfixNumberGenerator, slugify } from '../database/utils';
+// import { slugify } from '../database/utils';
 
 export const getAll = async (req: Request, res: Response): Promise<Response> => {
-    return QB(ProductCategory)
+    return QueryBuilder(ProductCategory)
+        .whereNull('parent_id')
         .orderBy('title')
         .get()
         .then((categories) => {
@@ -14,6 +17,11 @@ export const getAll = async (req: Request, res: Response): Promise<Response> => 
 };
 
 export const create = async (req: Request, res: Response): Promise<Response> => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return res.status(422).json({ status: 'error', data: errors.array() });
+    console.log(req.body);
+    const { title, parent_id } = req.body;
+    console.log(title + parent_id);
     return ProductCategory.create(req.body as Partial<ProductCategory>)
         .save()
         .then((category) => res.status(201).json({ status: 'success', data: category }))
@@ -45,30 +53,12 @@ export const edit = async (req: Request, res: Response): Promise<Response> => {
 export const destroy = async (req: Request, res: Response): Promise<Response> => {
     const { id } = req.params;
 
-    const productCategory = (await ProductCategory.find(id)) as ProductCategory;
-
-    if (!productCategory.id) {
-        return res.status(404).json({ status: 'error', data: 'Product Category not found!' });
-    }
-
-    return QB(ProductCategory)
-        .where('id', id)
-        .delete()
-        .then(() => {
-            return res.status(200).json({ status: 'success', data: null });
-        })
-        .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
-};
-
-export const listProducts = async (req: Request, res: Response): Promise<Response> => {
-    const { id } = req.params;
-
     return ProductCategory.find<IProductCategoryModel>(id).then((category) => {
         if (!category) {
             return res.status(404).json({ status: 'error', data: 'Product Category not found!' });
         }
 
-        return QB(ProductCategory)
+        return QueryBuilder(ProductCategory)
             .where('id', id)
             .delete()
             .then((response) => {
@@ -79,4 +69,45 @@ export const listProducts = async (req: Request, res: Response): Promise<Respons
             })
             .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
     });
+};
+
+export const listProducts = async (req: Request, res: Response): Promise<Response> => {
+    const { id } = req.params;
+
+    return ProductCategory.find<IProductCategoryModel>(id).then((category) => {
+        if (!category) {
+            return res.status(404).json({ status: 'error', data: 'Product Category not found!' });
+        }
+
+        return category
+            .products()
+            .then((products) => {
+                return res.status(200).json({ status: 'success', data: products });
+            })
+            .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
+    });
+};
+
+export const createAndSlugify = async (req: Request, res: Response): Promise<Response> => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return res.status(422).json({ status: 'error', data: errors.array() });
+
+    const { title, parent_id } = req.body;
+    const slug = await slugify(title);
+
+    return checkIfStringExistsInTable(title, parent_id, 'title', 'product_categories')
+        .then((ifExists) => {
+            if (!ifExists) {
+                return insertTitleAndSlug(parent_id, title, slug);
+            }
+            return postfixNumberGenerator(title, parent_id, slug).then((script) =>
+                insertTitleAndSlug(parent_id, script[0], script[1]),
+            );
+        })
+        .then((category) => res.status(201).json({ status: 'success', data: category }))
+        .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
+
+    // return slugify(title, parent_id, 'title', 'slug', 'product_categories')
+    //     .then((category) => res.status(201).json({ status: 'success', data: category }))
+    //     .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
 };

@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import fs from 'fs';
-import { useDBSetup } from './utils';
+import { useDBSetup, csvImport } from './utils';
 
 const { runSetupQuery } = useDBSetup(true);
 
@@ -25,32 +25,45 @@ const productsSeeder = async (): Promise<void> => {
 };
 
 const productImagesSeeder = async (): Promise<void> => {
-    const productImagesSQL = await fs.readFileSync('./src/database/data/product_images.sql').toString();
-    await runSetupQuery('product_images', productImagesSQL);
+    const filePath = await fs.createReadStream('./src/database/data/images.csv');
+    await csvImport(filePath, 'product_images');
 };
 
 const productOptionsSeeder = async (): Promise<void> => {
-    const productOptionsSQL = await fs.readFileSync('./src/database/data/product_options.sql').toString();
-    await runSetupQuery('product_options', productOptionsSQL);
+    const filePath = await fs.createReadStream('./src/database/data/product_options.csv');
+    await csvImport(filePath, 'product_options');
 };
 
 const productSpecsSeeder = async (): Promise<void> => {
-    const productSpecsSQL = await fs.readFileSync('./src/database/data/product_specs.sql').toString();
-    await runSetupQuery('product_specs', productSpecsSQL);
+    const filePath = await fs.createReadStream('./src/database/data/product_specs.csv');
+    await csvImport(filePath, 'product_specs');
 };
+
+// const productImagesSeeder = async (): Promise<void> => {
+//     const productImagesSQL = await fs.readFileSync('./src/database/data/product_images.sql').toString();
+//     await runSetupQuery('product_images', productImagesSQL);
+// };
+
+// const productOptionsSeeder = async (): Promise<void> => {
+//     const productOptionsSQL = await fs.readFileSync('./src/database/data/product_options.sql').toString();
+//     await runSetupQuery('product_options', productOptionsSQL);
+// };
+
+// const productSpecsSeeder = async (): Promise<void> => {
+//     const productSpecsSQL = await fs.readFileSync('./src/database/data/product_specs.sql').toString();
+//     await runSetupQuery('product_specs', productSpecsSQL);
+// };
 
 const seedData = async () => {
     console.log('\x1b[36m%s\x1b[0m', 'ℹ Started database seeding...');
 
-    await Promise.all([
-        countriesSeeder(),
-        usersSeeder(),
-        productCategoriesSeeder(),
-        productsSeeder(),
-        productImagesSeeder(),
-        productOptionsSeeder(),
-        productSpecsSeeder(),
-    ]);
+    await countriesSeeder();
+    await usersSeeder();
+    await productCategoriesSeeder();
+    await productsSeeder();
+    await productImagesSeeder();
+    await productOptionsSeeder();
+    await productSpecsSeeder();
 
     console.log('\x1b[36m%s\x1b[0m', 'ℹ Database Seeding complete!');
 };

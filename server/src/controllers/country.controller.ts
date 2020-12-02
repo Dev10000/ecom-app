@@ -1,15 +1,26 @@
 import { Request, Response } from 'express';
 import { validationResult } from 'express-validator';
-import QB from '../database/QB';
+import QueryBuilder from '../database/QueryBuilder';
 import Country from '../models/Country';
 
 export const getAll = async (req: Request, res: Response): Promise<Response> => {
-    return QB(Country)
-        .select('id', 'name')
-        .orderBy('name')
+    return QueryBuilder(Country)
         .get()
         .then((countries) => {
             return res.status(200).json({ status: 'success', data: countries });
+        })
+        .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
+};
+
+export const getSingle = async (req: Request, res: Response): Promise<Response> => {
+    const { id } = req.params;
+
+    return Country.find<ICountryModel>(id)
+        .then((country) => {
+            if (country) {
+                return res.status(200).json({ status: 'success', data: country });
+            }
+            return res.status(404).json({ status: 'error', data: 'Country not found!' });
         })
         .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
 };
@@ -54,7 +65,7 @@ export const destroy = async (req: Request, res: Response): Promise<Response> =>
             return res.status(404).json({ status: 'error', data: 'Country not found!' });
         }
 
-        return QB(Country)
+        return QueryBuilder(Country)
             .where('id', id)
             .delete()
             .then((response) => {

@@ -1,10 +1,16 @@
 import { Request, Response } from 'express';
 import { validationResult } from 'express-validator';
-import QB from '../database/QB';
+import QueryBuilder from '../database/QueryBuilder';
 import Order from '../models/Order';
 
 export const getAll = async (req: Request, res: Response): Promise<Response> => {
-    return QB(Order)
+    const { page, items } = req.query;
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return res.status(422).json({ status: 'error', data: errors.array() });
+
+    return QueryBuilder(Order)
+        .paginate(Number(page) || 1, Number(items) || 25)
         .get()
         .then((orders) => {
             return res.status(200).json({ status: 'success', data: orders });

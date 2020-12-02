@@ -3,8 +3,8 @@ import { useDBSetup } from './utils';
 
 const { runSetupQuery } = useDBSetup();
 
-const timestampColumns = `"created_at" timestamp DEFAULT current_timestamp,
-    "updated_at" timestamp`;
+const timestampColumns = `"created_at" timestamp with time zone DEFAULT current_timestamp,
+    "updated_at" timestamp with time zone`;
 
 const create_countries_table = async () => {
     const countriesQuery = `DROP TABLE IF EXISTS "countries" cascade;
@@ -35,11 +35,11 @@ const create_users_table = async () => {
     "password" varchar(100) NOT NULL,
     "first_name" varchar(30) NOT NULL,
     "last_name" varchar(100) NOT NULL,
-    "address" varchar(100) NOT NULL,
-    "city" varchar(100) NOT NULL,
+    "address" varchar(100),
+    "city" varchar(100),
     "country_id" int,
-    "postal_code" varchar(50) NOT NULL,
-    "phone_number" varchar(50) NOT NULL,
+    "postal_code" varchar(50),
+    "phone_number" varchar(50),
     ${timestampColumns}
 );
 
@@ -54,8 +54,8 @@ const create_products_table = async () => {
   "id" SERIAL PRIMARY KEY,
   "title" varchar(200),
   "slug" varchar(200) UNIQUE NOT NULL,
-  "description" text NOT NULL,
-  "price" decimal(8,4) NOT NULL,
+  "description" text,
+  "price" decimal(12,4) NOT NULL,
   "weight" decimal(8,4),
   "package_size" varchar(100),
   "discount" decimal(4,2),
@@ -78,10 +78,12 @@ const create_product_categories_table = async () => {
   "id" SERIAL PRIMARY KEY,
   "title" varchar(200),
   "parent_id" int,
-  "slug" varchar(200) UNIQUE NOT NULL,
+  "slug" varchar(200) NOT NULL,
   ${timestampColumns}
 );
 
+ALTER TABLE "product_categories" ADD CONSTRAINT "unique_slug_parent_id" UNIQUE("parent_id", "slug");
+ALTER TABLE "product_categories" ADD CONSTRAINT "unique_title_parent_id" UNIQUE("parent_id", "title");
 ALTER TABLE "product_categories" ADD FOREIGN KEY ("parent_id") REFERENCES "product_categories" ("id") ON DELETE SET NULL;
 `;
 
@@ -104,7 +106,7 @@ const create_product_specs_table = async () => {
   CREATE TABLE IF NOT EXISTS "product_specs" (
     "id" SERIAL PRIMARY KEY,
     "product_id" int NOT NULL,
-    "product_options_id" int NOT NULL,
+    "product_options_id" int,
     "value" varchar,
     ${timestampColumns}
   );
@@ -121,12 +123,14 @@ const create_product_images_table = async () => {
     const productImagesQuery = `DROP TABLE IF EXISTS "product_images" cascade;
   CREATE TABLE IF NOT EXISTS "product_images" (
     "id" SERIAL PRIMARY KEY,
+    "uuid" uuid,
+    "filename" text,
     "href" varchar,
     "default_img" boolean,
     "product_id" int,
     ${timestampColumns}
   );
-  
+
  ALTER TABLE "product_images" ADD FOREIGN KEY ("product_id") REFERENCES "products" ("id") ON DELETE CASCADE;
  CREATE INDEX ON "product_images" ("product_id");`;
 
@@ -186,25 +190,35 @@ const create_coupon_codes_table = async () => {
     return runSetupQuery('coupon_codes', couponCodesQuery);
 };
 
-const setup = (): void => {
-    console.log('\x1b[36m%s\x1b[0m', 'ℹ Started database (re)structuring...');
+/** Database Views (at least before we get the query builder able to get relationship data through eager loading)  */
 
-    Promise.all([
-        create_countries_table(),
-        create_product_categories_table(),
-        create_product_specs_table(),
-        create_product_options_table(),
-        create_product_images_table(),
-        create_products_table(),
-        create_order_items_table(),
-        create_orders_table(),
-        create_users_table(),
-        create_coupon_codes_table(),
-    ])
-        .then(() => {
-            console.log('\x1b[36m%s\x1b[0m', 'ℹ Database (re)structuring complete!');
-        })
-        .catch((err) => console.log(err));
+const create_products_view = async () => {
+    const productsViewSQL = `DROP VIEW IF EXISTS "products_view"; 
+    CREATE VIEW "products_view" AS SELECT *
+    FROM products as a
+    INNER JOIN (
+    SELECT json_agg(a.*)  image,
+    product_id
+    FROM product_images as a
+    GROUP BY product_id) AS b ON a.id = b.product_id`;
+
+    return runSetupQuery('products_view', productsViewSQL);
+};
+
+const setup = async () => {
+    console.log('\x1b[36m%s\x1b[0m', 'ℹ Started database (re)structuring...');
+    await create_countries_table();
+    await create_product_categories_table();
+    await create_product_specs_table();
+    await create_product_options_table();
+    await create_product_images_table();
+    await create_products_table();
+    await create_order_items_table();
+    await create_orders_table();
+    await create_users_table();
+    await create_coupon_codes_table();
+    await create_products_view();
+    console.log('\x1b[36m%s\x1b[0m', 'ℹ Database (re)structuring complete!');
 };
 
 setup();

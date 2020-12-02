@@ -6,13 +6,23 @@ interface IModel {
     id?: number; // primary key for model
     table: string; // name of the table
     hidden: string[]; // other fields that we want to get excluded in toJSON()
+    relationships: IRelationship[];
     created_at?: string;
     updated_at?: string;
     save: () => Promise<T>;
     // static create: (props: T) => T;
     toJSON: () => Pick<this, Exclude<keyof this, keyof this>>;
     belongsTo: (otherModel: Constructor<U>, localField?: string, remoteField?: string) => Promise<T>;
-    hasMany(otherModel: Constructor<U>, localField?: string, remoteField?: string): Promise<U[]>;
+    hasMany: (otherModel: Constructor<U>, localField?: string, remoteField?: string) => Promise<U[]>;
+}
+
+interface IRelationship {
+    type: 'belongsTo' | 'hasMany';
+    name: string;
+    constructor: new () => T & IModel;
+    table: string;
+    localField: keyof T;
+    remoteField: string;
 }
 
 interface IUserModel extends IModel, IUser {
@@ -61,10 +71,10 @@ interface IProduct {
     title?: string;
     slug?: string;
     description?: string;
-    price?: number;
+    price: number;
     weight?: number;
     package_size?: string;
-    discount?: number;
+    discount: number;
     product_category_id?: number;
     stock_qty?: number;
     deleted_at?: string;

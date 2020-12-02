@@ -1,11 +1,17 @@
 import { Request, Response } from 'express';
 import { validationResult } from 'express-validator';
-import QB from '../database/QB';
+import QueryBuilder from '../database/QueryBuilder';
 import User from '../models/User';
 import hashPassword from './auth/utils';
 
 export const getAllUsers = async (req: Request, res: Response): Promise<Response> => {
-    return QB(User)
+    const { page, items } = req.query;
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return res.status(422).json({ status: 'error', data: errors.array() });
+
+    return QueryBuilder(User)
+        .paginate(Number(page) || 1, Number(items) || 25)
         .get()
         .then((users) => {
             const sanitizedUsers = users.map((u) => {
