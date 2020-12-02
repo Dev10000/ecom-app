@@ -28,6 +28,7 @@ interface IRelationship {
 interface IUserModel extends IModel, IUser {
     country: () => Promise<ICountry>;
     orders: () => Promise<IOrder[]>;
+    articles: () => Promise<IArticle[]>;
 }
 
 interface IUser {

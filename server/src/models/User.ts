@@ -2,6 +2,7 @@ import { compare } from 'bcrypt';
 import Model from '../database/Model';
 import Country from './Country';
 import Order from './Order';
+import Article from './Article';
 
 export default class User extends Model<IUser> {
     readonly hidden = ['password'];
@@ -21,5 +22,9 @@ export default class User extends Model<IUser> {
 
     async orders(): Promise<IOrder[]> {
         return this.hasMany(Order);
+    }
+
+    async articles(): Promise<IArticle[]> {
+        return this.hasMany(Article);
     }
 }

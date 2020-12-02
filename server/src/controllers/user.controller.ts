@@ -68,6 +68,21 @@ export const getUserOrders = async (req: Request, res: Response): Promise<Respon
     });
 };
 
+export const getUserArticles = async (req: Request, res: Response): Promise<Response> => {
+    const { id } = req.params;
+
+    return User.find<IUserModel>(id).then((user) => {
+        if (!user) return res.status(404).json({ status: 'error', data: 'Cannot find user with given id!' });
+
+        return user
+            .articles()
+            .then((articles) => {
+                return res.status(200).json({ status: 'success', data: articles });
+            })
+            .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
+    });
+};
+
 export const getUser = async (req: Request, res: Response): Promise<Response> => {
     const { id } = req.params;
 
