@@ -205,6 +205,18 @@ const create_products_view = async () => {
     return runSetupQuery('products_view', productsViewSQL);
 };
 
+const create_users_view = async () => {
+    const query = `DROP VIEW IF EXISTS "users_view"; 
+    CREATE VIEW "users_view" AS SELECT users.*, agg.country
+    FROM (users
+    JOIN ( SELECT json_agg(countries.*) AS country,
+    countries.id
+    FROM countries
+    GROUP BY countries.id) agg ON ((users.country_id = agg.id)))`;
+
+    return runSetupQuery('users_view', query);
+};
+
 const setup = async () => {
     console.log('\x1b[36m%s\x1b[0m', 'ℹ Started database (re)structuring...');
     await create_countries_table();
@@ -218,6 +230,7 @@ const setup = async () => {
     await create_users_table();
     await create_coupon_codes_table();
     await create_products_view();
+    await create_users_view();
     console.log('\x1b[36m%s\x1b[0m', 'ℹ Database (re)structuring complete!');
 };
 
