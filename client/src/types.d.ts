@@ -69,6 +69,9 @@ interface IProduct {
     discount: number;
     product_category_id?: number;
     stock_qty?: number;
+    featured?: boolean;
+    rating?: number;
+    reviews_count?: number;
     deleted_at?: string;
 }
 
