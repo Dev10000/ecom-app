@@ -1,4 +1,5 @@
 import React, { useContext, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import CartContext from '../../../context/cart';
 import { formatCurrency } from '../../../utils';
 
@@ -8,6 +9,11 @@ const Product: React.FC<IProductProps> = (props: IProduct): JSX.Element => {
     const { id, title, price, discount } = props;
     const [visibleButtons, setVisibleButtons] = useState(false);
     const { addProduct } = useContext(CartContext);
+    const history = useHistory();
+
+    const displayProductPage = () => {
+        history.push({ pathname: `/products/${id}`, state: { productId: id } });
+    };
 
     return (
         <div
@@ -47,7 +53,11 @@ const Product: React.FC<IProductProps> = (props: IProduct): JSX.Element => {
                     </div>
                 </div>
             </div>
-            <div className="bg-white dark:bg-gray-800 m-1 flex flex-1 flex-col">
+            <button
+                type="button"
+                onClick={displayProductPage}
+                className="bg-white dark:bg-gray-800 m-1 flex flex-1 flex-col"
+            >
                 <div className="text-center text-lg text-blue-900 dark:text-white font-extrabold py-2 flex-1">
                     {title}
                 </div>
@@ -59,7 +69,7 @@ const Product: React.FC<IProductProps> = (props: IProduct): JSX.Element => {
                     <span className="text-gray-700 dark:text-gray-300 line-through">{formatCurrency(price * 1)}</span>
                     <span className="font-bold text-red-500">{discount}% Off</span>
                 </div>
-            </div>
+            </button>
         </div>
     );
 };

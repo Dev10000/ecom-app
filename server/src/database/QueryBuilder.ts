@@ -151,7 +151,7 @@ export default function QueryBuilder<T>(model: Constructor<T>) {
             const prefix = this.buildPrefix(action || 'select');
             const text = `${prefix} ${table} ${this.buildJoins()} ${this.buildConditions()} ${this.buildOrderBy()}${this.buildPagination()}${this.buildLimit()}`;
             const values = this.buildValues();
-            // console.log(text, values);
+            console.log(text, values);
             return { text, values };
         }
 
