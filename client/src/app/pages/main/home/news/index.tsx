@@ -3,7 +3,7 @@ import React from 'react';
 const News: React.FC = (): JSX.Element => {
     return (
         <div className="flex flex-cols-3 gap-4 max-w-full mb-16">
-            <div className="mr-auto ml-auto display-block container mx-auto px-4 sm:max-w-md mx-auto bg-white rounded-xl rounded-yl shadow-md overflow-hidden">
+            <div className="flex mx-auto px-4 sm:max-w-md mx-auto rounded-xl rounded-yl shadow-md overflow-hidden">
                 <div className="md:flex">
                     <div className="flex-1 md:flex-shrink-0">
                         <img
@@ -29,7 +29,7 @@ const News: React.FC = (): JSX.Element => {
                     </div>
                 </div>
             </div>
-            <div className="mr-auto ml-auto display-block container mx-auto px-4 sm:max-w-md mx-auto bg-white rounded-xl rounded-yl shadow-md overflow-hidden">
+            <div className="flex mx-auto px-4 sm:max-w-md mx-auto rounded-xl rounded-yl shadow-md overflow-hidden">
                 <div className="md:flex">
                     <div className="flex-1 md:flex-shrink-0">
                         <img
@@ -58,7 +58,7 @@ const News: React.FC = (): JSX.Element => {
                     </div>
                 </div>
             </div>
-            <div className="mr-auto ml-auto display-block container mx-auto px-4 sm:max-w-md mx-auto bg-white rounded-xl rounded-yl shadow-md overflow-hidden">
+            <div className="flex mx-auto px-4 sm:max-w-md mx-auto rounded-xl rounded-yl shadow-md overflow-hidden">
                 <div className="md:flex">
                     <div className="flex-1 md:flex-shrink-0">
                         <img
