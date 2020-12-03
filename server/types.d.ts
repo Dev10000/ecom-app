@@ -42,6 +42,7 @@ interface IUser {
     city?: string;
     postal_code?: string;
     phone_number?: string;
+    isAdmin?: boolean;
 }
 
 interface IOrderModel extends IModel, IOrder {}
@@ -135,6 +136,7 @@ interface IArticle {
     id?: number;
     user_id?: number;
     title?: string;
+    slug?: string;
     featured_image?: string;
     body?: string;
     published_at?: number;

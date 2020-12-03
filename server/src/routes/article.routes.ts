@@ -1,14 +1,14 @@
 import { Router } from 'express';
-import authenticated from '../middleware/authenticated';
+import Verify from '../middleware/verify';
 import { getAll, getPublished, getSingle, create, edit, destroy } from '../controllers/article.controller';
 
 const router = Router();
 
 router.get('/', getPublished);
-router.get('/all', authenticated, getAll);
-router.get('/:id', authenticated, getSingle);
-router.post('/', authenticated, create);
-router.patch('/:id', authenticated, edit);
-router.delete('/:id', authenticated, destroy);
+router.get('/all', Verify.isAdmin, getAll);
+router.get('/:id', Verify.isUser, getSingle);
+router.post('/', Verify.isUser, create);
+router.patch('/:id', Verify.isAdmin, edit);
+router.delete('/:id', Verify.isUser, destroy);
 
 export default router;

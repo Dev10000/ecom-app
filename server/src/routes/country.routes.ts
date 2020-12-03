@@ -1,14 +1,14 @@
 import { Router } from 'express';
-import authenticated from '../middleware/authenticated';
+import Verify from '../middleware/verify';
 import countryValidator from '../validators/country';
 import { getAll, getSingle, create, edit, destroy } from '../controllers/country.controller';
 
 const router = Router();
 
 router.get('/', getAll);
-router.get('/:id', authenticated, getSingle);
-router.post('/', authenticated, countryValidator, create);
-router.patch('/:id', authenticated, countryValidator, edit);
-router.delete('/:id', authenticated, destroy);
+router.get('/:id', Verify.isUser, getSingle);
+router.post('/', Verify.isUser, countryValidator, create);
+router.patch('/:id', Verify.isUser, countryValidator, edit);
+router.delete('/:id', Verify.isUser, destroy);
 
 export default router;

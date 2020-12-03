@@ -40,6 +40,7 @@ const create_users_table = async () => {
     "country_id" int,
     "postal_code" varchar(50),
     "phone_number" varchar(50),
+    "isAdmin" boolean default false,
     ${timestampColumns}
 );
 
@@ -129,7 +130,7 @@ const create_product_images_table = async () => {
     "uuid" uuid,
     "filename" text,
     "href" varchar,
-    "default" boolean,
+    "default_img" boolean,
     "product_id" int,
     ${timestampColumns}
   );
@@ -217,6 +218,7 @@ CREATE TABLE "articles" (
   "id" SERIAL PRIMARY KEY,
   "user_id" int NOT NULL,
   "title" varchar,
+  "slug" varchar,
   "featured_image" varchar,
   "body" text,
   "published_at" timestamp,

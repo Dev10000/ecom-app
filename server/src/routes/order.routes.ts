@@ -1,12 +1,12 @@
 import { Router } from 'express';
-import authenticated from '../middleware/authenticated';
+import Verify from '../middleware/verify';
 import orderValidator, { orderQuery } from '../validators/order';
 import { getAll, getSingle, create } from '../controllers/order.controller';
 
 const router = Router();
 
-router.get('/', authenticated, orderQuery, getAll);
-router.get('/:id', authenticated, getSingle);
-router.post('/', authenticated, orderValidator, create);
+router.get('/', Verify.isUser, orderQuery, getAll);
+router.get('/:id', Verify.isUser, getSingle);
+router.post('/', Verify.isUser, orderValidator, create);
 
 export default router;
