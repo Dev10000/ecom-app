@@ -85,6 +85,11 @@ export const getUserArticles = async (req: Request, res: Response): Promise<Resp
 export const getUser = async (req: Request, res: Response): Promise<Response> => {
     const { id } = req.params;
 
+    const loggedInUser = req.user as IUserModel;
+
+    if (Number(loggedInUser.id) !== Number(id) && !loggedInUser.is_admin)
+        return res.status(403).json({ status: 'error', data: 'Access denied!' });
+
     return User.find<IUserModel>(id)
         .then((user) => {
             if (!user) return res.status(404).json({ status: 'error', data: 'Cannot find user with given id!' });
