@@ -28,6 +28,7 @@ interface IRelationship {
 interface IUserModel extends IModel, IUser {
     country: () => Promise<ICountry>;
     orders: () => Promise<IOrder[]>;
+    articles: () => Promise<IArticle[]>;
 }
 
 interface IUser {
@@ -41,6 +42,7 @@ interface IUser {
     city?: string;
     postal_code?: string;
     phone_number?: string;
+    is_admin: boolean;
 }
 
 interface IOrderModel extends IModel, IOrder {}
@@ -77,6 +79,9 @@ interface IProduct {
     discount: number;
     product_category_id?: number;
     stock_qty?: number;
+    featured?: boolean;
+    rating?: number;
+    reviews_count?: number;
     deleted_at?: string;
 }
 
@@ -114,6 +119,27 @@ interface IProductSpec {
     product_id?: number;
     product_options_id?: number;
     value?: string;
+}
+
+interface IReviewModel extends IModel, IReview {}
+
+interface IReview {
+    id?: number;
+    user_id?: number;
+    product_id?: number;
+    review?: number;
+}
+
+interface IArticleModel extends IModel, IArticle {}
+
+interface IArticle {
+    id?: number;
+    user_id?: number;
+    title?: string;
+    slug?: string;
+    featured_image?: string;
+    body?: string;
+    published_at?: number;
 }
 
 interface ICouponCodeModel extends IModel, ICouponCode {}

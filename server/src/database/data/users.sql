@@ -1,9 +1,13 @@
 TRUNCATE users RESTART IDENTITY cascade;
 
+INSERT INTO users (email, password, first_name, last_name, address, city, country_id, postal_code, phone_number, is_admin, created_at)
+VALUES
+('jpimblott0@ihg.com', '$2b$10$Hdk0vEVFyE/ZKSOLJPFE8efSQHUWRbQXuK4qB4zui06z2yOUXxUea', 'Judy', 'Pimblott', '2 Redwing Lane', 'Lille', '77', '59049 CEDEX', '238-389-6616', TRUE,  '2020-11-05 15:43:06.391');
+
+
 INSERT INTO users (email, password, first_name, last_name, address, city, country_id, postal_code, phone_number, created_at)
 VALUES
 
-('jpimblott0@ihg.com', '$2b$10$Hdk0vEVFyE/ZKSOLJPFE8efSQHUWRbQXuK4qB4zui06z2yOUXxUea', 'Judy', 'Pimblott', '2 Redwing Lane', 'Lille', '77', '59049 CEDEX', '238-389-6616', '2020-11-05 15:43:06.391'),
 ('sboutellier1@histats.com', '$2b$10$Hdk0vEVFyE/ZKSOLJPFE8efSQHUWRbQXuK4qB4zui06z2yOUXxUea', 'Selle', 'Boutellier', '9 Main Point', 'Buayan', '176', '9500', '672-556-2903', '2020-11-05 15:43:06.391'),
 ('cduffitt2@multiply.com', '$2b$10$Hdk0vEVFyE/ZKSOLJPFE8efSQHUWRbQXuK4qB4zui06z2yOUXxUea', 'Coleen', 'Duffitt', '52 Vermont Place', 'Saint-Laurent-Blangy', '77', '62055 CEDEX', '529-295-9540', '2020-11-05 15:43:06.391'),
 ('lsewall3@msn.com', '$2b$10$Hdk0vEVFyE/ZKSOLJPFE8efSQHUWRbQXuK4qB4zui06z2yOUXxUea', 'Leupold', 'Sewall', '70779 John Wall Way', 'Mawang', '46', '', '896-217-7917', '2020-11-05 15:43:06.391'),

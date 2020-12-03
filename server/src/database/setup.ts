@@ -40,6 +40,7 @@ const create_users_table = async () => {
     "country_id" int,
     "postal_code" varchar(50),
     "phone_number" varchar(50),
+    "is_admin" boolean default false,
     ${timestampColumns}
 );
 
@@ -61,6 +62,9 @@ const create_products_table = async () => {
   "discount" decimal(4,2),
   "product_category_id" int,
   "stock_qty" int NOT NULL,
+  "featured" boolean DEFAULT false,
+  "rating" decimal(3,2) DEFAULT 0,
+  "reviews_count" int DEFAULT 0,
   "deleted_at" timestamp,
   ${timestampColumns}
 );
@@ -137,6 +141,24 @@ const create_product_images_table = async () => {
     return runSetupQuery('product_images', productImagesQuery);
 };
 
+const create_reviews_table = async () => {
+    const reviewsQuery = `DROP TABLE IF EXISTS "reviews" cascade;
+  CREATE TABLE "reviews" (
+    "id" SERIAL PRIMARY KEY,
+    "user_id" int NOT NULL,
+    "product_id" int NOT NULL,
+    "rating" SMALLINT,
+    ${timestampColumns}
+);
+
+ALTER TABLE "reviews" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id") ON DELETE CASCADE;
+ALTER TABLE "reviews" ADD FOREIGN KEY ("product_id") REFERENCES "products" ("id") ON DELETE CASCADE;
+CREATE INDEX ON "reviews" ("user_id");
+CREATE INDEX ON "reviews" ("product_id");`;
+
+    return runSetupQuery('reviews', reviewsQuery);
+};
+
 const create_orders_table = async () => {
     const ordersQuery = `CREATE EXTENSION IF NOT EXISTS "pgcrypto";
   DROP TABLE IF EXISTS "orders" cascade;
@@ -188,6 +210,26 @@ const create_coupon_codes_table = async () => {
   );`;
 
     return runSetupQuery('coupon_codes', couponCodesQuery);
+};
+
+const create_articles_table = async () => {
+    const articlesQuery = `DROP TABLE IF EXISTS "articles" cascade;
+CREATE TABLE "articles" (
+  "id" SERIAL PRIMARY KEY,
+  "user_id" int NOT NULL,
+  "title" varchar,
+  "slug" varchar,
+  "featured_image" varchar,
+  "body" text,
+  "published_at" timestamp,
+  ${timestampColumns}
+);
+
+ALTER TABLE "articles" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id") ON DELETE CASCADE;
+CREATE INDEX ON "articles" ("user_id");
+`;
+
+    return runSetupQuery('articles', articlesQuery);
 };
 
 /** Database Views (at least before we get the query builder able to get relationship data through eager loading)  */
@@ -267,10 +309,12 @@ const setup = async () => {
     await create_product_options_table();
     await create_product_images_table();
     await create_products_table();
+    await create_reviews_table();
     await create_order_items_table();
     await create_orders_table();
     await create_users_table();
     await create_coupon_codes_table();
+    await create_articles_table();
     await create_products_view();
     await create_users_view();
     await create_countries_view();
