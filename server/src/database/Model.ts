@@ -93,7 +93,7 @@ export default class Model<T> {
     /**
      * Finds a record by the ID or custom column and returns a promise of an instance.
      * @param id
-     * @param column OPTINAL default id
+     * @param column OPTIONAL default id
      */
     static async findCustom<U>(id: number | string, column = 'id'): Promise<U | undefined> {
         // eslint-disable-next-line no-restricted-globals

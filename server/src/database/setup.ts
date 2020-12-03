@@ -192,17 +192,37 @@ const create_coupon_codes_table = async () => {
 
 /** Database Views (at least before we get the query builder able to get relationship data through eager loading)  */
 
-const create_products_view = async () => {
-    const productsViewSQL = `DROP VIEW IF EXISTS "products_view"; 
-    CREATE VIEW "products_view" AS SELECT *
-    FROM products as a
-    INNER JOIN (
-    SELECT json_agg(a.*)  image,
-    product_id
-    FROM product_images as a
-    GROUP BY product_id) AS b ON a.id = b.product_id`;
+// Old specs missing
+// const create_products_view = async () => {
+//     const productsViewSQL = `DROP VIEW IF EXISTS "products_view";
+//     CREATE VIEW "products_view" AS SELECT *
+//     FROM products as a
+//     INNER JOIN (
+//     SELECT json_agg(a.*)  image,
+//     product_id
+//     FROM product_images as a
+//     GROUP BY product_id) AS b ON a.id = b.product_id`;
 
-    return runSetupQuery('products_view', productsViewSQL);
+//     return runSetupQuery('products_view', productsViewSQL);
+// };
+
+const create_products_view = async () => {
+    const query = `DROP VIEW IF EXISTS "products_view"; 
+      CREATE VIEW "products_view" AS SELECT pro.*, imgt.image, specst.specs
+      FROM products AS pro
+      INNER JOIN
+      (SELECT json_agg(pi.*)  image, product_id
+      FROM product_images AS pi
+      GROUP BY product_id) AS imgt
+      ON pro.id = imgt.product_id
+      INNER JOIN
+      (SELECT product_id, jsonb_object_agg(po.title, ps.value) AS specs
+      FROM product_specs AS ps
+      JOIN product_options AS po ON po.id = ps.product_options_id
+      GROUP BY product_id) AS specst
+      ON pro.id = specst.product_id`;
+
+    return runSetupQuery('products_view', query);
 };
 
 const create_users_view = async () => {
