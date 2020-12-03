@@ -215,7 +215,7 @@ export const csvImport = async (filePath: fs.ReadStream, tableName: string): Pro
         fileStream.on('error', errorCall);
         queryStream.on('error', errorCall);
         queryStream.on('finish', errorCall);
-        fileStream.pipe(queryStream).on('error', errorCall);
+        fileStream.pipe(queryStream);
         // DB.end();
     });
 };
