@@ -39,7 +39,9 @@ export const create = async (req: Request, res: Response): Promise<Response> => 
     const errors = validationResult(req);
     if (!errors.isEmpty()) return res.status(422).json({ status: 'error', data: errors.array() });
 
-    return Article.create<IArticleModel>(req.body as Partial<IArticle>)
+    const currentUser = req.user as IUserModel;
+
+    return Article.create<IArticleModel>({ ...(req.body as Partial<IArticle>), user_id: currentUser.id })
         .save()
         .then((article) => res.status(201).json({ status: 'success', data: article }))
         .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
