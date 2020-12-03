@@ -7,7 +7,6 @@ import CartContext from '../../../../context/cart';
 
 interface IProductState {
     productId: number;
-    testId: number;
 }
 
 const Product: React.FC = () => {
@@ -39,6 +38,12 @@ const Product: React.FC = () => {
 
     const navSliderProduct = () => {
         history.push({ pathname: `/products/${sliderProduct?.slug}`, state: { productId: sliderProduct?.id } });
+    };
+
+    const navFeatureProduct = (id: number | undefined) => {
+        const featureId = featureProducts.find((element) => element.id === id)?.id;
+        const featureSlug = featureProducts.find((element) => element.id === id)?.slug;
+        history.push({ pathname: `/products/${featureSlug}`, state: { productId: featureId } });
     };
 
     // increase number of items
@@ -121,7 +126,6 @@ const Product: React.FC = () => {
     };
     useEffect(() => {
         if (location.state) {
-            console.log(location.state);
             setProductId(location.state.productId);
         }
     }, [location]);
@@ -560,7 +564,7 @@ const Product: React.FC = () => {
                 <div className="flex flex-row">
                     {featureProducts.map((elem) => (
                         <div>
-                            <button type="button">
+                            <button type="button" onClick={() => navFeatureProduct(elem.id)}>
                                 <ul key={elem.id} className="w-64 border shadow border-gray-300 mx-4 mt-12 sm:mt-0">
                                     <li className="w-64 h-48 flex flex-col justify-center">
                                         <div className="flex flex-row justify-center">
