@@ -5,10 +5,10 @@ import { getAll, getSingle, create, edit, destroy } from '../controllers/country
 
 const router = Router();
 
-router.get('/', getAll);
-router.get('/:id', Verify.isUser, getSingle);
-router.post('/', Verify.isUser, countryValidator, create);
-router.patch('/:id', Verify.isUser, countryValidator, edit);
-router.delete('/:id', Verify.isUser, destroy);
+router.get('/', Verify.isAdmin, getAll);
+router.get('/:id', Verify.isAdmin, getSingle);
+router.post('/', Verify.isAdmin, countryValidator, create);
+router.patch('/:id', Verify.isAdmin, countryValidator, edit);
+router.delete('/:id', Verify.isAdmin, destroy);
 
 export default router;

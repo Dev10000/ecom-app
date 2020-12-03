@@ -5,10 +5,10 @@ import { getAll, createAndSlugify, edit, destroy, listProducts } from '../contro
 
 const router = Router();
 
-router.get('/', getAll);
-router.post('/', Verify.isUser, categoryValidator, createAndSlugify);
-router.patch('/:id', Verify.isUser, categoryValidator, edit);
-router.delete('/:id', Verify.isUser, destroy);
+router.get('/', Verify.isAdmin, getAll);
+router.post('/', Verify.isAdmin, categoryValidator, createAndSlugify);
+router.patch('/:id', Verify.isAdmin, categoryValidator, edit);
+router.delete('/:id', Verify.isAdmin, destroy);
 router.get('/:id/products', listProducts);
 
 export default router;

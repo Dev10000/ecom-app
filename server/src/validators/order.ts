@@ -1,13 +1,6 @@
 import { body, query } from 'express-validator';
 
 export default [
-    // body('code')
-    //     .trim()
-    //     .notEmpty()
-    //     .withMessage('code is a required field.')
-    //     .isUUID()
-    //     .withMessage('code must be a valid UUID'),
-
     body('user_id')
         .trim()
         .notEmpty()

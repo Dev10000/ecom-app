@@ -6,10 +6,10 @@ import { getAllUsers, getUser, editUser, getUserOrders, getUserArticles } from '
 
 const router = Router();
 
-router.get('/', Verify.isUser, userQuery, getAllUsers);
+router.get('/', Verify.isAdmin, userQuery, getAllUsers);
 router.get('/:id', Verify.isUser, getUser);
 router.patch('/:id', Verify.isUser, registerValidator, editUser);
-router.get('/:id/orders', Verify.isUser, getUserOrders);
+router.get('/:id/orders', Verify.isAdmin, getUserOrders);
 router.get('/:id/articles', Verify.isUser, getUserArticles);
 
 export default router;

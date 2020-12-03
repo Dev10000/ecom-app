@@ -17,22 +17,11 @@ export default [
         .isNumeric()
         .withMessage('price must be a numeric value.'),
 
-    /*
-    body('weight')
-        .trim()
-        .notEmpty()
-        .withMessage('weight is a required field.')
-        .isNumeric()
-        .withMessage('weight must be a numeric value.'),
+    body('weight').trim().optional().isNumeric().withMessage('weight must be a numeric value.'),
 
-    body('package_size').trim().notEmpty().withMessage('package_size is a required field.'),
+    body('package_size').optional(),
 
-    body('discount')
-        .trim()
-        .notEmpty()
-        .withMessage('discount is a required field.')
-        .isNumeric()
-        .withMessage('discount must be a numeric value.'),
+    body('discount').trim().optional().isNumeric().withMessage('discount must be a numeric value.'),
 
     body('product_category_id')
         .trim()
@@ -40,7 +29,6 @@ export default [
         .withMessage('product_category_id is a required field.')
         .isInt({ gt: 0 })
         .withMessage('product_category_id must be a positive integer.'),
-    */
 
     body('stock_qty')
         .trim()

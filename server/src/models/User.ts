@@ -11,6 +11,8 @@ export default class User extends Model<IUser> {
 
     password = '';
 
+    is_admin = false;
+
     static async checkPasswords(dbPassword: string, password: string): Promise<boolean> {
         const match: boolean = await compare(password, dbPassword);
         return match;

@@ -6,10 +6,10 @@ import couponValidator from '../validators/coupon';
 
 const router = Router();
 
-router.get('/', Verify.isUser, getAll);
+router.get('/', Verify.isAdmin, getAll);
 router.get('/:id', Verify.isUser, getSingle);
-router.post('/', Verify.isUser, couponValidator, create);
-router.patch('/:id', Verify.isUser, couponValidator, edit);
-router.delete('/:id', Verify.isUser, destroy);
+router.post('/', Verify.isAdmin, couponValidator, create);
+router.patch('/:id', Verify.isAdmin, couponValidator, edit);
+router.delete('/:id', Verify.isAdmin, destroy);
 
 export default router;

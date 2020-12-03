@@ -8,8 +8,8 @@ const router = Router();
 router.get('/', productQuery, getAll);
 router.get('/:id', getSingle);
 router.get('/search/:keywords', productQuery, search);
-router.post('/', Verify.isUser, productValidator, create);
-router.patch('/:id', Verify.isUser, productValidator, edit);
-router.delete('/:id', Verify.isUser, destroy);
+router.post('/', Verify.isAdmin, productValidator, create);
+router.patch('/:id', Verify.isAdmin, productValidator, edit);
+router.delete('/:id', Verify.isAdmin, destroy);
 
 export default router;

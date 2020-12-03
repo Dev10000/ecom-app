@@ -55,7 +55,6 @@ export const editUser = async (req: Request, res: Response): Promise<Response> =
 export const getUserOrders = async (req: Request, res: Response): Promise<Response> => {
     const { id } = req.params;
 
-    // TODO: !! make sure that the given user is the authenticated user !!
     return User.find<IUserModel>(id).then((user) => {
         if (!user) return res.status(404).json({ status: 'error', data: 'Cannot find user with given id!' });
 

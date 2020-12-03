@@ -42,7 +42,7 @@ interface IUser {
     city?: string;
     postal_code?: string;
     phone_number?: string;
-    isAdmin?: boolean;
+    is_admin: boolean;
 }
 
 interface IOrderModel extends IModel, IOrder {}

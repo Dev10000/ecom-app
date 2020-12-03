@@ -5,7 +5,7 @@ import passport from 'passport';
 export default class Verify {
     private static adminCheck = (req: Request, res: Response, next: NextFunction) => {
         const user = req.user as IUserModel;
-        return !user || !user.isAdmin ? res.status(403).json({ status: 'error', data: 'Access denied!' }) : next();
+        return !user || !user.is_admin ? res.status(403).json({ status: 'error', data: 'Access denied!' }) : next();
     };
 
     static isUser = (req: Request, res: Response, next: NextFunction) => {

@@ -32,6 +32,7 @@ interface IUser {
     city?: string;
     postal_code?: string;
     phone_number?: string;
+    is_admin: boolean;
 }
 
 interface IOrderModel extends IModel, IOrder {}

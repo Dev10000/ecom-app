@@ -40,7 +40,7 @@ const create_users_table = async () => {
     "country_id" int,
     "postal_code" varchar(50),
     "phone_number" varchar(50),
-    "isAdmin" boolean default false,
+    "is_admin" boolean default false,
     ${timestampColumns}
 );
 
