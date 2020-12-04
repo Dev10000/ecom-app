@@ -78,7 +78,7 @@ export const checkPost = (
     bearerTokens: string[],
     apiEndPoint: string,
     expectedStatuses: number[],
-    reqBody?: JSON,
+    reqBody?: Record<string, unknown>,
 ): void => {
     describe(`Checking HTTP responses to POST ${apiEndPoint}:`, () => {
         roles.forEach((role, index) => {
@@ -102,7 +102,7 @@ export const checkPatch = (
     bearerTokens: string[],
     apiEndPoint: string,
     expectedStatuses: number[],
-    reqBody?: JSON,
+    reqBody?: Record<string, unknown>,
 ): void => {
     describe(`Checking HTTP responses to PATCH ${apiEndPoint}:`, () => {
         roles.forEach((role, index) => {
@@ -131,7 +131,7 @@ export const checkDelete = (
         roles.forEach((role, index) => {
             it(`${role} returns ${expectedStatuses[index]} ${statusCode(expectedStatuses[index])}`, (done) => {
                 chai.request(server)
-                    .patch(apiEndPoint)
+                    .delete(apiEndPoint)
                     .set('Authorization', `Bearer ${bearerTokens[index]}`)
                     .end((req, res) => {
                         expect(res).to.have.status(expectedStatuses[index]);
@@ -141,3 +141,56 @@ export const checkDelete = (
         });
     });
 };
+
+export class Valid {
+    static admin = {
+        id: 1,
+        email: 'admin@example.com',
+        password: 'secret',
+        first_name: 'Judy',
+        last_name: 'Pimblott',
+        address: '2 Redwing Lane',
+        city: 'Lille',
+        country_id: 77,
+        postal_code: '59049 CEDEX',
+        phone_number: '238-389-6616',
+        is_admin: true,
+    };
+
+    static user = {
+        id: 2,
+        email: 'user@example.com',
+        password: 'secret',
+        first_name: 'Selle',
+        last_name: 'Boutellier',
+        address: '9 Main Point',
+        city: 'Buayan',
+        country_id: 176,
+        postal_code: '9500',
+        phone_number: '672-556-2903',
+        is_admin: false,
+    };
+
+    static otherUser = {
+        id: 3,
+        email: 'cduffitt2@multiply.com',
+        password: 'secret',
+        first_name: 'Coleen',
+        last_name: 'Duffitt',
+        address: '52 Vermont Place',
+        city: 'Saint-Laurent-Blangy',
+        country_id: 77,
+        postal_code: '62055 CEDEX',
+        phone_number: '529-295-9540',
+        is_admin: false,
+    };
+
+    static loginData = { email: 'user@example.com', password: 'secret' };
+
+    static articleData = {
+        slug: 'article-slug-here',
+        title: 'Article title here',
+        featured_image: 'feature image',
+        body: 'Some random body content ',
+    };
+}
