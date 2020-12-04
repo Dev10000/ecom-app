@@ -20,18 +20,12 @@ const Product: React.FC = () => {
     const [sliderProduct, setSliderProduct] = useState<IProduct>();
     const [sliderIndex, setSliderIndex] = useState<number>(1);
     const [featureProducts, setFeatureProducts] = useState<IProduct[]>([]);
-    const [featureIndex, setFeatureIndices] = useState<number>(0);
+    const [featureIndex, setFeatureIndices] = useState<number>(1);
     const [productImage, setProductImage] = useState<IProductImage>();
     const [productImages, setProductImages] = useState<IProductImage[]>([]);
     const [allProductImages, setAllProductImages] = useState<IProductImage[]>([]);
-    const [imageIndex, setImageIndex] = useState<number>(0);
+    const [imageIndex, setImageIndex] = useState<number>(1);
     const [quantity, setQuantity] = useState<number>(1);
-    const [sliderProductRightDisplay, setSliderProductRightDisplay] = useState<boolean>(true);
-    const [sliderProductLeftDisplay, setSliderProductLeftDisplay] = useState<boolean>(false);
-    const [featureProductRightDisplay, setFeatureProductRightDisplay] = useState<boolean>(true);
-    const [featureProductLeftDisplay, setFeatureProductLeftDisplay] = useState<boolean>(false);
-    const [productImagesRightDisplay, setProductImagesRightDisplay] = useState<boolean>(true);
-    const [productImagesLeftDisplay, setProductImagesLeftDisplay] = useState<boolean>(false);
     const [width, setWidth] = useState(window.innerWidth);
     const [numImages, setNumImages] = useState<number>(4);
     const history = useHistory();
@@ -65,65 +59,73 @@ const Product: React.FC = () => {
     };
     // slides product images right
     const sliderProductRight = (): void => {
-        if (sliderIndex > categoryProducts.length - 2) {
-            setSliderProductRightDisplay(false);
-        } else {
-            setSliderProductLeftDisplay(true);
-            setSliderIndex(sliderIndex + 1);
-            setSliderProduct(categoryProducts[sliderIndex]);
+        if (sliderIndex < categoryProducts.length) {
+            const rightIndex = sliderIndex;
+            const rightImages = [...categoryProducts].filter(
+                (image, index) => index > rightIndex - 1 && index < rightIndex + 1,
+            )[0];
+            setSliderIndex(rightIndex + 1);
+            setSliderProduct(rightImages);
         }
     };
     // slides product images left
     const sliderProductLeft = (): void => {
-        if (sliderIndex < 0) {
-            setSliderProductLeftDisplay(false);
-        } else {
-            setSliderProductRightDisplay(true);
-            setSliderIndex(sliderIndex - 1);
-            setSliderProduct(categoryProducts[sliderIndex]);
+        if (sliderIndex > 1 && sliderIndex <= categoryProducts.length) {
+            const leftIndex = sliderIndex;
+            const leftImages = [...categoryProducts].filter(
+                (image, index) => index >= leftIndex - 2 && index < leftIndex - 1,
+            )[0];
+            setSliderIndex(leftIndex - 1);
+            setSliderProduct(leftImages);
         }
     };
     // slides product images right
     const featureProductRight = (): void => {
-        if (featureIndex > categoryProducts.length - numImages) {
-            setFeatureProductRightDisplay(false);
-        } else {
-            setFeatureProductLeftDisplay(true);
-            setFeatureIndices(featureIndex + 1);
-            setFeatureProducts([...categoryProducts].splice(featureIndex, numImages));
+        if (featureIndex < categoryProducts.length - numImages + 1) {
+            const rightIndex = featureIndex;
+            const rightImages = [...categoryProducts].filter(
+                (image, index) => index > rightIndex - 1 && index < rightIndex + numImages,
+            );
+            setFeatureIndices(rightIndex + 1);
+            setFeatureProducts(rightImages);
         }
     };
     // slides product images left
     const featureProductLeft = (): void => {
-        if (featureIndex < 0) {
-            setFeatureProductLeftDisplay(false);
-        } else {
-            setFeatureProductRightDisplay(true);
-            setFeatureIndices(featureIndex - 1);
-            setFeatureProducts([...categoryProducts].splice(featureIndex, numImages));
+        if (featureIndex > 1 && featureIndex <= categoryProducts.length - numImages + 1) {
+            const leftIndex = featureIndex;
+            const leftImages = [...categoryProducts].filter(
+                (image, index) => index >= leftIndex - 2 && index < leftIndex + numImages - 2,
+            );
+            setFeatureIndices(leftIndex - 1);
+            setFeatureProducts(leftImages);
+        }
+    };
+
+    // slides product images left
+    const productImagesLeft = (): void => {
+        if (imageIndex > 1 && imageIndex <= allProductImages.length - 4 + 1) {
+            const leftIndex = imageIndex;
+            const leftImages = [...allProductImages].filter(
+                (image, index) => index >= leftIndex - 2 && index < leftIndex + 4 - 2,
+            );
+            setImageIndex(leftIndex - 1);
+            setProductImages(leftImages);
         }
     };
 
     // slides product images right
-    const productImagesRight = (): void => {
-        if (imageIndex > allProductImages.length - 4 && allProductImages.length < 4) {
-            setProductImagesRightDisplay(false);
-        } else {
-            setProductImagesLeftDisplay(true);
-            setImageIndex(imageIndex + 1);
-            setProductImages([...allProductImages].splice(imageIndex, 4));
+    const productImagesRight = () => {
+        if (imageIndex < allProductImages.length - 4 + 1) {
+            const rightIndex = imageIndex;
+            const rightImages = [...allProductImages].filter(
+                (image, index) => index > rightIndex - 1 && index < rightIndex + 4,
+            );
+            setImageIndex(rightIndex + 1);
+            setProductImages(rightImages);
         }
     };
-    // slides product images left
-    const productImagesLeft = (): void => {
-        if (imageIndex > allProductImages.length - 4 && allProductImages.length < 4) {
-            setProductImagesLeftDisplay(false);
-        } else {
-            setProductImagesRightDisplay(true);
-            setImageIndex(imageIndex + 1);
-            setProductImages([...allProductImages].splice(imageIndex, 4));
-        }
-    };
+
     useEffect(() => {
         if (location.state) {
             setProductId(location.state.productId);
@@ -144,6 +146,10 @@ const Product: React.FC = () => {
             setNumImages(5);
         }
     }, [width]);
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [productId]);
 
     useEffect(() => {
         axios
@@ -199,30 +205,26 @@ const Product: React.FC = () => {
                                         />
                                     </div>
                                     <div className="flex flex-row space-x-2">
-                                        {productImagesLeftDisplay ? (
-                                            <button
-                                                type="button"
-                                                onClick={productImagesLeft}
-                                                className="hover:text-blue-400"
+                                        <button
+                                            type="button"
+                                            onClick={() => productImagesLeft()}
+                                            className="hover:text-blue-400"
+                                        >
+                                            <svg
+                                                className="w-10 h-10 p-2 flex flex-row content-center"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                viewBox="0 0 24 24"
                                             >
-                                                <svg
-                                                    className="w-10 h-10 p-2 flex flex-row content-center"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    fill="none"
-                                                    stroke="currentColor"
-                                                    viewBox="0 0 24 24"
-                                                >
-                                                    <path
-                                                        strokeLinecap="round"
-                                                        strokeLinejoin="round"
-                                                        strokeWidth="2"
-                                                        d="M15 19l-7-7 7-7"
-                                                    />
-                                                </svg>
-                                            </button>
-                                        ) : (
-                                            ''
-                                        )}
+                                                <path
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                    strokeWidth="2"
+                                                    d="M15 19l-7-7 7-7"
+                                                />
+                                            </svg>
+                                        </button>
                                         {productImages.map((element) => (
                                             <div
                                                 key={element.id}
@@ -234,26 +236,22 @@ const Product: React.FC = () => {
                                                 </div>
                                             </div>
                                         ))}
-                                        {productImagesRightDisplay ? (
-                                            <button type="button" onClick={productImagesRight}>
-                                                <svg
-                                                    className="w-10 h-10 p-2 flex flex-row content-center"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    fill="none"
-                                                    stroke="currentColor"
-                                                    viewBox="0 0 24 24"
-                                                >
-                                                    <path
-                                                        strokeLinecap="round"
-                                                        strokeLinejoin="round"
-                                                        strokeWidth="2"
-                                                        d="M9 5l7 7-7 7"
-                                                    />
-                                                </svg>
-                                            </button>
-                                        ) : (
-                                            ''
-                                        )}
+                                        <button type="button" onClick={() => productImagesRight()}>
+                                            <svg
+                                                className="w-10 h-10 p-2 flex flex-row content-center"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                viewBox="0 0 24 24"
+                                            >
+                                                <path
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                    strokeWidth="2"
+                                                    d="M9 5l7 7-7 7"
+                                                />
+                                            </svg>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -447,28 +445,24 @@ const Product: React.FC = () => {
                             <div>BEST SELLER</div>
                         </div>
                         <div className="flex flex-row items-center justify-center mt-12 sm:mt-2">
-                            {sliderProductLeftDisplay ? (
-                                <button type="button" onClick={sliderProductLeft}>
-                                    <div className="flex flex-col justify-center border rounded-full bg-gray-100 hover:bg-blue-400 hover:text-white h-10 w-10">
-                                        <svg
-                                            className="w-10 h-10 p-2 flex flex-row content-center"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            viewBox="0 0 24 24"
-                                        >
-                                            <path
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                strokeWidth="2"
-                                                d="M15 19l-7-7 7-7"
-                                            />
-                                        </svg>
-                                    </div>
-                                </button>
-                            ) : (
-                                ''
-                            )}
+                            <button type="button" onClick={sliderProductLeft}>
+                                <div className="flex flex-col justify-center border rounded-full bg-gray-100 hover:bg-blue-400 hover:text-white h-10 w-10">
+                                    <svg
+                                        className="w-10 h-10 p-2 flex flex-row content-center"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth="2"
+                                            d="M15 19l-7-7 7-7"
+                                        />
+                                    </svg>
+                                </div>
+                            </button>
                             <button type="button" onClick={navSliderProduct}>
                                 <div className="w-68 border shadow border-gray-300 mx-4 flex flex-col">
                                     <div className="w-68 h-64 flex flex-col justify-center">
@@ -509,28 +503,24 @@ const Product: React.FC = () => {
                                     </div>
                                 </div>
                             </button>
-                            {sliderProductRightDisplay ? (
-                                <button type="button" onClick={sliderProductRight}>
-                                    <div className="flex flex-col justify-center border rounded-full bg-gray-100 hover:bg-blue-400 hover:text-white h-10 w-10">
-                                        <svg
-                                            className="w-10 h-10 p-2 flex flex-row content-center"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            viewBox="0 0 24 24"
-                                        >
-                                            <path
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                strokeWidth="2"
-                                                d="M9 5l7 7-7 7"
-                                            />
-                                        </svg>
-                                    </div>
-                                </button>
-                            ) : (
-                                ''
-                            )}
+                            <button type="button" onClick={sliderProductRight}>
+                                <div className="flex flex-col justify-center border rounded-full bg-gray-100 hover:bg-blue-400 hover:text-white h-10 w-10">
+                                    <svg
+                                        className="w-10 h-10 p-2 flex flex-row content-center"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth="2"
+                                            d="M9 5l7 7-7 7"
+                                        />
+                                    </svg>
+                                </div>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -539,28 +529,20 @@ const Product: React.FC = () => {
                 <div>RELATED PRODUCTS</div>
             </div>
             <div className="flex flex-row items-center space-y-5 justify-center mt-10">
-                {featureProductLeftDisplay ? (
-                    <button type="button" onClick={featureProductLeft}>
-                        <div className="flex flex-col justify-center border rounded-full bg-gray-100 hover:bg-blue-400 hover:text-white h-10 w-10">
-                            <svg
-                                className="w-10 h-10 p-2 flex flex-row content-center"
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth="2"
-                                    d="M15 19l-7-7 7-7"
-                                />
-                            </svg>
-                        </div>
-                    </button>
-                ) : (
-                    ''
-                )}
+                <button type="button" onClick={featureProductLeft}>
+                    <div className="flex flex-col justify-center border rounded-full bg-gray-100 hover:bg-blue-400 hover:text-white h-10 w-10">
+                        <svg
+                            className="w-10 h-10 p-2 flex flex-row content-center"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
+                        </svg>
+                    </div>
+                </button>
+
                 <div className="flex flex-row">
                     {featureProducts.map((elem) => (
                         <div>
@@ -603,23 +585,19 @@ const Product: React.FC = () => {
                         </div>
                     ))}
                 </div>
-                {featureProductRightDisplay ? (
-                    <button type="button" onClick={featureProductRight}>
-                        <div className="flex flex-col justify-center border rounded-full bg-gray-100 hover:bg-blue-400 hover:text-white h-10 w-10">
-                            <svg
-                                className="w-10 h-10 p-2 flex flex-row content-center"
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                            >
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
-                            </svg>
-                        </div>
-                    </button>
-                ) : (
-                    ''
-                )}
+                <button type="button" onClick={featureProductRight}>
+                    <div className="flex flex-col justify-center border rounded-full bg-gray-100 hover:bg-blue-400 hover:text-white h-10 w-10">
+                        <svg
+                            className="w-10 h-10 p-2 flex flex-row content-center"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </div>
+                </button>
             </div>
         </div>
     );
