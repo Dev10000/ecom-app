@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Request, Response } from 'express';
 import { validationResult } from 'express-validator';
 import QueryBuilder from '../database/QueryBuilder';
@@ -10,6 +11,24 @@ export const getAll = async (req: Request, res: Response): Promise<Response> => 
     if (!errors.isEmpty()) return res.status(422).json({ status: 'error', data: errors.array() });
 
     return QueryBuilder(Order)
+        .paginate(Number(page) || 1, Number(items) || 25)
+        .get()
+        .then((orders) => {
+            return res.status(200).json({ status: 'success', data: orders });
+        })
+        .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
+};
+
+export const getOwn = async (req: Request, res: Response): Promise<Response> => {
+    const { page, items } = req.query;
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return res.status(422).json({ status: 'error', data: errors.array() });
+
+    const user = req.user as IUserModel;
+
+    return QueryBuilder(Order)
+        .where('id', user.id!)
         .paginate(Number(page) || 1, Number(items) || 25)
         .get()
         .then((orders) => {

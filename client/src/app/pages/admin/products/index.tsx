@@ -9,7 +9,7 @@ const Products: React.FC = (): JSX.Element => {
 
     useEffect(() => {
         axios
-            .get('products')
+            .get('products?page=1&items=2500')
             .then((response) => {
                 setProducts(response.data.data);
             })

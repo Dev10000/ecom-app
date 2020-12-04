@@ -40,6 +40,7 @@ const create_users_table = async () => {
     "country_id" int,
     "postal_code" varchar(50),
     "phone_number" varchar(50),
+    "is_admin" boolean default false,
     ${timestampColumns}
 );
 
@@ -61,6 +62,9 @@ const create_products_table = async () => {
   "discount" decimal(4,2),
   "product_category_id" int,
   "stock_qty" int NOT NULL,
+  "featured" boolean DEFAULT false,
+  "rating" decimal(3,2) DEFAULT 0,
+  "reviews_count" int DEFAULT 0,
   "deleted_at" timestamp,
   ${timestampColumns}
 );
@@ -137,6 +141,24 @@ const create_product_images_table = async () => {
     return runSetupQuery('product_images', productImagesQuery);
 };
 
+const create_reviews_table = async () => {
+    const reviewsQuery = `DROP TABLE IF EXISTS "reviews" cascade;
+  CREATE TABLE "reviews" (
+    "id" SERIAL PRIMARY KEY,
+    "user_id" int NOT NULL,
+    "product_id" int NOT NULL,
+    "rating" SMALLINT,
+    ${timestampColumns}
+);
+
+ALTER TABLE "reviews" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id") ON DELETE CASCADE;
+ALTER TABLE "reviews" ADD FOREIGN KEY ("product_id") REFERENCES "products" ("id") ON DELETE CASCADE;
+CREATE INDEX ON "reviews" ("user_id");
+CREATE INDEX ON "reviews" ("product_id");`;
+
+    return runSetupQuery('reviews', reviewsQuery);
+};
+
 const create_orders_table = async () => {
     const ordersQuery = `CREATE EXTENSION IF NOT EXISTS "pgcrypto";
   DROP TABLE IF EXISTS "orders" cascade;
@@ -190,19 +212,93 @@ const create_coupon_codes_table = async () => {
     return runSetupQuery('coupon_codes', couponCodesQuery);
 };
 
+const create_articles_table = async () => {
+    const articlesQuery = `DROP TABLE IF EXISTS "articles" cascade;
+CREATE TABLE "articles" (
+  "id" SERIAL PRIMARY KEY,
+  "user_id" int NOT NULL,
+  "title" varchar,
+  "slug" varchar,
+  "featured_image" varchar,
+  "body" text,
+  "published_at" timestamp,
+  ${timestampColumns}
+);
+
+ALTER TABLE "articles" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id") ON DELETE CASCADE;
+CREATE INDEX ON "articles" ("user_id");
+`;
+
+    return runSetupQuery('articles', articlesQuery);
+};
+
 /** Database Views (at least before we get the query builder able to get relationship data through eager loading)  */
 
-const create_products_view = async () => {
-    const productsViewSQL = `DROP VIEW IF EXISTS "products_view"; 
-    CREATE VIEW "products_view" AS SELECT *
-    FROM products as a
-    INNER JOIN (
-    SELECT json_agg(a.*)  image,
-    product_id
-    FROM product_images as a
-    GROUP BY product_id) AS b ON a.id = b.product_id`;
+// Old specs missing
+// const create_products_view = async () => {
+//     const productsViewSQL = `DROP VIEW IF EXISTS "products_view";
+//     CREATE VIEW "products_view" AS SELECT *
+//     FROM products as a
+//     INNER JOIN (
+//     SELECT json_agg(a.*)  image,
+//     product_id
+//     FROM product_images as a
+//     GROUP BY product_id) AS b ON a.id = b.product_id`;
 
-    return runSetupQuery('products_view', productsViewSQL);
+//     return runSetupQuery('products_view', productsViewSQL);
+// };
+
+const create_products_view = async () => {
+    const query = `DROP VIEW IF EXISTS "products_view"; 
+      CREATE VIEW "products_view" AS SELECT pro.*, imgt.image, specst.specs
+      FROM products AS pro
+      INNER JOIN
+      (SELECT json_agg(pi.*)  image, product_id
+      FROM product_images AS pi
+      GROUP BY product_id) AS imgt
+      ON pro.id = imgt.product_id
+      INNER JOIN
+      (SELECT product_id, jsonb_object_agg(po.title, ps.value) AS specs
+      FROM product_specs AS ps
+      JOIN product_options AS po ON po.id = ps.product_options_id
+      GROUP BY product_id) AS specst
+      ON pro.id = specst.product_id`;
+
+    return runSetupQuery('products_view', query);
+};
+
+const create_users_view = async () => {
+    const query = `DROP VIEW IF EXISTS "users_view"; 
+    CREATE VIEW "users_view" AS SELECT users.*, agg.country
+    FROM (users
+    JOIN ( SELECT json_agg(countries.*) AS country,
+    countries.id
+    FROM countries
+    GROUP BY countries.id) agg ON ((users.country_id = agg.id)))`;
+
+    return runSetupQuery('users_view', query);
+};
+
+const create_countries_view = async () => {
+    const query = `DROP VIEW IF EXISTS "countries_view"; 
+    CREATE VIEW "countries_view" AS SELECT countries.*, agg.users
+    FROM (countries
+    JOIN ( SELECT json_agg(users.*) AS users,
+    users.country_id
+    FROM users
+    GROUP BY users.country_id) agg ON ((countries.id = agg.country_id)))`;
+
+    return runSetupQuery('countries_view', query);
+};
+
+const create_product_specs_view = async () => {
+    const query = `DROP VIEW IF EXISTS "product_specs_view"; 
+    CREATE VIEW "product_specs_view" AS SELECT product_id, jsonb_object_agg(po.title, ps.value) as specs
+    FROM product_specs as ps
+    JOIN product_options AS po ON po.id = ps.product_options_id
+    GROUP BY product_id`;
+
+    return runSetupQuery('product_specs_view', query);
 };
 
 const setup = async () => {
@@ -213,11 +309,16 @@ const setup = async () => {
     await create_product_options_table();
     await create_product_images_table();
     await create_products_table();
+    await create_reviews_table();
     await create_order_items_table();
     await create_orders_table();
     await create_users_table();
     await create_coupon_codes_table();
+    await create_articles_table();
     await create_products_view();
+    await create_users_view();
+    await create_countries_view();
+    await create_product_specs_view();
     console.log('\x1b[36m%s\x1b[0m', 'ℹ Database (re)structuring complete!');
 };
 
