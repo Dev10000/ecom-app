@@ -39,6 +39,11 @@ const productSpecsSeeder = async (): Promise<void> => {
     await csvImport(filePath, 'product_specs');
 };
 
+const setValsForCSVImports = async (): Promise<void> => {
+    const setValsForCSVImportsSQL = await fs.readFileSync('./src/database/data/setvalsForCSVImports.sql').toString();
+    await runSetupQuery('SET VALS FOR CSV IMPORTS', setValsForCSVImportsSQL);
+};
+
 // const productImagesSeeder = async (): Promise<void> => {
 //     const productImagesSQL = await fs.readFileSync('./src/database/data/product_images.sql').toString();
 //     await runSetupQuery('product_images', productImagesSQL);
@@ -54,6 +59,10 @@ const productSpecsSeeder = async (): Promise<void> => {
 //     await runSetupQuery('product_specs', productSpecsSQL);
 // };
 
+const setValues = async () => {
+    await setValsForCSVImports();
+};
+
 const seedData = async () => {
     console.log('\x1b[36m%s\x1b[0m', 'ℹ Started database seeding...');
 
@@ -65,6 +74,7 @@ const seedData = async () => {
     await productOptionsSeeder();
     await productSpecsSeeder();
 
+    await setValues();
     console.log('\x1b[36m%s\x1b[0m', 'ℹ Database Seeding complete!');
 };
 

@@ -12,7 +12,7 @@ import server from '../../../src';
 
 chai.use(chaiHttp);
 
-const correctUser = { email: 'sboutellier1@histats.com', password: 'secret' };
+const correctUser = { email: 'user@example.com', password: 'secret' };
 
 // login a user to fetch a Bearer token to be used in subsequent tests
 let token: string;
