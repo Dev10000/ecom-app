@@ -3,7 +3,7 @@ import React from 'react';
 const Featured: React.FC = (): JSX.Element => {
     return (
         <div className="flex flex-cols-3 gap-4 max-w-full mb-16">
-            <div className="flex mx-auto px-4 sm:max-w-md mx-auto rounded-xl rounded-yl shadow-md overflow-hidden">
+            <div className="flex mx-auto  px-4 sm:max-w-md mx-auto rounded-xl rounded-yl shadow-md overflow-hidden">
                 <div className="md:flex">
                     <div className="flex-1 md:flex-shrink-0">
                         <img
