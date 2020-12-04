@@ -2,6 +2,7 @@ import { QueryResult } from 'pg';
 import fs from 'fs';
 import { from } from 'pg-copy-streams';
 import DB from '../config/database';
+import { endianness } from 'os';
 
 export const colorLog = (status: string, info: string): void => {
     let color = '';
@@ -191,7 +192,7 @@ export const insertTitleAndSlug = async (
 * */
 // IMPORT CSV TO DEV_DB
 export const csvImport = async (filePath: fs.ReadStream, tableName: string): Promise<unknown> => {
-    return new Promise(function (resolve, reject) {
+    return new Promise((resolve, reject) => {
         DB.connect(async (err, client, done) => {
             if (err) {
                 console.log(`Can not connect to the DB${err}`);
@@ -201,25 +202,43 @@ export const csvImport = async (filePath: fs.ReadStream, tableName: string): Pro
                     `COPY ${tableName} FROM STDIN WITH (FORMAT CSV, DELIMITER '\t', HEADER, ENCODING 'UTF8', NULL 'NULL')`,
                 ),
             );
-            const errorCall = (error: Error): void => {
-                if (error) {
-                    done();
-                    colorLog(
-                        'error',
-                        `× Table "${tableName}" NOT seeded with data. ${error.message} \n Details: \n ${error}`,
-                    );
-                    reject();
-                }
-                done();
-                colorLog('success', `√ Table "${tableName}" successfully seeded with data.`);
-                resolve();
-            };
+            // const errorCall = (error: Error): void => {
+            //     if (error) {
+            //         // done();
+            //         colorLog(
+            //             'error',
+            //             `× Table "${tableName}" NOT seeded with data. ${error.message} \n Details: \n ${error}`,
+            //         );
+            //         reject();
+            //     }
+            //     // done();
+            //     colorLog('success', `√ Table "${tableName}" successfully seeded with data.`);
+            //     resolve();
+            // };
             const fileStream = filePath;
-            fileStream.on('error', errorCall);
-            queryStream.on('error', errorCall);
-            queryStream.on('finish', errorCall);
+            fileStream.on('error', (error) => {
+                colorLog(
+                    'error',
+                    `× Table "${tableName}" NOT seeded with data. ${error.message} \n Details - CSV import failed (fileStream): \n ${error}`,
+                );
+                reject(new Error(`CSV import failed (fileStream): ${error}`));
+                done();
+            });
+            queryStream.on('error', (error) => {
+                colorLog(
+                    'error',
+                    `× Table "${tableName}" NOT seeded with data. ${error.message} \n Details - CSV import failed (queryStream): \n ${error}`,
+                );
+                reject(new Error(`CSV import failed (queryStream): ${error}`));
+                done();
+            });
+
+            queryStream.on('finish', () => {
+                colorLog('success', `√ Table "${tableName}" successfully seeded with data from CSV.`);
+                resolve('Finish Resolved');
+                done();
+            });
             fileStream.pipe(queryStream);
-            // DB.end();
         });
     });
 };
