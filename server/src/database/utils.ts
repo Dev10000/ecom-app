@@ -193,7 +193,7 @@ export const insertTitleAndSlug = async (
 export const csvImport = async (filePath: fs.ReadStream, tableName: string): Promise<unknown> => {
     return DB.connect((err, client, done) => {
         if (err) {
-            console.log(`Can not connect to the DB${err}`);
+            console.log(`Cannot connect to the DB${err}`);
         }
         const queryStream = client.query(
             from(
