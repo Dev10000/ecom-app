@@ -191,31 +191,35 @@ export const insertTitleAndSlug = async (
 * */
 // IMPORT CSV TO DEV_DB
 export const csvImport = async (filePath: fs.ReadStream, tableName: string): Promise<unknown> => {
-    return DB.connect((err, client, done) => {
-        if (err) {
-            console.log(`Cannot connect to the DB${err}`);
-        }
-        const queryStream = client.query(
-            from(
-                `COPY ${tableName} FROM STDIN WITH (FORMAT CSV, DELIMITER '\t', HEADER, ENCODING 'UTF8', NULL 'NULL')`,
-            ),
-        );
-        const errorCall = (error: Error): void => {
-            if (error) {
-                done();
-                colorLog(
-                    'error',
-                    `× Table "${tableName}" NOT seeded with data. ${error.message} \n Details: \n ${error}`,
-                );
+    return new Promise(function (resolve, reject) {
+        DB.connect(async (err, client, done) => {
+            if (err) {
+                console.log(`Can not connect to the DB${err}`);
             }
-            done();
-            colorLog('success', `√ Table "${tableName}" successfully seeded with data.`);
-        };
-        const fileStream = filePath;
-        fileStream.on('error', errorCall);
-        queryStream.on('error', errorCall);
-        queryStream.on('finish', errorCall);
-        fileStream.pipe(queryStream);
-        // DB.end();
+            const queryStream = client.query(
+                from(
+                    `COPY ${tableName} FROM STDIN WITH (FORMAT CSV, DELIMITER '\t', HEADER, ENCODING 'UTF8', NULL 'NULL')`,
+                ),
+            );
+            const errorCall = (error: Error): void => {
+                if (error) {
+                    done();
+                    colorLog(
+                        'error',
+                        `× Table "${tableName}" NOT seeded with data. ${error.message} \n Details: \n ${error}`,
+                    );
+                    reject();
+                }
+                done();
+                colorLog('success', `√ Table "${tableName}" successfully seeded with data.`);
+                resolve();
+            };
+            const fileStream = filePath;
+            fileStream.on('error', errorCall);
+            queryStream.on('error', errorCall);
+            queryStream.on('finish', errorCall);
+            fileStream.pipe(queryStream);
+            // DB.end();
+        });
     });
 };
