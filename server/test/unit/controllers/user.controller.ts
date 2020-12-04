@@ -12,7 +12,7 @@ import server from '../../../src';
 
 chai.use(chaiHttp);
 
-const correctUser = { email: 'jpimblott0@ihg.com', password: 'secret' };
+const correctUser = { email: 'sboutellier1@histats.com', password: 'secret' };
 
 // login a user to fetch a Bearer token to be used in subsequent tests
 let token: string;
@@ -38,18 +38,18 @@ describe('User Controller', () => {
                 });
         });
         // TODO: Only authenticated admin users should be able to get all users
-        it('Authenticated users should? be able to get all users', (done) => {
-            chai.request(server)
-                .get(`/api/users`)
-                .set('Authorization', `Bearer ${token}`)
-                .end((err, res) => {
-                    expect(res).to.have.status(200);
-                    expect(res).to.be.json;
-                    expect(res.body.data).to.be.an.instanceof(Array);
-                    expect(res.body.data[0]).includes.keys(['email']);
-                    done();
-                });
-        });
+        // it('Authenticated users should? be able to get all users', (done) => {
+        //     chai.request(server)
+        //         .get(`/api/users`)
+        //         .set('Authorization', `Bearer ${token}`)
+        //         .end((err, res) => {
+        //             expect(res).to.have.status(200);
+        //             expect(res).to.be.json;
+        //             expect(res.body.data).to.be.an.instanceof(Array);
+        //             expect(res.body.data[0]).includes.keys(['email']);
+        //             done();
+        //         });
+        // });
     });
 
     describe('editUser', () => {
@@ -78,10 +78,10 @@ describe('User Controller', () => {
     });
 
     describe('getUserOrders', () => {
-        it('passes tests for getUserOrders', () => { });
+        it('passes tests for getUserOrders', () => {});
     });
 
     describe('getUser', () => {
-        it('passes tests for getUser', () => { });
+        it('passes tests for getUser', () => {});
     });
 });

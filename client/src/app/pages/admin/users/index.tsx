@@ -7,7 +7,7 @@ const Users: React.FC = (): JSX.Element => {
 
     useEffect(() => {
         axios
-            .get('users')
+            .get('users?page=1&items=2500')
             .then((response) => {
                 setUsers(response.data.data);
             })

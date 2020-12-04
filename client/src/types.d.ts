@@ -32,6 +32,7 @@ interface IUser {
     city?: string;
     postal_code?: string;
     phone_number?: string;
+    is_admin: boolean;
 }
 
 interface IOrderModel extends IModel, IOrder {}
@@ -69,6 +70,9 @@ interface IProduct {
     discount: number;
     product_category_id?: number;
     stock_qty?: number;
+    featured?: boolean;
+    rating?: number;
+    reviews_count?: number;
     deleted_at?: string;
 }
 

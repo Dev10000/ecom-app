@@ -205,17 +205,17 @@ export const csvImport = async (filePath: fs.ReadStream, tableName: string): Pro
                 done();
                 colorLog(
                     'error',
-                    `× Table "${tableName}" NOT 'seeded with data' : '(re)created'}. ${error.message} \n Details: \n ${error}`,
+                    `× Table "${tableName}" NOT seeded with data. ${error.message} \n Details: \n ${error}`,
                 );
             }
             done();
-            colorLog('success', `√ Table "${tableName}" successfully 'seeded with data' : '(re)created'.`);
+            colorLog('success', `√ Table "${tableName}" successfully seeded with data.`);
         };
         const fileStream = filePath;
         fileStream.on('error', errorCall);
         queryStream.on('error', errorCall);
         queryStream.on('finish', errorCall);
-        fileStream.pipe(queryStream).on('error', errorCall);
+        fileStream.pipe(queryStream);
         // DB.end();
     });
 };
