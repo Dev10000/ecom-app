@@ -14,7 +14,7 @@ chai.use(chaiHttp);
 
 describe('Authentication', () => {
     describe('Login Controller', () => {
-        const correctUser = { email: 'sboutellier1@histats.com', password: 'secret' };
+        const correctUser = { email: 'user@example.com', password: 'secret' };
 
         it('Check if Email is a required field.', (done) => {
             chai.request(server)
