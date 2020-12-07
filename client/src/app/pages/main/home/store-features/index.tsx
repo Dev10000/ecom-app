@@ -21,7 +21,7 @@ const StoreFeatures: React.FC = (): JSX.Element => {
                     <div className="mt-6 dark:text-white">
                         <div className="font-semibold mb-4 text-center tracking-widest text-lg">FREE SHIPPING</div>
                         <div className="text-center mb-6">
-                            <p className="text-lg">
+                            <p className="text-base sm:text-lg">
                                 Lorem Ipsum is simply dummy text of the printing
                                 <br /> and the typesetting industry. Lorem Ipsum has
                                 <br /> been the industry standard dummy text ever.
@@ -47,7 +47,7 @@ const StoreFeatures: React.FC = (): JSX.Element => {
                     <div className="mt-6 dark:text-white">
                         <div className="font-semibold mb-4 text-center tracking-widest text-lg">100% REFUND</div>
                         <div className="text-center mb-6">
-                            <p className="text-lg">
+                            <p className="text-base sm:text-lg">
                                 Lorem Ipsum is simply dummy text of the printing
                                 <br /> and the typesetting industry. Lorem Ipsum has
                                 <br /> been the industry standard dummy text ever.
@@ -77,7 +77,7 @@ const StoreFeatures: React.FC = (): JSX.Element => {
                     <div className="mt-6 dark:text-white">
                         <div className="font-semibold mb-4 text-center tracking-widest text-lg">SUPPORT 24/7</div>
                         <div className="text-center mb-6">
-                            <p className="text-lg">
+                            <p className="text-base sm:text-lg">
                                 Lorem Ipsum is simply dummy text of the printing
                                 <br /> and the typesetting industry. Lorem Ipsum has
                                 <br /> been the industry standard dummy text ever.
