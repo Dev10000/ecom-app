@@ -1,4 +1,3 @@
-import { isArray } from 'util';
 import countries from './countries.json';
 
 export const formatCurrency = (amount: number): string => {
@@ -24,7 +23,7 @@ export const formatLocalDateTime = (dateTime: string): string => {
 };
 
 export const fieldError = (field: string, errors: IFormError[] | string | undefined): string | undefined => {
-    if (isArray(errors)) {
+    if (Array.isArray(errors)) {
         const fieldErrors = errors.filter((error) => error.param === field);
         if (fieldErrors.length) return fieldErrors[0].msg;
     }
