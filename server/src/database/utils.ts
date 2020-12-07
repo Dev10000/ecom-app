@@ -2,7 +2,6 @@ import { QueryResult } from 'pg';
 import fs from 'fs';
 import { from } from 'pg-copy-streams';
 import DB from '../config/database';
-import { endianness } from 'os';
 
 export const colorLog = (status: string, info: string): void => {
     let color = '';
