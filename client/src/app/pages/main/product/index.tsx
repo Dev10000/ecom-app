@@ -1,9 +1,12 @@
+/* eslint-disable radix */
 /* eslint-disable array-callback-return */
 import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { RouteComponentProps, useHistory, useLocation } from 'react-router';
 import CartContext from '../../../../context/cart';
+import Details from './details';
+import StarRating from './rating';
 
 interface IProductState {
     productId: number;
@@ -28,6 +31,8 @@ const Product: React.FC = () => {
     const [quantity, setQuantity] = useState<number>(1);
     const [width, setWidth] = useState(window.innerWidth);
     const [numImages, setNumImages] = useState<number>(4);
+    const [productColor, setProductColor] = useState<string>('white');
+    const [starRating, setStarRating] = useState<number>(5);
     const history = useHistory();
 
     const navSliderProduct = () => {
@@ -155,6 +160,22 @@ const Product: React.FC = () => {
         axios
             .get(`/products/${productId}`)
             .then((response) => {
+                if (response.data.data.specs.Color.toLowerCase() === 'black') {
+                    setProductColor('gray');
+                } else {
+                    setProductColor(response.data.data.specs.Color.toLowerCase());
+                }
+                setStarRating(parseInt(response.data.data.rating));
+            })
+            .catch((err) => {
+                return err;
+            });
+    }, [productId, productColor]);
+
+    useEffect(() => {
+        axios
+            .get(`/products/${productId}`)
+            .then((response) => {
                 setProduct(response.data.data);
                 setCategoryId(response.data.data.product_category_id);
                 setProductImage(response.data.data.image.find((image: IProductImage) => image.default_img === true));
@@ -193,7 +214,7 @@ const Product: React.FC = () => {
             <div className="bg-gray-100 h-10 w-full" />
             <div className="flex flex-col text-sm justify-center mx-10">
                 <div className="flex flex-col xl:flex-row sm:justify-between sm:space-x-10">
-                    <div className="flex flex-col">
+                    <div className="flex flex-col flex-grow">
                         <div className="flex flex-col md:flex-row mt-5 sm:justify-between">
                             <div className="flex flex-row justify-center">
                                 <div>
@@ -295,30 +316,19 @@ const Product: React.FC = () => {
                                             <div className="mb-3">Free shipping</div>
                                         </div>
                                         <div className="flex flex-row justify-between mt-2">
-                                            <div>Select color</div>
+                                            <div>Color</div>
                                             <div className="flex flex-row items-center space-x-2">
                                                 <button type="button">
-                                                    <div className="border rounded-full h-4 w-4 bg-blue-400" />
-                                                </button>
-                                                <button type="button">
-                                                    <div className="border rounded-full h-4 w-4 bg-red-500" />
-                                                </button>
-                                                <button type="button">
-                                                    <div className="border rounded-full h-4 w-4 bg-gray-800" />
-                                                </button>
-                                                <button type="button">
-                                                    <div className="border rounded-full h-4 w-4 bg-yellow-600" />
+                                                    <div
+                                                        className={`border rounded-full h-5 w-5 bg-${productColor}-600`}
+                                                    />
                                                 </button>
                                             </div>
                                         </div>
-                                        <div className="flex flex-row items-center justify-between mt-2 border-b border-gray-300">
-                                            <div className="mb-4">Size:</div>
-                                            <div className="border rounded shadow border-gray-300 w-20 flex justify-end mb-4">
-                                                <select>
-                                                    <option>S</option>
-                                                    <option>M</option>
-                                                    <option>L</option>
-                                                </select>
+                                        <div className="flex flex-row justify-between mt-2">
+                                            <div>Rating</div>
+                                            <div>
+                                                <StarRating value={starRating} />
                                             </div>
                                         </div>
                                         <div className="flex flex-row mt-5 items-center justify-between border-b border-gray-300">
@@ -420,26 +430,10 @@ const Product: React.FC = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className="flex flex-col mt-10 bg-gray-100 border rounded w-full h-64">
-                            <div className="flex flex-row items-center space-x-10 border-b-2 border-gray-200">
-                                <button
-                                    type="button"
-                                    className="border-b-2 px-4 py-4 hover:border-blue-500 hover:text-blue-400"
-                                >
-                                    Product information
-                                </button>
-                                <button
-                                    type="button"
-                                    className="border-b-2 m-0 px-2 py-4 hover:border-blue-500 hover:text-blue-400"
-                                >
-                                    Reviews
-                                </button>
-                            </div>
-                            <div>
-                                <div className="w-3/4 mt-5 mx-4">{product?.description}</div>
-                            </div>
-                        </div>
+                        {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+                        {product ? <Details {...product} /> : ''}
                     </div>
+
                     <div>
                         <div className="xl:mx-10 mt-12 p-2 text-xl font-medium flex flex-row justify-center">
                             <div>BEST SELLER</div>
@@ -485,15 +479,17 @@ const Product: React.FC = () => {
                                             </div>
                                         </div>
                                         <div className="flex flex-row justify-center">
-                                            <div className="text-xs">Rating</div>
+                                            <div>
+                                                <StarRating value={starRating} />
+                                            </div>
                                         </div>
                                         {sliderProduct?.discount && sliderProduct?.discount > 0 ? (
                                             <div className="flex flex-row justify-center space-x-5">
                                                 <div className="text-blue-400">
-                                                    {sliderProduct?.price * (1 - sliderProduct?.discount * 0.01)}
+                                                    €{sliderProduct?.price * (1 - sliderProduct?.discount * 0.01)}
                                                 </div>
-                                                <div className="line-through">{sliderProduct?.price}</div>
-                                                <div className="text-red-800">{sliderProduct?.discount}</div>
+                                                <div className="line-through">€{sliderProduct?.price}</div>
+                                                <div className="text-red-800">{sliderProduct?.discount}%</div>
                                             </div>
                                         ) : (
                                             <div className="flex flex-row justify-center space-x-5">
@@ -564,15 +560,17 @@ const Product: React.FC = () => {
                                             <div className="text-sm text-center font-semibold">{elem.title}</div>
                                         </div>
                                         <div className="flex flex-row justify-center mt-1">
-                                            <div className="text-xs">Rating</div>
+                                            <div>
+                                                <StarRating value={starRating} />
+                                            </div>{' '}
                                         </div>
                                         {elem.discount && elem.discount > 0 ? (
                                             <div className="flex flex-row justify-center space-x-5 mt-1">
                                                 <div className="text-blue-400">
-                                                    {elem.price * (1 - elem.discount * 0.01)}
+                                                    €{elem.price * (1 - elem.discount * 0.01)}
                                                 </div>
-                                                <div className="line-through">{elem.price}</div>
-                                                <div className="text-red-800">{elem.discount}</div>
+                                                <div className="line-through">€{elem.price}</div>
+                                                <div className="text-red-800">{elem.discount}%</div>
                                             </div>
                                         ) : (
                                             <div className="flex flex-row justify-center space-x-5 mt-1 mb-1">
