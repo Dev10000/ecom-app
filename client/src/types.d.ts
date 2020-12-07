@@ -213,7 +213,7 @@ interface IFormError {
 interface IColumn<T> {
     display: string;
     db: keyof T;
-    type?: 'string' | 'number' | 'datetime' | 'currency';
+    type?: 'string' | 'number' | 'datetime' | 'currency' | 'country';
 }
 
 interface IDataTableProps<T> {

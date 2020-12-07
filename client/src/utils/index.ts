@@ -1,4 +1,5 @@
 import { isArray } from 'util';
+import countries from './countries.json';
 
 export const formatCurrency = (amount: number): string => {
     return amount.toLocaleString('en-IN', { style: 'currency', currency: 'EUR' });
@@ -33,4 +34,10 @@ export const fieldError = (field: string, errors: IFormError[] | string | undefi
     }
 
     return undefined;
+};
+
+export const countryIdToName = (countryId: number): string => {
+    const matchingCountry = countries.filter((country) => country.id === countryId);
+
+    return matchingCountry.length ? matchingCountry[0].name : 'Unknown Country';
 };
