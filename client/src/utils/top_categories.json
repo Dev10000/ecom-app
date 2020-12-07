@@ -1,0 +1,122 @@
+[
+    {
+        "id": 21,
+        "title": "Clothing",
+        "slug": "clothing",
+        "parent_id": null
+    },
+    {
+        "id": 41,
+        "title": "Toys & School Supplies",
+        "slug": "toys-school-supplies",
+        "parent_id": null
+    },
+    {
+        "id": 45,
+        "title": "Mobiles & Accessories",
+        "slug": "mobiles-accessories",
+        "parent_id": null
+    },
+    {
+        "id": 85,
+        "title": "Beauty and Personal Care",
+        "slug": "beauty-and-personal-care",
+        "parent_id": null
+    },
+    {
+        "id": 105,
+        "title": "Automotive",
+        "slug": "automotive",
+        "parent_id": null
+    },
+    {
+        "id": 110,
+        "title": "Home Decor & Festive Needs",
+        "slug": "home-decor-festive-needs",
+        "parent_id": null
+    },
+    {
+        "id": 138,
+        "title": "Bags, Wallets & Belts",
+        "slug": "bags-wallets-belts",
+        "parent_id": null
+    },
+    {
+        "id": 175,
+        "title": "Computers",
+        "slug": "computers",
+        "parent_id": null
+    },
+    {
+        "id": 195,
+        "title": "Jewellery",
+        "slug": "jewellery",
+        "parent_id": null
+    },
+    {
+        "id": 205,
+        "title": "Pens & Stationery",
+        "slug": "pens-stationery",
+        "parent_id": null
+    },
+    {
+        "id": 220,
+        "title": "Baby Care",
+        "slug": "baby-care",
+        "parent_id": null
+    },
+    {
+        "id": 224,
+        "title": "Home Improvement",
+        "slug": "home-improvement",
+        "parent_id": null
+    },
+    {
+        "id": 239,
+        "title": "Home Furnishing",
+        "slug": "home-furnishing",
+        "parent_id": null
+    },
+    {
+        "id": 294,
+        "title": "Watches",
+        "slug": "watches",
+        "parent_id": null
+    },
+    {
+        "id": 310,
+        "title": "Health & Personal Care Appliances",
+        "slug": "health-personal-care-appliances",
+        "parent_id": null
+    },
+    {
+        "id": 321,
+        "title": "Furniture",
+        "slug": "furniture",
+        "parent_id": null
+    },
+    {
+        "id": 326,
+        "title": "Kitchen & Dining",
+        "slug": "kitchen-dining",
+        "parent_id": null
+    },
+    {
+        "id": 331,
+        "title": "Tools & Hardware",
+        "slug": "tools-hardware",
+        "parent_id": null
+    },
+    {
+        "id": 332,
+        "title": "Cameras & Accessories",
+        "slug": "cameras-accessories",
+        "parent_id": null
+    },
+    {
+        "id": 339,
+        "title": "Footwear",
+        "slug": "footwear",
+        "parent_id": null
+    }
+]
