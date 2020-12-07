@@ -7,9 +7,9 @@ const router = Router();
 
 router.get('/', getPublished);
 router.get('/all', Verify.isAdmin, getAll);
-router.get('/:id', Verify.isUser, getSingle);
+router.get('/:slug', getSingle);
 router.post('/', Verify.isAdmin, articleValidator, create);
-router.patch('/:id', Verify.isAdmin, articleValidator, edit);
-router.delete('/:id', Verify.isAdmin, destroy);
+router.patch('/:slug', Verify.isAdmin, articleValidator, edit);
+router.delete('/:slug', Verify.isAdmin, destroy);
 
 export default router;
