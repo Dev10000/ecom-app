@@ -16,9 +16,8 @@ const checkIfExists = async (column: string, value: string, id?: number): Promis
 
 export default [
     body('email')
+        .optional()
         .trim()
-        .notEmpty()
-        .withMessage('Email address is a required field.')
         .isEmail()
         .withMessage('Chosen Email is not a valid email address.')
         .custom(async (value, { req }) => {
@@ -28,17 +27,15 @@ export default [
         }),
 
     body('first_name')
+        .optional()
         .trim()
-        .notEmpty()
-        .withMessage('First name is a required field.')
         .isLength({ min: 3, max: 30 })
         .withMessage('First name can be 3 - 30 characters')
         .escape(),
 
     body('last_name')
+        .optional()
         .trim()
-        .notEmpty()
-        .withMessage('Last name is a required field.')
         .isLength({ min: 3, max: 30 })
         .withMessage('Last name can be 3 - 30 characters')
         .escape(),

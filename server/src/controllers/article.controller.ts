@@ -35,9 +35,13 @@ export const getSingle = async (req: Request, res: Response): Promise<Response> 
                     return res.status(200).json({ status: 'success', data: article });
                 }
 
+                console.log('user=', req.user);
+
                 // if the article is not published but the logged in user is an admin we return it
-                if ((req.user as IUserModel) && (req.user as IUserModel).is_admin)
+                if ((req.user as IUserModel) && (req.user as IUserModel).is_admin) {
+                    console.log('I have the admin here');
                     return res.status(200).json({ status: 'success', data: article });
+                }
 
                 // We return a 403 otherwise!
                 return res.status(403).json({ status: 'error', data: 'Access denied!' });
