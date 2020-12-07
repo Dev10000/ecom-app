@@ -66,6 +66,7 @@ interface IProduct {
     description?: string;
     price: number;
     weight?: number;
+    specs?: IProductSpecs;
     package_size?: string;
     discount: number;
     product_category_id?: number;
@@ -94,6 +95,12 @@ interface IProductImage {
     href?: string;
     default_img?: boolean;
     product_id?: number;
+}
+
+interface IProductSpecs {
+    Brand?: string;
+    Color?: string;
+    Model?: string;
 }
 
 interface IProductOptionModel extends IModel, IProductOption {}
