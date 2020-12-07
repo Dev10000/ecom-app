@@ -35,7 +35,12 @@ export const exportCategories = async (req: Request, res: Response): Promise<Res
                     STATIC_TOP_CATEGORIES_PATH,
                     JSON.stringify(
                         categories.filter((category) => {
-                            return category.parent_id === null;
+                            if (category.parent_id === null) {
+                                delete category.parent_id;
+                                return true;
+                            }
+
+                            return false;
                         }),
                     ),
                     'utf-8',

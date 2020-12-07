@@ -10,10 +10,11 @@ import Featured from './featured';
 
 import Hero2 from './hero2';
 
+import categories from '../../../../utils/top_categories.json';
+
 const Home: React.FC = (): JSX.Element => {
     const [products, setProducts] = useState<IProduct[]>([]);
     const [categoryProducts, setCategoryProducts] = useState<IProduct[]>([]);
-    const [categories, setCategories] = useState<IProductCategory[]>([]);
 
     const handleAll = () => {
         setCategoryProducts(products);
@@ -21,19 +22,7 @@ const Home: React.FC = (): JSX.Element => {
 
     const handleCategory = (id: number | undefined) => {
         setCategoryProducts(products.filter((product) => product.product_category_id === id));
-        // console.log(categoryProducts.map((product) => product.product_category_id));
-        // console.log(id);
     };
-    useEffect(() => {
-        axios
-            .get('categories')
-            .then((response) => {
-                setCategories(response.data.data);
-            })
-            .catch((err) => {
-                return err;
-            });
-    }, []);
 
     useEffect(() => {
         axios
@@ -52,7 +41,7 @@ const Home: React.FC = (): JSX.Element => {
             <Hero />
             <div className="flex flex-col" />
             <div>
-                <div className="mt-20 text-center font-medium text-2xl">BEST SELLER</div>
+                <div className="mt-20 text-center font-medium text-2xl">MAIN CATEGORIES</div>
 
                 <ul className="text-base space-x-4 text-center items-center flex flex-row list-none justify-center">
                     <button type="button" className="text hover:text-blue-400" onClick={handleAll}>
