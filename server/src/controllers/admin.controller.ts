@@ -27,6 +27,7 @@ export const exportCountries = async (req: Request, res: Response): Promise<Resp
 export const exportCategories = async (req: Request, res: Response): Promise<Response> => {
     return QueryBuilder<IProductCategory>(ProductCategory)
         .select('id', 'title', 'slug', 'parent_id')
+        .orderBy('parent_id')
         .get()
         .then((categories) => {
             try {
