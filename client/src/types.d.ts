@@ -28,7 +28,7 @@ interface IUser {
     first_name?: string;
     last_name?: string;
     address?: string;
-    country_id?: string;
+    country_id?: number;
     city?: string;
     postal_code?: string;
     phone_number?: string;
