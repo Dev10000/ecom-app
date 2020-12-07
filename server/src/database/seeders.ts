@@ -88,7 +88,7 @@ const seedData = async () => {
     await setValues();
     console.log('\x1b[36m%s\x1b[0m', 'ℹ Database Seeding complete!');
     if (rejected === 0) {
-        console.log('\x1b[32m%s\x1b[0m', 'All Good no problems');
+        console.log('\x1b[36m%s\x1b[0m\x1b[32m%s\x1b[0m', `ℹ Final Results:`, ` √ All Good no problems`);
     } else {
         console.log('\x1b[36m%s\x1b[0m', `ℹ Final Results:`);
         console.log('\x1b[32m%s\x1b[0m', `√ Number of fulfilled seeds: ${fulfilled}`);

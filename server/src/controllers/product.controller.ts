@@ -101,7 +101,7 @@ export const edit = async (req: Request, res: Response): Promise<Response> => {
 
             Object.assign(product, req.body as IProduct);
 
-            if (req.files?.images) {
+            if (req.files) {
                 const { images } = req.files;
                 // multi or a single file upload
                 if (Array.isArray(images)) images.forEach(moveUploadedFile);
