@@ -3,8 +3,8 @@ import React from 'react';
 const StoreFeatures: React.FC = (): JSX.Element => {
     return (
         <div className="flex max-w-full mt-8">
-            <div className="flex-cols-3 w-full m-4 sm:flex flex-row justify-between w-full m-x-auto text-xs p-16">
-                <div className="flex flex-col w-auto mr-auto ml-auto display-block sm:w-96 md:w-96">
+            <div className="flex-cols-3 w-full sm:flex flex-row justify-between w-full m-x-auto text-xs p-16">
+                <div className="flex flex-col w-auto mx-auto sm:w-96 md:w-96">
                     <div className="flex items-center">
                         <svg
                             className="w-24 h-20 mr-auto ml-auto display-block"
@@ -30,7 +30,7 @@ const StoreFeatures: React.FC = (): JSX.Element => {
                         </div>
                     </div>
                 </div>
-                <div className="flex flex-col w-auto mr-auto ml-auto display-block sm:w-96 md:w-96">
+                <div className="flex flex-col w-auto mx-auto sm:w-96 md:w-96">
                     <div className="flex items-center">
                         <svg
                             className="w-24 h-20 mr-auto ml-auto display-block"
@@ -45,7 +45,7 @@ const StoreFeatures: React.FC = (): JSX.Element => {
                         </svg>
                     </div>
                     <div className="mt-6 dark:text-white">
-                        <div className="font-semibold mb-4 text-center tracking-widest text-lg">100% REFUND</div>
+                        <div className="font-semibold text-center tracking-widest text-lg">100% REFUND</div>
                         <div className="text-center mb-6">
                             <p className="text-base sm:text-lg">
                                 Lorem Ipsum is simply dummy text of the printing
@@ -56,7 +56,7 @@ const StoreFeatures: React.FC = (): JSX.Element => {
                         </div>
                     </div>
                 </div>
-                <div className="flex flex-col w-auto mr-auto ml-auto display-block sm:w-96 md:w-96">
+                <div className="flex flex-col w-auto mx-auto sm:w-96 md:w-96">
                     <div className="flex items-center">
                         <svg
                             className="w-24 h-20 mr-auto ml-auto display-block"
@@ -75,7 +75,7 @@ const StoreFeatures: React.FC = (): JSX.Element => {
                         </svg>
                     </div>
                     <div className="mt-6 dark:text-white">
-                        <div className="font-semibold mb-4 text-center tracking-widest text-lg">SUPPORT 24/7</div>
+                        <div className="font-semibold text-center tracking-widest text-lg">SUPPORT 24/7</div>
                         <div className="text-center mb-6">
                             <p className="text-base sm:text-lg">
                                 Lorem Ipsum is simply dummy text of the printing

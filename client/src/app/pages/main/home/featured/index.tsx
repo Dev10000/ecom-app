@@ -6,10 +6,11 @@ import Img3 from './bag.png';
 const Featured: React.FC = (): JSX.Element => {
     return (
         <div className="flex flex-cols-3 gap-4 max-w-full mb-16">
-            <div className="flex mx-auto px-4 sm:max-w-md mx-auto rounded-xl rounded-yl shadow-md overflow-hidden">
+            <div className="flex mx-auto px-4 sm:max-w-md mx-auto rounded-xl shadow-md overflow-hidden">
                 <div className="md:flex">
-                    <div className="flex-1 md:flex-shrink-0">
-                        <img className="h-56 w-full object-cover md:w-62" src={Img1} alt="img" />
+                    <div className="flex-1 md:flex-shrink-0 relative">
+                        <img className="h-56 w-full object-cover border-2 md:w-62" src={Img1} alt="img" />
+                        <span className="text-center text-white bg-red-500 absolute top-4 left-4 w-10">HOT</span>
                     </div>
                     <div className="flex-1 pl-4">
                         <div className="uppercase tracking-wide text-sm font-semibold mt-8 mb-6">
@@ -27,10 +28,11 @@ const Featured: React.FC = (): JSX.Element => {
                     </div>
                 </div>
             </div>
-            <div className="flex mx-auto px-4 sm:max-w-md mx-auto rounded-xl rounded-yl shadow-md overflow-hidden">
+            <div className="flex mx-auto px-4 sm:max-w-md mx-auto rounded-xl shadow-md overflow-hidden">
                 <div className="md:flex">
-                    <div className="flex-1 md:flex-shrink-0">
-                        <img className="h-56 w-full object-cover md:w-62" src={Img2} alt="img" />
+                    <div className="flex-1 md:flex-shrink-0 relative">
+                        <img className="h-56 w-full object-cover border-2 md:w-62" src={Img2} alt="img" />
+                        <span className="text-center text-white bg-red-500 absolute top-4 left-4 w-10">HOT</span>
                     </div>
                     <div className="flex-1 pl-4">
                         <div className="uppercase tracking-wide text-sm font-semibold mt-8 mb-6">
@@ -48,10 +50,11 @@ const Featured: React.FC = (): JSX.Element => {
                     </div>
                 </div>
             </div>
-            <div className="flex mx-auto px-4 sm:max-w-md mx-auto rounded-xl rounded-yl shadow-md overflow-hidden">
+            <div className="flex mx-auto px-4 sm:max-w-md mx-auto rounded-xl shadow-md overflow-hidden">
                 <div className="md:flex">
-                    <div className="flex-1 md:flex-shrink-0">
-                        <img className="h-56 w-full object-cover md:w-62" src={Img3} alt="img" />
+                    <div className="flex-1 md:flex-shrink-0 relative">
+                        <img className="h-56 w-full object-cover border-2 md:w-62" src={Img3} alt="img" />
+                        <span className="text-center text-white bg-red-500 absolute top-4 left-4 w-10">HOT</span>
                     </div>
                     <div className="flex-1 pl-4">
                         <div className="uppercase tracking-wide text-sm font-semibold mt-8 mb-6">
