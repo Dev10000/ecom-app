@@ -46,23 +46,4 @@ export default [
         .isLength({ min: 3, max: 30 })
         .withMessage('Last name can be 3 - 30 characters')
         .escape(),
-
-    body('address')
-        .trim()
-        .optional()
-        .isLength({ max: 100 })
-        .withMessage('The maximum length of a city is 100 characters')
-        .escape(),
-
-    body('city').trim().optional().isLength({ min: 3, max: 40 }).withMessage('City can be 3 - 40 characters').escape(),
-
-    body('postal_code')
-        .trim()
-        .optional()
-        .isLength({ min: 2, max: 30 })
-        .withMessage('Postal Code can be 2 - 30 characters')
-        .isPostalCode('any')
-        .escape(),
-
-    body('phone_number').trim().optional().isMobilePhone('fi-FI').withMessage('Invalid Mobile Phone Number').escape(),
 ];

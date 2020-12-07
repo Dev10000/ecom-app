@@ -38,7 +38,7 @@ interface IUser {
     first_name?: string;
     last_name?: string;
     address?: string;
-    country_id?: string;
+    country_id?: number;
     city?: string;
     postal_code?: string;
     phone_number?: string;
@@ -139,7 +139,7 @@ interface IArticle {
     slug?: string;
     featured_image?: string;
     body?: string;
-    published_at?: number;
+    published_at?: string;
 }
 
 interface ICouponCodeModel extends IModel, ICouponCode {}
