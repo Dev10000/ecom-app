@@ -62,7 +62,7 @@ const Home: React.FC = (): JSX.Element => {
                         ))}
                 </ul>
             </div>
-            <div className="grid lg:gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 pt-10 px-10">
+            <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 pt-10 px-10">
                 {categoryProducts.map((product) => (
                     // eslint-disable-next-line react/jsx-props-no-spreading
                     <Product key={product.id} {...product} />

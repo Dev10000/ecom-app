@@ -16,14 +16,14 @@ const Product: React.FC<IProductProps> = (props: IProduct): JSX.Element => {
     };
 
     return (
-        <div className="max-w-2xl">
+        <div className="w-full h-full">
             <button
                 type="button"
                 onClick={displayProductPage}
                 key={id}
                 onMouseEnter={() => setVisibleButtons(true)}
                 onMouseLeave={() => setVisibleButtons(false)}
-                className="max-w-2xl bg-gray-300 dark:bg-gray-600 rounded-md flex flex-col"
+                className="max-w-2xl bg-gray-300 dark:bg-gray-600 rounded-md flex flex-col w-full h-full"
             >
                 <div className="flex items-center text-center mx-auto h-40">
                     <img src="https://via.placeholder.com/250x150?text=Product Image" alt="Lorem ipsum" />
@@ -58,20 +58,21 @@ const Product: React.FC<IProductProps> = (props: IProduct): JSX.Element => {
                         </div>
                     </div>
                 </div>
-
-                <div className="bg-white dark:bg-gray-800 m-1 flex flex-1 flex-col">
-                    <div className="text-center text-md text-blue-900 dark:text-white font-extrabold py-2 flex-1">
-                        {title}
-                    </div>
-                    <div className="text-center py-2 text-sm">Rating here</div>
-                    <div className="text-center py-2 space-x-2 flex-end">
-                        <span className="font-extrabold text-blue-400">
-                            {formatCurrency(price * ((100 - discount) / 100))}
-                        </span>
-                        <span className="text-gray-700 dark:text-gray-300 line-through">
-                            {formatCurrency(price * 1)}
-                        </span>
-                        <span className="font-bold text-red-500">{discount}% Off</span>
+                <div className="w-full h-full flex flex-1 flex-end">
+                    <div className="bg-white dark:bg-gray-800 m-1 flex flex-1 flex-col">
+                        <div className="text-center text-md text-blue-900 dark:text-white font-extrabold py-2 flex-1">
+                            {title}
+                        </div>
+                        <div className="text-center py-2 text-sm">Rating here</div>
+                        <div className="text-center py-2 space-x-2 flex-end">
+                            <span className="font-extrabold text-blue-400">
+                                {formatCurrency(price * ((100 - discount) / 100))}
+                            </span>
+                            <span className="text-gray-700 dark:text-gray-300 line-through">
+                                {formatCurrency(price * 1)}
+                            </span>
+                            <span className="font-bold text-red-500">{discount}% Off</span>
+                        </div>
                     </div>
                 </div>
             </button>
