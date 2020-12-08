@@ -31,7 +31,7 @@ const News: React.FC = (): JSX.Element => {
                     </div>
                 </div>
             </div>
-            <div className="p-4">Actual content</div>
+            <div className="p-4">package to add https://github.com/jpuri/react-draft-wysiwyg</div>
         </div>
     );
 };

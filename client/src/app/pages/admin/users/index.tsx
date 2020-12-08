@@ -44,6 +44,7 @@ const Users: React.FC = (): JSX.Element => {
         {
             display: 'Country',
             db: 'country_id',
+            type: 'country',
         },
         {
             display: 'Phone Number',

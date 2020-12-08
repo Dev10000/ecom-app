@@ -14,7 +14,7 @@ interface IProductState {
 }
 
 const Product: React.FC = () => {
-    const { addProducts } = useContext(CartContext);
+    const { addProduct } = useContext(CartContext);
     const location = useLocation<IProductState>();
     const [product, setProduct] = useState<IProduct>();
     const [productId, setProductId] = useState<number | undefined>(undefined);
@@ -358,7 +358,7 @@ const Product: React.FC = () => {
                                             </div>
                                             <div className="mb-4">
                                                 <button
-                                                    onClick={product ? () => addProducts(product, quantity) : () => ''}
+                                                    onClick={() => (product ? addProduct(product, quantity) : '')}
                                                     type="button"
                                                     className="flex flex-row space-x-5 text-blue-500 bg-blue-100 border rounded shadow p-2"
                                                 >
@@ -548,7 +548,7 @@ const Product: React.FC = () => {
 
                 <div className="flex flex-row">
                     {featureProducts.map((elem) => (
-                        <div>
+                        <div key={elem.id}>
                             <button type="button" onClick={() => navFeatureProduct(elem.id)}>
                                 <ul key={elem.id} className="w-64 border shadow border-gray-300 mx-4 mt-12 sm:mt-0">
                                     <li className="w-64 h-48 flex flex-col justify-center">
