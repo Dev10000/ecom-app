@@ -74,7 +74,7 @@ const Profile: React.FC = (): JSX.Element => {
                             </div>
                             <div className="flex flex-row justify-center text-gray-300">
                                 <div className="flex flex-col">
-                                    <div className="flex flex-row justify-center">
+                                    <div className="flex flex-row justify-center space-x-2">
                                         <div>{user?.first_name}</div>
                                         <div>{user?.last_name}</div>
                                     </div>
@@ -83,7 +83,7 @@ const Profile: React.FC = (): JSX.Element => {
                             </div>
                         </div>
                         <div className="flex-grow">
-                            <div className="flex justify-between border-b border-gray-200 p-2 mx-10">
+                            <div className="flex justify-between border-b border-gray-200 p-2 mx-1 sm:mx-10">
                                 <div className="w-full flex flex-row space-x-2">
                                     <svg
                                         className="w-5 h-5 text-blue-400"
@@ -99,40 +99,38 @@ const Profile: React.FC = (): JSX.Element => {
                                             d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
                                         />
                                     </svg>
-                                    <div>Full Name</div>
+                                    <div>First Name</div>
                                     <div className="text-gray-400">{user?.first_name}</div>
-                                    <div className="text-gray-400">{user?.last_name}</div>
                                 </div>
                                 <button type="button">
                                     <img className="h-5 w-5" src="../../../../assets/thumbnails/edit.svg" alt="Edit" />
                                 </button>
                             </div>
-                            <div className="flex justify-between border-b border-gray-200 p-2 mx-10">
+                            <div className="flex justify-between border-b border-gray-200 p-2 mx-1 sm:mx-10">
                                 <div className="flex flex-row space-x-2">
                                     <svg
                                         className="w-5 h-5 text-blue-400"
-                                        width="14"
-                                        height="22"
-                                        fill="none"
                                         xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
                                     >
                                         <path
-                                            d="M7 13A6 6 0 107 1a6 6 0 000 12zM7 13v8M4 17h6"
-                                            stroke="#40BFFF"
-                                            strokeWidth="2"
                                             strokeLinecap="round"
                                             strokeLinejoin="round"
+                                            strokeWidth="2"
+                                            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
                                         />
                                     </svg>
-                                    <div>Gender</div>
-                                    <div className="text-gray-400">Male</div>
+                                    <div>Last name</div>
+                                    <div className="text-gray-400">{user?.last_name}</div>
                                 </div>
 
                                 <button type="button">
                                     <img className="h-5 w-5" src="../../../../assets/thumbnails/edit.svg" alt="Edit" />
                                 </button>
                             </div>
-                            <div className="flex justify-between border-b border-gray-200 p-2 mx-10">
+                            <div className="flex justify-between border-b border-gray-200 p-2 mx-1 sm:mx-10">
                                 <div className="flex flex-row space-x-2">
                                     <svg
                                         className="w-5 h-5 text-blue-400"
@@ -156,7 +154,7 @@ const Profile: React.FC = (): JSX.Element => {
                                     <img className="h-5 w-5" src="../../../../assets/thumbnails/edit.svg" alt="Edit" />
                                 </button>
                             </div>
-                            <div className="flex justify-between border-b border-gray-200 p-2 mx-10">
+                            <div className="flex justify-between border-b border-gray-200 p-2 mx-1 sm:mx-10">
                                 <div className="flex flex-row space-x-2">
                                     <svg
                                         className="w-5 h-5 text-blue-400"
@@ -180,7 +178,7 @@ const Profile: React.FC = (): JSX.Element => {
                                     <img className="h-5 w-5" src="../../../../assets/thumbnails/edit.svg" alt="Edit" />
                                 </button>
                             </div>
-                            <div className="flex justify-between border-b border-gray-200 p-2 mx-10">
+                            <div className="flex justify-between border-b border-gray-200 p-2 mx-1 sm:mx-10">
                                 <div className="flex flex-row space-x-2">
                                     <svg
                                         className="w-5 h-5"
@@ -210,7 +208,7 @@ const Profile: React.FC = (): JSX.Element => {
                                     <img className="h-5 w-5" src="../../../../assets/thumbnails/edit.svg" alt="Edit" />
                                 </button>
                             </div>
-                            <div className="flex justify-between border-b border-gray-200 p-2 mx-10">
+                            <div className="flex justify-between border-b border-gray-200 p-2 mx-1 sm:mx-10">
                                 <div className="flex flex-row space-x-2">
                                     <svg
                                         className="w-5 h-5 text-blue-400"
@@ -240,7 +238,7 @@ const Profile: React.FC = (): JSX.Element => {
                                     <img className="h-5 w-5" src="../../../../assets/thumbnails/edit.svg" alt="Edit" />
                                 </button>
                             </div>
-                            <div className="flex justify-between border-b border-gray-200 p-2 mx-10">
+                            <div className="flex justify-between border-b border-gray-200 p-2 mx-1 sm:mx-10">
                                 <div className="flex flex-row space-x-2">
                                     <svg
                                         className="w-5 h-5 text-blue-400"
@@ -264,7 +262,7 @@ const Profile: React.FC = (): JSX.Element => {
                                     <img className="h-5 w-5" src="../../../../assets/thumbnails/edit.svg" alt="Edit" />
                                 </button>
                             </div>
-                            <div className="flex justify-between border-b border-gray-200 p-2 mx-10">
+                            <div className="flex justify-between border-b border-gray-200 p-2 mx-1 sm:mx-10">
                                 <div className="flex flex-row space-x-2">
                                     <svg
                                         className="w-5 h-5 text-blue-400"

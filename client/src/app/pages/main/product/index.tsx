@@ -5,6 +5,7 @@ import React, { useContext, useEffect, useState } from 'react';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { RouteComponentProps, useHistory, useLocation } from 'react-router';
 import CartContext from '../../../../context/cart';
+import { formatCurrency } from '../../../../utils';
 import Details from './details';
 import StarRating from './rating';
 
@@ -154,6 +155,10 @@ const Product: React.FC = () => {
 
     useEffect(() => {
         window.scrollTo(0, 0);
+    }, [productId]);
+
+    useEffect(() => {
+        setQuantity(1);
     }, [productId]);
 
     useEffect(() => {
@@ -317,13 +322,11 @@ const Product: React.FC = () => {
                                         </div>
                                         <div className="flex flex-row justify-between mt-2">
                                             <div>Color</div>
-                                            <div className="flex flex-row items-center space-x-2">
-                                                <button type="button">
-                                                    <div
-                                                        className={`border rounded-full h-5 w-5 bg-${productColor}-600`}
-                                                    />
-                                                </button>
-                                            </div>
+                                            {productColor ? (
+                                                <div className={`border rounded-full h-5 w-5 bg-${productColor}-600`} />
+                                            ) : (
+                                                ''
+                                            )}
                                         </div>
                                         <div className="flex flex-row justify-between mt-2">
                                             <div>Rating</div>
@@ -355,7 +358,7 @@ const Product: React.FC = () => {
                                             </div>
                                             <div className="mb-4">
                                                 <button
-                                                    onClick={() => (product ? addProducts(product, quantity) : '')}
+                                                    onClick={product ? () => addProducts(product, quantity) : () => ''}
                                                     type="button"
                                                     className="flex flex-row space-x-5 text-blue-500 bg-blue-100 border rounded shadow p-2"
                                                 >
@@ -486,14 +489,18 @@ const Product: React.FC = () => {
                                         {sliderProduct?.discount && sliderProduct?.discount > 0 ? (
                                             <div className="flex flex-row justify-center space-x-5">
                                                 <div className="text-blue-400">
-                                                    €{sliderProduct?.price * (1 - sliderProduct?.discount * 0.01)}
+                                                    {formatCurrency(
+                                                        sliderProduct?.price * (1 - sliderProduct?.discount * 0.01),
+                                                    )}
                                                 </div>
-                                                <div className="line-through">€{sliderProduct?.price}</div>
+                                                <div className="line-through">
+                                                    {formatCurrency(sliderProduct?.price)}
+                                                </div>
                                                 <div className="text-red-800">{sliderProduct?.discount}%</div>
                                             </div>
                                         ) : (
                                             <div className="flex flex-row justify-center space-x-5">
-                                                <div className="text-blue-400">{sliderProduct?.price}</div>
+                                                <div className="text-blue-400">€{sliderProduct?.price}</div>
                                             </div>
                                         )}
                                     </div>
@@ -567,14 +574,14 @@ const Product: React.FC = () => {
                                         {elem.discount && elem.discount > 0 ? (
                                             <div className="flex flex-row justify-center space-x-5 mt-1">
                                                 <div className="text-blue-400">
-                                                    €{elem.price * (1 - elem.discount * 0.01)}
+                                                    {formatCurrency(elem.price * (1 - elem.discount * 0.01))}
                                                 </div>
-                                                <div className="line-through">€{elem.price}</div>
-                                                <div className="text-red-800">{elem.discount}%</div>
+                                                <div className="line-through">{formatCurrency(elem.price)}</div>
+                                                <div className="text-red-800">{formatCurrency(elem.discount)}%</div>
                                             </div>
                                         ) : (
                                             <div className="flex flex-row justify-center space-x-5 mt-1 mb-1">
-                                                <div className="text-blue-400">€{elem.price}</div>
+                                                <div className="text-blue-400">{formatCurrency(elem.price)}</div>
                                             </div>
                                         )}
                                     </li>
