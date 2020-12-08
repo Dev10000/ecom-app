@@ -1,65 +1,63 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+/* eslint-disable jsx-a11y/control-has-associated-label */
+import React, { useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 
-interface IProps {
-    action: () => void;
+import categories from '../../../../../utils/top_categories.json';
+
+interface ICategoryDropdownProps {
+    setDisplay: React.Dispatch<React.SetStateAction<boolean>>;
 }
-const CategoryDropdown: React.FC<IProps> = (props: IProps) => {
-    const { action } = props;
-    const [categories, setCategories] = useState<IProductCategory[]>([]);
-    const [more, setMore] = useState<number>(24);
-    const handleMore = () => {
-        if (more < categories.length) {
-            setMore(more + 6);
-        }
-    };
+
+const CategoryDropdown: React.FC<ICategoryDropdownProps> = ({ setDisplay }) => {
     useEffect(() => {
-        axios
-            .get('categories')
-            .then((response) => {
-                setCategories(response.data.data);
-            })
-            .catch((err) => {
-                return err;
-            });
-    }, []);
+        const handleEsc = (e: KeyboardEvent) => {
+            if (e.key === 'Escape' || e.key === 'Esc') {
+                setDisplay(false);
+            }
+        };
+
+        window.addEventListener('keydown', handleEsc);
+
+        return () => {
+            window.removeEventListener('keydown', handleEsc);
+        };
+    }, [setDisplay]);
+
     return (
-        <div className="flex flex-col items-center absolute z-20 right-0 bg-white dark:bg-gray-900 border rounded shadow">
-            <div className="text-sm mt-4">
-                <button
-                    type="button"
-                    className="inline-flex block px-2 py-1 items-center text-md border rounded border-gray-400 bg-blue-500 hover:bg-blue-700 text-white hover:shadow-md select-none focus:outline-none transition ease-in-out duration-150"
-                    onClick={action}
-                >
-                    <NavLink className="text-white" to="/categories">
-                        All categories
-                    </NavLink>
-                </button>
-            </div>
-            <div className="grid gap-y-4 gap-x-16 grid-cols-6 text-sm bg-white dark:bg-gray-900 items-center list-none px-32 py-14">
-                {categories
-                    .filter((category, index) => index < more)
-                    .map((category) => (
-                        <li key={category.id} className="mt-4 flex justify-between w-12">
-                            <button type="button" onClick={action}>
-                                <NavLink className="text hover:text-blue-400" to={`/categories/${category.id}`}>
+        <>
+            <button
+                type="button"
+                className="fixed inset-0 h-full w-full cursor-default focus:outline-none"
+                onClick={() => setDisplay(false)}
+                tabIndex={-1}
+            />
+            <div className="absolute z-20 right-0 mr-12 mt-3 px-2 w-full max-w-xl sm:px-0 lg:max-w-4xl">
+                <div className="rounded-lg bg-white shadow-lg overflow-hidden">
+                    <div className="relative grid gap-4 px-3 py-3 lg:gap-3 sm:p-8 md:grid-cols-2 lg:grid-cols-3">
+                        {categories.map((category) => (
+                            <button key={category.id} type="button" onClick={() => setDisplay(false)}>
+                                <NavLink
+                                    className="p-2 flex items-start rounded-lg bg-white hover:bg-gray-100 transition ease-in-out duration-150 text-sm whitespace-nowrap"
+                                    activeClassName="bg-gray-100"
+                                    to={`/categories/${category.slug}`}
+                                >
                                     {category.title}
                                 </NavLink>
                             </button>
-                        </li>
-                    ))}
+                        ))}
+                    </div>
+                    <div className="text-sm mb-6 w-full text-center">
+                        <button
+                            type="button"
+                            className="py-2 px-4 text-md border rounded bg-blue-500 hover:bg-blue-700 text-white shadow-md select-none focus:outline-none transition ease-in-out duration-150"
+                            onClick={() => setDisplay(false)}
+                        >
+                            <NavLink to="/categories">All categories</NavLink>
+                        </button>
+                    </div>
+                </div>
             </div>
-            <div className="mb-5 text-sm">
-                <button
-                    className="inline-flex px-2 py-1 items-center text-md border rounded border-gray-400 bg-blue-500 hover:bg-blue-700 text-white hover:shadow-md select-none focus:outline-none transition ease-in-out duration-150"
-                    type="button"
-                    onClick={handleMore}
-                >
-                    More +
-                </button>
-            </div>
-        </div>
+        </>
     );
 };
 

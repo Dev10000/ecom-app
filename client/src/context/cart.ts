@@ -4,7 +4,6 @@ import { createContext } from 'react';
 const initialState = {
     cartItems: [],
     addProduct: () => {},
-    addProducts: () => {},
     removeProduct: () => {},
     updateQuantity: () => {},
 };

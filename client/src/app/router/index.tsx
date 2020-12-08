@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useContext } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
@@ -32,23 +33,26 @@ const Router: React.FC = (): JSX.Element => {
     return (
         <Switch>
             {/* Admin Routes registration */}
-            {/* TODO: Guard these routes properly! */}
-            <Route path="/admin">
-                <AdminLayout>
-                    <Switch>
-                        <Route exact path="/admin" component={Dashboard} />
-                        <Route exact path="/admin/news" component={News} />
-                        <Route exact path="/admin/users" component={Users} />
-                        <Route exact path="/admin/products" component={Products} />
-                        <Route exact path="/admin/categories" component={ProductCategories} />
-                        <Route exact path="/admin/countries" component={Countries} />
-                        <Route exact path="/admin/orders" component={Orders} />
-                        <Route exact path="/admin/reports" component={Reports} />
-                        <Route exact path="/admin/settings" component={Settings} />
-                        <E404 />
-                    </Switch>
-                </AdminLayout>
-            </Route>
+            {authContext.user?.is_admin ? (
+                <Route path="/admin">
+                    <AdminLayout>
+                        <Switch>
+                            <Route exact path="/admin" component={Dashboard} />
+                            <Route exact path="/admin/news" component={News} />
+                            <Route exact path="/admin/users" component={Users} />
+                            <Route exact path="/admin/products" component={Products} />
+                            <Route exact path="/admin/categories" component={ProductCategories} />
+                            <Route exact path="/admin/countries" component={Countries} />
+                            <Route exact path="/admin/orders" component={Orders} />
+                            <Route exact path="/admin/reports" component={Reports} />
+                            <Route exact path="/admin/settings" component={Settings} />
+                            <E404 />
+                        </Switch>
+                    </AdminLayout>
+                </Route>
+            ) : (
+                ''
+            )}
 
             {/* Main (non Admin) Routes registration */}
             <Route>
