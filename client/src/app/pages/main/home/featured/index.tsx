@@ -28,6 +28,7 @@ const Featured: React.FC = (): JSX.Element => {
                     </div>
                 </div>
             </div>
+
             <div className="flex mx-auto px-4 sm:max-w-md mx-auto rounded-xl shadow-md overflow-hidden">
                 <div className="md:flex">
                     <div className="flex-1 md:flex-shrink-0 relative">
@@ -58,7 +59,7 @@ const Featured: React.FC = (): JSX.Element => {
                     </div>
                     <div className="flex-1 pl-4">
                         <div className="uppercase tracking-wide text-sm font-semibold mt-8 mb-6">
-                            Nike Air Max <br /> 300 React
+                            Nike Air Max <br /> 100 React
                         </div>
                         <div>
                             <span className="text-yellow-400">&#10025; &#10025; &#10025; &#10025;</span>
@@ -75,5 +76,4 @@ const Featured: React.FC = (): JSX.Element => {
         </div>
     );
 };
-
 export default Featured;
