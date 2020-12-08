@@ -119,6 +119,18 @@ interface IProductSpec {
     value?: string;
 }
 
+interface IArticleModel extends IModel, IArticle {}
+
+interface IArticle {
+    id?: number;
+    user_id?: number;
+    title?: string;
+    slug?: string;
+    featured_image?: string;
+    body?: string;
+    published_at?: string;
+}
+
 interface ICouponCodeModel extends IModel, ICouponCode {}
 
 interface ICouponCode {
@@ -212,7 +224,16 @@ interface IFormError {
 interface IColumn<T> {
     display: string;
     db: keyof T;
-    type?: 'string' | 'number' | 'datetime' | 'currency' | 'country' | 'category';
+    type?:
+        | 'string'
+        | 'number'
+        | 'datetime'
+        | 'nullOrDatetime'
+        | 'currency'
+        | 'country'
+        | 'category'
+        | 'excerpt'
+        | 'image';
 }
 
 interface IDataTableProps<T> {

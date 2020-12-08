@@ -1,6 +1,56 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import AddOrEdit from './actions/add-or-edit';
+import DataTable from '../../../../ui/datatable';
 
 const News: React.FC = (): JSX.Element => {
+    const [articles, setArticles] = useState<ICountryModel[]>([]);
+    const [addOrEditDisplay, setAddOrEditDisplay] = useState(false);
+    const [forEdit, setForEdit] = useState<string>('');
+    const [updated, setUpdated] = useState<string>('');
+
+    useEffect(() => {
+        axios
+            .get('articles/all')
+            .then((response) => {
+                setArticles(response.data.data);
+            })
+            .catch((err) => {
+                return err;
+            });
+    }, [updated]);
+
+    const columns: IColumn<IArticleModel>[] = [
+        {
+            display: 'Title',
+            db: 'title',
+        },
+        {
+            display: 'Slug',
+            db: 'slug',
+        },
+        {
+            display: 'Featured Image',
+            db: 'featured_image',
+            type: 'image',
+        },
+        {
+            display: 'Body',
+            db: 'body',
+            type: 'excerpt',
+        },
+        {
+            display: 'Created',
+            db: 'created_at',
+            type: 'datetime',
+        },
+        {
+            display: 'Published',
+            db: 'published_at',
+            type: 'nullOrDatetime',
+        },
+    ];
+
     return (
         <div>
             <div className="bg-white shadow">
@@ -12,6 +62,7 @@ const News: React.FC = (): JSX.Element => {
                         <button
                             type="button"
                             className="mt-4 mr-4 md:mt-0 text-center inline-flex items-center pl-2 pr-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-400 hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                            onClick={() => setAddOrEditDisplay(true)}
                         >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -31,7 +82,16 @@ const News: React.FC = (): JSX.Element => {
                     </div>
                 </div>
             </div>
-            <div className="p-4">package to add https://github.com/jpuri/react-draft-wysiwyg</div>
+            <AddOrEdit
+                visible={addOrEditDisplay}
+                setVisible={setAddOrEditDisplay}
+                setUpdated={setUpdated}
+                edit={forEdit}
+                setForEdit={setForEdit}
+            />
+            <div className="p-4">
+                <DataTable<IArticleModel> items={articles} columns={columns} />
+            </div>
         </div>
     );
 };

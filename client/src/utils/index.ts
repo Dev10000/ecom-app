@@ -17,10 +17,12 @@ export const formatLocalDateTime = (dateTime: string): string => {
     };
 
     const date = new Date(dateTime);
-
     const formatedDate = new Intl.DateTimeFormat('en-GB', options).format(date);
-
     return formatedDate.replace(/\//g, '.');
+};
+
+export const formatNullOrDatetime = (input: string | null): string => {
+    return input && input !== 'null' ? formatLocalDateTime(input) : 'No';
 };
 
 export const fieldError = (field: string, errors: IFormError[] | string | undefined): string | undefined => {
@@ -44,4 +46,16 @@ export const countryIdToName = (countryId: number): string => {
 export const categoryIdToName = (categoryId: number): string => {
     const matchingCategory = allCategories.filter((category) => category.id === categoryId);
     return matchingCategory.length ? matchingCategory[0].title : 'Unknown Category';
+};
+
+export const slugify = (input: string): string => {
+    return input
+        .trim()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .toLowerCase()
+        .replace('&', '-and-')
+        .replace(/\s+/g, '-')
+        .replace(/[^\w-]+/g, '')
+        .replace(/--+/g, '-');
 };

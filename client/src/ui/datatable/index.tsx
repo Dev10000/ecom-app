@@ -1,6 +1,18 @@
+/* eslint-disable no-case-declarations */
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-nested-ternary */
 import React, { useState, useEffect } from 'react';
-import { formatLocalDateTime, formatCurrency, countryIdToName, categoryIdToName } from '../../utils';
+import { convertFromRaw, convertToRaw, EditorState, RawDraftContentState } from 'draft-js';
+import draftToHtml from 'draftjs-to-html';
+import htmlToDraft from 'html-to-draftjs';
+import {
+    formatLocalDateTime,
+    formatCurrency,
+    countryIdToName,
+    categoryIdToName,
+    formatNullOrDatetime,
+} from '../../utils';
 import Options from './options';
 
 function DataTable<T>(props: IDataTableProps<T>): JSX.Element {
@@ -23,6 +35,35 @@ function DataTable<T>(props: IDataTableProps<T>): JSX.Element {
             ),
         );
     }, [search, items, columns]);
+
+    const EXCERPT_LENGTH = 100;
+
+    const formatFieldType = (value: string, type?: IColumn<T>['type']) => {
+        switch (type) {
+            case 'datetime':
+                return formatLocalDateTime(value);
+            case 'nullOrDatetime':
+                return formatNullOrDatetime(value);
+            case 'currency':
+                return formatCurrency(Number(value));
+            case 'country':
+                return countryIdToName(Number(value));
+            case 'category':
+                return categoryIdToName(Number(value));
+            case 'image':
+                return `image for: '${value}' here`;
+            case 'excerpt':
+                const state: RawDraftContentState = JSON.parse(value);
+                console.dir(state);
+                const markup = draftToHtml(state);
+                // console.dir(state.getCurrentContent().getPlainText());
+                // return JSON.stringify(state.getCurrentContent);
+                return markup;
+            // return text.length > EXCERPT_LENGTH ? `${text.substring(0, 100)}...` : text;
+            default:
+                return value;
+        }
+    };
 
     return (
         <>
@@ -66,15 +107,10 @@ function DataTable<T>(props: IDataTableProps<T>): JSX.Element {
                                                             key={column.db.toString()}
                                                             className="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
                                                         >
-                                                            {column.type && column.type === 'datetime'
-                                                                ? formatLocalDateTime(String(row[column.db]))
-                                                                : column.type && column.type === 'currency'
-                                                                ? formatCurrency(Number(row[column.db]))
-                                                                : column.type && column.type === 'country'
-                                                                ? countryIdToName(Number(row[column.db]))
-                                                                : column.type && column.type === 'category'
-                                                                ? categoryIdToName(Number(row[column.db]))
-                                                                : row[column.db]}
+                                                            {formatFieldType(
+                                                                String(row[column.db]),
+                                                                column.type || 'string',
+                                                            )}
                                                         </td>
                                                     ))}
                                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
