@@ -1,0 +1,5 @@
+import Model from '../database/Model';
+
+export default class ProductSpec extends Model<IProductSpec> {
+    table = 'product_specs_view';
+}

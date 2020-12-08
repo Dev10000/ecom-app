@@ -77,7 +77,7 @@ async function dbQuery(query: string, values: (string | number)[]): Promise<Quer
  * return: slugified string
  */
 // SLUGIFY function
-export const slugify = async (input: string): Promise<string> => {
+export const slugify = (input: string): string => {
     // Slugify the string
     const slug = input
         .normalize('NFD') // normalize()ing to NFD Unicode normal form decomposes combined graphemes into the combination of simple ones. The è of Crème ends up expressed as e +  ̀.

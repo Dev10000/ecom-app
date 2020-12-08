@@ -2,11 +2,14 @@ import { Request, Response } from 'express';
 // import { validationResult } from 'express-validator';
 import QueryBuilder from '../database/QueryBuilder';
 import ProductSpec from '../models/ProductSpec';
+import ProductSpecView from '../models/ProductSpecView';
 
 // NOTE! THIS IS A COPY OF COUPON CONTROLLER AND EACH FUNCTION NEEDS REFACTORING
 
 export const getAll = async (req: Request, res: Response): Promise<Response> => {
+    const { page, items } = req.query;
     return QueryBuilder(ProductSpec)
+        .paginate(Number(page) || 1, Number(items) || 1000)
         .get()
         .then((coupons) => {
             return res.status(200).json({ status: 'success', data: coupons });
@@ -17,9 +20,11 @@ export const getAll = async (req: Request, res: Response): Promise<Response> => 
 export const getSingle = async (req: Request, res: Response): Promise<Response> => {
     const { id } = req.params;
 
-    return ProductSpec.findCustom<IProductSpec>(id, 'product_id')
+    return ProductSpecView.findCustom<IProductSpec>(id, 'product_id')
         .then((spec) => {
             if (spec) {
+                delete spec.updated_at;
+                delete spec.created_at;
                 return res.status(200).json({ status: 'success', data: spec });
             }
             return res.status(404).json({ status: 'error', data: 'Product specification not found!' });
