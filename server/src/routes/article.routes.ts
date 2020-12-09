@@ -7,7 +7,7 @@ const router = Router();
 
 router.get('/', getPublished);
 router.get('/all', Verify.isAdmin, getAll);
-router.get('/:slug', Verify.isUserOrGuest, getSingle);
+router.get('/:id', Verify.isUserOrGuest, getSingle);
 router.post('/', Verify.isAdmin, articleValidator, create);
 router.patch('/:id', Verify.isAdmin, articleValidator, edit);
 router.patch('/:id/publish', Verify.isAdmin, publish);

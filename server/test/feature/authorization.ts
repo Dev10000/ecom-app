@@ -1,6 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import chai from 'chai';
 import chaiHttp from 'chai-http';
+import fetch from 'node-fetch';
 import 'mocha';
 import { authenticate, checkPatch, checkGet, checkPost, checkDelete, Valid } from '../utils';
 
@@ -18,16 +19,41 @@ const tokens = ['', userToken, adminToken];
 describe('Authorization Testing', () => {
     // server\src\routes\article.routes.ts
     describe('Articles', () => {
+        let articleId = 0;
+
+        // eslint-disable-next-line func-names
+        before(async function () {
+            console.log('in before block ................................');
+
+            const uniqueArticle = JSON.stringify(Valid.articleData);
+
+            await fetch('http://localhost:5555/api/articles', {
+                method: 'POST',
+                headers: {
+                    Authorization: `Bearer ${adminToken}`,
+                    'Content-Type': 'application/json',
+                },
+                body: uniqueArticle,
+            })
+                .then((response) => response.json())
+                .then((json) => {
+                    console.log(json);
+                    const { id } = json.data;
+                    articleId = id;
+                });
+        });
+
         checkGet(roles, tokens, '/api/articles', [200, 200, 200]);
         checkPost(roles, tokens, '/api/articles', [401, 403, 201], Valid.articleData);
         checkGet(roles, tokens, '/api/articles/all', [401, 403, 200]);
-        checkGet(roles, tokens, `/api/articles/${Valid.articleData.slug}`, [403, 403, 200]); // created above, but not published
-        checkPatch(roles, tokens, `/api/articles/${Valid.articleData.slug}`, [401, 403, 200], {
+        checkGet(roles, tokens, `/api/articles/${articleId}`, [403, 403, 200]); // created above, but not published
+        checkPatch(roles, tokens, `/api/articles/${articleId}/publish`, [401, 403, 200], {
             ...Valid.articleData,
-            published_at: new Date().toLocaleDateString(),
+            title: 'updated title',
         });
-        checkGet(roles, tokens, `/api/articles/${Valid.articleData.slug}`, [200, 200, 200]); // edited above, this time published
-        checkDelete(roles, tokens, `/api/articles/${Valid.articleData.slug}`, [401, 403, 200]);
+        checkPatch(roles, tokens, `/api/articles/${articleId}/publish`, [401, 403, 200], {});
+        checkGet(roles, tokens, `/api/articles/${articleId}`, [200, 200, 200]); // edited above, this time published
+        checkDelete(roles, tokens, `/api/articles/${articleId}`, [401, 403, 200]);
     });
 
     // server\src\routes\auth.routes.ts

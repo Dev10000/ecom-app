@@ -78,7 +78,7 @@ export const checkPost = (
     bearerTokens: string[],
     apiEndPoint: string,
     expectedStatuses: number[],
-    reqBody?: Record<string, unknown>,
+    reqBody: Record<string, unknown>,
 ): void => {
     describe(`Checking HTTP responses to POST ${apiEndPoint}:`, () => {
         roles.forEach((role, index) => {
@@ -188,9 +188,10 @@ export class Valid {
     static loginData = { email: 'user@example.com', password: 'secret' };
 
     static articleData = {
-        slug: 'article-slug-here',
+        slug: `article-slug-here-${(Math.random() * 100).toFixed}`,
         title: 'Article title here',
         featured_image: 'feature image',
-        body: 'Some random body content ',
+        body:
+            '{"blocks":[{"key":"276gm","text":"Article Body","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}}',
     };
 }

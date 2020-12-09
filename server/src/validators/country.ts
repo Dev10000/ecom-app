@@ -86,6 +86,7 @@ export default [
     body('sub_region_code').optional().isNumeric().withMessage('The Sub Region Code must be numeric.'),
     body('intermediate_region').optional(),
     body('intermediate_region_code')
+        .trim()
         .optional()
         .isNumeric()
         .withMessage('The Intermediate Region Code must be numeric.'),

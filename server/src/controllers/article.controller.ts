@@ -23,11 +23,9 @@ export const getPublished = async (req: Request, res: Response): Promise<Respons
 };
 
 export const getSingle = async (req: Request, res: Response): Promise<Response> => {
-    const { slug } = req.params;
+    const { id } = req.params;
 
-    return QueryBuilder<IArticleModel>(Article)
-        .where('slug', slug)
-        .first()
+    return Article.find<IArticleModel>(id)
         .then((article) => {
             if (article) {
                 // if the article is published we return it
@@ -65,9 +63,7 @@ export const create = async (req: Request, res: Response): Promise<Response> => 
 export const edit = async (req: Request, res: Response): Promise<Response> => {
     const { id } = req.params;
 
-    return QueryBuilder(Article)
-        .where('id', id)
-        .first()
+    return Article.find<IArticleModel>(id)
         .then((article) => {
             if (!article) {
                 return res.status(404).json({ status: 'error', data: 'Article not found!' });
@@ -89,9 +85,7 @@ export const edit = async (req: Request, res: Response): Promise<Response> => {
 export const publish = async (req: Request, res: Response): Promise<Response> => {
     const { id } = req.params;
 
-    return QueryBuilder(Article)
-        .where('id', id)
-        .first()
+    return Article.find<IArticleModel>(id)
         .then((article) => {
             if (!article) {
                 return res.status(404).json({ status: 'error', data: 'Article not found!' });
@@ -110,24 +104,21 @@ export const publish = async (req: Request, res: Response): Promise<Response> =>
 export const destroy = async (req: Request, res: Response): Promise<Response> => {
     const { id } = req.params;
 
-    return QueryBuilder(Article)
-        .where('id', id)
-        .first()
-        .then((article) => {
-            if (!article) {
-                return res.status(404).json({ status: 'error', data: 'Article not found!' });
-            }
+    return Article.find<IArticleModel>(id).then((article) => {
+        if (!article) {
+            return res.status(404).json({ status: 'error', data: 'Article not found!' });
+        }
 
-            return QueryBuilder(Article)
-                .where('id', id)
-                .delete()
-                .then((response) => {
-                    console.log({ response });
-                    if (response) {
-                        return res.status(200).json({ status: 'success', data: 'Article successfully removed.' });
-                    }
-                    return res.status(500).json({ status: 'error', data: 'Error in removing article' });
-                })
-                .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
-        });
+        return QueryBuilder(Article)
+            .where('id', id)
+            .delete()
+            .then((response) => {
+                console.log({ response });
+                if (response) {
+                    return res.status(200).json({ status: 'success', data: 'Article successfully removed.' });
+                }
+                return res.status(500).json({ status: 'error', data: 'Error in removing article' });
+            })
+            .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
+    });
 };
