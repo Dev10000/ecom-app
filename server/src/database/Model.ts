@@ -55,7 +55,7 @@ export default class Model<T> {
         }
 
         const query = { text, values };
-        // console.log(query);
+        console.log(query);
         // Idealy, this should be probably moved in QB.ts
         return DB.query(query).then((response) => response.rows[0] as T);
     }

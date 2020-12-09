@@ -221,7 +221,7 @@ CREATE TABLE "articles" (
   "slug" varchar,
   "featured_image" varchar,
   "body" text,
-  "published_at" timestamp,
+  "published_at" timestamp DEFAULT NULL,
   ${timestampColumns}
 );
 

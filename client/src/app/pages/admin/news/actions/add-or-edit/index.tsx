@@ -75,7 +75,7 @@ const AddOrEdit: React.FC<IAddProps> = ({ visible, setVisible, setUpdated, edit,
                 title,
                 slug,
                 featured_image: featuredImage,
-                body: JSON.stringify(editorState),
+                body: JSON.stringify(convertToRaw(editorState.getCurrentContent())),
             })
             .then((response) => {
                 if (response.data.data.id) {

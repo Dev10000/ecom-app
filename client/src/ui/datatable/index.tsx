@@ -1,11 +1,7 @@
 /* eslint-disable no-case-declarations */
-/* eslint-disable no-underscore-dangle */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-nested-ternary */
 import React, { useState, useEffect } from 'react';
-import { convertFromRaw, convertToRaw, EditorState, RawDraftContentState } from 'draft-js';
-import draftToHtml from 'draftjs-to-html';
-import htmlToDraft from 'html-to-draftjs';
+import { convertFromRaw, EditorState } from 'draft-js';
 import {
     formatLocalDateTime,
     formatCurrency,
@@ -53,13 +49,9 @@ function DataTable<T>(props: IDataTableProps<T>): JSX.Element {
             case 'image':
                 return `image for: '${value}' here`;
             case 'excerpt':
-                const state: RawDraftContentState = JSON.parse(value);
-                console.dir(state);
-                const markup = draftToHtml(state);
-                // console.dir(state.getCurrentContent().getPlainText());
-                // return JSON.stringify(state.getCurrentContent);
-                return markup;
-            // return text.length > EXCERPT_LENGTH ? `${text.substring(0, 100)}...` : text;
+                const editorState = EditorState.createWithContent(convertFromRaw(JSON.parse(value)));
+                const text = editorState.getCurrentContent().getPlainText('\u0001');
+                return text.length > EXCERPT_LENGTH ? `${text.substring(0, 100)}...` : text;
             default:
                 return value;
         }
