@@ -20,10 +20,18 @@ interface IAddProps {
     setUpdated: React.Dispatch<React.SetStateAction<number>>;
     setForEdit: React.Dispatch<React.SetStateAction<number>>;
     edit: number;
+    editSlug: string;
 }
 const emptyEditorState = EditorState.createEmpty();
 
-const AddOrEdit: React.FC<IAddProps> = ({ visible, setVisible, setUpdated, edit, setForEdit }): JSX.Element => {
+const AddOrEdit: React.FC<IAddProps> = ({
+    visible,
+    setVisible,
+    setUpdated,
+    editSlug,
+    edit,
+    setForEdit,
+}): JSX.Element => {
     const [loading, setLoading] = useState(false);
     const [title, setTitle] = useState('');
     const [slug, setSlug] = useState('');
@@ -36,7 +44,7 @@ const AddOrEdit: React.FC<IAddProps> = ({ visible, setVisible, setUpdated, edit,
     useEffect(() => {
         if (edit) {
             setLoading(true);
-            axios.get(`articles/${edit}`).then((response) => {
+            axios.get(`articles/${editSlug}`).then((response) => {
                 if (response.data.data.id) {
                     const { data } = response.data;
                     setTitle(data.title);
@@ -48,7 +56,7 @@ const AddOrEdit: React.FC<IAddProps> = ({ visible, setVisible, setUpdated, edit,
                 setLoading(false);
             });
         }
-    }, [edit]);
+    }, [edit, editSlug]);
 
     useEffect(() => {
         setSlug(slugify(title));

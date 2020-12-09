@@ -112,7 +112,15 @@ function DataTable<T>(props: IDataTableProps<T>): JSX.Element {
                                                             </td>
                                                         ))}
                                                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                                            <Options actions={actions} rowId={row.id || -1} />
+                                                            <Options
+                                                                actions={actions}
+                                                                rowId={row.id || -1}
+                                                                slug={
+                                                                    Object.prototype.hasOwnProperty.call(row, 'slug')
+                                                                        ? row.slug
+                                                                        : ''
+                                                                }
+                                                            />
                                                         </td>
                                                     </tr>
                                                 );

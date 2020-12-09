@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Transition } from '@headlessui/react';
 
-const Options: React.FC<IOPtionsProps> = ({ actions, rowId }): JSX.Element => {
+const Options: React.FC<IOPtionsProps> = ({ actions, rowId, slug }): JSX.Element => {
     const [rowDropdownOpen, setRowDropdownOpen] = useState(false);
 
     useEffect(() => {
@@ -115,7 +115,7 @@ const Options: React.FC<IOPtionsProps> = ({ actions, rowId }): JSX.Element => {
                                     className="block w-full text-left px-4 py-1 text-sm text-gray-700 hover:bg-gray-100"
                                     type="button"
                                     key={action.display}
-                                    onClick={() => action.action(rowId)}
+                                    onClick={() => action.action(rowId, slug)}
                                 >
                                     <span className="inline-flex">
                                         {showIcon(action.display)} {action.display}

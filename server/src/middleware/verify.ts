@@ -13,5 +13,15 @@ export default class Verify {
         return handler(req, res, next);
     };
 
+    static isUserOrGuest = (req: Request, res: Response, next: NextFunction) => {
+        const handler = passport.authenticate('jwt', { session: false }, (err, user) => {
+            if (err) return next(err);
+            if (user) req.user = user;
+            return next();
+        });
+
+        return handler(req, res, next);
+    };
+
     static isAdmin = [Verify.isUser, Verify.adminCheck];
 }

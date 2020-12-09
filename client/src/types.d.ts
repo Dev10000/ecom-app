@@ -237,8 +237,12 @@ interface IColumn<T> {
         | 'image';
 }
 
+interface MightHaveSlug {
+    slug?: string;
+}
+
 interface IDataTableProps<T> {
-    items: (T & IModel)[];
+    items: (T & IModel & MightHaveSlug)[];
     columns: IColumn<T>[];
     APILoading: boolean;
     actions?: IOption[];
@@ -246,10 +250,11 @@ interface IDataTableProps<T> {
 
 interface IOption {
     display: string;
-    action: (rowId: number) => unknown; // WIP
+    action: (rowId: number, slug?: string | undefined) => void;
 }
 
 interface IOPtionsProps {
     rowId: number;
+    slug?: string;
     actions?: IOption[];
 }
