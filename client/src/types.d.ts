@@ -233,12 +233,14 @@ interface IColumn<T> {
         | 'country'
         | 'category'
         | 'excerpt'
+        | 'WYSIWYGExcerpt'
         | 'image';
 }
 
 interface IDataTableProps<T> {
     items: (T & IModel)[];
     columns: IColumn<T>[];
+    APILoading: boolean;
     actions?: IOption[];
 }
 

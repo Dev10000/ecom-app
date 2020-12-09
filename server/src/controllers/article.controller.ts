@@ -64,10 +64,10 @@ export const create = async (req: Request, res: Response): Promise<Response> => 
 };
 
 export const edit = async (req: Request, res: Response): Promise<Response> => {
-    const { slug } = req.params;
+    const { id } = req.params;
 
     return QueryBuilder(Article)
-        .where('slug', slug)
+        .where('id', id)
         .first()
         .then((article) => {
             if (!article) {
@@ -87,11 +87,32 @@ export const edit = async (req: Request, res: Response): Promise<Response> => {
         .catch((e) => Promise.reject(e.message));
 };
 
-export const destroy = async (req: Request, res: Response): Promise<Response> => {
-    const { slug } = req.params;
+export const publish = async (req: Request, res: Response): Promise<Response> => {
+    const { id } = req.params;
 
     return QueryBuilder(Article)
-        .where('slug', slug)
+        .where('id', id)
+        .first()
+        .then((article) => {
+            if (!article) {
+                return res.status(404).json({ status: 'error', data: 'Article not found!' });
+            }
+
+            Object.assign(article, { ...(req.body as Partial<IArticle>), published_at: 'NOW()' });
+
+            return article
+                .save()
+                .then((updatedArticle) => res.status(200).json({ status: 'success', data: updatedArticle }))
+                .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
+        })
+        .catch((e) => Promise.reject(e.message));
+};
+
+export const destroy = async (req: Request, res: Response): Promise<Response> => {
+    const { id } = req.params;
+
+    return QueryBuilder(Article)
+        .where('id', id)
         .first()
         .then((article) => {
             if (!article) {
@@ -99,7 +120,7 @@ export const destroy = async (req: Request, res: Response): Promise<Response> =>
             }
 
             return QueryBuilder(Article)
-                .where('slug', slug)
+                .where('id', id)
                 .delete()
                 .then((response) => {
                     console.log({ response });

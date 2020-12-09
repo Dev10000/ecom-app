@@ -17,9 +17,9 @@ Modal.setAppElement('#root');
 interface IAddProps {
     visible: boolean;
     setVisible: React.Dispatch<React.SetStateAction<boolean>>;
-    setUpdated: React.Dispatch<React.SetStateAction<string>>;
-    setForEdit: React.Dispatch<React.SetStateAction<string>>;
-    edit: string;
+    setUpdated: React.Dispatch<React.SetStateAction<number>>;
+    setForEdit: React.Dispatch<React.SetStateAction<number>>;
+    edit: number;
 }
 const emptyEditorState = EditorState.createEmpty();
 
@@ -63,7 +63,7 @@ const AddOrEdit: React.FC<IAddProps> = ({ visible, setVisible, setUpdated, edit,
         setEditorState(emptyEditorState);
         setPublishedAt('');
         setErrors([]);
-        setForEdit('');
+        setForEdit(0);
     };
 
     const handleCreate = (e: React.FormEvent<HTMLFormElement>) => {
@@ -105,7 +105,7 @@ const AddOrEdit: React.FC<IAddProps> = ({ visible, setVisible, setUpdated, edit,
             .then((response) => {
                 if (response.data.data.id) {
                     setUpdated(response.data.data.id);
-                    setForEdit('');
+                    setForEdit(0);
                     closeModal();
                     setLoading(false);
                 }

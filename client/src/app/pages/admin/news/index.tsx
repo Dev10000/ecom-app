@@ -2,20 +2,26 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import AddOrEdit from './actions/add-or-edit';
 import DataTable from '../../../../ui/datatable';
+import Delete from './actions/delete';
 
 const News: React.FC = (): JSX.Element => {
     const [articles, setArticles] = useState<ICountryModel[]>([]);
     const [addOrEditDisplay, setAddOrEditDisplay] = useState(false);
-    const [forEdit, setForEdit] = useState<string>('');
-    const [updated, setUpdated] = useState<string>('');
+    const [forDeletion, setForDeletion] = useState<number>(0);
+    const [forEdit, setForEdit] = useState<number>(0);
+    const [updated, setUpdated] = useState<number>(0);
+    const [APILoading, setAPILoading] = useState(false);
 
     useEffect(() => {
+        setAPILoading(true);
         axios
             .get('articles/all')
             .then((response) => {
                 setArticles(response.data.data);
+                setAPILoading(false);
             })
             .catch((err) => {
+                setAPILoading(false);
                 return err;
             });
     }, [updated]);
@@ -48,6 +54,22 @@ const News: React.FC = (): JSX.Element => {
             display: 'Published',
             db: 'published_at',
             type: 'nullOrDatetime',
+        },
+    ];
+
+    const actions: IOption[] = [
+        {
+            display: 'Edit',
+            action: (rowId: number) => {
+                setForEdit(rowId);
+                setAddOrEditDisplay(true);
+            },
+        },
+        {
+            display: 'Delete',
+            action: (rowId: number) => {
+                setForDeletion(rowId);
+            },
         },
     ];
 
@@ -89,8 +111,14 @@ const News: React.FC = (): JSX.Element => {
                 edit={forEdit}
                 setForEdit={setForEdit}
             />
+            <Delete forDeletion={forDeletion} setForDeletion={setForDeletion} setUpdated={setUpdated} />
             <div className="p-4">
-                <DataTable<IArticleModel> items={articles} columns={columns} />
+                <DataTable<IArticleModel>
+                    items={articles}
+                    columns={columns}
+                    actions={actions}
+                    APILoading={APILoading}
+                />
             </div>
         </div>
     );
