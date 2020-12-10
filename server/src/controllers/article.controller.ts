@@ -70,6 +70,7 @@ export const edit = async (req: Request, res: Response): Promise<Response> => {
             }
 
             const errors = validationResult(req);
+            // console.log(errors.array());
             if (!errors.isEmpty()) return res.status(422).json({ status: 'error', data: errors.array() });
 
             Object.assign(article, req.body as Partial<IArticle>);
@@ -113,7 +114,6 @@ export const destroy = async (req: Request, res: Response): Promise<Response> =>
             .where('id', id)
             .delete()
             .then((response) => {
-                console.log({ response });
                 if (response) {
                     return res.status(200).json({ status: 'success', data: 'Article successfully removed.' });
                 }

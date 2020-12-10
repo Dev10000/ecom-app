@@ -69,7 +69,6 @@ export const destroy = async (req: Request, res: Response): Promise<Response> =>
             .where('id', id)
             .delete()
             .then((response) => {
-                console.log({ response });
                 if (response) {
                     return res.status(200).json({ status: 'success', data: 'Country successfully removed.' });
                 }

@@ -28,6 +28,11 @@ type passwordConfirmation = { passwordConfirmation?: string };
 export const editUser = async (req: Request, res: Response): Promise<Response> => {
     const { id } = req.params;
 
+    const loggedInUser = req.user as IUserModel;
+
+    if (Number(loggedInUser.id) !== Number(id) && !loggedInUser.is_admin)
+        return res.status(403).json({ status: 'error', data: 'Access denied!' });
+
     return User.find<IUserModel>(id)
         .then((user) => {
             if (!user) return res.status(404).json({ status: 'error', data: 'User not found!' });

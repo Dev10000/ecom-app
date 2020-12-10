@@ -52,15 +52,21 @@ export const statusCode = (code: number): string => {
     return httpStatus ? httpStatus.status : 'Unknown';
 };
 
-export const checkGet = (
+interface IContext {
+    resourceId: number | undefined;
+}
+
+export function checkGet(
     roles: string[],
     bearerTokens: string[],
     apiEndPoint: string,
     expectedStatuses: number[],
-): void => {
-    describe(`Checking HTTP responses to GET ${apiEndPoint}:`, () => {
+    context?: IContext,
+): void {
+    describe(`Checking HTTP responses to GET '${apiEndPoint}':`, () => {
         roles.forEach((role, index) => {
             it(`${role} returns ${expectedStatuses[index]} ${statusCode(expectedStatuses[index])}`, (done) => {
+                apiEndPoint = context ? apiEndPoint.replace(':id', String(context.resourceId)) : apiEndPoint;
                 chai.request(server)
                     .get(apiEndPoint)
                     .set('Authorization', `Bearer ${bearerTokens[index]}`)
@@ -71,7 +77,7 @@ export const checkGet = (
             });
         });
     });
-};
+}
 
 export const checkPost = (
     roles: string[],
@@ -79,10 +85,12 @@ export const checkPost = (
     apiEndPoint: string,
     expectedStatuses: number[],
     reqBody: Record<string, unknown>,
+    context?: IContext,
 ): void => {
-    describe(`Checking HTTP responses to POST ${apiEndPoint}:`, () => {
+    describe(`Checking HTTP responses to POST '${apiEndPoint}':`, () => {
         roles.forEach((role, index) => {
             it(`${role} returns ${expectedStatuses[index]} ${statusCode(expectedStatuses[index])}`, (done) => {
+                apiEndPoint = context ? apiEndPoint.replace(':id', String(context.resourceId)) : apiEndPoint;
                 chai.request(server)
                     .post(apiEndPoint)
                     .send(reqBody || {})
@@ -102,14 +110,16 @@ export const checkPatch = (
     bearerTokens: string[],
     apiEndPoint: string,
     expectedStatuses: number[],
-    reqBody?: Record<string, unknown>,
+    reqBody: Record<string, unknown>,
+    context?: IContext,
 ): void => {
-    describe(`Checking HTTP responses to PATCH ${apiEndPoint}:`, () => {
+    describe(`Checking HTTP responses to PATCH '${apiEndPoint}':`, () => {
         roles.forEach((role, index) => {
             it(`${role} returns ${expectedStatuses[index]} ${statusCode(expectedStatuses[index])}`, (done) => {
+                apiEndPoint = context ? apiEndPoint.replace(':id', String(context.resourceId)) : apiEndPoint;
                 chai.request(server)
                     .patch(apiEndPoint)
-                    .send(reqBody || {})
+                    .send(reqBody)
                     .type('application/json')
                     .set('Authorization', `Bearer ${bearerTokens[index]}`)
                     .end((req, res) => {
@@ -126,10 +136,12 @@ export const checkDelete = (
     bearerTokens: string[],
     apiEndPoint: string,
     expectedStatuses: number[],
+    context?: IContext,
 ): void => {
-    describe(`Checking HTTP responses to DELETE ${apiEndPoint}:`, () => {
+    describe(`Checking HTTP responses to DELETE '${apiEndPoint}':`, () => {
         roles.forEach((role, index) => {
             it(`${role} returns ${expectedStatuses[index]} ${statusCode(expectedStatuses[index])}`, (done) => {
+                apiEndPoint = context ? apiEndPoint.replace(':id', String(context.resourceId)) : apiEndPoint;
                 chai.request(server)
                     .delete(apiEndPoint)
                     .set('Authorization', `Bearer ${bearerTokens[index]}`)
@@ -188,8 +200,8 @@ export class Valid {
     static loginData = { email: 'user@example.com', password: 'secret' };
 
     static articleData = {
-        slug: `article-slug-here-${(Math.random() * 100).toFixed}`,
         title: 'Article title here',
+        slug: `article-slug-here-${(Math.random() * 100).toFixed(2)}`,
         featured_image: 'feature image',
         body:
             '{"blocks":[{"key":"276gm","text":"Article Body","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}}',
