@@ -7,6 +7,7 @@ import { authenticate, checkPatch, checkGet, checkPost, checkDelete, Valid } fro
 import Article from '../../src/models/Article';
 import Country from '../../src/models/Country';
 import CouponCode from '../../src/models/CouponCode';
+import Order from '../../src/models/Order';
 
 chai.use(chaiHttp);
 
@@ -130,22 +131,33 @@ describe('Authorization Testing', () => {
 
     // server\src\routes\order.routes.ts
     describe('Orders', () => {
-        console.log('write tests here!');
+        before(function () {
+            Order.create<IOrderModel>(Valid.orderData)
+                .save()
+                .then((order) => {
+                    context.resourceId = order.id;
+                })
+                .catch((err) => console.log(err));
+        });
+        checkGet(roles, tokens, '/api/orders', [401, 200, 200]);
+        checkGet(roles, tokens, '/api/orders', [401, 403, 200]);
+        checkGet(roles, tokens, '/api/orders/:id', [401, 200, 200], context);
+        checkPost(roles, tokens, '/api/coupons', [401, 201, 201], Valid.orderData);
     });
 
     // server\src\routes\product-category.routes.ts
     describe('Product Categories', () => {
-        console.log('write tests here!');
+        console.log('write Product Categories tests here!');
     });
 
     // server\src\routes\product-spec.routes.ts
     describe('Product Specs', () => {
-        console.log('write tests here!');
+        console.log('write Product Specs tests here!');
     });
 
     // server\src\routes\product.routes.ts
     describe('Products', () => {
-        console.log('write tests here!');
+        console.log('write Products tests here!');
     });
 
     // server\src\routes\user.routes.ts

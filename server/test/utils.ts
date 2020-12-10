@@ -228,4 +228,8 @@ export class Valid {
         quantity: 100,
         expired_at: '2020-12-16',
     };
+
+    static orderData = {
+        products: [1, 2, 3],
+    };
 }
