@@ -38,7 +38,8 @@ describe('Authorization Testing', () => {
 
     // server\src\routes\admin.routes.ts
     describe('Admin', () => {
-        console.log('write tests here!');
+        checkGet(roles, tokens, '/api/admin/export-countries', [401, 403, 200]);
+        checkGet(roles, tokens, '/api/admin/export-categories', [401, 403, 200]);
     });
 
     describe('Articles', function () {
@@ -67,7 +68,8 @@ describe('Authorization Testing', () => {
 
     // server\src\routes\auth.routes.ts
     describe('Auth', () => {
-        console.log('write tests here!');
+        checkPost(roles, tokens, '/api/register', [201, 403, 403], Valid.registerData);
+        checkPost(roles, tokens, '/api/login', [200, 403, 403], Valid.loginData);
     });
 
     // server\src\routes\country.routes.ts

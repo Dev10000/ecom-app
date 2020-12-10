@@ -70,7 +70,7 @@ export function checkGet(
                 chai.request(server)
                     .get(apiEndPoint)
                     .set('Authorization', `Bearer ${bearerTokens[index]}`)
-                    .end((req, res) => {
+                    .end((_req, res) => {
                         expect(res).to.have.status(expectedStatuses[index]);
                         done();
                     });
@@ -96,7 +96,7 @@ export const checkPost = (
                     .send(reqBody || {})
                     .type('application/json')
                     .set('Authorization', `Bearer ${bearerTokens[index]}`)
-                    .end((req, res) => {
+                    .end((_req, res) => {
                         expect(res).to.have.status(expectedStatuses[index]);
                         done();
                     });
@@ -122,7 +122,7 @@ export const checkPatch = (
                     .send(reqBody)
                     .type('application/json')
                     .set('Authorization', `Bearer ${bearerTokens[index]}`)
-                    .end((req, res) => {
+                    .end((_req, res) => {
                         expect(res).to.have.status(expectedStatuses[index]);
                         done();
                     });
@@ -145,7 +145,7 @@ export const checkDelete = (
                 chai.request(server)
                     .delete(apiEndPoint)
                     .set('Authorization', `Bearer ${bearerTokens[index]}`)
-                    .end((req, res) => {
+                    .end((_req, res) => {
                         expect(res).to.have.status(expectedStatuses[index]);
                         done();
                     });
@@ -198,6 +198,14 @@ export class Valid {
     };
 
     static loginData = { email: 'user@example.com', password: 'secret' };
+
+    static registerData = {
+        email: `some-random-email-${(Math.random() * 100).toFixed(2)}@example.com`,
+        password: 'secret',
+        passwordConfirmation: 'secret',
+        first_name: 'Firstname',
+        last_name: 'Lastname',
+    };
 
     static articleData = {
         title: 'Article title here',
