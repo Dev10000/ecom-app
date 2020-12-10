@@ -7,6 +7,7 @@ import { authenticate, checkPatch, checkGet, checkPost, checkDelete, Valid } fro
 import Article from '../../src/models/Article';
 import Country from '../../src/models/Country';
 import CouponCode from '../../src/models/CouponCode';
+import Review from '../../src/models/Review';
 // import Order from '../../src/models/Order';
 
 chai.use(chaiHttp);
@@ -146,6 +147,26 @@ describe('Authorization Testing', () => {
         // router.get('/search/:keywords', productQuery, search);
         checkPatch(roles, tokens, '/api/products/:id', [401, 403, 200], Valid.productData, productContext);
         checkDelete(roles, tokens, '/api/products/:id', [401, 403, 200], productContext);
+    });
+
+    // server\src\routes\product.routes.ts
+    describe('Reviews', () => {
+        before(function () {
+            Review.create<IReviewModel>({ ...Valid.reviewData, user_id: Valid.user.id })
+                .save()
+                .then((review) => {
+                    context.resourceId = review.id; // context for User
+                })
+                .catch((err) => console.log(err));
+        });
+
+        checkGet(roles, tokens, '/api/reviews', [401, 403, 200]);
+        const reviewContext = checkPost(roles, tokens, '/api/reviews', [401, 201, 201], Valid.reviewData); // context for Admin
+        checkGet(roles, tokens, '/api/reviews/:id', [200, 200, 200], context);
+        checkPatch(roles, tokens, '/api/reviews/:id', [401, 403, 200], Valid.reviewData, reviewContext); // user should not be able to edit other user's review
+        checkPatch(roles, tokens, '/api/reviews/:id', [401, 200, 200], Valid.reviewData, context); // both the author and an administrator should be able to edit a review
+        checkDelete(roles, tokens, '/api/reviews/:id', [401, 200, 404], context); // user will be able to delete own review
+        checkDelete(roles, tokens, '/api/reviews/:id', [401, 403, 200], reviewContext);
     });
 
     // server\src\routes\user.routes.ts

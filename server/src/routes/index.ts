@@ -9,6 +9,7 @@ import countryRoutes from './country.routes';
 import specRoutes from './product-spec.routes';
 import articleRoutes from './article.routes';
 import adminRoutes from './admin.routes';
+import reviewRoutes from './review.routes';
 
 const routes = (): Router => {
     const router = Router();
@@ -23,6 +24,7 @@ const routes = (): Router => {
     router.use('/api/specs', specRoutes);
     router.use('/api/articles', articleRoutes);
     router.use('/api/admin', adminRoutes);
+    router.use('/api/reviews', reviewRoutes);
 
     return router;
 };

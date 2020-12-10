@@ -148,6 +148,7 @@ const create_reviews_table = async () => {
     "user_id" int NOT NULL,
     "product_id" int NOT NULL,
     "rating" SMALLINT,
+    "body" text,
     ${timestampColumns}
 );
 
@@ -173,7 +174,7 @@ const create_orders_table = async () => {
   );
 
   ALTER TABLE "orders" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id") ON DELETE CASCADE;
-  ALTER TABLE "order_items" ADD FOREIGN KEY ("coupon_code_id") REFERENCES "coupon_codes" ("id");
+  ALTER TABLE "orders" ADD FOREIGN KEY ("coupon_code_id") REFERENCES "coupon_codes" ("id");
   CREATE INDEX ON "orders" ("user_id", "coupon_code_id");
   `;
 

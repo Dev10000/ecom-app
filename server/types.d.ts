@@ -128,6 +128,7 @@ interface IReview {
     user_id?: number;
     product_id?: number;
     review?: number;
+    body?: string;
 }
 
 interface IArticleModel extends IModel, IArticle {}

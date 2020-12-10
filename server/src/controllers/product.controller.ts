@@ -15,15 +15,6 @@ function moveUploadedFile(file: fileUpload.UploadedFile) {
     // TODO: save the filenames to the DB
 }
 
-// export const getAll = async (req: Request, res: Response): Promise<Response> => {
-//     return QueryBuilder(Product)
-//         .get()
-//         .then((products) => {
-//             return res.status(200).json({ status: 'success', data: products });
-//         })
-//         .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
-// };
-
 export const getAll = async (req: Request, res: Response): Promise<Response> => {
     const { page, items } = req.query;
 

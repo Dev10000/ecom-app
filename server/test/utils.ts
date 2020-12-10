@@ -257,4 +257,10 @@ export class Valid {
         product_category_id: 1,
         stock_qty: 123,
     };
+
+    static reviewData = {
+        rating: 3, // integer between 0 and 5:  Math.floor(Math.random() * 6)
+        body: 'This is a test review',
+        product_id: 1,
+    };
 }
