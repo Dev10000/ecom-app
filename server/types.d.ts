@@ -121,6 +121,8 @@ interface IProductSpec {
     product_id?: number;
     product_options_id?: number;
     value?: string;
+    created_at?: string;
+    updated_at?: string;
 }
 
 interface IReviewModel extends IModel, IReview {}
