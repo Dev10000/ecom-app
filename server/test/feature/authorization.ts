@@ -7,7 +7,7 @@ import { authenticate, checkPatch, checkGet, checkPost, checkDelete, Valid } fro
 import Article from '../../src/models/Article';
 import Country from '../../src/models/Country';
 import CouponCode from '../../src/models/CouponCode';
-import Order from '../../src/models/Order';
+// import Order from '../../src/models/Order';
 
 chai.use(chaiHttp);
 
@@ -112,16 +112,7 @@ describe('Authorization Testing', () => {
         checkGet(roles, tokens, '/api/coupons', [401, 403, 200]);
         checkGet(roles, tokens, '/api/coupons/:id', [401, 200, 200], context);
         checkPost(roles, tokens, '/api/coupons', [401, 403, 201], Valid.couponCodeData);
-        checkPatch(
-            roles,
-            tokens,
-            '/api/coupons/:id',
-            [401, 403, 200],
-            {
-                ...Valid.couponCodeData,
-            },
-            context,
-        );
+        checkPatch(roles, tokens, '/api/coupons/:id', [401, 403, 200], Valid.couponCodeData, context);
         checkDelete(roles, tokens, '/api/coupons/:id', [401, 403, 200], context);
     });
 
@@ -129,13 +120,17 @@ describe('Authorization Testing', () => {
     describe('Orders', () => {
         checkGet(roles, tokens, '/api/orders', [401, 200, 200]);
         checkGet(roles, tokens, '/api/orders/all', [401, 403, 200]);
-        checkPost(roles, tokens, '/api/orders', [401, 201, 201], Valid.orderData);
-        // checkGet(roles, tokens, '/api/orders/:id', [401, 200, 200], context);
+        const ordersContext = checkPost(roles, tokens, '/api/orders', [401, 201, 201], Valid.orderData);
+        checkGet(roles, tokens, '/api/orders/:id', [401, 200, 200], ordersContext);
     });
 
     // server\src\routes\product-category.routes.ts
     describe('Product Categories', () => {
-        console.log('write Product Categories tests here!');
+        checkGet(roles, tokens, '/api/categories', [401, 403, 200]);
+        const categContext = checkPost(roles, tokens, '/api/categories', [401, 403, 201], Valid.categoryData);
+        checkPatch(roles, tokens, '/api/categories/:id', [401, 403, 200], Valid.categoryData, categContext);
+        checkDelete(roles, tokens, '/api/categories/:id', [401, 403, 200], categContext);
+        checkGet(roles, tokens, '/api/categories/233/products', [200, 200, 200]);
     });
 
     // server\src\routes\product-spec.routes.ts
@@ -145,7 +140,12 @@ describe('Authorization Testing', () => {
 
     // server\src\routes\product.routes.ts
     describe('Products', () => {
-        console.log('write Products tests here!');
+        checkGet(roles, tokens, '/api/products', [200, 200, 200]);
+        const productContext = checkPost(roles, tokens, '/api/products', [401, 403, 201], Valid.productData);
+        checkGet(roles, tokens, '/api/products/:id', [200, 200, 200], productContext);
+        // router.get('/search/:keywords', productQuery, search);
+        checkPatch(roles, tokens, '/api/products/:id', [401, 403, 200], Valid.productData, productContext);
+        checkDelete(roles, tokens, '/api/products/:id', [401, 403, 200], productContext);
     });
 
     // server\src\routes\user.routes.ts

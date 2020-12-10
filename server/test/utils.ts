@@ -82,7 +82,10 @@ export const checkPost = (
     expectedStatuses: number[],
     reqBody: Record<string, unknown>,
     context?: IContext,
-): void => {
+): IContext => {
+    const result: IContext = {
+        resourceId: undefined,
+    };
     describe(`Checking HTTP responses to POST '${apiEndPoint}':`, () => {
         roles.forEach((role, index) => {
             it(`${role} returns ${expectedStatuses[index]} ${statusCode(expectedStatuses[index])}`, (done) => {
@@ -94,11 +97,15 @@ export const checkPost = (
                     .set('Authorization', `Bearer ${bearerTokens[index]}`)
                     .end((_req, res) => {
                         expect(res).to.have.status(expectedStatuses[index]);
+                        if (res.body && res.body.data && res.body.data.id) {
+                            result.resourceId = res.body.data.id;
+                        }
                         done();
                     });
             });
         });
     });
+    return result;
 };
 
 export const checkPatch = (
@@ -232,5 +239,22 @@ export class Valid {
                 quantity: 1,
             },
         ],
+    };
+
+    static categoryData = {
+        title: 'My Test Category',
+        slug: 'my-test-category',
+    };
+
+    static productData = {
+        title: 'Nylon Braided Lightning to USB Cable',
+        slug: 'Nylon-Braided-Lightning-Cable',
+        description: 'Universal Compatibility: Compatible with the iPhone SE (2nd Gen)',
+        price: 12.99,
+        weight: 28.34,
+        package_size: '3.94 x 2.5 x 1.1 inches',
+        discount: 20.0,
+        product_category_id: 1,
+        stock_qty: 123,
     };
 }
