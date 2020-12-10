@@ -214,4 +214,18 @@ export class Valid {
         body:
             '{"blocks":[{"key":"276gm","text":"Article Body","type":"unstyled","depth":0,"inlineStyleRanges":[],"entityRanges":[],"data":{}}],"entityMap":{}}',
     };
+
+    static countryData = {
+        name: 'A Brand New Country',
+        alpha2: 'XY',
+        alpha3: 'XYZ',
+        code: 123,
+        iso_3166_2: 'XY',
+    };
+
+    static couponCodeData = {
+        code: String(Date.now()) + Math.random(),
+        quantity: 100,
+        expired_at: '2020-12-16',
+    };
 }

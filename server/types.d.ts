@@ -160,7 +160,7 @@ interface ICountry {
     name?: string;
     alpha2?: string;
     alpha3?: string;
-    code?: string;
+    code?: number;
     iso_3166_2?: string;
     region?: string;
     sub_region?: string;
