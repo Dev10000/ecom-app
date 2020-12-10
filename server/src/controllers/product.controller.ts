@@ -45,6 +45,24 @@ export const getSingle = async (req: Request, res: Response): Promise<Response> 
         .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
 };
 
+export const getReviews = async (req: Request, res: Response): Promise<Response> => {
+    const { id } = req.params;
+
+    return Product.findProduct<IProductModel>(id)
+        .then((product) => {
+            if (product && product.id) {
+                product
+                    .reviews()
+                    .then((reviews) => {
+                        return res.status(200).json({ status: 'success', data: reviews });
+                    })
+                    .catch((error) => console.log(error));
+            }
+            return res.status(404).json({ status: 'error', data: 'Resource not found!' });
+        })
+        .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
+};
+
 export const search = async (req: Request, res: Response): Promise<Response> => {
     const { keywords } = req.params;
     const { page, items } = req.query;

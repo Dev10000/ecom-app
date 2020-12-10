@@ -66,7 +66,9 @@ interface IOrderItem {
     price?: number;
 }
 
-interface IProductModel extends IModel, IProduct {}
+interface IProductModel extends IModel, IProduct {
+    reviews: () => Promise<IReview[]>;
+}
 
 interface IProduct {
     id?: number;

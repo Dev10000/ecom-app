@@ -144,6 +144,7 @@ describe('Authorization Testing', () => {
         checkGet(roles, tokens, '/api/products', [200, 200, 200]);
         const productContext = checkPost(roles, tokens, '/api/products', [401, 403, 201], Valid.productData);
         checkGet(roles, tokens, '/api/products/:id', [200, 200, 200], productContext);
+        checkGet(roles, tokens, '/api/products/:id/reviews', [200, 200, 200], productContext);
         // router.get('/search/:keywords', productQuery, search);
         checkPatch(roles, tokens, '/api/products/:id', [401, 403, 200], Valid.productData, productContext);
         checkDelete(roles, tokens, '/api/products/:id', [401, 403, 200], productContext);
