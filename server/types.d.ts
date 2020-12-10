@@ -193,3 +193,12 @@ interface IOrderBy {
     field: string;
     direction: SortDirection;
 }
+
+interface IContext {
+    resourceId: number | undefined;
+}
+
+interface IOrderItemData {
+    product_id: number;
+    quantity: number;
+}

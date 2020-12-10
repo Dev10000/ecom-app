@@ -52,10 +52,6 @@ export const statusCode = (code: number): string => {
     return httpStatus ? httpStatus.status : 'Unknown';
 };
 
-interface IContext {
-    resourceId: number | undefined;
-}
-
 export function checkGet(
     roles: string[],
     bearerTokens: string[],
@@ -230,6 +226,11 @@ export class Valid {
     };
 
     static orderData = {
-        products: [1, 2, 3],
+        order_items: [
+            {
+                product_id: 1,
+                quantity: 1,
+            },
+        ],
     };
 }

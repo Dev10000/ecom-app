@@ -18,10 +18,6 @@ const roles = ['Guest', 'User', 'Admin'];
 const tokens = ['', userToken, adminToken];
 
 describe('Authorization Testing', () => {
-    interface IContext {
-        resourceId: number | undefined;
-    }
-
     const context: IContext = {
         resourceId: undefined,
     };
@@ -131,18 +127,10 @@ describe('Authorization Testing', () => {
 
     // server\src\routes\order.routes.ts
     describe('Orders', () => {
-        before(function () {
-            Order.create<IOrderModel>(Valid.orderData)
-                .save()
-                .then((order) => {
-                    context.resourceId = order.id;
-                })
-                .catch((err) => console.log(err));
-        });
         checkGet(roles, tokens, '/api/orders', [401, 200, 200]);
-        checkGet(roles, tokens, '/api/orders', [401, 403, 200]);
-        checkGet(roles, tokens, '/api/orders/:id', [401, 200, 200], context);
-        checkPost(roles, tokens, '/api/coupons', [401, 201, 201], Valid.orderData);
+        checkGet(roles, tokens, '/api/orders/all', [401, 403, 200]);
+        checkPost(roles, tokens, '/api/orders', [401, 201, 201], Valid.orderData);
+        // checkGet(roles, tokens, '/api/orders/:id', [401, 200, 200], context);
     });
 
     // server\src\routes\product-category.routes.ts
