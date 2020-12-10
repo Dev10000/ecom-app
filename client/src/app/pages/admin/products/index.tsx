@@ -51,6 +51,7 @@ const Products: React.FC = (): JSX.Element => {
         {
             display: 'Product Category',
             db: 'product_category_id',
+            type: 'category',
         },
         {
             display: 'Stock Quantity',

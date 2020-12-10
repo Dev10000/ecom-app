@@ -4,12 +4,7 @@ import CategoriesDropdown from './CategoriesDropdown';
 
 const TopMenu: React.FC = (): JSX.Element => {
     const [display, setDisplay] = useState<boolean>(false);
-    const openDisplay = () => {
-        setDisplay(true);
-    };
-    const closeDisplay = () => {
-        setDisplay(false);
-    };
+
     return (
         <div className="mx-10 mb-6">
             <div className="-mr-2 -my-2 md:hidden">
@@ -48,33 +43,41 @@ const TopMenu: React.FC = (): JSX.Element => {
                         <div className="ml-2 font-bold">E-Shop</div>
                     </NavLink>
                 </div>
-                <div className="flex space-x-10 mt-24">
+                <div className="flex space-x-6 mt-24">
                     <div>
                         <NavLink
-                            className="text-gray-800 dark:text-gray-100 hover:text-blue-500 dark:hover:text-blue-500 uppercase"
+                            exact
+                            className="inline-flex items-center justify-center p-2 rounded-md text-gray-800 dark:text-gray-100 hover:text-blue-400 dark:hover:text-blue-400 uppercase focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-800 focus:text-gray-500 transition duration-150 ease-in-out"
                             to="/"
                         >
                             Home
                         </NavLink>
                     </div>
-                    <div onMouseLeave={closeDisplay}>
-                        <button type="button" className="flex" onClick={openDisplay}>
-                            <div className="relative flex items-center text-gray-800 dark:text-gray-100 hover:text-blue-500 dark:hover:text-blue-500 uppercase">
-                                <span className="font-medium mr-1">Categories</span>
-                                <svg
-                                    className="w-4 h-4 hover:text-blue-500 focus:outline-none"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path d="M4 6h16M4 12h16M4 18h16" strokeLinecap="round" strokeWidth="2" />
-                                </svg>
-                            </div>
+                    <div>
+                        <button
+                            type="button"
+                            className="group inline-flex items-center justify-center p-2 rounded-md text-gray-800 dark:text-gray-100 hover:text-blue-400 dark:hover:text-blue-400 uppercase focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-800 focus:text-gray-500 transition duration-150 ease-in-out"
+                            onClick={() => setDisplay(!display)}
+                        >
+                            <span className="font-medium mr-1">Categories</span>
+                            <svg
+                                className="ml-2 h-5 w-5 text-gray-800 group-hover:text-blue-400 transition ease-in-out duration-150"
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 20 20"
+                                fill="currentColor"
+                                aria-hidden="true"
+                            >
+                                <path
+                                    fillRule="evenodd"
+                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                    clipRule="evenodd"
+                                />
+                            </svg>
                         </button>
+
                         {display ? (
-                            <div onMouseLeave={closeDisplay} className="container">
-                                <CategoriesDropdown action={closeDisplay} />
+                            <div className="container">
+                                <CategoriesDropdown setDisplay={setDisplay} />
                             </div>
                         ) : (
                             ''
@@ -83,7 +86,7 @@ const TopMenu: React.FC = (): JSX.Element => {
 
                     <div>
                         <NavLink
-                            className="text-gray-800 dark:text-gray-100 hover:text-blue-500 dark:hover:text-blue-500 uppercase"
+                            className="inline-flex items-center justify-center p-2 rounded-md text-gray-800 dark:text-gray-100 hover:text-blue-400 dark:hover:text-blue-400 uppercase focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-800 focus:text-gray-500 transition duration-150 ease-in-out"
                             to="/contact"
                         >
                             Contact us

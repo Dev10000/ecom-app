@@ -1,21 +1,11 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { NavLink } from 'react-router-dom';
-import axios from 'axios';
+import topCategories from '../../../../utils/top_categories.json';
 
 const Categories: React.FC = () => {
-    const [categories, setCategories] = useState<IProductCategory[]>([]);
-    useEffect(() => {
-        axios
-            .get('categories')
-            .then((response) => {
-                setCategories(response.data.data);
-            })
-            .catch((err) => {
-                return err;
-            });
-    }, []);
-
+    const categories: IProductCategory[] = topCategories;
+    console.log({ categories });
     return (
         <div className="font-poppins flex flex-col items-center text-base mt-10">
             <div className="bg-gray-100 w-full">
@@ -38,18 +28,15 @@ const Categories: React.FC = () => {
                 <div className=" p-2 w-56 mx-2 my-2 flex flex-col">
                     <div className="bg-gray-300 border rounded p-4 text-sm">
                         <ul>
-                            {categories
-                                .filter((category, index) => index < 8)
-                                .map((category) => (
-                                    <li className="mt-4 flex justify-between">
-                                        <li>
-                                            <NavLink className="text hover:text-bg-400" to="/categories/:slug">
-                                                {category.title}
-                                            </NavLink>
-                                        </li>
-                                        <li>1</li>
+                            {categories.map((category) => (
+                                <li key={category.id} className="mt-4 flex justify-between">
+                                    <li>
+                                        <NavLink className="text hover:text-bg-400" to={`/categories/${category.slug}`}>
+                                            {category.title}
+                                        </NavLink>
                                     </li>
-                                ))}
+                                </li>
+                            ))}
                         </ul>
                     </div>
                     <div className="border rounded bg-gray-300 h-72 mt-10">Popular categories</div>
@@ -64,7 +51,11 @@ const Categories: React.FC = () => {
                     <div className="w-full mt-4 h-16 bg-gray-300">Sort and display options</div>
                     <div className="grid gap-6 grid-cols-3 mt-4">
                         {categories.map((category) => (
-                            <NavLink className="border border-gray-400 rounded" to={`/categories/${category.id}`}>
+                            <NavLink
+                                key={category.id}
+                                className="border border-gray-400 rounded"
+                                to={`/categories/${category.slug}`}
+                            >
                                 <div className=" w-84 flex flex-col items-center">
                                     <img
                                         className="border object-cover"

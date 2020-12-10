@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { useState } from 'react';
 
 // TODO: maybe only store id's and quantities and not the whole product info
@@ -10,27 +11,18 @@ const getCartItems = (): ICartProducts[] => {
 const useCart = (): IUseCart => {
     const [cartItems, setCartItems] = useState<ICartProducts[]>(getCartItems());
 
-    // adds items from product page
-    const addProducts = (product: IProduct, quantity: number) => {
+    const addProduct = (product: IProduct, quantity?: number): void => {
         const existingInCart = cartItems.find((item) => item.id === product.id);
+
+        if (!quantity) quantity = 1;
+
         const updatedCart = !existingInCart
             ? [...cartItems, { ...product, quantity }]
             : [
                   ...cartItems.map((item) =>
-                      item.id === product.id ? { ...item, quantity: item.quantity + quantity } : item,
+                      item.id === product.id ? { ...item, quantity: item.quantity + quantity! } : item,
                   ),
               ];
-
-        setCartItems(updatedCart);
-        localStorage.setItem('cart', JSON.stringify(updatedCart));
-    };
-
-    const addProduct = (product: IProduct): void => {
-        const existingInCart = cartItems.find((item) => item.id === product.id);
-
-        const updatedCart = !existingInCart
-            ? [...cartItems, { ...product, quantity: 1 }]
-            : [...cartItems.map((item) => (item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item))];
 
         setCartItems(updatedCart);
         localStorage.setItem('cart', JSON.stringify(updatedCart));
@@ -58,7 +50,6 @@ const useCart = (): IUseCart => {
     return {
         cartItems,
         addProduct,
-        addProducts,
         removeProduct,
         updateQuantity,
     };

@@ -1,6 +1,16 @@
+/* eslint-disable no-console */
+import Axios from 'axios';
 import React from 'react';
 
 const ProductCategories: React.FC = (): JSX.Element => {
+    const regenerateStatic = () => {
+        Axios.get('admin/export-categories')
+            .then((response) => {
+                console.log(response);
+            })
+            .catch((error) => console.log(error));
+    };
+
     return (
         <div>
             <div className="bg-white shadow">
@@ -33,6 +43,7 @@ const ProductCategories: React.FC = (): JSX.Element => {
                             <button
                                 type="button"
                                 className="mt-4 md:mt-0 text-center inline-flex items-center pl-2 pr-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-400 hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                                onClick={regenerateStatic}
                             >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
