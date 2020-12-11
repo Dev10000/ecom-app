@@ -129,6 +129,7 @@ export default class Model<T> {
         const values = (flatArr as string[]).map((name) => name.toLowerCase());
 
         // Query Builder Start
+        const count = newArr.length;
         let i2 = 0;
         const finalArr = [];
         for (let i = 0; i < newArr.length; i++) {
@@ -158,7 +159,7 @@ export default class Model<T> {
         INNER JOIN product_options po ON ps.product_options_id = po.id
         ${finalArr.join('')}
         ) AS sub
-        GROUP BY (sub.product_id) HAVING COUNT(sub.product_id) >= 2) sub2
+        GROUP BY (sub.product_id) HAVING COUNT(sub.product_id) >= ${count}) sub2
         ON sub2.product_id = products.id
         INNER JOIN product_images pi ON pi.product_id = products.id
         WHERE default_img = true;`;
