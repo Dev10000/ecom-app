@@ -315,7 +315,9 @@ export default function QueryBuilder<T>(model: Constructor<T>) {
 
             const postfix = ')';
 
-            return `${prefix}${conditions}${nullConditions}${postfix}`;
+            return this.data.orConditions.length || this.data.orNullConditions.length
+                ? `${prefix}${conditions}${nullConditions}${postfix}`
+                : '';
         }
 
         /**
