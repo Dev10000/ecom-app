@@ -71,6 +71,7 @@ export const create = async (req: Request, res: Response): Promise<Response> => 
         .then((order: IOrderModel) => {
             // console.log(`Created order with id = ${order.id} and code =${order.code}`);
             orderItems.forEach((orderItem) => {
+                // eslint-disable-next-line consistent-return
                 Product.find<IProductModel>(orderItem.product_id).then((product) => {
                     if (product && product.stock_qty && product.stock_qty >= orderItem.quantity) {
                         OrderItem.create<IOrderItemModel>({

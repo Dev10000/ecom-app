@@ -41,6 +41,7 @@ interface IOrder {
     id?: number;
     code?: string;
     user_id?: number;
+    coupon_code_id?: number;
     order_status?: string; // Pending | Confirmed | Dispatched | Completed | Canceled;
     price?;
 }
@@ -51,7 +52,6 @@ interface IOrderItem {
     id?: number;
     order_id?: number;
     product_id?: number;
-    coupon_code_id?: number;
     quantity?: number;
     price?: number;
 }
@@ -149,7 +149,7 @@ interface ICountry {
     name?: string;
     alpha2?: string;
     alpha3?: string;
-    code?: string;
+    code?: number;
     iso_3166_2?: string;
     region?: string;
     sub_region?: string;
@@ -237,12 +237,8 @@ interface IColumn<T> {
         | 'image';
 }
 
-interface MightHaveSlug {
-    slug?: string;
-}
-
 interface IDataTableProps<T> {
-    items: (T & IModel & MightHaveSlug)[];
+    items: (T & IModel)[];
     columns: IColumn<T>[];
     APILoading: boolean;
     actions?: IOption[];
@@ -250,11 +246,10 @@ interface IDataTableProps<T> {
 
 interface IOption {
     display: string;
-    action: (rowId: number, slug?: string | undefined) => void;
+    action: (rowId: number) => void;
 }
 
 interface IOPtionsProps {
     rowId: number;
-    slug?: string;
     actions?: IOption[];
 }

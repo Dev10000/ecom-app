@@ -9,7 +9,6 @@ const News: React.FC = (): JSX.Element => {
     const [addOrEditDisplay, setAddOrEditDisplay] = useState(false);
     const [forDeletion, setForDeletion] = useState<number>(0);
     const [forEdit, setForEdit] = useState<number>(0);
-    const [editSlug, setEditSlug] = useState<string>('');
     const [updated, setUpdated] = useState<number>(0);
     const [APILoading, setAPILoading] = useState(false);
 
@@ -61,9 +60,8 @@ const News: React.FC = (): JSX.Element => {
     const actions: IOption[] = [
         {
             display: 'Edit',
-            action: (rowId: number, slug?: string) => {
+            action: (rowId: number) => {
                 setForEdit(rowId);
-                setEditSlug(slug || '');
                 setAddOrEditDisplay(true);
             },
         },
@@ -111,7 +109,6 @@ const News: React.FC = (): JSX.Element => {
                 setVisible={setAddOrEditDisplay}
                 setUpdated={setUpdated}
                 edit={forEdit}
-                editSlug={editSlug}
                 setForEdit={setForEdit}
             />
             <Delete forDeletion={forDeletion} setForDeletion={setForDeletion} setUpdated={setUpdated} />
