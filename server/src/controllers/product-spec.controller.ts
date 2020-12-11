@@ -18,10 +18,13 @@ export const getAll = async (req: Request, res: Response): Promise<Response> => 
 export const getAllByOptionsId = async (req: Request, res: Response): Promise<Response> => {
     const { options_id } = req.params;
 
-    return ProductSpec.findCustom<IProductSpec>(options_id, 'product_options_id', 'DISTINCT ON (value)')
-        .then((spec) => {
-            if (spec) {
-                return res.status(200).json({ status: 'success', data: spec.rows });
+    return QueryBuilder(ProductSpec)
+        .select('DISTINCT ON (value)*')
+        .where('product_options_id', options_id)
+        .get()
+        .then((specs) => {
+            if (specs) {
+                return res.status(200).json({ status: 'success', data: specs });
             }
             return res.status(404).json({ status: 'error', data: 'Product specification not found!' });
         })
@@ -31,12 +34,14 @@ export const getAllByOptionsId = async (req: Request, res: Response): Promise<Re
 export const getSingleByProductId = async (req: Request, res: Response): Promise<Response> => {
     const { id } = req.params;
 
-    return ProductSpecView.findCustom<IProductSpec>(id, 'product_id')
+    return QueryBuilder(ProductSpecView)
+        .where('product_id', id)
+        .first()
         .then((spec) => {
             if (spec) {
                 // delete spec.updated_at;
                 // delete spec.created_at;
-                return res.status(200).json({ status: 'success', data: spec.rows });
+                return res.status(200).json({ status: 'success', data: spec });
             }
             return res.status(404).json({ status: 'error', data: 'Product specification not found!' });
         })
@@ -46,10 +51,10 @@ export const getSingleByProductId = async (req: Request, res: Response): Promise
 export const getSingleById = async (req: Request, res: Response): Promise<Response> => {
     const { id } = req.params;
 
-    return ProductSpec.findCustom<IProductSpec>(id)
+    return ProductSpec.find<IProductSpec>(id)
         .then((spec) => {
             if (spec) {
-                return res.status(200).json({ status: 'success', data: spec.rows });
+                return res.status(200).json({ status: 'success', data: spec });
             }
             return res.status(404).json({ status: 'error', data: 'Product specification not found!' });
         })

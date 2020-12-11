@@ -35,7 +35,7 @@ export const getAll = async (req: Request, res: Response): Promise<Response> => 
 export const getSingle = async (req: Request, res: Response): Promise<Response> => {
     const { id } = req.params;
     // console.log(req.params);
-    return Product.findProduct<IProductModel>(id)
+    return Product.find<IProductModel>(id)
         .then((product) => {
             if (product && product.id) {
                 return res.status(200).json({ status: 'success', data: product });
@@ -48,7 +48,7 @@ export const getSingle = async (req: Request, res: Response): Promise<Response> 
 export const getReviews = async (req: Request, res: Response): Promise<Response> => {
     const { id } = req.params;
 
-    return Product.findProduct<IProductModel>(id)
+    return Product.find<IProductModel>(id)
         .then((product) => {
             if (product && product.id) {
                 product
@@ -148,10 +148,10 @@ export const destroy = async (req: Request, res: Response): Promise<Response> =>
 };
 
 export const filterProduct = async (req: Request, res: Response): Promise<Response> => {
-    return Product.filterProduct<IProductModel>(req.body)
-        .then((product) => {
-            if (product) {
-                return res.status(200).json({ status: 'success', data: product.rows });
+    return Product.filter(req.body)
+        .then((products) => {
+            if (products) {
+                return res.status(200).json({ status: 'success', data: products });
             }
             return res.status(404).json({ status: 'error', data: 'Resource not found!' });
         })

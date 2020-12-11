@@ -20,6 +20,8 @@ export default function QueryBuilder<T>(model: Constructor<T>) {
         orderBy: IOrderBy;
         conditions: ICondition[];
         nullConditions: INullCondition[];
+        orConditions: ICondition[];
+        orNullConditions: INullCondition[];
         joins: IJoin[];
     }
 
@@ -32,12 +34,50 @@ export default function QueryBuilder<T>(model: Constructor<T>) {
             orderBy: { field: '', direction: 'asc' },
             conditions: [],
             nullConditions: [],
+            orConditions: [],
+            orNullConditions: [],
             joins: [],
         };
 
         constructor(private Model: Constructor<T>) {
             this.Model = Model;
             this.data.table = new this.Model().table;
+        }
+
+        /**
+         * Ads a new WHERE condition on the query string.
+         * where('field', 'value') , this way the operator is implicitly '='
+         * where('field', 'operator', 'value')
+         *
+         * @param field string
+         * @param operatorOrValue [OPTIONAL] "=" | ">" | "<" | ">=" | "<=" | "<>" | "!=" | 'LIKE'
+         * @param value string | number | boolean
+         */
+        orWhere(field: string, operatorOrValue: ConditionValue | ConditionOperator, value?: ConditionValue): this {
+            if (value) {
+                this.data.orConditions.push({ field, operator: operatorOrValue, value });
+            } else {
+                this.data.orConditions.push({ field, operator: '=', value: operatorOrValue });
+            }
+            return this;
+        }
+
+        /**
+         * Ads a new WHERE NULL condition on the query string.
+         * @param field string
+         */
+        orWhereNull(field: string): this {
+            this.data.orNullConditions.push({ field, is_null: true });
+            return this;
+        }
+
+        /**
+         * Ads a new WHERE NOT NULL condition on the query string.
+         * @param field string
+         */
+        orWhereNotNull(field: string): this {
+            this.data.orNullConditions.push({ field, is_null: false });
+            return this;
         }
 
         /**
@@ -149,7 +189,7 @@ export default function QueryBuilder<T>(model: Constructor<T>) {
          */
         query(table: string, action?: QueryType): QueryConfig {
             const prefix = this.buildPrefix(action || 'select');
-            const text = `${prefix} ${table} ${this.buildJoins()} ${this.buildConditions()} ${this.buildOrderBy()}${this.buildPagination()}${this.buildLimit()}`;
+            const text = `${prefix} ${table} ${this.buildJoins()} ${this.buildConditions()} ${this.buildOrConditions()} ${this.buildOrderBy()}${this.buildPagination()}${this.buildLimit()}`;
             const values = this.buildValues();
             // console.log(text, values);
             return { text, values };
@@ -222,9 +262,10 @@ export default function QueryBuilder<T>(model: Constructor<T>) {
          */
         private buildValues(): ConditionValue[] {
             const values = this.data.conditions.map((where) => where.value);
+            const orValues = this.data.orConditions.map((where) => where.value);
             const offset = (this.data.paginate.page - 1) * this.data.paginate.limit;
 
-            return this.data.paginate.limit === 1 ? values : [...values, this.data.paginate.limit, offset];
+            return this.data.paginate.limit === 1 ? values : [...values, ...orValues, this.data.paginate.limit, offset];
         }
 
         /**
@@ -251,6 +292,33 @@ export default function QueryBuilder<T>(model: Constructor<T>) {
         }
 
         /**
+         * Builds the WHERE, WHERE NULL and WHERE NOT NULL part of the query.
+         */
+        private buildOrConditions(): string {
+            const prefix = this.data.conditions.length || this.data.nullConditions.length ? 'AND (' : 'WHERE (';
+
+            const conditions = this.data.orConditions.reduce(
+                (acc, where, index) =>
+                    (acc += ` ${index ? 'OR' : ''} ${this.data.table}.${where.field} ${where.operator} $${
+                        index + this.data.conditions.length + 1
+                    }`),
+                '',
+            );
+
+            const nullConditions = this.data.orNullConditions.reduce(
+                (acc, where, index) =>
+                    (acc += ` ${index === 0 && this.data.orConditions.length === 0 ? '' : 'OR'} ${this.data.table}.${
+                        where.field
+                    } ${where.is_null ? 'IS NULL' : 'IS NOT NULL'}`),
+                '',
+            );
+
+            const postfix = ')';
+
+            return `${prefix}${conditions}${nullConditions}${postfix}`;
+        }
+
+        /**
          * Builds the LIMIT part of the query.
          */
         private buildLimit(): string {
@@ -264,7 +332,9 @@ export default function QueryBuilder<T>(model: Constructor<T>) {
             this.data.limit = 0;
             return this.data.paginate.limit === 1
                 ? ''
-                : ` LIMIT $${this.data.conditions.length + 1} OFFSET $${this.data.conditions.length + 2}`;
+                : ` LIMIT $${this.data.conditions.length + this.data.orConditions.length + 1} OFFSET $${
+                      this.data.conditions.length + this.data.orConditions.length + 2
+                  }`;
         }
 
         /**

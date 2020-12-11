@@ -68,6 +68,7 @@ interface IOrderItem {
 
 interface IProductModel extends IModel, IProduct {
     reviews: () => Promise<IReview[]>;
+    // static filterProduct(body: Record<string, unknown>): Promise<QueryResult | undefined>;
 }
 
 interface IProduct {

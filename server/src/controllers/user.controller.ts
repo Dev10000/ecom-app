@@ -12,6 +12,12 @@ export const getAllUsers = async (req: Request, res: Response): Promise<Response
 
     return QueryBuilder(User)
         .paginate(Number(page) || 1, Number(items) || 25)
+        .where('country_id', 77)
+        .orWhere('first_name', 'Judy')
+        .orWhere('last_name', 'Donke')
+        .orWhere('last_name', 'Sewall')
+        .orWhereNull('last_name')
+        .orWhereNotNull('country_id')
         .get()
         .then((users) => {
             const sanitizedUsers = users.map((u) => {
