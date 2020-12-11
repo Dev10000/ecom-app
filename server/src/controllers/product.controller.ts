@@ -101,7 +101,7 @@ export const edit = async (req: Request, res: Response): Promise<Response> => {
 
             Object.assign(product, req.body as IProduct);
 
-            if (req.files?.images) {
+            if (req.files) {
                 const { images } = req.files;
                 // multi or a single file upload
                 if (Array.isArray(images)) images.forEach(moveUploadedFile);
@@ -135,4 +135,15 @@ export const destroy = async (req: Request, res: Response): Promise<Response> =>
             })
             .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
     });
+};
+
+export const filterProduct = async (req: Request, res: Response): Promise<Response> => {
+    return Product.filterProduct<IProductModel>(req.body)
+        .then((product) => {
+            if (product) {
+                return res.status(200).json({ status: 'success', data: product.rows });
+            }
+            return res.status(404).json({ status: 'error', data: 'Resource not found!' });
+        })
+        .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
 };
