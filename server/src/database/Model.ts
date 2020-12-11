@@ -1,7 +1,6 @@
 import pluralize from 'pluralize';
 import { removeFields, pascalToSnakeCase } from './utils';
 import DB from '../config/database';
-import QueryBuilder from './QueryBuilder';
 
 export default class Model<T> {
     /**

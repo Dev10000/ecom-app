@@ -11,6 +11,7 @@ export const getAllUsers = async (req: Request, res: Response): Promise<Response
     if (!errors.isEmpty()) return res.status(422).json({ status: 'error', data: errors.array() });
 
     return QueryBuilder(User)
+        .with('articles', 'country', 'orders')
         .paginate(Number(page) || 1, Number(items) || 25)
         .get()
         .then((users) => {

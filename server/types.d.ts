@@ -13,8 +13,8 @@ interface IModel {
     save: () => Promise<T>;
     // static create: (props: T) => T;
     toJSON: () => Pick<this, Exclude<keyof this, keyof this>>;
-    belongsTo: (otherModel: Constructor<U>, localField?: string, remoteField?: string) => Promise<T>;
-    hasMany: (otherModel: Constructor<U>, localField?: string, remoteField?: string) => Promise<U[]>;
+    // belongsTo: (otherModel: Constructor<U>, localField?: string, remoteField?: string) => Promise<T>;
+    // hasMany: (otherModel: Constructor<U>, localField?: string, remoteField?: string) => Promise<U[]>;
 }
 
 interface IRelationship {
@@ -22,6 +22,15 @@ interface IRelationship {
     name?: string;
     localField?: keyof T;
     remoteField?: string;
+}
+
+interface IRelationshipAdditionalFields {
+    type: 'belongsTo' | 'hasMany';
+    table: string;
+}
+
+interface IWith extends IRelationship, IRelationshipAdditionalFields {
+    name: string;
 }
 
 interface IUserModel extends IModel, IUser {

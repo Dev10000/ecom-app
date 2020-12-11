@@ -1,8 +1,11 @@
+/* eslint-disable new-cap */
 /* eslint-disable no-shadow */
 // www.typescriptlang.org/docs/handbook/mixins.html
 
 import { QueryConfig } from 'pg';
+import pluralize from 'pluralize';
 import DB from '../config/database';
+import { pascalToSnakeCase } from './utils';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default function QueryBuilder<T>(model: Constructor<T>) {
@@ -23,6 +26,7 @@ export default function QueryBuilder<T>(model: Constructor<T>) {
         orConditions: ICondition[];
         orNullConditions: INullCondition[];
         joins: IJoin[];
+        with: IWith[];
     }
 
     class QB {
@@ -37,6 +41,7 @@ export default function QueryBuilder<T>(model: Constructor<T>) {
             orConditions: [],
             orNullConditions: [],
             joins: [],
+            with: [],
         };
 
         constructor(private Model: Constructor<T>) {
@@ -145,10 +150,41 @@ export default function QueryBuilder<T>(model: Constructor<T>) {
             return this;
         }
 
-        with(...relationships: (keyof T)[]): this {
-            relationships.forEach((relationship) => {
-                console.log(String(new this.Model()[relationship]));
+        // with(...relationships: (keyof T)[]): this {
+        with(...relationships: string[]): this {
+            const model = new this.Model();
+            const { belongsTo, hasMany } = model;
+
+            const definedRelationships: IWith[] = [];
+
+            belongsTo.forEach((belongsToItem) => {
+                definedRelationships.push({
+                    name: belongsToItem.name || pascalToSnakeCase(belongsToItem.model.name),
+                    type: 'belongsTo',
+                    model: belongsToItem.model,
+                    table: new belongsToItem.model().table,
+                    localField:
+                        (belongsToItem.localField as keyof T) ||
+                        (`${pascalToSnakeCase(belongsToItem.model.name)}_id` as keyof T),
+                    remoteField: belongsToItem.remoteField || 'id',
+                });
             });
+
+            hasMany.forEach((hasManyItem) => {
+                definedRelationships.push({
+                    name: hasManyItem.name || pluralize(pascalToSnakeCase(hasManyItem.model.name)),
+                    type: 'hasMany',
+                    model: hasManyItem.model,
+                    table: new hasManyItem.model().table,
+                    localField: (hasManyItem.localField as keyof T) || (`id` as keyof T),
+                    remoteField: hasManyItem.remoteField || `${pascalToSnakeCase(model.constructor.name)}_id`,
+                });
+            });
+
+            const eagerLoad = definedRelationships.filter((definedRelationship) =>
+                relationships.includes(definedRelationship.name),
+            );
+            this.data.with.push(...eagerLoad);
             return this;
         }
 
@@ -189,6 +225,9 @@ export default function QueryBuilder<T>(model: Constructor<T>) {
          */
         query(table: string, action?: QueryType): QueryConfig {
             const prefix = this.buildPrefix(action || 'select');
+
+            table = this.buildWiths() || table;
+
             const text = `${prefix} ${table} ${this.buildJoins()} ${this.buildConditions()} ${this.buildOrConditions()} ${this.buildOrderBy()}${this.buildPagination()}${this.buildLimit()}`;
             const values = this.buildValues();
             // console.log(text, values);
@@ -355,6 +394,25 @@ export default function QueryBuilder<T>(model: Constructor<T>) {
                 (join) =>
                     ` INNER JOIN ${join.table} ON ${this.data.table}.${join.localField} = ${join.table}.${join.remoteField}`,
             );
+        }
+
+        private buildWiths(): string {
+            if (this.data.with.length) {
+                let withs = `(${this.data.table}`;
+                this.data.with.forEach((eager, index) => {
+                    withs += ` ${eager.type === 'hasMany' ? 'LEFT' : ''} JOIN ( SELECT json_agg(${eager.table}.*) AS ${
+                        eager.name
+                    },
+                            ${eager.table}.${eager.remoteField}
+                              FROM ${eager.table}
+                             GROUP BY ${eager.table}.${eager.remoteField}) agg${index} ON ((${this.data.table}.${String(
+                        eager.localField,
+                    )} = agg${index}.${eager.remoteField}))`;
+                });
+
+                return `${withs})`;
+            }
+            return '';
         }
     }
 

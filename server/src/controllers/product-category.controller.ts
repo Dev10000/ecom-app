@@ -18,9 +18,9 @@ export const getAll = async (req: Request, res: Response): Promise<Response> => 
 export const create = async (req: Request, res: Response): Promise<Response> => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) return res.status(422).json({ status: 'error', data: errors.array() });
-    console.log(req.body);
-    const { title, parent_id } = req.body;
-    console.log(title + parent_id);
+    // console.log(req.body);
+    // const { title, parent_id } = req.body;
+    // console.log(title + parent_id);
     return ProductCategory.create(req.body as Partial<ProductCategory>)
         .save()
         .then((category) => res.status(201).json({ status: 'success', data: category }))
