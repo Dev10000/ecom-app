@@ -26,6 +26,7 @@ import Settings from '../pages/admin/settings';
 
 // Components
 import Breadcrumbs from '../../ui/breadcrumbs';
+import Coupons from '../pages/admin/coupons';
 
 const Router: React.FC = (): JSX.Element => {
     const authContext = useContext(AuthContext);
@@ -44,6 +45,7 @@ const Router: React.FC = (): JSX.Element => {
                             <Route exact path="/admin/categories" component={ProductCategories} />
                             <Route exact path="/admin/countries" component={Countries} />
                             <Route exact path="/admin/orders" component={Orders} />
+                            <Route exact path="/admin/coupons" component={Coupons} />
                             <Route exact path="/admin/reports" component={Reports} />
                             <Route exact path="/admin/settings" component={Settings} />
                             <E404 />

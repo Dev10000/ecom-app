@@ -23,11 +23,9 @@ export const getPublished = async (req: Request, res: Response): Promise<Respons
 };
 
 export const getSingle = async (req: Request, res: Response): Promise<Response> => {
-    const { slug } = req.params;
+    const { id } = req.params;
 
-    return QueryBuilder<IArticleModel>(Article)
-        .where('slug', slug)
-        .first()
+    return Article.find<IArticleModel>(id)
         .then((article) => {
             if (article) {
                 // if the article is published we return it
@@ -35,11 +33,10 @@ export const getSingle = async (req: Request, res: Response): Promise<Response> 
                     return res.status(200).json({ status: 'success', data: article });
                 }
 
-                console.log('user=', req.user);
+                // console.log('user=', req.user);
 
                 // if the article is not published but the logged in user is an admin we return it
                 if ((req.user as IUserModel) && (req.user as IUserModel).is_admin) {
-                    console.log('I have the admin here');
                     return res.status(200).json({ status: 'success', data: article });
                 }
 
@@ -64,17 +61,16 @@ export const create = async (req: Request, res: Response): Promise<Response> => 
 };
 
 export const edit = async (req: Request, res: Response): Promise<Response> => {
-    const { slug } = req.params;
+    const { id } = req.params;
 
-    return QueryBuilder(Article)
-        .where('slug', slug)
-        .first()
+    return Article.find<IArticleModel>(id)
         .then((article) => {
             if (!article) {
                 return res.status(404).json({ status: 'error', data: 'Article not found!' });
             }
 
             const errors = validationResult(req);
+            // console.log(errors.array());
             if (!errors.isEmpty()) return res.status(422).json({ status: 'error', data: errors.array() });
 
             Object.assign(article, req.body as Partial<IArticle>);
@@ -87,27 +83,42 @@ export const edit = async (req: Request, res: Response): Promise<Response> => {
         .catch((e) => Promise.reject(e.message));
 };
 
-export const destroy = async (req: Request, res: Response): Promise<Response> => {
-    const { slug } = req.params;
+export const publish = async (req: Request, res: Response): Promise<Response> => {
+    const { id } = req.params;
 
-    return QueryBuilder(Article)
-        .where('slug', slug)
-        .first()
+    return Article.find<IArticleModel>(id)
         .then((article) => {
             if (!article) {
                 return res.status(404).json({ status: 'error', data: 'Article not found!' });
             }
 
-            return QueryBuilder(Article)
-                .where('slug', slug)
-                .delete()
-                .then((response) => {
-                    console.log({ response });
-                    if (response) {
-                        return res.status(200).json({ status: 'success', data: 'Article successfully removed.' });
-                    }
-                    return res.status(500).json({ status: 'error', data: 'Error in removing article' });
-                })
+            Object.assign(article, { ...(req.body as Partial<IArticle>), published_at: 'NOW()' });
+
+            return article
+                .save()
+                .then((updatedArticle) => res.status(200).json({ status: 'success', data: updatedArticle }))
                 .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
-        });
+        })
+        .catch((e) => Promise.reject(e.message));
+};
+
+export const destroy = async (req: Request, res: Response): Promise<Response> => {
+    const { id } = req.params;
+
+    return Article.find<IArticleModel>(id).then((article) => {
+        if (!article) {
+            return res.status(404).json({ status: 'error', data: 'Article not found!' });
+        }
+
+        return QueryBuilder(Article)
+            .where('id', id)
+            .delete()
+            .then((response) => {
+                if (response) {
+                    return res.status(200).json({ status: 'success', data: 'Article successfully removed.' });
+                }
+                return res.status(500).json({ status: 'error', data: 'Error in removing article' });
+            })
+            .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
+    });
 };

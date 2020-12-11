@@ -15,22 +15,13 @@ function moveUploadedFile(file: fileUpload.UploadedFile) {
     // TODO: save the filenames to the DB
 }
 
-// export const getAll = async (req: Request, res: Response): Promise<Response> => {
-//     return QueryBuilder(Product)
-//         .get()
-//         .then((products) => {
-//             return res.status(200).json({ status: 'success', data: products });
-//         })
-//         .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
-// };
-
 export const getAll = async (req: Request, res: Response): Promise<Response> => {
     const { page, items } = req.query;
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) return res.status(422).json({ status: 'error', data: errors.array() });
 
-    console.log({ page }, { items });
+    // console.log({ page }, { items });
 
     return QueryBuilder(Product)
         .paginate(Number(page) || 1, Number(items) || 25)
@@ -44,10 +35,28 @@ export const getAll = async (req: Request, res: Response): Promise<Response> => 
 export const getSingle = async (req: Request, res: Response): Promise<Response> => {
     const { id } = req.params;
     // console.log(req.params);
-    return Product.findProduct<IProductModel>(id)
+    return Product.find<IProductModel>(id)
         .then((product) => {
             if (product && product.id) {
                 return res.status(200).json({ status: 'success', data: product });
+            }
+            return res.status(404).json({ status: 'error', data: 'Resource not found!' });
+        })
+        .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
+};
+
+export const getReviews = async (req: Request, res: Response): Promise<Response> => {
+    const { id } = req.params;
+
+    return Product.find<IProductModel>(id)
+        .then((product) => {
+            if (product && product.id) {
+                product
+                    .reviews()
+                    .then((reviews) => {
+                        return res.status(200).json({ status: 'success', data: reviews });
+                    })
+                    .catch((error) => console.log(error));
             }
             return res.status(404).json({ status: 'error', data: 'Resource not found!' });
         })
@@ -78,6 +87,7 @@ export const search = async (req: Request, res: Response): Promise<Response> => 
 
 export const create = async (req: Request, res: Response): Promise<Response> => {
     const errors = validationResult(req);
+    // console.log(errors.array());
     if (!errors.isEmpty()) return res.status(422).json({ status: 'error', data: errors.array() });
 
     return Product.create<IProductModel>(req.body as Partial<IProduct>)
@@ -138,10 +148,10 @@ export const destroy = async (req: Request, res: Response): Promise<Response> =>
 };
 
 export const filterProduct = async (req: Request, res: Response): Promise<Response> => {
-    return Product.filterProduct<IProductModel>(req.body)
-        .then((product) => {
-            if (product) {
-                return res.status(200).json({ status: 'success', data: product.rows });
+    return Product.filter(req.body)
+        .then((products) => {
+            if (products) {
+                return res.status(200).json({ status: 'success', data: products });
             }
             return res.status(404).json({ status: 'error', data: 'Resource not found!' });
         })

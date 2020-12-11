@@ -41,6 +41,7 @@ interface IOrder {
     id?: number;
     code?: string;
     user_id?: number;
+    coupon_code_id?: number;
     order_status?: string; // Pending | Confirmed | Dispatched | Completed | Canceled;
     price?;
 }
@@ -51,7 +52,6 @@ interface IOrderItem {
     id?: number;
     order_id?: number;
     product_id?: number;
-    coupon_code_id?: number;
     quantity?: number;
     price?: number;
 }
@@ -119,6 +119,18 @@ interface IProductSpec {
     value?: string;
 }
 
+interface IArticleModel extends IModel, IArticle {}
+
+interface IArticle {
+    id?: number;
+    user_id?: number;
+    title?: string;
+    slug?: string;
+    featured_image?: string;
+    body?: string;
+    published_at?: string;
+}
+
 interface ICouponCodeModel extends IModel, ICouponCode {}
 
 interface ICouponCode {
@@ -137,7 +149,7 @@ interface ICountry {
     name?: string;
     alpha2?: string;
     alpha3?: string;
-    code?: string;
+    code?: number;
     iso_3166_2?: string;
     region?: string;
     sub_region?: string;
@@ -212,18 +224,29 @@ interface IFormError {
 interface IColumn<T> {
     display: string;
     db: keyof T;
-    type?: 'string' | 'number' | 'datetime' | 'currency' | 'country' | 'category';
+    type?:
+        | 'string'
+        | 'number'
+        | 'datetime'
+        | 'nullOrDatetime'
+        | 'currency'
+        | 'country'
+        | 'category'
+        | 'excerpt'
+        | 'WYSIWYGExcerpt'
+        | 'image';
 }
 
 interface IDataTableProps<T> {
     items: (T & IModel)[];
     columns: IColumn<T>[];
+    APILoading: boolean;
     actions?: IOption[];
 }
 
 interface IOption {
     display: string;
-    action: (rowId: number) => unknown; // WIP
+    action: (rowId: number) => void;
 }
 
 interface IOPtionsProps {

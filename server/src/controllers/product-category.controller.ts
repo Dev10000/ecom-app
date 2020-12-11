@@ -3,7 +3,6 @@ import { validationResult } from 'express-validator';
 import QueryBuilder from '../database/QueryBuilder';
 import ProductCategory from '../models/ProductCategory';
 import { checkIfStringExistsInTable, insertTitleAndSlug, postfixNumberGenerator, slugify } from '../database/utils';
-// import { slugify } from '../database/utils';
 
 export const getAll = async (req: Request, res: Response): Promise<Response> => {
     return QueryBuilder(ProductCategory)

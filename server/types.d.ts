@@ -51,6 +51,7 @@ interface IOrder {
     id?: number;
     code?: string;
     user_id?: number;
+    coupon_code_id?: number;
     order_status?: string; // Pending | Confirmed | Dispatched | Completed | Canceled;
     price?;
 }
@@ -61,12 +62,14 @@ interface IOrderItem {
     id?: number;
     order_id?: number;
     product_id?: number;
-    coupon_code_id?: number;
     quantity?: number;
     price?: number;
 }
 
-interface IProductModel extends IModel, IProduct {}
+interface IProductModel extends IModel, IProduct {
+    reviews: () => Promise<IReview[]>;
+    // static filterProduct(body: Record<string, unknown>): Promise<QueryResult | undefined>;
+}
 
 interface IProduct {
     id?: number;
@@ -130,6 +133,7 @@ interface IReview {
     user_id?: number;
     product_id?: number;
     review?: number;
+    body?: string;
 }
 
 interface IArticleModel extends IModel, IArticle {}
@@ -162,7 +166,7 @@ interface ICountry {
     name?: string;
     alpha2?: string;
     alpha3?: string;
-    code?: string;
+    code?: number;
     iso_3166_2?: string;
     region?: string;
     sub_region?: string;
@@ -194,4 +198,13 @@ interface INullCondition {
 interface IOrderBy {
     field: string;
     direction: SortDirection;
+}
+
+interface IContext {
+    resourceId: number | undefined;
+}
+
+interface IOrderItemData {
+    product_id: number;
+    quantity: number;
 }

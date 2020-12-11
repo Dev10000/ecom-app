@@ -12,6 +12,12 @@ export const getAllUsers = async (req: Request, res: Response): Promise<Response
 
     return QueryBuilder(User)
         .paginate(Number(page) || 1, Number(items) || 25)
+        .where('country_id', 77)
+        .orWhere('first_name', 'Judy')
+        .orWhere('last_name', 'Donke')
+        .orWhere('last_name', 'Sewall')
+        .orWhereNull('last_name')
+        .orWhereNotNull('country_id')
         .get()
         .then((users) => {
             const sanitizedUsers = users.map((u) => {
@@ -27,6 +33,11 @@ type passwordConfirmation = { passwordConfirmation?: string };
 
 export const editUser = async (req: Request, res: Response): Promise<Response> => {
     const { id } = req.params;
+
+    const loggedInUser = req.user as IUserModel;
+
+    if (Number(loggedInUser.id) !== Number(id) && !loggedInUser.is_admin)
+        return res.status(403).json({ status: 'error', data: 'Access denied!' });
 
     return User.find<IUserModel>(id)
         .then((user) => {

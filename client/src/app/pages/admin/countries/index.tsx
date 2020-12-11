@@ -10,6 +10,7 @@ const Countries: React.FC = (): JSX.Element => {
     const [forEdit, setForEdit] = useState<number>(0);
     const [updated, setUpdated] = useState<number>(-1);
     const [addOrEditDisplay, setAddOrEditDisplay] = useState(false);
+    const [APILoading, setAPILoading] = useState(false);
 
     const regenerateStatic = () => {
         axios
@@ -21,12 +22,15 @@ const Countries: React.FC = (): JSX.Element => {
     };
 
     useEffect(() => {
+        setAPILoading(true);
         axios
             .get('countries')
             .then((response) => {
                 setCountries(response.data.data);
+                setAPILoading(false);
             })
             .catch((err) => {
+                setAPILoading(false);
                 return err;
             });
     }, [updated]);
@@ -162,7 +166,12 @@ const Countries: React.FC = (): JSX.Element => {
             />
             <Delete forDeletion={forDeletion} setForDeletion={setForDeletion} setUpdated={setUpdated} />
             <div className="p-4">
-                <DataTable<ICountryModel> items={countries} columns={columns} actions={actions} />
+                <DataTable<ICountryModel>
+                    items={countries}
+                    columns={columns}
+                    actions={actions}
+                    APILoading={APILoading}
+                />
             </div>
         </div>
     );

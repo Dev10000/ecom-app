@@ -4,14 +4,18 @@ import DataTable from '../../../../ui/datatable';
 
 const Users: React.FC = (): JSX.Element => {
     const [users, setUsers] = useState<IUserModel[]>([]);
+    const [APILoading, setAPILoading] = useState(false);
 
     useEffect(() => {
+        setAPILoading(true);
         axios
             .get('users?page=1&items=2500')
             .then((response) => {
                 setUsers(response.data.data);
+                setAPILoading(false);
             })
             .catch((err) => {
+                setAPILoading(false);
                 return err;
             });
     }, []);
@@ -69,7 +73,7 @@ const Users: React.FC = (): JSX.Element => {
                 </div>
             </div>
             <div className="p-4">
-                <DataTable<IUserModel> items={users} columns={columns} />
+                <DataTable<IUserModel> items={users} columns={columns} APILoading={APILoading} />
             </div>
         </div>
     );

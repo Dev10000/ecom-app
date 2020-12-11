@@ -45,6 +45,7 @@ export const edit = async (req: Request, res: Response): Promise<Response> => {
             }
 
             const errors = validationResult(req);
+            // console.log(errors.array(), req.body);
             if (!errors.isEmpty()) return res.status(422).json({ status: 'error', data: errors.array() });
 
             Object.assign(coupon, req.body as ICouponCode);
