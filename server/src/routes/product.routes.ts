@@ -15,8 +15,8 @@ import {
 const router = Router();
 
 router.get('/', productQuery, getAll);
-router.get('/:id', getSingle);
 router.get('/:id/reviews', getReviews);
+router.get('/:id', getSingle);
 router.get('/search/:keywords', productQuery, search);
 router.post('/filter/', filterProduct);
 router.post('/', Verify.isAdmin, productValidator, create);

@@ -219,11 +219,11 @@ export class Valid {
     };
 
     static countryData = {
-        name: 'A Brand New Country',
-        alpha2: 'XY',
-        alpha3: 'XYZ',
-        code: 123,
-        iso_3166_2: 'XY',
+        name: 'Afghanistan',
+        alpha2: 'AF',
+        alpha3: 'AFG',
+        code: 4,
+        iso_3166_2: 'AF',
     };
 
     static couponCodeData = {

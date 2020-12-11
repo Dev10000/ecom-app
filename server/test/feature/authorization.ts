@@ -75,17 +75,11 @@ describe('Authorization Testing', () => {
     // server\src\routes\country.routes.ts
     describe('Countries', () => {
         before(function () {
-            Country.create<ICountryModel>(Valid.countryData)
-                .save()
-                .then((country) => {
-                    context.resourceId = country.id;
-                })
-                .catch((err) => console.log(err));
+            context.resourceId = 1;
         });
 
         checkGet(roles, tokens, '/api/countries', [401, 403, 200]);
         checkGet(roles, tokens, '/api/countries/:id', [401, 403, 200], context);
-        checkPost(roles, tokens, '/api/countries', [401, 403, 422], Valid.countryData); // a lot of unique constraints...
         checkPatch(
             roles,
             tokens,
@@ -97,6 +91,7 @@ describe('Authorization Testing', () => {
             context,
         );
         checkDelete(roles, tokens, '/api/countries/:id', [401, 403, 200], context);
+        checkPost(roles, tokens, '/api/countries', [401, 403, 201], Valid.countryData); // recreate it after being deleted
     });
 
     // server\src\routes\coupon.routes.ts

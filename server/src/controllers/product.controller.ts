@@ -34,7 +34,7 @@ export const getAll = async (req: Request, res: Response): Promise<Response> => 
 
 export const getSingle = async (req: Request, res: Response): Promise<Response> => {
     const { id } = req.params;
-    // console.log(req.params);
+
     return Product.find<IProductModel>(id)
         .then((product) => {
             if (product && product.id) {
@@ -50,13 +50,8 @@ export const getReviews = async (req: Request, res: Response): Promise<Response>
 
     return Product.find<IProductModel>(id)
         .then((product) => {
-            if (product && product.id) {
-                product
-                    .reviews()
-                    .then((reviews) => {
-                        return res.status(200).json({ status: 'success', data: reviews });
-                    })
-                    .catch((error) => console.log(error));
+            if (product) {
+                return res.status(200).json({ status: 'success', data: product.reviews() });
             }
             return res.status(404).json({ status: 'error', data: 'Resource not found!' });
         })
