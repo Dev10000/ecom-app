@@ -6,7 +6,8 @@ interface IModel {
     id?: number; // primary key for model
     table: string; // name of the table
     hidden: string[]; // other fields that we want to get excluded in toJSON()
-    relationships: IRelationship[];
+    belongsTo: IRelationship[];
+    hasMany: IRelationship[];
     created_at?: string;
     updated_at?: string;
     save: () => Promise<T>;
@@ -17,18 +18,16 @@ interface IModel {
 }
 
 interface IRelationship {
-    type: 'belongsTo' | 'hasMany';
-    name: string;
-    constructor: new () => T & IModel;
-    table: string;
-    localField: keyof T;
-    remoteField: string;
+    model: new () => T & IModel;
+    name?: string;
+    localField?: keyof T;
+    remoteField?: string;
 }
 
 interface IUserModel extends IModel, IUser {
-    country: () => Promise<ICountry>;
-    orders: () => Promise<IOrder[]>;
-    articles: () => Promise<IArticle[]>;
+    country?: ICountry;
+    orders?: IOrder[];
+    articles?: IArticle[];
 }
 
 interface IUser {
@@ -67,7 +66,7 @@ interface IOrderItem {
 }
 
 interface IProductModel extends IModel, IProduct {
-    reviews: () => Promise<IReview[]>;
+    reviews?: IReview[];
     // static filterProduct(body: Record<string, unknown>): Promise<QueryResult | undefined>;
 }
 
@@ -89,7 +88,7 @@ interface IProduct {
 }
 
 interface IProductCategoryModel extends IModel, IProductCategory {
-    products: () => Promise<IProduct[]>;
+    products?: IProduct[];
 }
 
 interface IProductCategory {
@@ -158,7 +157,7 @@ interface ICouponCode {
 }
 
 interface ICountryModel extends IModel, ICountry {
-    users: () => Promise<IUser[]>;
+    users?: IUser[];
 }
 
 interface ICountry {

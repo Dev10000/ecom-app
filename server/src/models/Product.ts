@@ -1,6 +1,7 @@
 import Model from '../database/Model';
 import Review from './Review';
 import DB from '../config/database';
+import ProductImage from './ProductImage';
 
 export default class Product extends Model<IProduct> {
     price = 0;
@@ -9,9 +10,7 @@ export default class Product extends Model<IProduct> {
 
     table = 'products';
 
-    async reviews(): Promise<IReview[]> {
-        return this.hasMany(Review);
-    }
+    hasMany = [{ model: Review }, { model: ProductImage }];
 
     /**
      * Filter products by specs and options. Returns a promise of an instance.

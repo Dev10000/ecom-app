@@ -48,10 +48,13 @@ export const getSingle = async (req: Request, res: Response): Promise<Response> 
 export const getReviews = async (req: Request, res: Response): Promise<Response> => {
     const { id } = req.params;
 
-    return Product.find<IProductModel>(id)
+    return QueryBuilder<IProductModel>(Product)
+        .where('id', id)
+        .with('reviews')
+        .first()
         .then((product) => {
             if (product) {
-                return res.status(200).json({ status: 'success', data: product.reviews() });
+                return res.status(200).json({ status: 'success', data: product.reviews });
             }
             return res.status(404).json({ status: 'error', data: 'Resource not found!' });
         })
