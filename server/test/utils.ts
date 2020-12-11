@@ -254,7 +254,7 @@ export class Valid {
         weight: 28.34,
         package_size: '3.94 x 2.5 x 1.1 inches',
         discount: 20.0,
-        product_category_id: 1,
+        product_category_id: 123,
         stock_qty: 123,
     };
 

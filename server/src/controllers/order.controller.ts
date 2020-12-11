@@ -81,9 +81,10 @@ export const create = async (req: Request, res: Response): Promise<Response> => 
                             price: product.price,
                         })
                             .save()
-                            .then(async () => {
+                            .then(() => {
                                 order.price += product.price; // apply discounts here
-                                await order.save();
+                                order.save();
+                                console.log('l87', { order });
                             });
                     } else {
                         return res.status(409).json({ status: 'error', data: 'Insufficient stock!' });
