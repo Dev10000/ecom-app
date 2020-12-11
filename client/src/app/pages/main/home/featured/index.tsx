@@ -7,7 +7,6 @@ const Featured: React.FC = (): JSX.Element => {
     return (
         <div>
             <hr className="w-1/2 m-auto mt-2 mb-16 border-3 border-gray-300" />
-
             <div className="flex flex-cols-3 gap-4 max-w-full mb-16">
                 <div className="flex mx-auto px-4 sm:max-w-auto mx-auto rounded-xl shadow-md overflow-hidden">
                     <div className="md:flex">
@@ -20,7 +19,7 @@ const Featured: React.FC = (): JSX.Element => {
                                 Blue Swade Nike <br /> Sneakers
                             </div>
                             <div>
-                                <span className="text-yellow-400">&#10025; &#10025; &#10025; &#10025; &nbsp;</span>
+                                <span className="text-yellow-600">&#10025; &#10025; &#10025; &#10025; &nbsp;</span>
                                 <span>&#10025;</span>
                             </div>
                             <br />
@@ -43,7 +42,7 @@ const Featured: React.FC = (): JSX.Element => {
                                 Nike Air Max <br /> 200 React
                             </div>
                             <div>
-                                <span className="text-yellow-400">&#10025; &#10025; &#10025; &#10025; &nbsp;</span>
+                                <span className="text-yellow-600">&#10025; &#10025; &#10025; &#10025; &nbsp;</span>
                                 <span>&#10025;</span>
                             </div>
                             <br />
@@ -65,7 +64,7 @@ const Featured: React.FC = (): JSX.Element => {
                                 Nike Air Max <br /> 100 React
                             </div>
                             <div>
-                                <span className="text-yellow-400">&#10025; &#10025; &#10025; &#10025; &nbsp;</span>
+                                <span className="text-yellow-600">&#10025; &#10025; &#10025; &#10025; &nbsp;</span>
                                 <span>&#10025;</span>
                             </div>
                             <br />

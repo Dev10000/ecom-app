@@ -11,9 +11,9 @@ const News: React.FC = (): JSX.Element => {
                 <div className="flex mx-auto px-4 sm:max-w-md mx-auto rounded-xl rounded-yl shadow-md overflow-hidden">
                     <div className="md:flex">
                         <div className="flex-1 md:flex-shrink-0 border-2">
-                            <img className="mt-8 mb-4 h-56 w-full object-cover md:w-48 h-auto" src={Img1} alt="img" />
+                            <img className="mt-8 mb-4 h-auto w-full object-cover md:w-48 h-auto" src={Img1} alt="img" />
                         </div>
-                        <div className="flex-1 pl-4 bg-gray-50">
+                        <div className="flex-1 pl-4 bg-gray-100">
                             <span className="text-gray-300 text-sm font-semibold">16.12.2020</span>
                             <div className="uppercase tracking-wide text-sm font-semibold mt-2">Fashion Industry</div>
 
@@ -33,11 +33,14 @@ const News: React.FC = (): JSX.Element => {
                 <div className="flex mx-auto px-4 sm:max-w-md mx-auto rounded-xl rounded-yl shadow-md overflow-hidden">
                     <div className="md:flex">
                         <div className="flex-1 md:flex-shrink-0 border-2">
-                            <img className="h-56 w-full object-cover md:w-48 h-auto" src={Img2} alt="img" />
+                            <img className="h-auto w-full object-cover md:w-48 h-auto" src={Img2} alt="img" />
                         </div>
-                        <div className="flex-1 pl-4 bg-gray-50">
+                        <div className="flex-1 pl-4 bg-gray-100">
                             <span className="text-gray-300 text-sm font-semibold ">16.12.2020</span>
-                            <div className="uppercase tracking-wide text-sm font-semibold mt-2">Best Design tools</div>
+                            <div className="uppercase tracking-wide text-sm font-semibold mt-2">
+                                Best Design
+                                <br /> tools
+                            </div>
 
                             <br />
                             <div className="-mt-4">
@@ -55,9 +58,9 @@ const News: React.FC = (): JSX.Element => {
                 <div className="flex mx-auto px-4 sm:max-w-md mx-auto rounded-xl rounded-yl shadow-md overflow-hidden">
                     <div className="md:flex">
                         <div className="flex-1 md:flex-shrink-0 border-2">
-                            <img className="mt-4 mb-2 h-56 w-full object-cover md:w-48 h-auto" src={Img3} alt="img" />
+                            <img className="mt-4 mb-4 h-auto w-full object-cover md:w-48 h-auto" src={Img3} alt="img" />
                         </div>
-                        <div className="flex-1 pl-4 bg-gray-50">
+                        <div className="flex-1 pl-4 bg-gray-100">
                             <span className="text-gray-300 text-sm font-semibold ">16.12.2020</span>
                             <div className="uppercase tracking-wide text-sm font-semibold mt-2">HR Community</div>
 
