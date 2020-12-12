@@ -8,6 +8,7 @@ import Article from '../../src/models/Article';
 import Country from '../../src/models/Country';
 import CouponCode from '../../src/models/CouponCode';
 import Review from '../../src/models/Review';
+import QueryBuilder from '../../src/database/QueryBuilder';
 // import Order from '../../src/models/Order';
 
 chai.use(chaiHttp);
@@ -75,7 +76,20 @@ describe('Authorization Testing', () => {
     // server\src\routes\country.routes.ts
     describe('Countries', () => {
         before(function () {
-            context.resourceId = 1;
+            QueryBuilder(Country)
+                .where('name', Valid.countryData.name)
+                .first()
+                .then((existingCountry) => {
+                    if (existingCountry) {
+                        context.resourceId = existingCountry.id;
+                    } else {
+                        Country.create<ICountryModel>(Valid.countryData)
+                            .save()
+                            .then((newCountry) => {
+                                context.resourceId = newCountry.id;
+                            });
+                    }
+                });
         });
 
         checkGet(roles, tokens, '/api/countries', [401, 403, 200]);
