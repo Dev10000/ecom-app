@@ -201,19 +201,6 @@ export const csvImport = async (filePath: fs.ReadStream, tableName: string): Pro
                     `COPY ${tableName} FROM STDIN WITH (FORMAT CSV, DELIMITER '\t', HEADER, ENCODING 'UTF8', NULL 'NULL')`,
                 ),
             );
-            // const errorCall = (error: Error): void => {
-            //     if (error) {
-            //         // done();
-            //         colorLog(
-            //             'error',
-            //             `× Table "${tableName}" NOT seeded with data. ${error.message} \n Details: \n ${error}`,
-            //         );
-            //         reject();
-            //     }
-            //     // done();
-            //     colorLog('success', `√ Table "${tableName}" successfully seeded with data.`);
-            //     resolve();
-            // };
             const fileStream = filePath;
             fileStream.on('error', (error) => {
                 colorLog(
