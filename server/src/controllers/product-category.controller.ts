@@ -73,6 +73,7 @@ export const destroy = async (req: Request, res: Response): Promise<Response> =>
 
 export const listProducts = async (req: Request, res: Response): Promise<Response> => {
     const { id } = req.params;
+    const { page, items } = req.query;
 
     return QueryBuilder<IProductCategoryModel>(ProductCategory)
         .with('products')
@@ -107,24 +108,24 @@ export const listProducts = async (req: Request, res: Response): Promise<Respons
                 // queryResults.push(...(await Promise.all(results)));
 
                 // subcategoryProducts = queryResults.flat(1);
-
-                const values = [id];
-                const text = `WITH RECURSIVE category_path (id, title, path) AS
+                const offset = (Number(page) || 1 - 1) * Number(items) || 25;
+                const values = [id, items || 25, offset];
+                const text = `WITH RECURSIVE category_path (id, title, path, lvl) AS
                 (
-                SELECT id, title, title::text as path
+                SELECT id, title, title::text as path, 0 lvl
                     FROM product_categories
                     WHERE parent_id = $1
                 UNION ALL
-                SELECT c.id, c.title, CONCAT(cp.path, ' > ', c.title)
+                SELECT c.id, c.title, CONCAT(cp.path, ' > ', c.title), cp.lvl + 1
                     FROM category_path AS cp JOIN product_categories AS c
                     ON cp.id = c.parent_id
-                    GROUP BY cp.id, c.id, cp.path
-                    
                 )
                 SELECT * FROM category_path
                 INNER JOIN products p ON category_path.id = p.product_category_id
                 INNER JOIN product_images pi ON p.id = pi.product_id
-                ORDER BY path;`;
+                WHERE default_img = true
+                ORDER BY lvl
+                LIMIT $2 OFFSET $3;`;
 
                 const query = { text, values };
                 await DB.query(query).then((response) => {
