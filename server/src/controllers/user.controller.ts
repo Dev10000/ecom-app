@@ -11,6 +11,7 @@ export const getAllUsers = async (req: Request, res: Response): Promise<Response
     if (!errors.isEmpty()) return res.status(422).json({ status: 'error', data: errors.array() });
 
     return QueryBuilder(User)
+        .with('articles', 'country', 'orders')
         .paginate(Number(page) || 1, Number(items) || 25)
         .get()
         .then((users) => {
@@ -27,6 +28,11 @@ type passwordConfirmation = { passwordConfirmation?: string };
 
 export const editUser = async (req: Request, res: Response): Promise<Response> => {
     const { id } = req.params;
+
+    const loggedInUser = req.user as IUserModel;
+
+    if (Number(loggedInUser.id) !== Number(id) && !loggedInUser.is_admin)
+        return res.status(403).json({ status: 'error', data: 'Access denied!' });
 
     return User.find<IUserModel>(id)
         .then((user) => {
@@ -61,31 +67,29 @@ export const editUser = async (req: Request, res: Response): Promise<Response> =
 export const getUserOrders = async (req: Request, res: Response): Promise<Response> => {
     const { id } = req.params;
 
-    return User.find<IUserModel>(id).then((user) => {
-        if (!user) return res.status(404).json({ status: 'error', data: 'Cannot find user with given id!' });
+    return QueryBuilder<IUserModel>(User)
+        .with('orders')
+        .where('id', id)
+        .first()
+        .then((user) => {
+            if (!user) return res.status(404).json({ status: 'error', data: 'Cannot find user with given id!' });
 
-        return user
-            .orders()
-            .then((orders) => {
-                return res.status(200).json({ status: 'success', data: orders });
-            })
-            .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
-    });
+            return res.status(200).json({ status: 'success', data: user.orders });
+        });
 };
 
 export const getUserArticles = async (req: Request, res: Response): Promise<Response> => {
     const { id } = req.params;
 
-    return User.find<IUserModel>(id).then((user) => {
-        if (!user) return res.status(404).json({ status: 'error', data: 'Cannot find user with given id!' });
+    return QueryBuilder<IUserModel>(User)
+        .with('articles')
+        .where('id', id)
+        .first()
+        .then((user) => {
+            if (!user) return res.status(404).json({ status: 'error', data: 'Cannot find user with given id!' });
 
-        return user
-            .articles()
-            .then((articles) => {
-                return res.status(200).json({ status: 'success', data: articles });
-            })
-            .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
-    });
+            return res.status(200).json({ status: 'success', data: user.articles });
+        });
 };
 
 export const getUser = async (req: Request, res: Response): Promise<Response> => {

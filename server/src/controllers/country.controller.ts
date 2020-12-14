@@ -27,6 +27,7 @@ export const getSingle = async (req: Request, res: Response): Promise<Response> 
 
 export const create = async (req: Request, res: Response): Promise<Response> => {
     const errors = validationResult(req);
+    console.log(errors.array());
     if (!errors.isEmpty()) return res.status(422).json({ status: 'error', data: errors.array() });
 
     return Country.create<ICountryModel>(req.body as ICountry)
@@ -69,7 +70,6 @@ export const destroy = async (req: Request, res: Response): Promise<Response> =>
             .where('id', id)
             .delete()
             .then((response) => {
-                console.log({ response });
                 if (response) {
                     return res.status(200).json({ status: 'success', data: 'Country successfully removed.' });
                 }

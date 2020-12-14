@@ -148,6 +148,7 @@ const create_reviews_table = async () => {
     "user_id" int NOT NULL,
     "product_id" int NOT NULL,
     "rating" SMALLINT,
+    "body" text,
     ${timestampColumns}
 );
 
@@ -166,13 +167,15 @@ const create_orders_table = async () => {
     "id" SERIAL PRIMARY KEY,
     "code" uuid UNIQUE NOT NULL DEFAULT gen_random_uuid(),
     "user_id" int NOT NULL,
+    "coupon_code_id" int,
     "order_status" varchar,
     "price" decimal(9,4),
     ${timestampColumns}
   );
 
   ALTER TABLE "orders" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id") ON DELETE CASCADE;
-  CREATE INDEX ON "orders" ("user_id");
+  ALTER TABLE "orders" ADD FOREIGN KEY ("coupon_code_id") REFERENCES "coupon_codes" ("id");
+  CREATE INDEX ON "orders" ("user_id", "coupon_code_id");
   `;
 
     return runSetupQuery('orders', ordersQuery);
@@ -184,7 +187,6 @@ const create_order_items_table = async () => {
     "id" SERIAL PRIMARY KEY,
     "order_id" int NOT NULL,
     "product_id" int NOT NULL,
-    "coupon_code_id" int,
     "quantity" int,
     "price" decimal(8,4),
     ${timestampColumns}
@@ -192,8 +194,7 @@ const create_order_items_table = async () => {
 
   ALTER TABLE "order_items" ADD FOREIGN KEY ("order_id") REFERENCES "orders" ("id");
   ALTER TABLE "order_items" ADD FOREIGN KEY ("product_id") REFERENCES "products" ("id");
-  ALTER TABLE "order_items" ADD FOREIGN KEY ("coupon_code_id") REFERENCES "coupon_codes" ("id");
-  CREATE UNIQUE INDEX ON "order_items" ("order_id", "product_id", "coupon_code_id");
+  CREATE UNIQUE INDEX ON "order_items" ("order_id", "product_id");
   `;
 
     return runSetupQuery('order_items', orderItemsQuery);
@@ -221,7 +222,7 @@ CREATE TABLE "articles" (
   "slug" varchar,
   "featured_image" varchar,
   "body" text,
-  "published_at" timestamp,
+  "published_at" timestamp DEFAULT NULL,
   ${timestampColumns}
 );
 

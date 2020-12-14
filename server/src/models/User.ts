@@ -18,15 +18,19 @@ export default class User extends Model<IUser> {
         return match;
     }
 
-    async country(): Promise<ICountryModel> {
-        return this.belongsTo(Country);
-    }
+    belongsTo = [{ model: Country }];
 
-    async orders(): Promise<IOrder[]> {
-        return this.hasMany(Order);
-    }
+    hasMany = [{ model: Order }, { model: Article }];
 
-    async articles(): Promise<IArticle[]> {
-        return this.hasMany(Article);
-    }
+    // async country(): Promise<ICountryModel> {
+    //     return this.belongsTo(Country);
+    // }
+
+    // async orders(): Promise<IOrder[]> {
+    //     return this.hasMany(Order);
+    // }
+
+    // async articles(): Promise<IArticle[]> {
+    //     return this.hasMany(Article);
+    // }
 }

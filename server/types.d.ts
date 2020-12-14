@@ -6,29 +6,37 @@ interface IModel {
     id?: number; // primary key for model
     table: string; // name of the table
     hidden: string[]; // other fields that we want to get excluded in toJSON()
-    relationships: IRelationship[];
+    belongsTo: IRelationship[];
+    hasMany: IRelationship[];
     created_at?: string;
     updated_at?: string;
     save: () => Promise<T>;
     // static create: (props: T) => T;
     toJSON: () => Pick<this, Exclude<keyof this, keyof this>>;
-    belongsTo: (otherModel: Constructor<U>, localField?: string, remoteField?: string) => Promise<T>;
-    hasMany: (otherModel: Constructor<U>, localField?: string, remoteField?: string) => Promise<U[]>;
+    // belongsTo: (otherModel: Constructor<U>, localField?: string, remoteField?: string) => Promise<T>;
+    // hasMany: (otherModel: Constructor<U>, localField?: string, remoteField?: string) => Promise<U[]>;
 }
 
 interface IRelationship {
+    model: new () => T & IModel;
+    name?: string;
+    localField?: keyof T;
+    remoteField?: string;
+}
+
+interface IRelationshipAdditionalFields {
     type: 'belongsTo' | 'hasMany';
-    name: string;
-    constructor: new () => T & IModel;
     table: string;
-    localField: keyof T;
-    remoteField: string;
+}
+
+interface IWith extends IRelationship, IRelationshipAdditionalFields {
+    name: string;
 }
 
 interface IUserModel extends IModel, IUser {
-    country: () => Promise<ICountry>;
-    orders: () => Promise<IOrder[]>;
-    articles: () => Promise<IArticle[]>;
+    country?: ICountry;
+    orders?: IOrder[];
+    articles?: IArticle[];
 }
 
 interface IUser {
@@ -51,6 +59,7 @@ interface IOrder {
     id?: number;
     code?: string;
     user_id?: number;
+    coupon_code_id?: number;
     order_status?: string; // Pending | Confirmed | Dispatched | Completed | Canceled;
     price?;
 }
@@ -61,12 +70,14 @@ interface IOrderItem {
     id?: number;
     order_id?: number;
     product_id?: number;
-    coupon_code_id?: number;
     quantity?: number;
     price?: number;
 }
 
-interface IProductModel extends IModel, IProduct {}
+interface IProductModel extends IModel, IProduct {
+    reviews?: IReview[];
+    // static filterProduct(body: Record<string, unknown>): Promise<QueryResult | undefined>;
+}
 
 interface IProduct {
     id?: number;
@@ -86,7 +97,7 @@ interface IProduct {
 }
 
 interface IProductCategoryModel extends IModel, IProductCategory {
-    products: () => Promise<IProduct[]>;
+    products?: IProduct[];
 }
 
 interface IProductCategory {
@@ -119,6 +130,8 @@ interface IProductSpec {
     product_id?: number;
     product_options_id?: number;
     value?: string;
+    created_at?: string;
+    updated_at?: string;
 }
 
 interface IReviewModel extends IModel, IReview {}
@@ -128,6 +141,7 @@ interface IReview {
     user_id?: number;
     product_id?: number;
     review?: number;
+    body?: string;
 }
 
 interface IArticleModel extends IModel, IArticle {}
@@ -152,7 +166,7 @@ interface ICouponCode {
 }
 
 interface ICountryModel extends IModel, ICountry {
-    users: () => Promise<IUser[]>;
+    users?: IUser[];
 }
 
 interface ICountry {
@@ -160,7 +174,7 @@ interface ICountry {
     name?: string;
     alpha2?: string;
     alpha3?: string;
-    code?: string;
+    code?: number;
     iso_3166_2?: string;
     region?: string;
     sub_region?: string;
@@ -192,4 +206,13 @@ interface INullCondition {
 interface IOrderBy {
     field: string;
     direction: SortDirection;
+}
+
+interface IContext {
+    resourceId: number | undefined;
+}
+
+interface IOrderItemData {
+    product_id: number;
+    quantity: number;
 }

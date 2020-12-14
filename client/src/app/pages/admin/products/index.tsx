@@ -6,14 +6,18 @@ const Products: React.FC = (): JSX.Element => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [updated, setUpdated] = useState<number>(-1);
     const [products, setProducts] = useState<IProductModel[]>([]);
+    const [APILoading, setAPILoading] = useState(false);
 
     useEffect(() => {
+        setAPILoading(true);
         axios
             .get('products?page=1&items=2500')
             .then((response) => {
                 setProducts(response.data.data);
+                setAPILoading(false);
             })
             .catch((err) => {
+                setAPILoading(false);
                 return err;
             });
     }, [updated]);
@@ -30,6 +34,7 @@ const Products: React.FC = (): JSX.Element => {
         {
             display: 'Description',
             db: 'description',
+            type: 'excerpt',
         },
         {
             display: 'Price',
@@ -95,7 +100,7 @@ const Products: React.FC = (): JSX.Element => {
                 </div>
             </div>
             <div className="p-4">
-                <DataTable<IProductModel> items={products} columns={columns} />
+                <DataTable<IProductModel> items={products} columns={columns} APILoading={APILoading} />
             </div>
         </div>
     );

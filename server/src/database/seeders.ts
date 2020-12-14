@@ -44,6 +44,12 @@ const setValsForCSVImports = async (): Promise<void> => {
     await runSetupQuery('SET VALS FOR CSV IMPORTS', setValsForCSVImportsSQL);
 };
 
+const truncateBeforeCSVImports = async (): Promise<void> => {
+    const setValsForCSVImportsSQL = await fs
+        .readFileSync('./src/database/data/truncate_before_csv_imports.sql')
+        .toString();
+    await runSetupQuery('TRUNCATE BEFORE CSV IMPORTS', setValsForCSVImportsSQL);
+};
 // const productImagesSeeder = async (): Promise<void> => {
 //     const productImagesSQL = await fs.readFileSync('./src/database/data/product_images.sql').toString();
 //     await runSetupQuery('product_images', productImagesSQL);
@@ -65,17 +71,57 @@ const setValues = async () => {
 
 const seedData = async () => {
     console.log('\x1b[36m%s\x1b[0m', 'ℹ Started database seeding...');
-
-    await countriesSeeder();
-    await usersSeeder();
-    await productCategoriesSeeder();
-    await productsSeeder();
-    await productImagesSeeder();
-    await productOptionsSeeder();
-    await productSpecsSeeder();
-
+    let fulfilled = 0;
+    let rejected = 0;
+    await truncateBeforeCSVImports();
+    await Promise.allSettled([
+        countriesSeeder(),
+        usersSeeder(),
+        productCategoriesSeeder(),
+        productsSeeder(),
+        productImagesSeeder(),
+        productOptionsSeeder(),
+        productSpecsSeeder(),
+    ]).then((results) =>
+        results.forEach((result) => {
+            if (result.status === 'fulfilled') {
+                fulfilled += 1;
+            }
+            if (result.status === 'rejected') {
+                rejected += 1;
+            }
+        }),
+    );
     await setValues();
     console.log('\x1b[36m%s\x1b[0m', 'ℹ Database Seeding complete!');
+    if (rejected === 0) {
+        console.log('\x1b[36m%s\x1b[0m\x1b[32m%s\x1b[0m', `ℹ Final Results:`, ` √ All Good no problems`);
+    } else {
+        console.log('\x1b[36m%s\x1b[0m', `ℹ Final Results:`);
+        console.log('\x1b[32m%s\x1b[0m', `√ Number of fulfilled seeds: ${fulfilled}`);
+        console.log('\x1b[31m%s\x1b[0m', `× Number of rejected seeds: ${rejected}`);
+    }
 };
 
 seedData();
+
+// Old seedData
+// const seedData = async () => {
+//     console.log('\x1b[36m%s\x1b[0m', 'ℹ Started database seeding...');
+
+//     try {
+//         await countriesSeeder();
+//         await usersSeeder();
+//         await productCategoriesSeeder();
+//         await productsSeeder();
+//         await productImagesSeeder();
+//         await productOptionsSeeder();
+//         await productSpecsSeeder();
+//     } catch (error) {
+//         console.error(error.message);
+//         // expected output: ReferenceError: nonExistentFunction is not defined
+//         // Note - error messages will vary depending on browser
+//     }
+//     await setValues();
+//     console.log('\x1b[36m%s\x1b[0m', 'ℹ Database Seeding complete!');
+// };
