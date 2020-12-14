@@ -3,6 +3,7 @@ import CartIcon from './cart';
 import Locals from './locals';
 import Checkout from './checkout';
 import Modals from '../../../../modals';
+import ThemeToggle from './theme-toggle';
 
 const Header: React.FC = (): JSX.Element => {
     return (
@@ -17,6 +18,7 @@ const Header: React.FC = (): JSX.Element => {
                         <Modals />
                         <CartIcon />
                         <Checkout />
+                        <ThemeToggle />
                         {/* Search button */}
                         <button type="button">
                             <svg

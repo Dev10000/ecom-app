@@ -196,6 +196,11 @@ interface IUseCart {
     updateQuantity: (product: IProduct, newQuantity: number) => void;
 }
 
+interface IUseTheme {
+    theme: 'dark' | 'light';
+    toggleTheme: () => void;
+}
+
 interface ILoginFormState {
     email: string;
     password: string;
