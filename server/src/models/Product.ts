@@ -21,6 +21,7 @@ export default class Product extends Model<IProduct> {
         const flatOptionsArray = optionsArray.flat(2);
         const values = (flatOptionsArray as string[]).map((name) => name.toLowerCase());
 
+        const count = optionsArray.length;
         let paramIndex = 0;
         const whereArray = [];
         for (let i = 0; i < optionsArray.length; i++) {
@@ -43,7 +44,7 @@ export default class Product extends Model<IProduct> {
         INNER JOIN product_options po ON ps.product_options_id = po.id
         ${whereArray.join('')}
         ) AS sub
-        GROUP BY (sub.product_id) HAVING COUNT(sub.product_id) >= 2) sub2
+        GROUP BY (sub.product_id) HAVING COUNT(sub.product_id) >= ${count}) sub2
         ON sub2.product_id = products.id
         INNER JOIN product_images pi ON pi.product_id = products.id
         WHERE default_img = true;`;
