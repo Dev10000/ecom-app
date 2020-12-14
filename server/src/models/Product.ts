@@ -2,6 +2,7 @@ import Model from '../database/Model';
 import Review from './Review';
 import DB from '../config/database';
 import ProductImage from './ProductImage';
+import ProductCategory from './ProductCategory';
 
 export default class Product extends Model<IProduct> {
     price = 0;
@@ -11,6 +12,8 @@ export default class Product extends Model<IProduct> {
     table = 'products';
 
     hasMany = [{ model: Review }, { model: ProductImage }];
+
+    belongsTo = [{ model: ProductCategory }];
 
     /**
      * Filter products by specs and options. Returns a promise of an instance.

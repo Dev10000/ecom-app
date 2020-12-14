@@ -3,6 +3,7 @@ import { validationResult } from 'express-validator';
 import QueryBuilder from '../database/QueryBuilder';
 import ProductCategory from '../models/ProductCategory';
 import { checkIfStringExistsInTable, insertTitleAndSlug, postfixNumberGenerator, slugify } from '../database/utils';
+import Product from '../models/Product';
 
 export const getAll = async (req: Request, res: Response): Promise<Response> => {
     return QueryBuilder(ProductCategory)
@@ -77,9 +78,36 @@ export const listProducts = async (req: Request, res: Response): Promise<Respons
         .with('products')
         .where('id', id)
         .first()
-        .then((category) => {
+        .then(async (category) => {
             if (!category) {
                 return res.status(404).json({ status: 'error', data: 'Product Category not found!' });
+            }
+
+            // if there are no products in this category
+            if (!category.products) {
+                // we query the subcategories
+                let subcategoryProducts: IProductModel[] = [];
+
+                const subcategories = await QueryBuilder<IProductCategoryModel>(ProductCategory)
+                    .where('parent_id', id)
+                    .get();
+
+                const results = [];
+                const queryResults: IProductModel[][] = [];
+                // eslint-disable-next-line no-restricted-syntax
+                for (const subcategory of subcategories) {
+                    results.push(
+                        QueryBuilder<IProductModel>(Product)
+                            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                            .where('product_category_id', subcategory.id!)
+                            .get(),
+                    );
+                    // console.log('loop');
+                }
+                queryResults.push(...(await Promise.all(results)));
+
+                subcategoryProducts = queryResults.flat(1);
+                return res.status(200).json({ status: 'success', data: subcategoryProducts });
             }
 
             return res.status(200).json({ status: 'success', data: category.products });
