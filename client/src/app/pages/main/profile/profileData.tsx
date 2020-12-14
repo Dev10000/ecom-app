@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
 import React from 'react';
+import Country from './country';
 import Edit from './edit';
 
 interface IProfileDataProps {
@@ -74,7 +75,7 @@ const ProfileData: React.FC<IProfileDataProps> = (props) => {
                     </div>
                 </div>
             </div>
-            <div className="flex-grow">
+            <div className="">
                 <div className="flex justify-between border-b border-gray-200 p-2 mx-1 sm:mx-10">
                     <div className="flex flex-col items-center space-y-2">
                         <div className="w-full flex flex-row space-x-2">
@@ -105,22 +106,24 @@ const ProfileData: React.FC<IProfileDataProps> = (props) => {
                             ''
                         )}
                     </div>
-                    <button className="" type="button" onClick={() => setFirstNameDisplay(true)}>
-                        <svg
-                            className="w-6 h-6 text-blue-400 hover:text-blue-500"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                            />
-                        </svg>{' '}
-                    </button>
+                    <div className="flex items-start">
+                        <button className="" type="button" onClick={() => setFirstNameDisplay(true)}>
+                            <svg
+                                className="w-6 h-6 text-blue-400 hover:text-blue-500"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                                />
+                            </svg>{' '}
+                        </button>
+                    </div>
                 </div>
                 <div className="flex justify-between border-b border-gray-200 p-2 mx-1 sm:mx-10">
                     <div className="flex flex-col items-center space-y-2">
@@ -152,23 +155,24 @@ const ProfileData: React.FC<IProfileDataProps> = (props) => {
                             ''
                         )}
                     </div>
-
-                    <button className="" type="button" onClick={() => setLastNameDisplay(true)}>
-                        <svg
-                            className="w-6 h-6 text-blue-400 hover:text-blue-500"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                            />
-                        </svg>{' '}
-                    </button>
+                    <div className="flex items-start">
+                        <button className="" type="button" onClick={() => setLastNameDisplay(true)}>
+                            <svg
+                                className="w-6 h-6 text-blue-400 hover:text-blue-500"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                                />
+                            </svg>{' '}
+                        </button>
+                    </div>
                 </div>
                 <div className="flex justify-between border-b border-gray-200 p-2 mx-1 sm:mx-10">
                     <div className="flex flex-col items-center space-y-2">
@@ -201,24 +205,25 @@ const ProfileData: React.FC<IProfileDataProps> = (props) => {
                             ''
                         )}
                     </div>
-
-                    <button className="" type="button" onClick={() => setEmailDisplay(true)}>
-                        {' '}
-                        <svg
-                            className="w-6 h-6 text-blue-400 hover:text-blue-500"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                            />
-                        </svg>{' '}
-                    </button>
+                    <div className="flex items-start">
+                        <button className="" type="button" onClick={() => setEmailDisplay(true)}>
+                            {' '}
+                            <svg
+                                className="w-6 h-6 text-blue-400 hover:text-blue-500"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                                />
+                            </svg>{' '}
+                        </button>
+                    </div>
                 </div>
                 <div className="flex justify-between border-b border-gray-200 p-2 mx-1 sm:mx-10">
                     <div className="flex flex-col items-center space-y-2">
@@ -251,23 +256,24 @@ const ProfileData: React.FC<IProfileDataProps> = (props) => {
                             ''
                         )}
                     </div>
-
-                    <button className="" type="button" onClick={() => setPhoneNumberDisplay(true)}>
-                        <svg
-                            className="w-6 h-6 text-blue-400 hover:text-blue-500"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                            />
-                        </svg>{' '}
-                    </button>
+                    <div>
+                        <button className="" type="button" onClick={() => setPhoneNumberDisplay(true)}>
+                            <svg
+                                className="w-6 h-6 text-blue-400 hover:text-blue-500"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                                />
+                            </svg>{' '}
+                        </button>
+                    </div>
                 </div>
 
                 <div className="flex justify-between border-b border-gray-200 p-2 mx-1 sm:mx-10">
@@ -307,22 +313,24 @@ const ProfileData: React.FC<IProfileDataProps> = (props) => {
                             ''
                         )}
                     </div>
-                    <button className="" type="button" onClick={() => setAddressDisplay(true)}>
-                        <svg
-                            className="w-6 h-6 text-blue-400 hover:text-blue-500"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                            />
-                        </svg>{' '}
-                    </button>
+                    <div>
+                        <button className="" type="button" onClick={() => setAddressDisplay(true)}>
+                            <svg
+                                className="w-6 h-6 text-blue-400 hover:text-blue-500"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                                />
+                            </svg>{' '}
+                        </button>
+                    </div>
                 </div>
                 <div className="flex justify-between border-b border-gray-200 p-2 mx-1 sm:mx-10">
                     <div className="flex flex-col items-center space-y-2">
@@ -354,22 +362,24 @@ const ProfileData: React.FC<IProfileDataProps> = (props) => {
                             ''
                         )}
                     </div>
-                    <button className="" type="button" onClick={() => setCityDisplay(true)}>
-                        <svg
-                            className="w-6 h-6 text-blue-400 hover:text-blue-500"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                            />
-                        </svg>{' '}
-                    </button>
+                    <div className="flex items-start">
+                        <button className="" type="button" onClick={() => setCityDisplay(true)}>
+                            <svg
+                                className="w-6 h-6 text-blue-400 hover:text-blue-500"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                                />
+                            </svg>{' '}
+                        </button>
+                    </div>
                 </div>
                 <div className="flex justify-between border-b border-gray-200 p-2 mx-1 sm:mx-10">
                     <div className="flex flex-col items-center space-y-2">
@@ -391,32 +401,26 @@ const ProfileData: React.FC<IProfileDataProps> = (props) => {
                             <div>Country</div>
                             <div className="text-gray-400">{user?.country_id}</div>
                         </div>
-                        {countryDisplay ? (
-                            <Edit
-                                setDisplay={setCountryDisplay}
-                                editProfile={() => saveEdit('country_id', setCountryDisplay)}
-                                editField={editField}
-                            />
-                        ) : (
-                            ''
-                        )}
+                        {countryDisplay ? <Country /> : ''}
                     </div>
-                    <button className="" type="button" onClick={() => setCountryDisplay(true)}>
-                        <svg
-                            className="w-6 h-6 text-blue-400 hover:text-blue-500"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                            />
-                        </svg>
-                    </button>
+                    <div className="flex items-start">
+                        <button className="" type="button" onClick={() => setCountryDisplay(true)}>
+                            <svg
+                                className="w-6 h-6 text-blue-400 hover:text-blue-500"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                                />
+                            </svg>
+                        </button>
+                    </div>
                 </div>
                 <div className="flex justify-between border-b border-gray-200 p-2 mx-1 sm:mx-10">
                     <div className="flex flex-col items-center space-y-2">

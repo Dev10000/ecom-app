@@ -19,7 +19,6 @@ const Profile: React.FC = (): JSX.Element => {
     const [countryDisplay, setCountryDisplay] = useState<boolean>(false);
     const [changedValue, setChangedValue] = useState<string>('');
     const [flag, setFlag] = useState<string>('profile');
-
     const editField = (e: React.ChangeEvent<HTMLInputElement>) => {
         setChangedValue(e.target.value);
     };
