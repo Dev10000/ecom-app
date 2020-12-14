@@ -2,48 +2,21 @@
 
 ## Table of contents
 
-- [Ground rules for the group working](#ground-rules-for-the-group-working)
-  - [Disagreements](#disagreements)
-  - [Responsibility](#responsibility)
-  - [Respect](#respect)
-  - [DOD (Definition of Done)](#dod-definition-of-done)
-- [Technologies used](#technologies-used)
-  - [Frontend](#frontend)
-  - [Backend](#backend)
-  - [Other](#other)
-- [Features List](#features-list)
-- [Models and Database structure](#models-and-database-structure)
-- [Installation](#installation)
-- [Testing](#testing)
-- [Usage](#usage)
-
-### Ground rules for the group working
-
-#### Disagreements
-
-##### If you can't solve an argument in either 5 minutes or 10 messages, take the arguement to Perttu (together, through a daily meeting or discord call). Perttu will consult software development team, if he runs in to a problem that he can not comment on.
-
-#### Responsibility
-
-##### When assigning an issue, it's the assignees responsibility to finish the task the way they see fit.
-
-##### When working on an issue, a new branch should be created to it.
-
-##### If a team member runs in to problems with their issue, it's their responsiblity to seek help and guidance from Perttu or other team members.
-
-##### Only the assignee can close an issue or choose to divide the issue to multiple issues.
-
-##### You can merge branches only when the definition of done is met.
-
-#### Respect
-
-##### Technologies and frameworks are added and decided for the project only when the whole team is in an understanding or Perttu makes the decision.
-
-#### DOD (Definition of Done)
-
-1. Meets the Issue requirements and specification.
-2. Passes a code review, conducted by all team members before Sprint meeting. (A team member leaves a comment on GitLab, if there's a problem. Otherwise it's expected to have passed.)
-3. Passes manual testing.
+- [E-Commerce Website (Project Cyan)](#e-commerce-website-project-cyan)
+  - [Table of contents](#table-of-contents)
+    - [Technologies used](#technologies-used)
+      - [Frontend](#frontend)
+      - [Backend](#backend)
+      - [Other](#other)
+    - [Features List and implementation status](#features-list-and-implementation-status)
+    - [Models and Database structure](#models-and-database-structure)
+    - [Installation](#installation)
+    - [client](#client)
+    - [server](#server)
+    - [Testing](#testing)
+    - [Usage](#usage)
+      - [To boot up the server:](#to-boot-up-the-server)
+      - [To boot up the client application:](#to-boot-up-the-client-application)
 
 ### Technologies used
 
@@ -87,7 +60,7 @@
 
 Note: `autoprefixer` and `postcss` are also used together with `tailwindcss`
 
-Other DevDependencies:
+Other front-end DevDependencies:
 
 - prettier
 - eslint
@@ -95,31 +68,87 @@ Other DevDependencies:
 
 #### Backend
 
-- bcrypt
-- cors
-- dotenv
-- express
-- express-fileupload
-- express-validator
-- jsonwebtoken
-- nodemon
-- passport
-- passport-jwt
-- pg
-- pg-copy-streams
-- pluralize
-- uuid
+| Project              | Status                                                     | Documentation                                     |
+| -------------------- | ---------------------------------------------------------- | ------------------------------------------------- |
+| [typescript]         | [![typescript-status]][typescript-package]                 | https://www.typescriptlang.org/                   |
+| [bcrypt]             | [![bcrypt-status]][bcrypt-package]                         | https://github.com/kelektiv/node.bcrypt.js#readme |
+| [chai]               | [![chai-status]][chai-package]                             | chaijs.com                                        |
+| [chai-http]          | [![chai-http-status]][chai-http-package]                   |                                                   |
+| [cors]               | [![cors-status]][cors-package]                             |                                                   |
+| [express]            | [![express-status]][express-package]                       | expressjs.com                                     |
+| [express-fileupload] | [![express-fileupload-status]][express-fileupload-package] |                                                   |
+| [express-validator]  | [![express-validator-status]][express-validator-package]   | express-validator.github.io                       |
+| [jsonwebtoken]       | [![jsonwebtoken-status]][jsonwebtoken-package]             |                                                   |
+| [mocha]              | [![mocha-status]][mocha-package]                           | mochajs.org                                       |
+| [nodemon]            | [![nodemon-status]][nodemon-package]                       | nodemon.io                                        |
+| [passport]           | [![passport-status]][passport-package]                     | passportjs.org                                    |
+| [passport-jwt]       | [![passport-jwt-status]][passport-jwt-package]             |                                                   |
+| [pg]                 | [![pg-status]][pg-package]                                 |                                                   |
+| [pg-copy-streams]    | [![pg-copy-streams-status]][pg-copy-streams-package]       |                                                   |
+| [pluralize]          | [![pluralize-status]][pluralize-package]                   |                                                   |
+| [ts-node]            | [![ts-node-status]][ts-node-package]                       |                                                   |
+| [uuid]               | [![uuid-status]][uuid-package]                             |                                                   |
 
-DevDependencies:
+[bcrypt]: https://github.com/kelektiv/node.bcrypt.js
+[bcrypt-status]: https://img.shields.io/npm/v/bcrypt.svg
+[bcrypt-package]: https://www.npmjs.com/package/bcrypt
+[chai]: github.com/chaijs/chai
+[chai-status]: https://img.shields.io/npm/v/chai.svg
+[chai-package]: https://www.npmjs.com/package/chai
+[chai-http]: github.com/chaijs/chai-http
+[chai-http-status]: https://img.shields.io/npm/v/chai-http.svg
+[chai-http-package]: https://www.npmjs.com/package/chai-http
+[cors]: https://github.com/expressjs/cors
+[cors-status]: https://img.shields.io/npm/v/cors.svg
+[cors-package]: https://www.npmjs.com/package/cors
+[dotenv]: github.com/motdotla/dotenv
+[dotenv-status]: https://img.shields.io/npm/v/dotenv.svg
+[dotenv-package]: https://www.npmjs.com/package/dotenv
+[express]: github.com/expressjs/express
+[express-status]: https://img.shields.io/npm/v/express.svg
+[express-package]: https://www.npmjs.com/package/express
+[express-fileupload]: https://github.com/richardgirges/express-fileupload
+[express-fileupload-status]: https://img.shields.io/npm/v/express-fileupload.svg
+[express-fileupload-package]: https://www.npmjs.com/package/express-fileupload
+[express-validator]: https://github.com/express-validator/express-validator
+[express-validator-status]: https://img.shields.io/npm/v/express-validator.svg
+[express-validator-package]: https://www.npmjs.com/package/express-validator
+[jsonwebtoken]: https://github.com/auth0/node-jsonwebtoken
+[jsonwebtoken-status]: https://img.shields.io/npm/v/jsonwebtoken.svg
+[jsonwebtoken-package]: https://www.npmjs.com/package/jsonwebtoken
+[mocha]: github.com/mochajs/mocha
+[mocha-status]: https://img.shields.io/npm/v/mocha.svg
+[mocha-package]: https://www.npmjs.com/package/mocha
+[nodemon]: https://github.com/remy/nodemon
+[nodemon-status]: https://img.shields.io/npm/v/nodemon.svg
+[nodemon-package]: https://www.npmjs.com/package/nodemon
+[passport]: https://github.com/jaredhanson/passport
+[passport-status]: https://img.shields.io/npm/v/passport.svg
+[passport-package]: https://www.npmjs.com/package/passport
+[passport-jwt]: https://github.com/themikenicholson/passport-jwt
+[passport-jwt-status]: https://img.shields.io/npm/v/passport-jwt.svg
+[passport-jwt-package]: https://www.npmjs.com/package/passport-jwt
+[pg]: github.com/brianc/node-postgres
+[pg-status]: https://img.shields.io/npm/v/pg.svg
+[pg-package]: https://www.npmjs.com/package/pg
+[pg-copy-streams]: github.com/brianc/node-pg-copy-streams
+[pg-copy-streams-status]: https://img.shields.io/npm/v/pg-copy-streams.svg
+[pg-copy-streams-package]: https://www.npmjs.com/package/pg-copy-streams
+[pluralize]: github.com/blakeembrey/pluralize
+[pluralize-status]: https://img.shields.io/npm/v/pluralize.svg
+[pluralize-package]: https://www.npmjs.com/package/pluralize
+[ts-node]: github.com/TypeStrong/ts-node
+[ts-node-status]: https://img.shields.io/npm/v/ts-node.svg
+[ts-node-package]: https://www.npmjs.com/package/ts-node
+[uuid]: github.com/uuidjs/uuid
+[uuid-status]: https://img.shields.io/npm/v/uuid.svg
+[uuid-package]: https://www.npmjs.com/package/uuid
 
-- chai
-- chai-http
+Other back-end DevDependencies:
+
+- prettier
 - eslint
 - eslint-config-airbnb-typescript-prettier
-- mocha
-- prettier
-- ts-node
-- typescript
 
 #### Other
 
@@ -129,35 +158,26 @@ DevDependencies:
 - dbdiagram.io
 - Amazon Web Services (AWS)
 
-### Features List
+### Features List and implementation status
 
-- "Should have strong SEO stuff"
-- Authentication
-  - `User` can create an account
-  - `User` can log in
-  - `User` has acess to My Profile, where:
-    - can see a list of previous orders
-    - can edit it's own information
-  - Visitors need to be authenticated to be able to: Place Orders
-  - Guests can: View Products, Search, Add to Cart
-- Store
-
-  - Has `Product` catalog
-  - Products have `Product Categories`
-  - Products have `Product Options`
-  - Search Functionality
-
-- `Order`
-  - `Coupon Code` could be applied
-- Shopping Cart
-  - Store it in LocalStorage before placing the order
-- Backend (Admin Panel)
-  - See a list of all Products (consider importing data)
-  - See a list of all Users (need some seeders)
-  - See a list of all Orders
-  - Add New Products
-  - Delete Products
-  - Edit Products
+| Feature                                      | Backend Status | Frontend Status | Notes |
+| -------------------------------------------- | -------------- | --------------- | ----- |
+| `Guests` can view products                   | ✅ done        | ✅ done         |       |
+| `Guests` can filter the product results      | ✅ done        | 🟥 not started  |       |
+| `Guests` can search for products             | ✅ done        | 🛠️ in progress  |       |
+| `Guests` can add products to cart            | `N/A`          | ✅ done         |       |
+| `Guests` can create an account               | ✅ done        | ✅ done         |       |
+| `Guests` can log in                          | ✅ done        | ✅ done         |       |
+| `Guests` send a message through contact form | 🟥 not started | ✅ done         |       |
+| `User` can edit it's own information         | ✅ done        | 🛠️ in progress  |       |
+| `User` can place a new order                 | 🛠️ in progress | 🛠️ in progress  |       |
+| `User` can see a list of previous orders     | ✅ done        | 🛠️ in progress  |       |
+| `Admin` can see all products                 | ✅ done        | ✅ done         |       |
+| `Admin` can add a new product                | ✅ done        | 🟥 not started  |       |
+| `Admin` can edit product information         | ✅ done        | 🟥 not started  |       |
+| `Admin` can remove a product                 | ✅ done        | 🟥 not started  |       |
+| `Admin` can see all users                    | ✅ done        | ✅ done         |       |
+| `Admin` can see all orders                   | ✅ done        | 🟥 not started  |       |
 
 ### Models and Database structure
 
