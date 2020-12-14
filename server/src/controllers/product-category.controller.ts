@@ -132,8 +132,26 @@ export const createAndSlugify = async (req: Request, res: Response): Promise<Res
         })
         .then((category) => res.status(201).json({ status: 'success', data: category }))
         .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
+};
 
-    // return slugify(title, parent_id, 'title', 'slug', 'product_categories')
-    //     .then((category) => res.status(201).json({ status: 'success', data: category }))
-    //     .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
+export const getAllSubCategories = async (req: Request, res: Response): Promise<Response> => {
+    const { id } = req.params;
+
+    return ProductCategory.getAllSubCategories(id).then((category) => {
+        if (!category) {
+            return res.status(404).json({ status: 'error', data: 'Product Category not found!' });
+        }
+
+        return res.status(200).json({ status: 'success', data: category });
+    });
+};
+
+export const getCategoryTree = async (req: Request, res: Response): Promise<Response> => {
+    return ProductCategory.getCategoryTree().then((category) => {
+        if (!category) {
+            return res.status(404).json({ status: 'error', data: 'Product Category not found!' });
+        }
+
+        return res.status(200).json({ status: 'success', data: category });
+    });
 };

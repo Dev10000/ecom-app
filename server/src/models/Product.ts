@@ -24,6 +24,7 @@ export default class Product extends Model<IProduct> {
         const flatOptionsArray = optionsArray.flat(2);
         const values = (flatOptionsArray as string[]).map((name) => name.toLowerCase());
 
+        const count = optionsArray.length;
         let paramIndex = 0;
         const whereArray = [];
         for (let i = 0; i < optionsArray.length; i++) {
@@ -46,10 +47,42 @@ export default class Product extends Model<IProduct> {
         INNER JOIN product_options po ON ps.product_options_id = po.id
         ${whereArray.join('')}
         ) AS sub
-        GROUP BY (sub.product_id) HAVING COUNT(sub.product_id) >= 2) sub2
+        GROUP BY (sub.product_id) HAVING COUNT(sub.product_id) >= ${count}) sub2
         ON sub2.product_id = products.id
         INNER JOIN product_images pi ON pi.product_id = products.id
         WHERE default_img = true;`;
+
+        const query = { text, values };
+        return DB.query(query).then((response) => {
+            if (response.rowCount) {
+                return response.rows as IProduct[];
+            }
+            return undefined;
+        });
+    }
+
+    /**
+     * Get all sub-categories by category id. Returns a promise of an instance.
+     * @param id String
+     */
+    static async getAllInSubCategories(id: string): Promise<IProduct[] | undefined> {
+        const values = [id];
+        const text = `WITH RECURSIVE category_path (id, title, path) AS
+        (
+          SELECT id, title, title::text as path
+            FROM product_categories
+            WHERE parent_id = $1
+          UNION ALL
+          SELECT c.id, c.title, CONCAT(cp.path, ' > ', c.title)
+            FROM category_path AS cp JOIN product_categories AS c
+              ON cp.id = c.parent_id
+            GROUP BY cp.id, c.id, cp.path
+            
+        )
+        SELECT * FROM category_path
+        INNER JOIN products p ON category_path.id = p.product_category_id
+        INNER JOIN product_images pi ON p.id = pi.product_id
+        ORDER BY path;`;
 
         const query = { text, values };
         return DB.query(query).then((response) => {

@@ -44,6 +44,12 @@ const setValsForCSVImports = async (): Promise<void> => {
     await runSetupQuery('SET VALS FOR CSV IMPORTS', setValsForCSVImportsSQL);
 };
 
+const truncateBeforeCSVImports = async (): Promise<void> => {
+    const setValsForCSVImportsSQL = await fs
+        .readFileSync('./src/database/data/truncate_before_csv_imports.sql')
+        .toString();
+    await runSetupQuery('TRUNCATE BEFORE CSV IMPORTS', setValsForCSVImportsSQL);
+};
 // const productImagesSeeder = async (): Promise<void> => {
 //     const productImagesSQL = await fs.readFileSync('./src/database/data/product_images.sql').toString();
 //     await runSetupQuery('product_images', productImagesSQL);
@@ -67,6 +73,7 @@ const seedData = async () => {
     console.log('\x1b[36m%s\x1b[0m', 'ℹ Started database seeding...');
     let fulfilled = 0;
     let rejected = 0;
+    await truncateBeforeCSVImports();
     await Promise.allSettled([
         countriesSeeder(),
         usersSeeder(),
@@ -98,6 +105,7 @@ const seedData = async () => {
 
 seedData();
 
+// Old seedData
 // const seedData = async () => {
 //     console.log('\x1b[36m%s\x1b[0m', 'ℹ Started database seeding...');
 

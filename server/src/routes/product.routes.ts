@@ -10,11 +10,13 @@ import {
     edit,
     destroy,
     filterProduct,
+    getAllInSubCategories,
 } from '../controllers/product.controller';
 
 const router = Router();
 
 router.get('/', productQuery, getAll);
+router.get('/subcat/:id', getAllInSubCategories);
 router.get('/:id/reviews', getReviews);
 router.get('/:id', getSingle);
 router.get('/search/:keywords', productQuery, search);
