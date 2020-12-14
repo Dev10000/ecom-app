@@ -156,14 +156,14 @@ export const filterProduct = async (req: Request, res: Response): Promise<Respon
         .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
 };
 
-export const getAllInSubCategories = async (req: Request, res: Response): Promise<Response> => {
-    const { id } = req.params;
-    return Product.getAllInSubCategories(id)
-        .then((products) => {
-            if (products) {
-                return res.status(200).json({ status: 'success', data: products });
-            }
-            return res.status(404).json({ status: 'error', data: 'Resource not found!' });
-        })
-        .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
-};
+// export const getAllInSubCategories = async (req: Request, res: Response): Promise<Response> => {
+//     const { id } = req.params;
+//     return Product.getAllInSubCategories(id)
+//         .then((products) => {
+//             if (products) {
+//                 return res.status(200).json({ status: 'success', data: products });
+//             }
+//             return res.status(404).json({ status: 'error', data: 'Resource not found!' });
+//         })
+//         .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
+// };

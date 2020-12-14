@@ -3,7 +3,7 @@ import { validationResult } from 'express-validator';
 import QueryBuilder from '../database/QueryBuilder';
 import ProductCategory from '../models/ProductCategory';
 import { checkIfStringExistsInTable, insertTitleAndSlug, postfixNumberGenerator, slugify } from '../database/utils';
-import Product from '../models/Product';
+import DB from '../config/database';
 
 export const getAll = async (req: Request, res: Response): Promise<Response> => {
     return QueryBuilder(ProductCategory)
@@ -84,31 +84,62 @@ export const listProducts = async (req: Request, res: Response): Promise<Respons
             }
 
             // if there are no products in this category
-            if (!category.products) {
+            if (!category.products || !category.products.length) {
                 // we query the subcategories
-                let subcategoryProducts: IProductModel[] = [];
+                // let subcategoryProducts: IProductModel[] = [];
 
-                const subcategories = await QueryBuilder<IProductCategoryModel>(ProductCategory)
-                    .where('parent_id', id)
-                    .get();
+                // const subcategories = await QueryBuilder<IProductCategoryModel>(ProductCategory)
+                //     .where('parent_id', id)
+                //     .get();
 
-                const results = [];
-                const queryResults: IProductModel[][] = [];
-                // eslint-disable-next-line no-restricted-syntax
-                for (const subcategory of subcategories) {
-                    results.push(
-                        QueryBuilder<IProductModel>(Product)
-                            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                            .where('product_category_id', subcategory.id!)
-                            .get(),
-                    );
-                    // console.log('loop');
-                }
-                queryResults.push(...(await Promise.all(results)));
+                // const results = [];
+                // const queryResults: IProductModel[][] = [];
+                // // eslint-disable-next-line no-restricted-syntax
+                // for (const subcategory of subcategories) {
+                //     results.push(
+                //         QueryBuilder<IProductModel>(Product)
+                //             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                //             .where('product_category_id', subcategory.id!)
+                //             .get(),
+                //     );
+                //     // console.log('loop');
+                // }
+                // queryResults.push(...(await Promise.all(results)));
 
-                subcategoryProducts = queryResults.flat(1);
-                return res.status(200).json({ status: 'success', data: subcategoryProducts });
+                // subcategoryProducts = queryResults.flat(1);
+
+                const values = [id];
+                const text = `WITH RECURSIVE category_path (id, title, path) AS
+                (
+                SELECT id, title, title::text as path
+                    FROM product_categories
+                    WHERE parent_id = $1
+                UNION ALL
+                SELECT c.id, c.title, CONCAT(cp.path, ' > ', c.title)
+                    FROM category_path AS cp JOIN product_categories AS c
+                    ON cp.id = c.parent_id
+                    GROUP BY cp.id, c.id, cp.path
+                    
+                )
+                SELECT * FROM category_path
+                INNER JOIN products p ON category_path.id = p.product_category_id
+                INNER JOIN product_images pi ON p.id = pi.product_id
+                ORDER BY path;`;
+
+                const query = { text, values };
+                await DB.query(query).then((response) => {
+                    if (response.rowCount) {
+                        console.log('hit3');
+                        return res.status(200).json({ status: 'success', data: response.rows });
+                    }
+
+                    return res
+                        .status(404)
+                        .json({ status: 'success', data: 'No products in category or subcategories!' });
+                });
             }
+
+            console.log('hit99');
 
             return res.status(200).json({ status: 'success', data: category.products });
         });
@@ -134,24 +165,24 @@ export const createAndSlugify = async (req: Request, res: Response): Promise<Res
         .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
 };
 
-export const getAllSubCategories = async (req: Request, res: Response): Promise<Response> => {
-    const { id } = req.params;
+// export const getAllSubCategories = async (req: Request, res: Response): Promise<Response> => {
+//     const { id } = req.params;
 
-    return ProductCategory.getAllSubCategories(id).then((category) => {
-        if (!category) {
-            return res.status(404).json({ status: 'error', data: 'Product Category not found!' });
-        }
+//     return ProductCategory.getAllSubCategories(id).then((category) => {
+//         if (!category) {
+//             return res.status(404).json({ status: 'error', data: 'Product Category not found!' });
+//         }
 
-        return res.status(200).json({ status: 'success', data: category });
-    });
-};
+//         return res.status(200).json({ status: 'success', data: category });
+//     });
+// };
 
-export const getCategoryTree = async (req: Request, res: Response): Promise<Response> => {
-    return ProductCategory.getCategoryTree().then((category) => {
-        if (!category) {
-            return res.status(404).json({ status: 'error', data: 'Product Category not found!' });
-        }
+// export const getCategoryTree = async (req: Request, res: Response): Promise<Response> => {
+//     return ProductCategory.getCategoryTree().then((category) => {
+//         if (!category) {
+//             return res.status(404).json({ status: 'error', data: 'Product Category not found!' });
+//         }
 
-        return res.status(200).json({ status: 'success', data: category });
-    });
-};
+//         return res.status(200).json({ status: 'success', data: category });
+//     });
+// };

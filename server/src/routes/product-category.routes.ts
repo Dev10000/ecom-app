@@ -7,15 +7,15 @@ import {
     edit,
     destroy,
     listProducts,
-    getAllSubCategories,
-    getCategoryTree,
+    // getAllSubCategories,
+    // getCategoryTree,
 } from '../controllers/product-category.controller';
 
 const router = Router();
 
 router.get('/', Verify.isAdmin, getAll);
-router.get('/subcat/:id', getAllSubCategories);
-router.get('/subcat/', getCategoryTree);
+// router.get('/subcat/:id', getAllSubCategories);
+// router.get('/subcat/', getCategoryTree);
 router.post('/', Verify.isAdmin, categoryValidator, createAndSlugify);
 router.patch('/:id', Verify.isAdmin, categoryValidator, edit);
 router.delete('/:id', Verify.isAdmin, destroy);
