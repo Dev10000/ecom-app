@@ -1,26 +1,28 @@
 # E-Commerce Website (Project Cyan)
 
-## Table of contents
+**Table of contents**
 
 - [E-Commerce Website (Project Cyan)](#e-commerce-website-project-cyan)
-  - [Table of contents](#table-of-contents)
-    - [Technologies used](#technologies-used)
-      - [Frontend](#frontend)
-      - [Backend](#backend)
-      - [Other](#other)
-    - [Features List and implementation status](#features-list-and-implementation-status)
-    - [Models and Database structure](#models-and-database-structure)
-    - [Installation](#installation)
-    - [client](#client)
-    - [server](#server)
-    - [Testing](#testing)
-    - [Usage](#usage)
-      - [To boot up the server:](#to-boot-up-the-server)
-      - [To boot up the client application:](#to-boot-up-the-client-application)
+  - [Technologies used](#technologies-used)
+    - [Frontend](#frontend)
+    - [Backend](#backend)
+    - [Other](#other)
+  - [Features List and implementation status](#features-list-and-implementation-status)
+    - [Guest Features](#guest-features)
+    - [User Features](#user-features)
+    - [Admin Features](#admin-features)
+  - [Models and Database structure](#models-and-database-structure)
+  - [Installation](#installation)
+  - [client](#client)
+  - [server](#server)
+  - [Testing](#testing)
+  - [Usage](#usage)
+    - [To boot up the server:](#to-boot-up-the-server)
+    - [To boot up the client application:](#to-boot-up-the-client-application)
 
-### Technologies used
+## Technologies used
 
-#### Frontend
+### Frontend
 
 | Project             | Status                                         | Documentation                                     |
 | ------------------- | ---------------------------------------------- | ------------------------------------------------- |
@@ -66,7 +68,7 @@ Other front-end DevDependencies:
 - eslint
 - eslint-config-airbnb-typescript-prettier
 
-#### Backend
+### Backend
 
 | Project              | Status                                                     | Documentation                                     |
 | -------------------- | ---------------------------------------------------------- | ------------------------------------------------- |
@@ -75,13 +77,13 @@ Other front-end DevDependencies:
 | [chai]               | [![chai-status]][chai-package]                             | chaijs.com                                        |
 | [chai-http]          | [![chai-http-status]][chai-http-package]                   |                                                   |
 | [cors]               | [![cors-status]][cors-package]                             |                                                   |
-| [express]            | [![express-status]][express-package]                       | expressjs.com                                     |
+| [express]            | [![express-status]][express-package]                       | https://expressjs.com                             |
 | [express-fileupload] | [![express-fileupload-status]][express-fileupload-package] |                                                   |
-| [express-validator]  | [![express-validator-status]][express-validator-package]   | express-validator.github.io                       |
+| [express-validator]  | [![express-validator-status]][express-validator-package]   | https://express-validator.github.io               |
 | [jsonwebtoken]       | [![jsonwebtoken-status]][jsonwebtoken-package]             |                                                   |
-| [mocha]              | [![mocha-status]][mocha-package]                           | mochajs.org                                       |
-| [nodemon]            | [![nodemon-status]][nodemon-package]                       | nodemon.io                                        |
-| [passport]           | [![passport-status]][passport-package]                     | passportjs.org                                    |
+| [mocha]              | [![mocha-status]][mocha-package]                           | https://mochajs.org                               |
+| [nodemon]            | [![nodemon-status]][nodemon-package]                       | https://nodemon.io                                |
+| [passport]           | [![passport-status]][passport-package]                     | https://passportjs.org                            |
 | [passport-jwt]       | [![passport-jwt-status]][passport-jwt-package]             |                                                   |
 | [pg]                 | [![pg-status]][pg-package]                                 |                                                   |
 | [pg-copy-streams]    | [![pg-copy-streams-status]][pg-copy-streams-package]       |                                                   |
@@ -150,7 +152,7 @@ Other back-end DevDependencies:
 - eslint
 - eslint-config-airbnb-typescript-prettier
 
-#### Other
+### Other
 
 - Docker
 - PostgreSQL
@@ -158,32 +160,72 @@ Other back-end DevDependencies:
 - dbdiagram.io
 - Amazon Web Services (AWS)
 
-### Features List and implementation status
+## Features List and implementation status
 
-| Feature                                      | Backend Status | Frontend Status | Notes |
-| -------------------------------------------- | -------------- | --------------- | ----- |
-| `Guests` can view products                   | ✅ done        | ✅ done         |       |
-| `Guests` can filter the product results      | ✅ done        | 🟥 not started  |       |
-| `Guests` can search for products             | ✅ done        | 🛠️ in progress  |       |
-| `Guests` can add products to cart            | `N/A`          | ✅ done         |       |
-| `Guests` can create an account               | ✅ done        | ✅ done         |       |
-| `Guests` can log in                          | ✅ done        | ✅ done         |       |
-| `Guests` send a message through contact form | 🟥 not started | ✅ done         |       |
-| `User` can edit it's own information         | ✅ done        | 🛠️ in progress  |       |
-| `User` can place a new order                 | 🛠️ in progress | 🛠️ in progress  |       |
-| `User` can see a list of previous orders     | ✅ done        | 🛠️ in progress  |       |
-| `Admin` can see all products                 | ✅ done        | ✅ done         |       |
-| `Admin` can add a new product                | ✅ done        | 🟥 not started  |       |
-| `Admin` can edit product information         | ✅ done        | 🟥 not started  |       |
-| `Admin` can remove a product                 | ✅ done        | 🟥 not started  |       |
-| `Admin` can see all users                    | ✅ done        | ✅ done         |       |
-| `Admin` can see all orders                   | ✅ done        | 🟥 not started  |       |
+### Guest Features
 
-### Models and Database structure
+| Feature                                     | Backend Status | Frontend Status | Notes |
+| ------------------------------------------- | -------------- | --------------- | ----- |
+| view products                               | ✅ done        | ✅ done         |       |
+| view a list of categories and subcategories | ✅ done        | 🟥 not started  |       |
+| filter the product results                  | ✅ done        | 🟥 not started  |       |
+| search for products                         | ✅ done        | 🛠️ in progress  |       |
+| add products to cart                        | `N/A`          | ✅ done         |       |
+| remove products from cart                   | `N/A`          | ✅ done         |       |
+| edit quantity of products in cart           | `N/A`          | ✅ done         |       |
+| create an account                           | ✅ done        | ✅ done         |       |
+| log in                                      | ✅ done        | ✅ done         |       |
+| send a message through contact form         | 🟥 not started | ✅ done         |       |
+
+### User Features
+
+| Feature                       | Backend Status | Frontend Status | Notes |
+| ----------------------------- | -------------- | --------------- | ----- |
+| edit it's own information     | ✅ done        | 🛠️ in progress  |       |
+| place a new order             | 🛠️ in progress | 🛠️ in progress  |       |
+| see a list of previous orders | ✅ done        | 🛠️ in progress  |       |
+| leave a review for a product  | ✅ done        | 🟥 not started  |       |
+| edit it's own review          | ✅ done        | 🟥 not started  |       |
+| remove it's own review        | ✅ done        | 🟥 not started  |       |
+
+### Admin Features
+
+| Feature                                   | Backend Status | Frontend Status | Notes |
+| ----------------------------------------- | -------------- | --------------- | ----- |
+| see all products                          | ✅ done        | ✅ done         |       |
+| add a new product                         | ✅ done        | 🟥 not started  |       |
+| edit product information                  | ✅ done        | 🟥 not started  |       |
+| remove a product                          | ✅ done        | 🟥 not started  |       |
+| see all users                             | ✅ done        | ✅ done         |       |
+| see all orders                            | ✅ done        | 🟥 not started  |       |
+| see all news articles (even unpublished)  | ✅ done        | 🛠️ in progress  |       |
+| publish a news article                    | ✅ done        | 🟥 not started  |       |
+| add a new article                         | ✅ done        | 🛠️ in progress  |       |
+| edit a news article                       | ✅ done        | 🛠️ in progress  |       |
+| remove a news article                     | ✅ done        | ✅ done         |       |
+| see all categories                        | ✅ done        | 🟥 not started  |       |
+| add a new category                        | ✅ done        | 🟥 not started  |       |
+| edit a category                           | ✅ done        | 🟥 not started  |       |
+| remove a category                         | ✅ done        | 🟥 not started  |       |
+| see all countries                         | ✅ done        | ✅ done         |       |
+| add a new country                         | ✅ done        | ✅ done         |       |
+| edit a country                            | ✅ done        | ✅ done         |       |
+| remove a country                          | ✅ done        | ✅ done         |       |
+| see all coupon codes                      | ✅ done        | 🟥 not started  |       |
+| add a new coupon code                     | ✅ done        | 🟥 not started  |       |
+| edit a coupon code                        | ✅ done        | 🟥 not started  |       |
+| remove a coupon code                      | ✅ done        | 🟥 not started  |       |
+| create various custom reports about sales | 🟥 not started | 🟥 not started  |       |
+
+- `Cart` information is saved to LocalStorage, therefore is persistent if the page is refreshed ✅ done.
+- A `Breadcrumbs` component is 🛠️ in progress.
+- `Dark mode` for the website is 🛠️ in progress.
+
+## Models and Database structure
 
 [https://dbdiagram.io/d/5f9a8a363a78976d7b79a60b](https://dbdiagram.io/d/5f9a8a363a78976d7b79a60b)
 
-### Installation
+## Installation
 
 The project can be cloned locally with:
 
@@ -193,7 +235,7 @@ git clone https://gitlab.com/buutcampsprint/typescript2020/project-cyan/
 
 The project is structured in **two** subprojects:
 
-### client
+## client
 
 To install the client npm dependencies:
 
@@ -202,7 +244,7 @@ To install the client npm dependencies:
  npm install #or `yarn install`
 ```
 
-### server
+## server
 
 To install the server npm dependencies:
 
@@ -211,7 +253,7 @@ To install the server npm dependencies:
  npm install #or `yarn install`
 ```
 
-### Testing
+## Testing
 
 - Automated testing is _currently set up for only for the server side_ and tests coverage is still very low.
 
@@ -225,9 +267,9 @@ For testing the server will run by default on port `5555`
 
 - To test the API endpoints manually, we have prepared configuration files for `Postman` and `Insomnia` under `resources/API-Clients`.
 
-### Usage
+## Usage
 
-#### To boot up the server:
+### To boot up the server:
 
 ```sh
  cd server
@@ -236,7 +278,7 @@ For testing the server will run by default on port `5555`
 
 For development the server will run by default on port `5000`
 
-#### To boot up the client application:
+### To boot up the client application:
 
 ```sh
  cd client
