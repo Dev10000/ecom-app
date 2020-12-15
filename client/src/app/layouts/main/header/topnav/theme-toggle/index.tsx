@@ -8,8 +8,8 @@ const ThemeToggle: React.FC = (): JSX.Element => {
         <div>
             <button
                 type="button"
-                className={`relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors
-                            ease-in-out duration-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 bg-gray-400`}
+                className={`relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer
+                            focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 bg-gray-400 hover:bg-blue-500`}
                 onClick={() => toggleTheme()}
             >
                 <span
@@ -20,7 +20,7 @@ const ThemeToggle: React.FC = (): JSX.Element => {
                     <span
                         className={`${
                             theme === 'dark' ? 'opacity-100 ease-in duration-100' : 'opacity-0 ease-out duration-100'
-                        } absolute inset-0 h-full w-full flex items-center justify-center transition-opacity`}
+                        } absolute inset-0 h-full w-full flex items-center justify-center`}
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -46,7 +46,7 @@ const ThemeToggle: React.FC = (): JSX.Element => {
                     <span
                         className={`${
                             theme === 'dark' ? 'opacity-0 ease-out duration-100' : 'opacity-100 ease-in duration-100'
-                        } absolute inset-0 h-full w-full flex items-center justify-center transition-opacity`}
+                        } absolute inset-0 h-full w-full flex items-center justify-center`}
                     >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"

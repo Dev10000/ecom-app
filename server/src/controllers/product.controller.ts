@@ -24,6 +24,7 @@ export const getAll = async (req: Request, res: Response): Promise<Response> => 
     // console.log({ page }, { items });
 
     return QueryBuilder(Product)
+        .with('images')
         .paginate(Number(page) || 1, Number(items) || 25)
         .get()
         .then((products) => {

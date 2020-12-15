@@ -11,7 +11,7 @@ export default class Product extends Model<IProduct> {
 
     table = 'products';
 
-    hasMany = [{ model: Review }, { model: ProductImage }];
+    hasMany = [{ model: Review }, { model: ProductImage, name: 'images' }];
 
     belongsTo = [{ model: ProductCategory }];
 

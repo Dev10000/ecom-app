@@ -62,11 +62,9 @@ interface IProduct {
     id?: number;
     title?: string;
     slug?: string;
-    image?: IProductImage[];
     description?: string;
     price: number;
     weight?: number;
-    specs?: IProductSpecs;
     package_size?: string;
     discount: number;
     product_category_id?: number;
@@ -75,6 +73,9 @@ interface IProduct {
     rating?: number;
     reviews_count?: number;
     deleted_at?: string;
+    images?: IProductImage[];
+    specs?: IProductSpecs;
+    reviews?: IReview[];
 }
 
 interface IProductCategoryModel extends IModel, IProductCategory {

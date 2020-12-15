@@ -31,9 +31,9 @@ const CategoryDropdown: React.FC<ICategoryDropdownProps> = ({ setDisplay }) => {
                 onClick={() => setDisplay(false)}
                 tabIndex={-1}
             />
-            <div className="absolute z-20 right-0 mr-12 mt-3 px-2 w-full max-w-xl sm:px-0 lg:max-w-4xl">
+            <div className="absolute z-20 left-0 md:left-auto md:right-0 md:mr-12 mt-3 md:px-2 w-full max-w-xl sm:px-0 lg:max-w-4xl">
                 <div className="rounded-lg bg-white dark:bg-gray-800 shadow-lg overflow-hidden">
-                    <div className="relative grid gap-4 px-3 py-3 lg:gap-3 sm:p-8 md:grid-cols-2 lg:grid-cols-3">
+                    <div className="relative grid gap-2 md:gap-4 px-3 py-3 lg:gap-3 sm:p-8 md:grid-cols-2 lg:grid-cols-3">
                         {categories.map((category) => (
                             <button key={category.id} type="button" onClick={() => setDisplay(false)}>
                                 <NavLink
