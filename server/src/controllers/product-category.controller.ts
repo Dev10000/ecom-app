@@ -108,8 +108,8 @@ export const listProducts = async (req: Request, res: Response): Promise<Respons
                 // queryResults.push(...(await Promise.all(results)));
 
                 // subcategoryProducts = queryResults.flat(1);
-                const offset = (Number(page) || 1 - 1) * Number(items) || 25;
-                const values = [id, items || 25, offset];
+                const offset = (Number(page) - 1 || 0) * Number(items) || 24;
+                const values = [id, items || 24, offset];
                 const text = `WITH RECURSIVE category_path (id, title, path, lvl) AS
                 (
                 SELECT id, title, title::text as path, 0 lvl
@@ -167,16 +167,6 @@ export const createAndSlugify = async (req: Request, res: Response): Promise<Res
 //     const { id } = req.params;
 
 //     return ProductCategory.getAllSubCategories(id).then((category) => {
-//         if (!category) {
-//             return res.status(404).json({ status: 'error', data: 'Product Category not found!' });
-//         }
-
-//         return res.status(200).json({ status: 'success', data: category });
-//     });
-// };
-
-// export const getCategoryTree = async (req: Request, res: Response): Promise<Response> => {
-//     return ProductCategory.getCategoryTree().then((category) => {
 //         if (!category) {
 //             return res.status(404).json({ status: 'error', data: 'Product Category not found!' });
 //         }
