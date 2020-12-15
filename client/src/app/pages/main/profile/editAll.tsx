@@ -1,18 +1,44 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+import allCountries from './countries.json';
 
-const EditAll: React.FC = (): JSX.Element => {
-    const [firstName, setFirstName] = useState<string>('');
-    const [lastName, setLastName] = useState<string>('');
-    const [email, setEmail] = useState<string>('');
-    const [phoneNumber, setPhoneNumber] = useState<string>('');
-    const [address, setAddress] = useState<string>('');
-    const [city, setCity] = useState<string>('');
-    const [country, setCountry] = useState<string>('');
-    const [postalCode, setPostalCode] = useState<string>('');
+interface IUserProps {
+    user: IUser;
+}
 
+const EditAll: React.FC<IUserProps> = (props): JSX.Element => {
+    const { user } = props;
+    const [firstName, setFirstName] = useState<string | undefined>(user.first_name);
+    const [lastName, setLastName] = useState<string | undefined>(user.last_name);
+    const [email, setEmail] = useState<string | undefined>(user.email);
+    const [phoneNumber, setPhoneNumber] = useState<string | undefined>(user.phone_number);
+    const [address, setAddress] = useState<string | undefined>(user.address);
+    const [city, setCity] = useState<string | undefined>(user.city);
+    const [country, setCountry] = useState<number | undefined>(user.country_id);
+    const [postalCode, setPostalCode] = useState<string | undefined>(user.postal_code);
+
+    const selectCountry = (value: string) => {
+        const id = allCountries.find((item) => item.name === value)?.id;
+
+        setCountry(id);
+    };
+
+    const editAll = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        axios.patch(`users/${user.id}`, {
+            first_name: firstName,
+            last_name: lastName,
+            email,
+            phone_number: phoneNumber,
+            address,
+            city,
+            country_id: country,
+            postal_code: postalCode,
+        });
+    };
     return (
         <div>
-            <form className="flex flex-col w-full items-center px-4 bg-gray-100">
+            <form onSubmit={editAll} className="flex flex-col w-full items-center px-4 bg-gray-100">
                 <div className="w-full border rounded shadow p-2 mt-4 mx-16 bg-white">
                     <h1 className="text-gray-600 dark:text-gray-200 font-medium text-xl">Edit profile information</h1>
                 </div>
@@ -122,16 +148,16 @@ const EditAll: React.FC = (): JSX.Element => {
                 <div className="w-full flex">
                     <label htmlFor="firstname" className="block w-full my-2 text-sm font-medium">
                         Country
-                        <input
-                            onChange={(e) => setCountry(e.target.value)}
-                            className={`border rounded dark:border-gray-700 p-3 text-sm w-full dark:bg-gray-800 
-                            `}
-                            value={country}
-                            type="text"
-                            id="country"
-                            name="country"
-                            placeholder="Enter your country"
-                        />
+                        <select value={country} onChange={(e) => selectCountry(e.target.value)}>
+                            <option selected disabled>
+                                Select a country
+                            </option>
+                            {allCountries.map((item) => (
+                                <option key={item.id} value={item.name}>
+                                    {item.name}
+                                </option>
+                            ))}
+                        </select>
                     </label>
                 </div>
 

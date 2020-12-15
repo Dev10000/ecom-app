@@ -35,7 +35,7 @@ const Profile: React.FC = (): JSX.Element => {
                     {user && flag === 'profile' ? (
                         <div className="flex flex-col sm:flex-row sm:space-x-10 sm:mt-16">
                             <div className="flex flex-row sm:flex-col w-full sm:w-1/4 justify-center sm:justify-start sm:space-y-2">
-                                <Navlinks flag={flag} setFlag={setFlag} />
+                                <Navlinks flag={flag} setFlag={setFlag} user={user} />
                             </div>
                             <div className="flex-grow flex flex-col space-y-10 border rounded-md shadow">
                                 <ProfileData
@@ -70,10 +70,10 @@ const Profile: React.FC = (): JSX.Element => {
                     {user && flag === 'edit-profile' ? (
                         <div className="flex flex-col sm:flex-row sm:space-x-10 sm:mt-16">
                             <div className="flex flex-row sm:flex-col w-full sm:w-1/4 justify-center sm:justify-start sm:space-y-2">
-                                <Navlinks flag={flag} setFlag={setFlag} />
+                                <Navlinks flag={flag} setFlag={setFlag} user={user} />
                             </div>
                             <div className="flex-grow flex flex-col space-y-10 border rounded-md shadow">
-                                <EditAll />
+                                <EditAll user={user} />
                             </div>
                             <div className="w-1/4 bg-gray-100 h-auto" />
                         </div>

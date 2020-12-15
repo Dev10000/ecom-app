@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
 import React from 'react';
+import { countryIdToName } from '../../../../utils';
 import Country from './country';
 import Edit from './edit';
 
@@ -399,9 +400,11 @@ const ProfileData: React.FC<IProfileDataProps> = (props) => {
                                 />
                             </svg>
                             <div>Country</div>
-                            <div className="text-gray-400">{user?.country_id}</div>
+                            <div className="text-gray-400">
+                                {user.country_id ? countryIdToName(user.country_id) : ''}
+                            </div>
                         </div>
-                        {countryDisplay ? <Country /> : ''}
+                        {countryDisplay ? <Country user={user} setDisplay={setCountryDisplay} /> : ''}
                     </div>
                     <div className="flex items-start">
                         <button className="" type="button" onClick={() => setCountryDisplay(true)}>

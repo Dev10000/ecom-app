@@ -1,16 +1,27 @@
+import axios from 'axios';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router';
 
 interface INavlinksProps {
     flag: string;
     setFlag: React.Dispatch<React.SetStateAction<string>>;
+    user: IUser;
 }
 const Navlinks: React.FC<INavlinksProps> = (props) => {
-    const { setFlag } = props;
+    const { setFlag, user } = props;
     const [profileColorClick, setProfileColorClick] = useState<string>('white');
     const [editProfileColorClick, setEditProfileColorClick] = useState<string>('white');
     const [orderColorClick, setOrderColorClick] = useState<string>('white');
     const [display, setDisplay] = useState<boolean>(false);
+    const [password1, setPassword1] = useState<string>('');
+    const [password2, setPassword2] = useState<string>('');
+
+    const savePassword = () => {
+        console.log(user.password);
+        if (password1 === password2) {
+            axios.patch(`/users/${user.id}`, { password: password1 });
+        }
+    };
 
     const history = useHistory();
     const redirect = (path: string) => {
@@ -121,6 +132,7 @@ const Navlinks: React.FC<INavlinksProps> = (props) => {
                         <label htmlFor="password">
                             <input
                                 className="w-full p-4 border rounded shadow border-gray-200"
+                                onChange={(e) => setPassword1(e.target.value)}
                                 type="text"
                                 id="password"
                                 name="password"
@@ -130,6 +142,7 @@ const Navlinks: React.FC<INavlinksProps> = (props) => {
                         <label htmlFor="retypepassword">
                             <input
                                 className="mt-4 w-full p-4 border rounded shadow border-gray-200"
+                                onChange={(e) => setPassword2(e.target.value)}
                                 type="text"
                                 id="retypepassword"
                                 name="retypepassword"
@@ -138,7 +151,8 @@ const Navlinks: React.FC<INavlinksProps> = (props) => {
                         </label>
                         <div className="mt-10 flex flex-row justify-between">
                             <button
-                                type="submit"
+                                type="button"
+                                onClick={savePassword}
                                 className="w-1/3 bg-blue-400 hover:bg-blue-500 items-center py-2 px-4 rounded shadow border border-gray-200 text-white hover:shadow-lg select-none transition ease-in-out duration-150"
                             >
                                 Save

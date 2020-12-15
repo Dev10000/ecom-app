@@ -1,18 +1,38 @@
-import React from 'react';
+/* eslint-disable no-restricted-globals */
+import axios from 'axios';
+import React, { useState } from 'react';
 import allCountries from './countries.json';
 
-const Country: React.FC<ICountry> = () => {
+interface ICountryProps {
+    user: IUser;
+    setDisplay: React.Dispatch<React.SetStateAction<boolean>>;
+}
+const Country: React.FC<ICountryProps> = (props) => {
+    const { user, setDisplay } = props;
+    const [selectedCountry, setSelectedCountry] = useState<string>('');
+    const editCountry = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        const id = allCountries.find((country) => country.name === selectedCountry)?.id;
+        axios.patch(`users/${user.id}`, { country_id: id });
+        setDisplay(false);
+    };
+
+    const selectCountry = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        setSelectedCountry(event.target.value);
+    };
     return (
-        <form>
+        <form onSubmit={editCountry}>
             <div className="flex flex-row space-x-4">
                 <div className="flex flex-row border rounded border-blue-400">
                     <div>
-                        <select>
+                        <select value={selectedCountry} onChange={selectCountry}>
                             <option selected disabled>
                                 Select a country
                             </option>
                             {allCountries.map((country) => (
-                                <option>{country.name}</option>
+                                <option key={country.id} value={country.name}>
+                                    {country.name}
+                                </option>
                             ))}
                         </select>
                     </div>
@@ -20,7 +40,7 @@ const Country: React.FC<ICountry> = () => {
                         Save
                     </button>
                 </div>
-                <button className="text-red-400 hover:text-red-500" type="button">
+                <button onClick={() => setDisplay(false)} className="text-red-400 hover:text-red-500" type="button">
                     <svg
                         className="w-4 h-4 fill-current inline-block"
                         xmlns="http://www.w3.org/2000/svg"
