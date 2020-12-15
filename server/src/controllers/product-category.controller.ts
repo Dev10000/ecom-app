@@ -130,7 +130,6 @@ export const listProducts = async (req: Request, res: Response): Promise<Respons
                 const query = { text, values };
                 await DB.query(query).then((response) => {
                     if (response.rowCount) {
-                        console.log('hit3');
                         return res.status(200).json({ status: 'success', data: response.rows });
                     }
 
@@ -139,8 +138,6 @@ export const listProducts = async (req: Request, res: Response): Promise<Respons
                         .json({ status: 'success', data: 'No products in category or subcategories!' });
                 });
             }
-
-            console.log('hit99');
 
             return res.status(200).json({ status: 'success', data: category.products });
         });

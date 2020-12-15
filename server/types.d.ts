@@ -76,6 +76,7 @@ interface IOrderItem {
 
 interface IProductModel extends IModel, IProduct {
     reviews?: IReview[];
+    images?: IProductImage[];
     // static filterProduct(body: Record<string, unknown>): Promise<QueryResult | undefined>;
 }
 
