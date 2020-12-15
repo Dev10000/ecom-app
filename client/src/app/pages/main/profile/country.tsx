@@ -25,7 +25,11 @@ const Country: React.FC<ICountryProps> = (props) => {
             <div className="flex flex-row space-x-4">
                 <div className="flex flex-row border rounded border-blue-400">
                     <div>
-                        <select value={selectedCountry} onChange={selectCountry}>
+                        <select
+                            className="border rounded dark:border-gray-700 p-3 text-sm w-full dark:bg-gray-800"
+                            value={selectedCountry}
+                            onChange={selectCountry}
+                        >
                             <option selected disabled>
                                 Select a country
                             </option>

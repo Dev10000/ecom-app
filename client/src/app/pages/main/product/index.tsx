@@ -166,10 +166,13 @@ const Product: React.FC = () => {
         axios
             .get(`/products/${productId}`)
             .then((response) => {
-                if (response.data.data.specs.Color.toLowerCase() === 'black') {
+                const color: string = response.data.data.specs
+                    ?.find((spec: IProductSpecs) => spec.product_id === response.data.data.product_id)
+                    .specs.Color.toLowerCase();
+                if (color === 'black') {
                     setProductColor('gray');
                 } else {
-                    setProductColor(response.data.data.specs.Color.toLowerCase());
+                    setProductColor(color);
                 }
                 setStarRating(parseInt(response.data.data.rating));
             })
@@ -184,9 +187,9 @@ const Product: React.FC = () => {
             .then((response) => {
                 setProduct(response.data.data);
                 setCategoryId(response.data.data.product_category_id);
-                setProductImage(response.data.data.image.find((image: IProductImage) => image.default_img === true));
-                setAllProductImages(response.data.data.image);
-                setProductImages(response.data.data.image.filter((image: IProductImage, index: number) => index < 4));
+                setProductImage(response.data.data.images.find((image: IProductImage) => image.default_img === true));
+                setAllProductImages(response.data.data.images);
+                setProductImages(response.data.data.images.filter((image: IProductImage, index: number) => index < 4));
             })
             .catch((err) => {
                 return err;
@@ -195,11 +198,21 @@ const Product: React.FC = () => {
         setCategoryName(categoryIdToName(categoryId));
 
         axios
-            .get(`/categories/${categoryId}/products`)
+            .get(`/products/${productId}/related`)
             .then((response) => {
                 setCategoryProducts(response.data.data);
                 setSliderProduct(response.data.data[0]);
                 setFeatureProducts(response.data.data.filter((item: IProduct, index: number) => index < numImages));
+                return response.data.data;
+            })
+            .catch((err) => {
+                return err;
+            });
+
+        axios
+            .get(`/products/${productId}/reviews`)
+            .then((response) => {
+                console.log(response.data.data);
                 return response.data.data;
             })
             .catch((err) => {
@@ -279,7 +292,7 @@ const Product: React.FC = () => {
                                     <div className="flex flex-col w-6/5">
                                         <div className="text-xl font-semibold max-w-3xl">{product?.title}</div>
                                         <div className="flex flex-row items-center text-xs mt-4 justify-between border-b border-gray-200">
-                                            <div className="mb-2">Rating</div>
+                                            <div className="mb-2">Rating ({product ? product.rating : ''})</div>
                                             <div className="mb-2">0 reviews</div>
                                             <button type="button" className="text-blue-400 mb-2">
                                                 Submit a review

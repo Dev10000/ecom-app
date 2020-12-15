@@ -10,8 +10,6 @@ export default class Product extends Model<IProduct> {
 
     discount = 0;
 
-    table = 'products';
-
     hasMany = [{ model: Review }, { model: ProductImage, name: 'images' }, { model: ProductSpecView, name: 'specs' }];
 
     belongsTo = [{ model: ProductCategory }];

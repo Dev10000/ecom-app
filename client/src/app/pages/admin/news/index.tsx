@@ -58,13 +58,13 @@ const News: React.FC = (): JSX.Element => {
     ];
 
     const actions: IOption[] = [
-        {
-            display: 'Edit',
-            action: (rowId: number) => {
-                setForEdit(rowId);
-                setAddOrEditDisplay(true);
-            },
-        },
+        // {
+        //     display: 'Edit',
+        //     action: (rowId: number) => {
+        //         setForEdit(rowId);
+        //         setAddOrEditDisplay(true);
+        //     },
+        // },
         {
             display: 'Delete',
             action: (rowId: number) => {

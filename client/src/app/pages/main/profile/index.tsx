@@ -20,6 +20,7 @@ const Profile: React.FC = (): JSX.Element => {
     const [changedValue, setChangedValue] = useState<string>('');
     const [flag, setFlag] = useState<string>('profile');
     const editField = (e: React.ChangeEvent<HTMLInputElement>) => {
+        e.preventDefault();
         setChangedValue(e.target.value);
     };
 
