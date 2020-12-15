@@ -6,7 +6,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { RouteComponentProps, useHistory, useLocation } from 'react-router';
 import CartContext from '../../../../context/cart';
 import Details from './details';
-import StarRating from './rating';
+import StarRating from '../../../../ui/components/rating';
 
 interface IProductState {
     productId: number;
@@ -60,7 +60,7 @@ const Product: React.FC = () => {
     };
     // set product display images
     const imageDisplay = (id: number | undefined) => {
-        setProductImage(product?.image?.find((image) => image.id === id));
+        setProductImage(product?.images?.find((image) => image.id === id));
     };
     // slides product images right
     const sliderProductRight = (): void => {
@@ -464,7 +464,7 @@ const Product: React.FC = () => {
                                             <img
                                                 className="h-64 w-auto p-4"
                                                 src={`${
-                                                    sliderProduct?.image?.filter(
+                                                    sliderProduct?.images?.filter(
                                                         (image) => image.default_img === true,
                                                     )[0].href
                                                 }`}
@@ -549,7 +549,7 @@ const Product: React.FC = () => {
                                             <img
                                                 className="h-48 w-auto p-4"
                                                 src={`${
-                                                    elem.image?.filter((image) => image.default_img === true)[0].href
+                                                    elem.images?.filter((image) => image.default_img === true)[0].href
                                                 }`}
                                                 alt={`${elem.title}`}
                                             />

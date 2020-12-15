@@ -251,10 +251,10 @@ CREATE INDEX ON "articles" ("user_id");
 
 const create_products_view = async () => {
     const query = `DROP VIEW IF EXISTS "products_view"; 
-      CREATE VIEW "products_view" AS SELECT pro.*, imgt.image, specst.specs
+      CREATE VIEW "products_view" AS SELECT pro.*, imgt.images, specst.specs
       FROM products AS pro
       INNER JOIN
-      (SELECT json_agg(pi.*)  image, product_id
+      (SELECT json_agg(pi.*)  images, product_id
       FROM product_images AS pi
       GROUP BY product_id) AS imgt
       ON pro.id = imgt.product_id

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-type IProductProps = IProduct;
+type IProductProps = Partial<IProductModel>;
 
 const Details: React.FC<IProductProps> = (props) => {
     const details = props;
