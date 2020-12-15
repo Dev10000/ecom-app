@@ -96,13 +96,13 @@ function DataTable<T>(props: IDataTableProps<T>): JSX.Element {
                             <tbody className="bg-white divide-y divide-gray-200">
                                 {!APILoading ? (
                                     items.length ? (
-                                        filteredItems.length || search === '' ? ( // this will prevent the 'No results found' flickering
+                                        filteredItems.length ? ( // this will prevent the 'No results found' flickering
                                             filteredItems.map((row) => {
                                                 return (
                                                     <tr key={row.id}>
                                                         {columns.map((column) => (
                                                             <td
-                                                                key={column.db.toString()}
+                                                                key={`${row.id}${column.db.toString()}`}
                                                                 className="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
                                                             >
                                                                 {formatFieldType(
