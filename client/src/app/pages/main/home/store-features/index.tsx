@@ -19,7 +19,7 @@ const StoreFeatures: React.FC = (): JSX.Element => {
                         </svg>
                     </div>
                     <div className="mt-6 dark:text-white">
-                        <div className="font-semibold mb-4 text-center tracking-widest text-lg">FREE SHIPPING</div>
+                        <div className="font-semibold text-center tracking-widest text-lg">FREE SHIPPING</div>
                         <div className="text-center mb-6">
                             <p className="text-base sm:text-lg">
                                 Lorem Ipsum is simply dummy text of the printing
