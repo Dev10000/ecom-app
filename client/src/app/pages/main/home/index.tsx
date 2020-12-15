@@ -155,8 +155,8 @@ const Home: React.FC = (): JSX.Element => {
                     <button
                         className={`p-3 border rounded shadow ${
                             currentPage === 1
-                                ? 'bg-gray-400 hover:bg-gray-400 cursor-not-allowed text-gray-600'
-                                : 'bg-gray-200 hover:bg-gray-100'
+                                ? 'bg-gray-400 dark:bg-gray-900 hover:bg-gray-400 cursor-not-allowed text-gray-600'
+                                : 'bg-gray-200 dark:bg-gray-900 hover:bg-gray-100 dark:hover:bg-gray-700'
                         }`}
                         type="button"
                         onClick={previousPage}
@@ -168,8 +168,10 @@ const Home: React.FC = (): JSX.Element => {
                         return (
                             <button
                                 key={`page-${p}`}
-                                className={`p-3 bg-gray-200 border rounded shadow hover:bg-gray-100 ${
-                                    p === currentPage ? 'bg-blue-400 text-white hover:bg-blue-500' : null
+                                className={`p-3 bg-gray-200 dark:bg-gray-900 border rounded shadow hover:bg-gray-100 dark:hover:bg-gray-700 ${
+                                    p === currentPage
+                                        ? 'bg-blue-400 dark:bg-blue-400  text-white hover:bg-blue-500 dark:hover:bg-blue-600'
+                                        : null
                                 }`}
                                 type="button"
                                 onClick={() => setCurrentPage(p)}
@@ -182,7 +184,7 @@ const Home: React.FC = (): JSX.Element => {
                         className={`p-3 border rounded shadow ${
                             currentPage === lastPage
                                 ? 'bg-gray-400 hover:bg-gray-400 cursor-not-allowed text-gray-600'
-                                : 'bg-gray-200 hover:bg-gray-100'
+                                : 'bg-gray-200 dark:bg-gray-900 hover:bg-gray-100 dark:hover:bg-gray-700'
                         }`}
                         type="button"
                         onClick={nextPage}
@@ -197,7 +199,7 @@ const Home: React.FC = (): JSX.Element => {
 
                 <select
                     onChange={(e) => setPerPage(Number(e.target.value))}
-                    className="p-3 border"
+                    className="p-3 border bg-white dark:bg-gray-900"
                     name="perPage"
                     id="perPage"
                 >
