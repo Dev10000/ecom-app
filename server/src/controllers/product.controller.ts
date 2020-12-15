@@ -79,11 +79,12 @@ export const search = async (req: Request, res: Response): Promise<Response> => 
 
     // split search keywords, remove spaces and join them with |
     const regex = keywords
-        .split(' ')
+        .split(/\s+/)
         .filter((i) => i)
         .join('|');
     return QueryBuilder(Product)
         .where('title', '~*', `(${regex})`) // Matches regular expression, case insensitive
+        .orWhere('description', '~*', `(${regex})`)
         .paginate(Number(page) || 1, Number(items) || 25)
         .get()
         .then((products) => {
