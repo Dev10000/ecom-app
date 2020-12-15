@@ -19,6 +19,7 @@
   - [Usage](#usage)
     - [To boot up the server:](#to-boot-up-the-server)
     - [To boot up the client application:](#to-boot-up-the-client-application)
+  - [Other info](#other-info)
 
 ## Technologies used
 
@@ -166,60 +167,60 @@ Other back-end DevDependencies:
 
 | Feature                                     | Backend Status | Frontend Status | Notes |
 | ------------------------------------------- | -------------- | --------------- | ----- |
-| view products                               | ✅ done        | ✅ done         |       |
-| view a list of categories and subcategories | ✅ done        | 🟥 not started  |       |
-| filter the product results                  | ✅ done        | 🟥 not started  |       |
-| search for products                         | ✅ done        | 🛠️ in progress  |       |
-| add products to cart                        | `N/A`          | ✅ done         |       |
-| remove products from cart                   | `N/A`          | ✅ done         |       |
-| edit quantity of products in cart           | `N/A`          | ✅ done         |       |
-| create an account                           | ✅ done        | ✅ done         |       |
-| log in                                      | ✅ done        | ✅ done         |       |
-| send a message through contact form         | 🟥 not started | ✅ done         |       |
+| view products                               | ✅ done         | ✅ done          |       |
+| view a list of categories and subcategories | ✅ done         | ✅ done          |       |
+| display products in a given category        | ✅ done         | 🟥 not started   |       |
+| filter the product results                  | ✅ done         | 🟥 not started   |       |
+| search for products                         | ✅ done         | ✅ done          |       |
+| add products to cart                        | `N/A`          | ✅ done          |       |
+| remove products from cart                   | `N/A`          | ✅ done          |       |
+| edit quantity of products in cart           | `N/A`          | ✅ done          |       |
+| create an account                           | ✅ done         | ✅ done          |       |
+| log in                                      | ✅ done         | ✅ done          |       |
+| send a message through contact form         | 🟥 not started  | ✅ done          |       |
 
 ### User Features
 
 | Feature                       | Backend Status | Frontend Status | Notes |
 | ----------------------------- | -------------- | --------------- | ----- |
-| edit it's own information     | ✅ done        | 🛠️ in progress  |       |
-| place a new order             | 🛠️ in progress | 🛠️ in progress  |       |
-| see a list of previous orders | ✅ done        | 🛠️ in progress  |       |
-| leave a review for a product  | ✅ done        | 🟥 not started  |       |
-| edit it's own review          | ✅ done        | 🟥 not started  |       |
-| remove it's own review        | ✅ done        | 🟥 not started  |       |
+| edit it's own information     | ✅ done         | ✅ done          |       |
+| place a new order             | ✅ done         | 🟥 not started   |       |
+| see a list of previous orders | ✅ done         | 🟥 not started   |       |
+| leave a review for a product  | ✅ done         | 🟥 not started   |       |
+| edit it's own review          | ✅ done         | 🟥 not started   |       |
+| remove it's own review        | ✅ done         | 🟥 not started   |       |
 
 ### Admin Features
 
 | Feature                                   | Backend Status | Frontend Status | Notes |
 | ----------------------------------------- | -------------- | --------------- | ----- |
-| see all products                          | ✅ done        | ✅ done         |       |
-| add a new product                         | ✅ done        | 🟥 not started  |       |
-| edit product information                  | ✅ done        | 🟥 not started  |       |
-| remove a product                          | ✅ done        | 🟥 not started  |       |
-| see all users                             | ✅ done        | ✅ done         |       |
-| see all orders                            | ✅ done        | 🟥 not started  |       |
-| see all news articles (even unpublished)  | ✅ done        | 🛠️ in progress  |       |
-| publish a news article                    | ✅ done        | 🟥 not started  |       |
-| add a new article                         | ✅ done        | 🛠️ in progress  |       |
-| edit a news article                       | ✅ done        | 🛠️ in progress  |       |
-| remove a news article                     | ✅ done        | ✅ done         |       |
-| see all categories                        | ✅ done        | 🟥 not started  |       |
-| add a new category                        | ✅ done        | 🟥 not started  |       |
-| edit a category                           | ✅ done        | 🟥 not started  |       |
-| remove a category                         | ✅ done        | 🟥 not started  |       |
-| see all countries                         | ✅ done        | ✅ done         |       |
-| add a new country                         | ✅ done        | ✅ done         |       |
-| edit a country                            | ✅ done        | ✅ done         |       |
-| remove a country                          | ✅ done        | ✅ done         |       |
-| see all coupon codes                      | ✅ done        | 🟥 not started  |       |
-| add a new coupon code                     | ✅ done        | 🟥 not started  |       |
-| edit a coupon code                        | ✅ done        | 🟥 not started  |       |
-| remove a coupon code                      | ✅ done        | 🟥 not started  |       |
-| create various custom reports about sales | 🟥 not started | 🟥 not started  |       |
+| see all products                          | ✅ done         | ✅ done          |       |
+| add a new product                         | ✅ done         | 🟥 not started   |       |
+| edit product information                  | ✅ done         | 🟥 not started   |       |
+| remove a product                          | ✅ done         | 🟥 not started   |       |
+| see all users                             | ✅ done         | ✅ done          |       |
+| see all orders                            | ✅ done         | 🟥 not started   |       |
+| see all news articles (even unpublished)  | ✅ done         | 🟥 not started   |       |
+| publish a news article                    | ✅ done         | 🟥 not started   |       |
+| add a new article                         | ✅ done         | 🟥 not started   |       |
+| edit a news article                       | ✅ done         | 🟥 not started   |       |
+| remove a news article                     | ✅ done         | ✅ done          |       |
+| see all categories                        | ✅ done         | 🟥 not started   |       |
+| add a new category                        | ✅ done         | 🟥 not started   |       |
+| edit a category                           | ✅ done         | 🟥 not started   |       |
+| remove a category                         | ✅ done         | 🟥 not started   |       |
+| see all countries                         | ✅ done         | ✅ done          |       |
+| add a new country                         | ✅ done         | ✅ done          |       |
+| edit a country                            | ✅ done         | ✅ done          |       |
+| remove a country                          | ✅ done         | ✅ done          |       |
+| see all coupon codes                      | ✅ done         | 🟥 not started   |       |
+| add a new coupon code                     | ✅ done         | 🟥 not started   |       |
+| edit a coupon code                        | ✅ done         | 🟥 not started   |       |
+| remove a coupon code                      | ✅ done         | 🟥 not started   |       |
+| create various custom reports about sales | 🟥 not started  | 🟥 not started   |       |
 
 - `Cart` information is saved to LocalStorage, therefore is persistent if the page is refreshed ✅ done.
-- A `Breadcrumbs` component is 🛠️ in progress.
-- `Dark mode` for the website is 🛠️ in progress.
+- `Dark mode` for the website is ✅ done.
 
 ## Models and Database structure
 
@@ -297,3 +298,8 @@ After making changes to `tailwind.config.js` the following command should be run
 ```
 
 Before the application will be ready for production the unused styles should be purged. See https://tailwindcss.com/docs/optimizing-for-production.
+
+
+## Other info
+
+For other information (for example on how to set up the AWS account) please feel free to look at the resources posted in the project's [Wiki Page](https://gitlab.com/buutcampsprint/typescript2020/project-cyan/-/wikis/Resources).

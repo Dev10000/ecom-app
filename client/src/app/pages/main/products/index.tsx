@@ -17,7 +17,7 @@ const Products: React.FC = () => {
     return (
         <div>
             <div>
-                {categoryId}
+                <div className="px-10">A list of products would be displayed here for the selected category!</div>
                 {products.map((product) => product.title)}
             </div>
         </div>
