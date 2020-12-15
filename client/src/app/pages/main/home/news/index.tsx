@@ -11,11 +11,7 @@ const News: React.FC = (): JSX.Element => {
                 <div className="flex mx-auto px-4 sm:max-w-md mx-auto py-4 rounded-xl rounded-yl shadow-md overflow-hidden">
                     <div className="md:flex">
                         <div className="flex-1 md:flex-shrink-0 border-2 flex items-center dark:bg-white">
-                            <img
-                                className="mt-8 mb-4 h-auto w-full object-cover md:w-48 h-auto dark:bg-white"
-                                src={Img1}
-                                alt="img"
-                            />
+                            <img className="mt-8 mb-4 h-auto w-full object-cover md:w-48 h-auto" src={Img1} alt="img" />
                         </div>
                         <div className="flex-1 pl-4 bg-gray-100 dark:bg-gray-900">
                             <span className="text-gray-300 text-sm font-semibold">16.12.2020</span>
