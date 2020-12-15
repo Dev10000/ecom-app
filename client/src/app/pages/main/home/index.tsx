@@ -54,10 +54,10 @@ const Home: React.FC = (): JSX.Element => {
 
     const handleSearch = (event: React.FormEvent) => {
         event.preventDefault();
-        const keywords = searchInput.current?.value;
-        if (keywords?.trim() !== '') history.push(`/search/${keywords}`);
-        else history.push('/');
+        const keywords = searchInput.current?.value.trim() ?? '';
         getProducts(keywords);
+        if (keywords.length > 0) history.push(`/search/${keywords}`);
+        else history.push('/');
     };
 
     const handleAll = () => {
@@ -108,8 +108,8 @@ const Home: React.FC = (): JSX.Element => {
                         defaultValue={searchKeywords}
                         value={search || searchKeywords}
                         onChange={(e) => setSearch(e.target.value)}
-                        placeholder="Search products..."
-                        className="border rounded-l-md border-gray-400 p-3 text-md focus:outline-none "
+                        placeholder="Search products…"
+                        className="border rounded-l-md border-gray-400 p-3 text-md focus:outline-none bg-gray-100 dark:bg-gray-800"
                     />
                     <button
                         type="button"

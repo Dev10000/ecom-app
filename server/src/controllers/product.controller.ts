@@ -34,7 +34,7 @@ export const getAll = async (req: Request, res: Response): Promise<Response> => 
 
     return QueryBuilder(Product)
         .with('images')
-        .paginate(Number(page) || 1, Number(items) || 25)
+        .paginate(Number(page) || 1, Number(items) || 24)
         .get()
         .then((products) => {
             return res.status(200).json({ status: 'success', data: products });
@@ -118,7 +118,7 @@ export const search = async (req: Request, res: Response): Promise<Response> => 
         .with('images')
         .where('title', '~*', `(${regex})`) // Matches regular expression, case insensitive
         .orWhere('description', '~*', `(${regex})`)
-        .paginate(Number(page) || 1, Number(items) || 25)
+        .paginate(Number(page) || 1, Number(items) || 24)
         .get()
         .then((products) => {
             return res.status(200).json({ status: 'success', data: products });

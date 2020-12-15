@@ -76,10 +76,14 @@ const Product: React.FC<IProductProps> = (props: IProduct): JSX.Element => {
                             <span className="font-extrabold text-blue-400">
                                 {formatCurrency(price * ((100 - discount) / 100))}
                             </span>
-                            <span className="text-gray-700 dark:text-gray-300 line-through">
-                                {formatCurrency(price * 1)}
-                            </span>
-                            <span className="font-bold text-red-500">{discount}% Off</span>
+                            {Number(discount) > 0 && (
+                                <>
+                                    <span className="text-gray-700 dark:text-gray-300 line-through">
+                                        {formatCurrency(price * 1)}
+                                    </span>
+                                    <span className="font-bold text-red-500">{discount}% Off</span>
+                                </>
+                            )}
                         </div>
                     </div>
                 </div>
