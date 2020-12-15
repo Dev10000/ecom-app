@@ -1,18 +1,27 @@
 import { extname } from 'path';
 import { Request, Response } from 'express';
-import fileUpload from 'express-fileupload';
+import { UploadedFile } from 'express-fileupload';
 import { v4 as uuidv4 } from 'uuid';
 import { validationResult } from 'express-validator';
 import QueryBuilder from '../database/QueryBuilder';
 import Product from '../models/Product';
+import ProductImage from '../models/ProductImage';
 
-// the uploaded files can be accessed with browser at http://localhost:5000/product_images/test.txt
-function moveUploadedFile(file: fileUpload.UploadedFile) {
-    const storePath = 'storage/product_images/';
-    const newFileName = uuidv4() + extname(file.name); // save the file uuid with original extension
-    file.mv(storePath + newFileName);
-    console.log(`Uploaded ${file.name} to ${storePath + newFileName}`);
-    // TODO: save the filenames to the DB
+// multi or a single file upload
+function handleFiles(images: UploadedFile, id: string) {
+    // the uploaded files can be accessed with browser at http://localhost:5000/product_images/test.txt
+    function moveUploadedFile(file: UploadedFile) {
+        const storePath = 'storage/product_images/';
+        const uuid = uuidv4();
+        const newFileName = uuid + extname(file.name); // save the file uuid with original extension
+        file.mv(storePath + newFileName);
+        console.log(`Uploaded ${file.name} to ${storePath + newFileName}`);
+        // WIP: save the filenames to the DB
+        const data = { uuid, filename: file.name, product_id: Number(id) };
+        return ProductImage.create<IProductImageModel>(data as Partial<IProductImage>).save();
+    }
+    if (Array.isArray(images)) images.forEach(moveUploadedFile);
+    else moveUploadedFile(images);
 }
 
 export const getAll = async (req: Request, res: Response): Promise<Response> => {
@@ -71,11 +80,12 @@ export const search = async (req: Request, res: Response): Promise<Response> => 
 
     // split search keywords, remove spaces and join them with |
     const regex = keywords
-        .split(' ')
+        .split(/\s+/)
         .filter((i) => i)
         .join('|');
     return QueryBuilder(Product)
         .where('title', '~*', `(${regex})`) // Matches regular expression, case insensitive
+        .orWhere('description', '~*', `(${regex})`)
         .paginate(Number(page) || 1, Number(items) || 25)
         .get()
         .then((products) => {
@@ -110,12 +120,7 @@ export const edit = async (req: Request, res: Response): Promise<Response> => {
 
             Object.assign(product, req.body as IProduct);
 
-            if (req.files) {
-                const { images } = req.files;
-                // multi or a single file upload
-                if (Array.isArray(images)) images.forEach(moveUploadedFile);
-                else moveUploadedFile(images);
-            }
+            if (req.files) handleFiles(req.files.images, id);
 
             return product
                 .save() // this should handle the database change

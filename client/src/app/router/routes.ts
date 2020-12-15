@@ -4,7 +4,7 @@ import Cart from '../pages/main/cart';
 import Checkout from '../pages/main/checkout';
 import Contact from '../pages/main/contact';
 import Products from '../pages/main/products';
-import Search from '../pages/main/search';
+// import Search from '../pages/main/search';
 import Profile from '../pages/main/profile';
 import Product from '../pages/main/product';
 
@@ -15,7 +15,7 @@ export default [
     { path: '/products/:id', name: 'Product', Component: Product, auth: false },
     { path: '/cart', name: 'Cart', Component: Cart, auth: false },
     { path: '/contact', name: 'Contact', Component: Contact, auth: false },
-    { path: '/search', name: 'Search', Component: Search, auth: false },
+    { path: '/search/:keywords', name: 'Search', Component: Home, auth: false },
     { path: '/checkout', name: 'Checkout', Component: Checkout, auth: true },
     { path: '/profile', name: 'Profile', Component: Profile, auth: true },
 ];
