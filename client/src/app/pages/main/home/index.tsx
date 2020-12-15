@@ -20,6 +20,7 @@ const Home: React.FC = (): JSX.Element => {
     const searchInput = useRef<HTMLInputElement>(null);
     const [products, setProducts] = useState<IProduct[]>([]);
     const [search, setSearch] = useState(pathname.slice(8));
+    const [resultNo, setResultNo] = useState(0);
 
     const [categoryFilter, setCategoryFilter] = useState(0);
 
@@ -32,6 +33,7 @@ const Home: React.FC = (): JSX.Element => {
         const apiEndpoint = !search ? `products/count` : `products/search/${search}/count`;
         axios.get(apiEndpoint).then((res) => {
             const calculatedLastPage = Math.ceil(Number(res.data.data) / perPage);
+            setResultNo(Number(res.data.data));
             setLastPage(calculatedLastPage);
             setCurrentPage(1);
         });
@@ -70,6 +72,30 @@ const Home: React.FC = (): JSX.Element => {
         if (currentPage <= lastPage) {
             setCurrentPage(currentPage + 1);
         }
+    };
+
+    const pageLinks = () => {
+        if (lastPage < 10) return [...Array(lastPage)].map((_e, index) => index + 1);
+        if (currentPage < 6) return [...Array(10)].map((_e, index) => index + 1);
+        if (currentPage > lastPage - 6) {
+            const arr = [];
+            for (let i = lastPage - 9; i <= lastPage; i++) {
+                arr.push(i);
+            }
+            return arr;
+        }
+        return [
+            currentPage - 5,
+            currentPage - 4,
+            currentPage - 3,
+            currentPage - 2,
+            currentPage - 1,
+            currentPage,
+            currentPage + 1,
+            currentPage + 2,
+            currentPage + 3,
+            currentPage + 4,
+        ];
     };
 
     return (
@@ -138,22 +164,20 @@ const Home: React.FC = (): JSX.Element => {
                     >
                         Previous
                     </button>
-                    {lastPage < 9
-                        ? [...Array(lastPage)].map((p, num) => {
-                              return (
-                                  <button
-                                      key={`page-${num + 1}`}
-                                      className={`p-3 bg-gray-200 border rounded shadow hover:bg-gray-100 ${
-                                          num + 1 === currentPage ? 'bg-blue-400 text-white hover:bg-blue-500' : null
-                                      }`}
-                                      type="button"
-                                      onClick={() => setCurrentPage(num + 1)}
-                                  >
-                                      {num + 1}
-                                  </button>
-                              );
-                          })
-                        : 'more'}
+                    {pageLinks().map((p) => {
+                        return (
+                            <button
+                                key={`page-${p}`}
+                                className={`p-3 bg-gray-200 border rounded shadow hover:bg-gray-100 ${
+                                    p === currentPage ? 'bg-blue-400 text-white hover:bg-blue-500' : null
+                                }`}
+                                type="button"
+                                onClick={() => setCurrentPage(p)}
+                            >
+                                {p}
+                            </button>
+                        );
+                    })}
                     <button
                         className={`p-3 border rounded shadow ${
                             currentPage === lastPage
@@ -166,6 +190,9 @@ const Home: React.FC = (): JSX.Element => {
                     >
                         Next
                     </button>
+                    <span className="ml-3">
+                        <b>{lastPage}</b> page(s) in total / {resultNo} results
+                    </span>
                 </div>
 
                 <select

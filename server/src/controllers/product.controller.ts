@@ -120,8 +120,8 @@ export const search = async (req: Request, res: Response): Promise<Response> => 
         .orWhere('description', '~*', `(${regex})`)
         .paginate(Number(page) || 1, Number(items) || 24)
         .get()
-        .then((searchCount) => {
-            return res.status(200).json({ status: 'success', data: searchCount });
+        .then((searchResults) => {
+            return res.status(200).json({ status: 'success', data: searchResults });
         })
         .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
 };
@@ -138,8 +138,8 @@ export const searchCount = async (req: Request, res: Response): Promise<Response
         .where('title', '~*', `(${regex})`) // Matches regular expression, case insensitive
         .orWhere('description', '~*', `(${regex})`)
         .count()
-        .then((products) => {
-            return res.status(200).json({ status: 'success', data: products });
+        .then((searchResCount) => {
+            return res.status(200).json({ status: 'success', data: searchResCount });
         })
         .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
 };

@@ -230,7 +230,7 @@ export default function QueryBuilder<T>(model: Constructor<T>) {
 
             const text = `${prefix} ${table} ${this.buildJoins()} ${this.buildConditions()} ${this.buildOrConditions()} ${this.buildOrderBy()}${this.buildPagination()}${this.buildLimit()}`;
             const values = this.buildValues();
-            // console.log(text, values);
+            console.log(text, values);
             return { text, values };
         }
 
@@ -304,7 +304,9 @@ export default function QueryBuilder<T>(model: Constructor<T>) {
             const orValues = this.data.orConditions.map((where) => where.value);
             const offset = (this.data.paginate.page - 1) * this.data.paginate.limit;
 
-            return this.data.paginate.limit === 1 ? values : [...values, ...orValues, this.data.paginate.limit, offset];
+            return this.data.paginate.limit === 1
+                ? [...values, ...orValues]
+                : [...values, ...orValues, this.data.paginate.limit, offset];
         }
 
         /**
