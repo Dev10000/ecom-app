@@ -13,7 +13,7 @@ export const getAllUsers = async (req: Request, res: Response): Promise<Response
     return (
         QueryBuilder(User)
             // .with('articles', 'country', 'orders')
-            .paginate(Number(page) || 1, Number(items) || 25)
+            .paginate(Number(page) || 1, Number(items) || 24)
             .get()
             .then((users) => {
                 const sanitizedUsers = users.map((u) => {
