@@ -1,10 +1,12 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable radix */
 /* eslint-disable array-callback-return */
 import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { RouteComponentProps, useHistory, useLocation } from 'react-router';
+import { useHistory, useLocation } from 'react-router';
 import CartContext from '../../../../context/cart';
+import { categoryIdToName, formatCurrency } from '../../../../utils';
 import Details from './details';
 import StarRating from '../../../../ui/components/rating';
 
@@ -157,6 +159,10 @@ const Product: React.FC = () => {
     }, [productId]);
 
     useEffect(() => {
+        setQuantity(1);
+    }, [productId]);
+
+    useEffect(() => {
         axios
             .get(`/products/${productId}`)
             .then((response) => {
@@ -186,16 +192,8 @@ const Product: React.FC = () => {
                 return err;
             });
 
-        axios
-            .get(`/categories`)
-            .then((response) => {
-                setCategoryName(
-                    response.data.data.find((category: IProductCategory) => category.id === categoryId).title,
-                );
-            })
-            .catch((err) => {
-                return err;
-            });
+        setCategoryName(categoryIdToName(categoryId));
+
         axios
             .get(`/categories/${categoryId}/products`)
             .then((response) => {
@@ -287,16 +285,26 @@ const Product: React.FC = () => {
                                                 Submit a review
                                             </button>
                                         </div>
-                                        {product?.discount && product?.discount > 0 ? (
-                                            <div className="mt-3">
-                                                <div className="text-blue-400">
-                                                    {product?.price * (1 - product?.discount * 0.01)}
+                                        {product ? (
+                                            product.discount && product.discount > 0 ? (
+                                                <div className="mt-3">
+                                                    <div className="text-blue-400">
+                                                        {formatCurrency(
+                                                            product?.price * (1 - product?.discount * 0.01) * 1,
+                                                        )}
+                                                    </div>
+                                                    <div className="line-through">
+                                                        {formatCurrency(product?.price * 1)}
+                                                    </div>
+                                                    <div className="text-red-800">{product?.discount}</div>
                                                 </div>
-                                                <div className="line-through">{product?.price}</div>
-                                                <div className="text-red-800">{product?.discount}</div>
-                                            </div>
+                                            ) : (
+                                                <div className="text-blue-400 mt-3">
+                                                    {formatCurrency(product.price * 1)}
+                                                </div>
+                                            )
                                         ) : (
-                                            <div className="text-blue-400 mt-3">{product?.price}</div>
+                                            ''
                                         )}
                                         <div className="flex flex-col mt-4">
                                             <div className="flex flex-row justify-between mt-2">
@@ -317,13 +325,11 @@ const Product: React.FC = () => {
                                         </div>
                                         <div className="flex flex-row justify-between mt-2">
                                             <div>Color</div>
-                                            <div className="flex flex-row items-center space-x-2">
-                                                <button type="button">
-                                                    <div
-                                                        className={`border rounded-full h-5 w-5 bg-${productColor}-600`}
-                                                    />
-                                                </button>
-                                            </div>
+                                            {productColor ? (
+                                                <div className={`border rounded-full h-5 w-5 bg-${productColor}-600`} />
+                                            ) : (
+                                                ''
+                                            )}
                                         </div>
                                         <div className="flex flex-row justify-between mt-2">
                                             <div>Rating</div>
@@ -357,7 +363,7 @@ const Product: React.FC = () => {
                                                 <button
                                                     onClick={() => (product ? addProduct(product, quantity) : '')}
                                                     type="button"
-                                                    className="flex flex-row space-x-5 text-blue-500 bg-blue-100 border rounded shadow p-2"
+                                                    className="flex flex-row space-x-5  hover:text-white text-blue-500 bg-blue-100 hover:bg-blue-400 border rounded shadow p-2"
                                                 >
                                                     <div className="flex flex-row items-center">
                                                         <div className="inline-block">
@@ -483,18 +489,30 @@ const Product: React.FC = () => {
                                                 <StarRating value={starRating} />
                                             </div>
                                         </div>
-                                        {sliderProduct?.discount && sliderProduct?.discount > 0 ? (
-                                            <div className="flex flex-row justify-center space-x-5">
-                                                <div className="text-blue-400">
-                                                    €{sliderProduct?.price * (1 - sliderProduct?.discount * 0.01)}
+                                        {sliderProduct ? (
+                                            sliderProduct?.discount && sliderProduct?.discount > 0 ? (
+                                                <div className="flex flex-row justify-center space-x-5">
+                                                    <div className="text-blue-400">
+                                                        {formatCurrency(
+                                                            sliderProduct?.price *
+                                                                (1 - sliderProduct?.discount * 0.01) *
+                                                                1,
+                                                        )}
+                                                    </div>
+                                                    <div className="line-through">
+                                                        {formatCurrency(sliderProduct?.price * 1)}
+                                                    </div>
+                                                    <div className="text-red-800">{sliderProduct?.discount}%</div>
                                                 </div>
-                                                <div className="line-through">€{sliderProduct?.price}</div>
-                                                <div className="text-red-800">{sliderProduct?.discount}%</div>
-                                            </div>
+                                            ) : (
+                                                <div className="flex flex-row justify-center space-x-5">
+                                                    <div className="text-blue-400">
+                                                        {formatCurrency(sliderProduct?.price * 1)}
+                                                    </div>
+                                                </div>
+                                            )
                                         ) : (
-                                            <div className="flex flex-row justify-center space-x-5">
-                                                <div className="text-blue-400">{sliderProduct?.price}</div>
-                                            </div>
+                                            ''
                                         )}
                                     </div>
                                 </div>
@@ -567,14 +585,14 @@ const Product: React.FC = () => {
                                         {elem.discount && elem.discount > 0 ? (
                                             <div className="flex flex-row justify-center space-x-5 mt-1">
                                                 <div className="text-blue-400">
-                                                    €{elem.price * (1 - elem.discount * 0.01)}
+                                                    {formatCurrency(elem.price * (1 - elem.discount * 0.01) * 1)}
                                                 </div>
-                                                <div className="line-through">€{elem.price}</div>
-                                                <div className="text-red-800">{elem.discount}%</div>
+                                                <div className="line-through">{formatCurrency(elem.price * 1)}</div>
+                                                <div className="text-red-800">{elem.discount}% Off</div>
                                             </div>
                                         ) : (
                                             <div className="flex flex-row justify-center space-x-5 mt-1 mb-1">
-                                                <div className="text-blue-400">€{elem.price}</div>
+                                                <div className="text-blue-400">{formatCurrency(elem.price * 1)}</div>
                                             </div>
                                         )}
                                     </li>

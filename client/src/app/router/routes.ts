@@ -18,4 +18,5 @@ export default [
     { path: '/search/:keywords', name: 'Search', Component: Home, auth: false },
     { path: '/checkout', name: 'Checkout', Component: Checkout, auth: true },
     { path: '/profile', name: 'Profile', Component: Profile, auth: true },
+    { path: '/edit-profile', name: 'Edit profile', Component: Profile, auth: true },
 ];
