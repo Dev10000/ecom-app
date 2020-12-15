@@ -16,7 +16,7 @@ const StarRating: React.FC<IStarRatingProps> = ({ value }): JSX.Element => {
     };
     return (
         <div className="w-full flex flex-row items-center">
-            <div className="flex flex-row items-center">
+            <div className="flex flex-row items-center mx-auto">
                 {getStars().map((val, idx) => (
                     <img
                         // eslint-disable-next-line react/no-array-index-key

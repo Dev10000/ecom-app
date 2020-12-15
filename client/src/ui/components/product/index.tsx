@@ -2,11 +2,12 @@ import React, { useContext, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import CartContext from '../../../context/cart';
 import { formatCurrency } from '../../../utils';
+import StarRating from '../rating';
 
 type IProductProps = IProduct;
 
 const Product: React.FC<IProductProps> = (props: IProduct): JSX.Element => {
-    const { id, title, price, discount, slug } = props;
+    const { id, title, price, discount, slug, images, rating } = props;
     const [visibleButtons, setVisibleButtons] = useState(false);
     const { addProduct } = useContext(CartContext);
     const history = useHistory();
@@ -17,20 +18,21 @@ const Product: React.FC<IProductProps> = (props: IProduct): JSX.Element => {
 
     return (
         <div className="w-full h-full">
-            <button
-                type="button"
-                onClick={displayProductPage}
-                key={id}
+            <div
                 onMouseEnter={() => setVisibleButtons(true)}
                 onMouseLeave={() => setVisibleButtons(false)}
-                className="max-w-2xl bg-gray-300 dark:bg-gray-600 rounded-md flex flex-col w-full h-full"
+                className="max-w-2xl bg-white dark:bg-white rounded-md flex flex-col w-full h-full"
             >
-                <div className="flex items-center text-center mx-auto h-40">
-                    <img src="https://via.placeholder.com/250x150?text=Product Image" alt="Lorem ipsum" />
+                <div className="flex items-center text-center w-full mx-auto h-40">
+                    <img
+                        className="relative w-auto h-32 mx-auto"
+                        src={`${images?.filter((img) => img.default_img === true)[0].href}`}
+                        alt={title}
+                    />
                     <div
                         className={`${
                             visibleButtons ? 'block' : 'hidden'
-                        } absolute w-48 h-32 bg-white rounded shadow bg-opacity-75 transform translate-x-6`}
+                        } absolute w-48 h-32 bg-gray-200 rounded shadow bg-opacity-75 transform translate-x-24 md:translate-x-12 xl:translate-x-32`}
                     >
                         <div className="flex w-full h-full items-center">
                             {/*  eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
@@ -60,10 +62,16 @@ const Product: React.FC<IProductProps> = (props: IProduct): JSX.Element => {
                 </div>
                 <div className="w-full h-full flex flex-1 flex-end">
                     <div className="bg-white dark:bg-gray-800 m-1 flex flex-1 flex-col">
-                        <div className="text-center text-md text-blue-900 dark:text-white font-extrabold py-2 flex-1">
+                        <button
+                            type="button"
+                            className="text-center text-md text-blue-900 dark:text-white font-extrabold py-2 flex-1 hover:underline"
+                            onClick={displayProductPage}
+                        >
                             {title}
+                        </button>
+                        <div className="text-center py-2 text-sm">
+                            <StarRating value={rating || 0} />
                         </div>
-                        <div className="text-center py-2 text-sm">Rating here</div>
                         <div className="text-center py-2 space-x-2 flex-end">
                             <span className="font-extrabold text-blue-400">
                                 {formatCurrency(price * ((100 - discount) / 100))}
@@ -75,7 +83,7 @@ const Product: React.FC<IProductProps> = (props: IProduct): JSX.Element => {
                         </div>
                     </div>
                 </div>
-            </button>
+            </div>
         </div>
     );
 };

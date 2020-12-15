@@ -140,7 +140,7 @@ describe('Authorization Testing', () => {
         const categContext = checkPost(roles, tokens, '/api/categories', [401, 403, 201], Valid.categoryData);
         checkPatch(roles, tokens, '/api/categories/:id', [401, 403, 200], Valid.categoryData, categContext);
         checkDelete(roles, tokens, '/api/categories/:id', [401, 403, 200], categContext);
-        checkGet(roles, tokens, '/api/categories/233/products', [200, 200, 200]);
+        checkGet(roles, tokens, '/api/categories/223/products', [200, 200, 200]);
     });
 
     // server\src\routes\product-spec.routes.ts
