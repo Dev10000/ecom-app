@@ -3,6 +3,7 @@ import Verify from '../middleware/verify';
 import productValidator, { productQuery } from '../validators/product';
 import {
     getAll,
+    getCount,
     getSingle,
     getReviews,
     search,
@@ -10,13 +11,16 @@ import {
     edit,
     destroy,
     filterProduct,
+    getRelated,
     // getAllInSubCategories,
 } from '../controllers/product.controller';
 
 const router = Router();
 
 router.get('/', productQuery, getAll);
+router.get('/count', getCount);
 // router.get('/subcat/:id', getAllInSubCategories);
+router.get('/:id/related', getRelated);
 router.get('/:id/reviews', getReviews);
 router.get('/:id', getSingle);
 router.get('/search/:keywords', productQuery, search);
