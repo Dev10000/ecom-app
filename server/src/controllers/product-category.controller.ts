@@ -122,8 +122,6 @@ export const listProducts = async (req: Request, res: Response): Promise<Respons
                 )
                 SELECT * FROM category_path
                 INNER JOIN products p ON category_path.id = p.product_category_id
-                INNER JOIN product_images pi ON p.id = pi.product_id
-                WHERE default_img = true
                 ORDER BY lvl
                 LIMIT $2 OFFSET $3;`;
 

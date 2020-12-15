@@ -49,8 +49,14 @@ const useAuth = (): IUseAuth => {
     };
 
     const logout = () => {
-        localStorage.removeItem('token');
-        setToken(null);
+        axios
+            .post('logout')
+            .then(() => {
+                axios.defaults.headers.common.Authorization = ``;
+                localStorage.removeItem('token');
+                setToken(null);
+            })
+            .catch((e) => console.log(e));
     };
 
     return { isLoggedIn, user, token, login, logout };
