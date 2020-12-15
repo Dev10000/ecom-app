@@ -1,16 +1,21 @@
+/* eslint-disable no-nested-ternary */
+/* eslint-disable radix */
 /* eslint-disable array-callback-return */
 import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { RouteComponentProps, useLocation } from 'react-router';
+import { useHistory, useLocation } from 'react-router';
 import CartContext from '../../../../context/cart';
+import { categoryIdToName, formatCurrency } from '../../../../utils';
+import Details from './details';
+import StarRating from '../../../../ui/components/rating';
 
 interface IProductState {
     productId: number;
 }
 
 const Product: React.FC = () => {
-    const { addProducts } = useContext(CartContext);
+    const { addProduct } = useContext(CartContext);
     const location = useLocation<IProductState>();
     const [product, setProduct] = useState<IProduct>();
     const [productId, setProductId] = useState<number | undefined>(undefined);
@@ -20,18 +25,27 @@ const Product: React.FC = () => {
     const [sliderProduct, setSliderProduct] = useState<IProduct>();
     const [sliderIndex, setSliderIndex] = useState<number>(1);
     const [featureProducts, setFeatureProducts] = useState<IProduct[]>([]);
-    const [featureIndex, setFeatureIndices] = useState<number>(0);
+    const [featureIndex, setFeatureIndices] = useState<number>(1);
     const [productImage, setProductImage] = useState<IProductImage>();
     const [productImages, setProductImages] = useState<IProductImage[]>([]);
     const [allProductImages, setAllProductImages] = useState<IProductImage[]>([]);
-    const [imageIndex, setImageIndex] = useState<number>(0);
+    const [imageIndex, setImageIndex] = useState<number>(1);
     const [quantity, setQuantity] = useState<number>(1);
-    const [sliderProductRightDisplay, setSliderProductRightDisplay] = useState<boolean>(true);
-    const [sliderProductLeftDisplay, setSliderProductLeftDisplay] = useState<boolean>(false);
-    const [featureProductRightDisplay, setFeatureProductRightDisplay] = useState<boolean>(true);
-    const [featureProductLeftDisplay, setFeatureProductLeftDisplay] = useState<boolean>(false);
-    const [productImagesRightDisplay, setProductImagesRightDisplay] = useState<boolean>(true);
-    const [productImagesLeftDisplay, setProductImagesLeftDisplay] = useState<boolean>(false);
+    const [width, setWidth] = useState(window.innerWidth);
+    const [numImages, setNumImages] = useState<number>(4);
+    const [productColor, setProductColor] = useState<string>('white');
+    const [starRating, setStarRating] = useState<number>(5);
+    const history = useHistory();
+
+    const navSliderProduct = () => {
+        history.push({ pathname: `/products/${sliderProduct?.slug}`, state: { productId: sliderProduct?.id } });
+    };
+
+    const navFeatureProduct = (id: number | undefined) => {
+        const featureId = featureProducts.find((element) => element.id === id)?.id;
+        const featureSlug = featureProducts.find((element) => element.id === id)?.slug;
+        history.push({ pathname: `/products/${featureSlug}`, state: { productId: featureId } });
+    };
 
     // increase number of items
     const addCounter = () => {
@@ -48,116 +62,171 @@ const Product: React.FC = () => {
     };
     // set product display images
     const imageDisplay = (id: number | undefined) => {
-        setProductImage(product?.image?.find((image) => image.id === id));
+        setProductImage(product?.images?.find((image) => image.id === id));
     };
     // slides product images right
     const sliderProductRight = (): void => {
-        if (sliderIndex > categoryProducts.length - 2) {
-            setSliderProductRightDisplay(false);
-        } else {
-            setSliderProductLeftDisplay(true);
-            setSliderIndex(sliderIndex + 1);
-            setSliderProduct(categoryProducts[sliderIndex]);
+        if (sliderIndex < categoryProducts.length) {
+            const rightIndex = sliderIndex;
+            const rightImages = [...categoryProducts].filter(
+                (image, index) => index > rightIndex - 1 && index < rightIndex + 1,
+            )[0];
+            setSliderIndex(rightIndex + 1);
+            setSliderProduct(rightImages);
         }
     };
     // slides product images left
     const sliderProductLeft = (): void => {
-        if (sliderIndex < 0) {
-            setSliderProductLeftDisplay(false);
-        } else {
-            setSliderProductRightDisplay(true);
-            setSliderIndex(sliderIndex - 1);
-            setSliderProduct(categoryProducts[sliderIndex]);
+        if (sliderIndex > 1 && sliderIndex <= categoryProducts.length) {
+            const leftIndex = sliderIndex;
+            const leftImages = [...categoryProducts].filter(
+                (image, index) => index >= leftIndex - 2 && index < leftIndex - 1,
+            )[0];
+            setSliderIndex(leftIndex - 1);
+            setSliderProduct(leftImages);
         }
     };
     // slides product images right
     const featureProductRight = (): void => {
-        if (featureIndex > categoryProducts.length - 4) {
-            setFeatureProductRightDisplay(false);
-        } else {
-            setFeatureProductLeftDisplay(true);
-            setFeatureIndices(featureIndex + 1);
-            setFeatureProducts([...categoryProducts].splice(featureIndex, 4));
+        if (featureIndex < categoryProducts.length - numImages + 1) {
+            const rightIndex = featureIndex;
+            const rightImages = [...categoryProducts].filter(
+                (image, index) => index > rightIndex - 1 && index < rightIndex + numImages,
+            );
+            setFeatureIndices(rightIndex + 1);
+            setFeatureProducts(rightImages);
         }
     };
     // slides product images left
     const featureProductLeft = (): void => {
-        if (featureIndex < 0) {
-            setFeatureProductLeftDisplay(false);
-        } else {
-            setFeatureProductRightDisplay(true);
-            setFeatureIndices(featureIndex - 1);
-            setFeatureProducts([...categoryProducts].splice(featureIndex, 4));
+        if (featureIndex > 1 && featureIndex <= categoryProducts.length - numImages + 1) {
+            const leftIndex = featureIndex;
+            const leftImages = [...categoryProducts].filter(
+                (image, index) => index >= leftIndex - 2 && index < leftIndex + numImages - 2,
+            );
+            setFeatureIndices(leftIndex - 1);
+            setFeatureProducts(leftImages);
+        }
+    };
+
+    // slides product images left
+    const productImagesLeft = (): void => {
+        if (imageIndex > 1 && imageIndex <= allProductImages.length - 4 + 1) {
+            const leftIndex = imageIndex;
+            const leftImages = [...allProductImages].filter(
+                (image, index) => index >= leftIndex - 2 && index < leftIndex + 4 - 2,
+            );
+            setImageIndex(leftIndex - 1);
+            setProductImages(leftImages);
         }
     };
 
     // slides product images right
-    const productImagesRight = (): void => {
-        if (imageIndex > allProductImages.length - 4) {
-            setProductImagesRightDisplay(false);
-        } else {
-            setProductImagesLeftDisplay(true);
-            setImageIndex(imageIndex + 1);
-            setProductImages([...allProductImages].splice(imageIndex, 4));
+    const productImagesRight = () => {
+        if (imageIndex < allProductImages.length - 4 + 1) {
+            const rightIndex = imageIndex;
+            const rightImages = [...allProductImages].filter(
+                (image, index) => index > rightIndex - 1 && index < rightIndex + 4,
+            );
+            setImageIndex(rightIndex + 1);
+            setProductImages(rightImages);
         }
     };
-    // slides product images left
-    const productImagesLeft = (): void => {
-        if (imageIndex > allProductImages.length - 4) {
-            setProductImagesLeftDisplay(false);
-        } else {
-            setProductImagesRightDisplay(true);
-            setImageIndex(imageIndex + 1);
-            setProductImages([...allProductImages].splice(imageIndex, 4));
-        }
-    };
+
     useEffect(() => {
-        setProductId(location.state.productId);
+        if (location.state) {
+            setProductId(location.state.productId);
+        }
     }, [location]);
+
+    useEffect(() => {
+        window.addEventListener('resize', () => setWidth(window.innerWidth));
+        if (width < 650) {
+            setNumImages(1);
+        } else if (width < 1000) {
+            setNumImages(2);
+        } else if (width < 1200) {
+            setNumImages(3);
+        } else if (width < 1900) {
+            setNumImages(4);
+        } else {
+            setNumImages(5);
+        }
+    }, [width]);
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [productId]);
+
+    useEffect(() => {
+        setQuantity(1);
+    }, [productId]);
+
+    useEffect(() => {
+        axios
+            .get(`/products/${productId}`)
+            .then((response) => {
+                const color: string = response.data.data.specs
+                    ?.find((spec: IProductSpecs) => spec.product_id === response.data.data.product_id)
+                    .specs.Color.toLowerCase();
+                if (color === 'black') {
+                    setProductColor('gray');
+                } else {
+                    setProductColor(color);
+                }
+                setStarRating(parseInt(response.data.data.rating));
+            })
+            .catch((err) => {
+                return err;
+            });
+    }, [productId, productColor]);
+
     useEffect(() => {
         axios
             .get(`/products/${productId}`)
             .then((response) => {
                 setProduct(response.data.data);
                 setCategoryId(response.data.data.product_category_id);
-                setProductImage(response.data.data.image.find((image: IProductImage) => image.default_img === true));
-                setAllProductImages(response.data.data.image);
-                setProductImages(response.data.data.image.filter((image: IProductImage, index: number) => index < 4));
+                setProductImage(response.data.data.images.find((image: IProductImage) => image.default_img === true));
+                setAllProductImages(response.data.data.images);
+                setProductImages(response.data.data.images.filter((image: IProductImage, index: number) => index < 4));
             })
             .catch((err) => {
                 return err;
             });
 
+        setCategoryName(categoryIdToName(categoryId));
+
         axios
-            .get(`/categories`)
-            .then((response) => {
-                setCategoryName(
-                    response.data.data.find((category: IProductCategory) => category.id === categoryId).title,
-                );
-            })
-            .catch((err) => {
-                return err;
-            });
-        axios
-            .get(`/categories/${categoryId}/products`)
+            .get(`/products/${productId}/related`)
             .then((response) => {
                 setCategoryProducts(response.data.data);
                 setSliderProduct(response.data.data[0]);
-                setFeatureProducts(response.data.data.filter((item: IProduct, index: number) => index < 4));
+                setFeatureProducts(response.data.data.filter((item: IProduct, index: number) => index < numImages));
                 return response.data.data;
             })
             .catch((err) => {
                 return err;
             });
-    }, [productId, categoryId]);
+
+        axios
+            .get(`/products/${productId}/reviews`)
+            .then((response) => {
+                console.log(response.data.data);
+                return response.data.data;
+            })
+            .catch((err) => {
+                return err;
+            });
+    }, [productId, categoryId, numImages]);
 
     return (
         <div>
             <div className="bg-gray-100 h-10 w-full" />
             <div className="flex flex-col text-sm justify-center mx-10">
-                <div className="flex flex-col sm:flex-row sm:justify-between sm:space-x-10">
-                    <div className="flex flex-col">
-                        <div className="flex flex-col sm:flex-row mt-5 sm:justify-between">
+                <div className="flex flex-col xl:flex-row sm:justify-between sm:space-x-10">
+                    <div className="flex flex-col flex-grow">
+                        <div className="flex flex-col md:flex-row mt-5 sm:justify-between">
                             <div className="flex flex-row justify-center">
                                 <div>
                                     <div className="flex flex-row justify-center">
@@ -168,30 +237,26 @@ const Product: React.FC = () => {
                                         />
                                     </div>
                                     <div className="flex flex-row space-x-2">
-                                        {productImagesLeftDisplay ? (
-                                            <button
-                                                type="button"
-                                                onClick={productImagesLeft}
-                                                className="hover:text-blue-400"
+                                        <button
+                                            type="button"
+                                            onClick={() => productImagesLeft()}
+                                            className="hover:text-blue-400"
+                                        >
+                                            <svg
+                                                className="w-10 h-10 p-2 flex flex-row content-center"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                viewBox="0 0 24 24"
                                             >
-                                                <svg
-                                                    className="w-10 h-10 p-2 flex flex-row content-center"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    fill="none"
-                                                    stroke="currentColor"
-                                                    viewBox="0 0 24 24"
-                                                >
-                                                    <path
-                                                        strokeLinecap="round"
-                                                        strokeLinejoin="round"
-                                                        strokeWidth="2"
-                                                        d="M15 19l-7-7 7-7"
-                                                    />
-                                                </svg>
-                                            </button>
-                                        ) : (
-                                            ''
-                                        )}
+                                                <path
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                    strokeWidth="2"
+                                                    d="M15 19l-7-7 7-7"
+                                                />
+                                            </svg>
+                                        </button>
                                         {productImages.map((element) => (
                                             <div
                                                 key={element.id}
@@ -203,50 +268,56 @@ const Product: React.FC = () => {
                                                 </div>
                                             </div>
                                         ))}
-                                        {productImagesRightDisplay ? (
-                                            <button type="button" onClick={productImagesRight}>
-                                                <svg
-                                                    className="w-10 h-10 p-2 flex flex-row content-center"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    fill="none"
-                                                    stroke="currentColor"
-                                                    viewBox="0 0 24 24"
-                                                >
-                                                    <path
-                                                        strokeLinecap="round"
-                                                        strokeLinejoin="round"
-                                                        strokeWidth="2"
-                                                        d="M9 5l7 7-7 7"
-                                                    />
-                                                </svg>
-                                            </button>
-                                        ) : (
-                                            ''
-                                        )}
+                                        <button type="button" onClick={() => productImagesRight()}>
+                                            <svg
+                                                className="w-10 h-10 p-2 flex flex-row content-center"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                viewBox="0 0 24 24"
+                                            >
+                                                <path
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                    strokeWidth="2"
+                                                    d="M9 5l7 7-7 7"
+                                                />
+                                            </svg>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
                             <div className="flex flex-row justify-center mt-8">
                                 <div className="flex flex-col">
-                                    <div className="flex flex-col">
-                                        <div className="text-xl font-semibold">{product?.title}</div>
+                                    <div className="flex flex-col w-6/5">
+                                        <div className="text-xl font-semibold max-w-3xl">{product?.title}</div>
                                         <div className="flex flex-row items-center text-xs mt-4 justify-between border-b border-gray-200">
-                                            <div className="mb-2">Rating</div>
+                                            <div className="mb-2">Rating ({product ? product.rating : ''})</div>
                                             <div className="mb-2">0 reviews</div>
                                             <button type="button" className="text-blue-400 mb-2">
                                                 Submit a review
                                             </button>
                                         </div>
-                                        {product?.discount && product?.discount > 0 ? (
-                                            <div className="mt-3">
-                                                <div className="text-blue-400">
-                                                    {product?.price * (1 - product?.discount * 0.01)}
+                                        {product ? (
+                                            product.discount && product.discount > 0 ? (
+                                                <div className="mt-3">
+                                                    <div className="text-blue-400">
+                                                        {formatCurrency(
+                                                            product?.price * (1 - product?.discount * 0.01) * 1,
+                                                        )}
+                                                    </div>
+                                                    <div className="line-through">
+                                                        {formatCurrency(product?.price * 1)}
+                                                    </div>
+                                                    <div className="text-red-800">{product?.discount}</div>
                                                 </div>
-                                                <div className="line-through">{product?.price}</div>
-                                                <div className="text-red-800">{product?.discount}</div>
-                                            </div>
+                                            ) : (
+                                                <div className="text-blue-400 mt-3">
+                                                    {formatCurrency(product.price * 1)}
+                                                </div>
+                                            )
                                         ) : (
-                                            <div className="text-blue-400 mt-3">{product?.price}</div>
+                                            ''
                                         )}
                                         <div className="flex flex-col mt-4">
                                             <div className="flex flex-row justify-between mt-2">
@@ -266,30 +337,17 @@ const Product: React.FC = () => {
                                             <div className="mb-3">Free shipping</div>
                                         </div>
                                         <div className="flex flex-row justify-between mt-2">
-                                            <div>Select color</div>
-                                            <div className="flex flex-row items-center space-x-2">
-                                                <button type="button">
-                                                    <div className="border rounded-full h-4 w-4 bg-blue-400" />
-                                                </button>
-                                                <button type="button">
-                                                    <div className="border rounded-full h-4 w-4 bg-red-500" />
-                                                </button>
-                                                <button type="button">
-                                                    <div className="border rounded-full h-4 w-4 bg-gray-800" />
-                                                </button>
-                                                <button type="button">
-                                                    <div className="border rounded-full h-4 w-4 bg-yellow-600" />
-                                                </button>
-                                            </div>
+                                            <div>Color</div>
+                                            {productColor ? (
+                                                <div className={`border rounded-full h-5 w-5 bg-${productColor}-600`} />
+                                            ) : (
+                                                ''
+                                            )}
                                         </div>
-                                        <div className="flex flex-row items-center justify-between mt-2 border-b border-gray-300">
-                                            <div className="mb-4">Size:</div>
-                                            <div className="border rounded shadow border-gray-300 w-20 flex justify-end mb-4">
-                                                <select>
-                                                    <option>S</option>
-                                                    <option>M</option>
-                                                    <option>L</option>
-                                                </select>
+                                        <div className="flex flex-row justify-between mt-2">
+                                            <div>Rating</div>
+                                            <div>
+                                                <StarRating value={starRating} />
                                             </div>
                                         </div>
                                         <div className="flex flex-row mt-5 items-center justify-between border-b border-gray-300">
@@ -316,9 +374,9 @@ const Product: React.FC = () => {
                                             </div>
                                             <div className="mb-4">
                                                 <button
-                                                    onClick={() => (product ? addProducts(product, quantity) : '')}
+                                                    onClick={() => (product ? addProduct(product, quantity) : '')}
                                                     type="button"
-                                                    className="flex flex-row space-x-5 text-blue-500 bg-blue-100 border rounded shadow p-2"
+                                                    className="flex flex-row space-x-5  hover:text-white text-blue-500 bg-blue-100 hover:bg-blue-400 border rounded shadow p-2"
                                                 >
                                                     <div className="flex flex-row items-center">
                                                         <div className="inline-block">
@@ -391,28 +449,15 @@ const Product: React.FC = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className="flex flex-col mt-10 bg-gray-100 border rounded w-full h-64">
-                            <div className="flex flex-row items-center space-x-10 border-b-2 border-gray-200">
-                                <button
-                                    type="button"
-                                    className="border-b-2 px-4 py-4 hover:border-blue-500 hover:text-blue-400"
-                                >
-                                    Product information
-                                </button>
-                                <button
-                                    type="button"
-                                    className="border-b-2 m-0 px-2 py-4 hover:border-blue-500 hover:text-blue-400"
-                                >
-                                    Reviews
-                                </button>
-                            </div>
-                            <div>
-                                <div className="w-3/4 mt-5 mx-4">{product?.description}</div>
-                            </div>
-                        </div>
+                        {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+                        {product ? <Details {...product} /> : ''}
                     </div>
-                    <div className="flex flex-row items-center justify-center mt-12 sm:mt-0">
-                        {sliderProductLeftDisplay ? (
+
+                    <div>
+                        <div className="xl:mx-10 mt-12 p-2 text-xl font-medium flex flex-row justify-center">
+                            <div>BEST SELLER</div>
+                        </div>
+                        <div className="flex flex-row items-center justify-center mt-12 sm:mt-2">
                             <button type="button" onClick={sliderProductLeft}>
                                 <div className="flex flex-col justify-center border rounded-full bg-gray-100 hover:bg-blue-400 hover:text-white h-10 w-10">
                                     <svg
@@ -431,44 +476,60 @@ const Product: React.FC = () => {
                                     </svg>
                                 </div>
                             </button>
-                        ) : (
-                            ''
-                        )}
-                        <div className="w-60 border shadow border-gray-300 mx-4 flex flex-col">
-                            <div className="w-60 h-48 flex flex-col justify-center">
-                                <div className="flex flex-row justify-center">
-                                    <img
-                                        className="h-48 w-auto p-4"
-                                        src={`${
-                                            sliderProduct?.image?.filter((image) => image.default_img === true)[0].href
-                                        }`}
-                                        alt={`${sliderProduct?.title}`}
-                                    />
-                                </div>
-                            </div>
-                            <div className="border-t border-gray-300 h-36 flex flex-col justify-center">
-                                <div className="flex flex-row justify-center">
-                                    <div className="text-sm text-center font-semibold">{sliderProduct?.title}</div>
-                                </div>
-                                <div className="flex flex-row justify-center">
-                                    <div className="text-xs">Rating</div>
-                                </div>
-                                {sliderProduct?.discount && sliderProduct?.discount > 0 ? (
-                                    <div className="flex flex-row justify-center space-x-5">
-                                        <div className="text-blue-400">
-                                            {sliderProduct?.price * (1 - sliderProduct?.discount * 0.01)}
+                            <button type="button" onClick={navSliderProduct}>
+                                <div className="w-68 border shadow border-gray-300 mx-4 flex flex-col">
+                                    <div className="w-68 h-64 flex flex-col justify-center">
+                                        <div className="flex flex-row justify-center">
+                                            <img
+                                                className="h-64 w-auto p-4"
+                                                src={`${
+                                                    sliderProduct?.images?.filter(
+                                                        (image) => image.default_img === true,
+                                                    )[0].href
+                                                }`}
+                                                alt={`${sliderProduct?.title}`}
+                                            />
                                         </div>
-                                        <div className="line-through">{sliderProduct?.price}</div>
-                                        <div className="text-red-800">{sliderProduct?.discount}</div>
                                     </div>
-                                ) : (
-                                    <div className="flex flex-row justify-center space-x-5">
-                                        <div className="text-blue-400">{sliderProduct?.price}</div>
+                                    <div className="border-t border-gray-300 h-36 flex flex-col justify-center">
+                                        <div className="flex flex-row justify-center">
+                                            <div className="text-sm text-center font-semibold">
+                                                {sliderProduct?.title}
+                                            </div>
+                                        </div>
+                                        <div className="flex flex-row justify-center">
+                                            <div>
+                                                <StarRating value={starRating} />
+                                            </div>
+                                        </div>
+                                        {sliderProduct ? (
+                                            sliderProduct?.discount && sliderProduct?.discount > 0 ? (
+                                                <div className="flex flex-row justify-center space-x-5">
+                                                    <div className="text-blue-400">
+                                                        {formatCurrency(
+                                                            sliderProduct?.price *
+                                                                (1 - sliderProduct?.discount * 0.01) *
+                                                                1,
+                                                        )}
+                                                    </div>
+                                                    <div className="line-through">
+                                                        {formatCurrency(sliderProduct?.price * 1)}
+                                                    </div>
+                                                    <div className="text-red-800">{sliderProduct?.discount}%</div>
+                                                </div>
+                                            ) : (
+                                                <div className="flex flex-row justify-center space-x-5">
+                                                    <div className="text-blue-400">
+                                                        {formatCurrency(sliderProduct?.price * 1)}
+                                                    </div>
+                                                </div>
+                                            )
+                                        ) : (
+                                            ''
+                                        )}
                                     </div>
-                                )}
-                            </div>
-                        </div>
-                        {sliderProductRightDisplay ? (
+                                </div>
+                            </button>
                             <button type="button" onClick={sliderProductRight}>
                                 <div className="flex flex-col justify-center border rounded-full bg-gray-100 hover:bg-blue-400 hover:text-white h-10 w-10">
                                     <svg
@@ -487,9 +548,7 @@ const Product: React.FC = () => {
                                     </svg>
                                 </div>
                             </button>
-                        ) : (
-                            ''
-                        )}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -497,79 +556,77 @@ const Product: React.FC = () => {
                 <div>RELATED PRODUCTS</div>
             </div>
             <div className="flex flex-row items-center space-y-5 justify-center mt-10">
-                {featureProductLeftDisplay ? (
-                    <button type="button" onClick={featureProductLeft}>
-                        <div className="flex flex-col justify-center border rounded-full bg-gray-100 hover:bg-blue-400 hover:text-white h-10 w-10">
-                            <svg
-                                className="w-10 h-10 p-2 flex flex-row content-center"
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth="2"
-                                    d="M15 19l-7-7 7-7"
-                                />
-                            </svg>
-                        </div>
-                    </button>
-                ) : (
-                    ''
-                )}
-                <div className="flex flex-col sm:flex-row">
+                <button type="button" onClick={featureProductLeft}>
+                    <div className="flex flex-col justify-center border rounded-full bg-gray-100 hover:bg-blue-400 hover:text-white h-10 w-10">
+                        <svg
+                            className="w-10 h-10 p-2 flex flex-row content-center"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
+                        </svg>
+                    </div>
+                </button>
+
+                <div className="flex flex-row">
                     {featureProducts.map((elem) => (
-                        <ul key={elem.id} className="w-60 border shadow border-gray-300 mx-4 mt-12 sm:mt-0">
-                            <li className="w-60 h-48 flex flex-col justify-center">
-                                <div className="flex flex-row justify-center">
-                                    <img
-                                        className="h-48 w-auto p-4"
-                                        src={`${elem.image?.filter((image) => image.default_img === true)[0].href}`}
-                                        alt={`${elem.title}`}
-                                    />
-                                </div>
-                            </li>
-                            <li className="border-t border-gray-300 h-36 flex flex-col justify-center">
-                                <div className="flex flex-row justify-center">
-                                    <div className="text-sm text-center font-semibold">{elem.title}</div>
-                                </div>
-                                <div className="flex flex-row justify-center mt-1">
-                                    <div className="text-xs">Rating</div>
-                                </div>
-                                {elem.discount && elem.discount > 0 ? (
-                                    <div className="flex flex-row justify-center space-x-5 mt-1">
-                                        <div className="text-blue-400">{elem.price * (1 - elem.discount * 0.01)}</div>
-                                        <div className="line-through">{elem.price}</div>
-                                        <div className="text-red-800">{elem.discount}</div>
-                                    </div>
-                                ) : (
-                                    <div className="flex flex-row justify-center space-x-5 mt-1 mb-1">
-                                        <div className="text-blue-400">€{elem.price}</div>
-                                    </div>
-                                )}
-                            </li>
-                        </ul>
+                        <div key={elem.id}>
+                            <button type="button" onClick={() => navFeatureProduct(elem.id)}>
+                                <ul key={elem.id} className="w-64 border shadow border-gray-300 mx-4 mt-12 sm:mt-0">
+                                    <li className="w-64 h-48 flex flex-col justify-center">
+                                        <div className="flex flex-row justify-center">
+                                            <img
+                                                className="h-48 w-auto p-4"
+                                                src={`${
+                                                    elem.images?.filter((image) => image.default_img === true)[0].href
+                                                }`}
+                                                alt={`${elem.title}`}
+                                            />
+                                        </div>
+                                    </li>
+                                    <li className="border-t border-gray-300 h-36 flex flex-col justify-center">
+                                        <div className="flex flex-row justify-center">
+                                            <div className="text-sm text-center font-semibold">{elem.title}</div>
+                                        </div>
+                                        <div className="flex flex-row justify-center mt-1">
+                                            <div>
+                                                <StarRating value={starRating} />
+                                            </div>{' '}
+                                        </div>
+                                        {elem.discount && elem.discount > 0 ? (
+                                            <div className="flex flex-row justify-center space-x-5 mt-1">
+                                                <div className="text-blue-400">
+                                                    {formatCurrency(elem.price * (1 - elem.discount * 0.01) * 1)}
+                                                </div>
+                                                <div className="line-through">{formatCurrency(elem.price * 1)}</div>
+                                                <div className="text-red-800">{elem.discount}% Off</div>
+                                            </div>
+                                        ) : (
+                                            <div className="flex flex-row justify-center space-x-5 mt-1 mb-1">
+                                                <div className="text-blue-400">{formatCurrency(elem.price * 1)}</div>
+                                            </div>
+                                        )}
+                                    </li>
+                                </ul>
+                            </button>
+                        </div>
                     ))}
                 </div>
-                {featureProductRightDisplay ? (
-                    <button type="button" onClick={featureProductRight}>
-                        <div className="flex flex-col justify-center border rounded-full bg-gray-100 hover:bg-blue-400 hover:text-white h-10 w-10">
-                            <svg
-                                className="w-10 h-10 p-2 flex flex-row content-center"
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                            >
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
-                            </svg>
-                        </div>
-                    </button>
-                ) : (
-                    ''
-                )}
+                <button type="button" onClick={featureProductRight}>
+                    <div className="flex flex-col justify-center border rounded-full bg-gray-100 hover:bg-blue-400 hover:text-white h-10 w-10">
+                        <svg
+                            className="w-10 h-10 p-2 flex flex-row content-center"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                        >
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </div>
+                </button>
             </div>
         </div>
     );

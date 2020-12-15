@@ -28,10 +28,11 @@ interface IUser {
     first_name?: string;
     last_name?: string;
     address?: string;
-    country_id?: string;
+    country_id?: number;
     city?: string;
     postal_code?: string;
     phone_number?: string;
+    is_admin: boolean;
 }
 
 interface IOrderModel extends IModel, IOrder {}
@@ -40,6 +41,7 @@ interface IOrder {
     id?: number;
     code?: string;
     user_id?: number;
+    coupon_code_id?: number;
     order_status?: string; // Pending | Confirmed | Dispatched | Completed | Canceled;
     price?;
 }
@@ -50,7 +52,6 @@ interface IOrderItem {
     id?: number;
     order_id?: number;
     product_id?: number;
-    coupon_code_id?: number;
     quantity?: number;
     price?: number;
 }
@@ -61,15 +62,21 @@ interface IProduct {
     id?: number;
     title?: string;
     slug?: string;
-    image?: IProductImage[];
     description?: string;
     price: number;
     weight?: number;
     package_size?: string;
     discount: number;
     product_category_id?: number;
+    product_id?: number;
     stock_qty?: number;
+    featured?: boolean;
+    rating?: number;
+    reviews_count?: number;
     deleted_at?: string;
+    images?: IProductImage[];
+    specs?: IProductSpecs[];
+    reviews?: IReview[];
 }
 
 interface IProductCategoryModel extends IModel, IProductCategory {
@@ -92,6 +99,15 @@ interface IProductImage {
     product_id?: number;
 }
 
+interface IProductSpecs {
+    product_id: number;
+    specs: {
+        Brand?: string;
+        Color?: string;
+        Model?: string;
+    };
+}
+
 interface IProductOptionModel extends IModel, IProductOption {}
 
 interface IProductOption {
@@ -106,6 +122,18 @@ interface IProductSpec {
     product_id?: number;
     product_options_id?: number;
     value?: string;
+}
+
+interface IArticleModel extends IModel, IArticle {}
+
+interface IArticle {
+    id?: number;
+    user_id?: number;
+    title?: string;
+    slug?: string;
+    featured_image?: string;
+    body?: string;
+    published_at?: string;
 }
 
 interface ICouponCodeModel extends IModel, ICouponCode {}
@@ -126,7 +154,7 @@ interface ICountry {
     name?: string;
     alpha2?: string;
     alpha3?: string;
-    code?: string;
+    code?: number;
     iso_3166_2?: string;
     region?: string;
     sub_region?: string;
@@ -168,10 +196,14 @@ interface ICartProducts extends IProduct {
 
 interface IUseCart {
     cartItems: ICartProducts[];
-    addProduct: (product: IProduct) => void;
-    addProducts: (product: IProduct, quantity: number) => void;
+    addProduct: (product: IProduct, quantity?: number) => void;
     removeProduct: (product: IProduct) => void;
     updateQuantity: (product: IProduct, newQuantity: number) => void;
+}
+
+interface IUseTheme {
+    theme: 'dark' | 'light';
+    toggleTheme: () => void;
 }
 
 interface ILoginFormState {
@@ -202,18 +234,29 @@ interface IFormError {
 interface IColumn<T> {
     display: string;
     db: keyof T;
-    type?: 'string' | 'number' | 'datetime' | 'currency';
+    type?:
+        | 'string'
+        | 'number'
+        | 'datetime'
+        | 'nullOrDatetime'
+        | 'currency'
+        | 'country'
+        | 'category'
+        | 'excerpt'
+        | 'WYSIWYGExcerpt'
+        | 'image';
 }
 
 interface IDataTableProps<T> {
     items: (T & IModel)[];
     columns: IColumn<T>[];
+    APILoading: boolean;
     actions?: IOption[];
 }
 
 interface IOption {
     display: string;
-    action: (rowId: number) => unknown; // WIP
+    action: (rowId: number) => void;
 }
 
 interface IOPtionsProps {

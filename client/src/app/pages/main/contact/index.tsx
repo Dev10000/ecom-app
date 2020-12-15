@@ -14,7 +14,7 @@ const Contact: React.FC = (): JSX.Element => {
 
     return (
         <div className="flex my-16 max-w-screen-xl mx-auto">
-            <div className="hidden md:flex h-92 bg-blue-400 dark:bg-blue-800 flex-1 relative">
+            <div className="hidden md:flex h-92 bg-blue-400 dark:bg-gray-800 flex-1 relative">
                 <div className="w-72 flex items-center justify-center">
                     <img className="absolute -left-7 w-full min-h-full" src={ContactImage} alt="Contact Us" />
                 </div>
@@ -31,7 +31,7 @@ const Contact: React.FC = (): JSX.Element => {
                         <p>20000 turku</p>
                     </div>
                 </div>
-                <div className="w-24 h-24 absolute -right-1 top-1/2 rounded-full bg-blue-400 dark:bg-blue-800" />
+                <div className="w-24 h-24 absolute -right-1 top-1/2 rounded-full bg-blue-400 dark:bg-gray-800" />
             </div>
             <div className="p-2 flex flex-1">
                 <form className="pt-8 px-10 w-full" onSubmit={handleSubmit}>

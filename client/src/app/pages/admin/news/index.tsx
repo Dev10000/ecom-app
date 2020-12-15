@@ -1,6 +1,78 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import AddOrEdit from './actions/add-or-edit';
+import DataTable from '../../../../ui/datatable';
+import Delete from './actions/delete';
 
 const News: React.FC = (): JSX.Element => {
+    const [articles, setArticles] = useState<ICountryModel[]>([]);
+    const [addOrEditDisplay, setAddOrEditDisplay] = useState(false);
+    const [forDeletion, setForDeletion] = useState<number>(0);
+    const [forEdit, setForEdit] = useState<number>(0);
+    const [updated, setUpdated] = useState<number>(0);
+    const [APILoading, setAPILoading] = useState(false);
+
+    useEffect(() => {
+        setAPILoading(true);
+        axios
+            .get('articles/all')
+            .then((response) => {
+                setArticles(response.data.data);
+                setAPILoading(false);
+            })
+            .catch((err) => {
+                setAPILoading(false);
+                return err;
+            });
+    }, [updated]);
+
+    const columns: IColumn<IArticleModel>[] = [
+        {
+            display: 'Title',
+            db: 'title',
+        },
+        {
+            display: 'Slug',
+            db: 'slug',
+        },
+        {
+            display: 'Featured Image',
+            db: 'featured_image',
+            type: 'image',
+        },
+        {
+            display: 'Body',
+            db: 'body',
+            type: 'WYSIWYGExcerpt',
+        },
+        {
+            display: 'Created',
+            db: 'created_at',
+            type: 'datetime',
+        },
+        {
+            display: 'Published',
+            db: 'published_at',
+            type: 'nullOrDatetime',
+        },
+    ];
+
+    const actions: IOption[] = [
+        // {
+        //     display: 'Edit',
+        //     action: (rowId: number) => {
+        //         setForEdit(rowId);
+        //         setAddOrEditDisplay(true);
+        //     },
+        // },
+        {
+            display: 'Delete',
+            action: (rowId: number) => {
+                setForDeletion(rowId);
+            },
+        },
+    ];
+
     return (
         <div>
             <div className="bg-white shadow">
@@ -12,6 +84,7 @@ const News: React.FC = (): JSX.Element => {
                         <button
                             type="button"
                             className="mt-4 mr-4 md:mt-0 text-center inline-flex items-center pl-2 pr-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-400 hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                            onClick={() => setAddOrEditDisplay(true)}
                         >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -31,7 +104,22 @@ const News: React.FC = (): JSX.Element => {
                     </div>
                 </div>
             </div>
-            <div className="p-4">Actual content</div>
+            <AddOrEdit
+                visible={addOrEditDisplay}
+                setVisible={setAddOrEditDisplay}
+                setUpdated={setUpdated}
+                edit={forEdit}
+                setForEdit={setForEdit}
+            />
+            <Delete forDeletion={forDeletion} setForDeletion={setForDeletion} setUpdated={setUpdated} />
+            <div className="p-4">
+                <DataTable<IArticleModel>
+                    items={articles}
+                    columns={columns}
+                    actions={actions}
+                    APILoading={APILoading}
+                />
+            </div>
         </div>
     );
 };

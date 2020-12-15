@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 import PriceSummary from './PriceSummary';
 import CartContext from '../../../../context/cart';
 import EmptyCart from './empty.svg';
@@ -6,6 +7,12 @@ import { formatCurrency } from '../../../../utils';
 
 const Cart: React.FC = (): JSX.Element => {
     const { cartItems, removeProduct, updateQuantity } = useContext(CartContext);
+
+    const history = useHistory();
+
+    const displayProductPage = (slug: string, id: number) => {
+        history.push({ pathname: `/products/${slug}`, state: { productId: id } });
+    };
 
     return (
         <div className="mt-8 px-10">
@@ -50,11 +57,23 @@ const Cart: React.FC = (): JSX.Element => {
                                             </td>
                                             <td className="relative inline-flex items-center lg:whitespace-nowrap">
                                                 <img
-                                                    className="mr-3 my-4 rounded shadow"
-                                                    src="https://via.placeholder.com/140x95?text=ProductImage"
+                                                    className="w-28 h-auto mr-3 my-4 rounded shadow"
+                                                    src={
+                                                        item.images
+                                                            ? item.images.filter(
+                                                                  (image) => image.default_img === true,
+                                                              )[0].href
+                                                            : 'empty'
+                                                    }
                                                     alt={item.title}
                                                 />
-                                                <div>{item.title}</div>
+                                                <button
+                                                    type="button"
+                                                    className="hover:underline"
+                                                    onClick={() => displayProductPage(item.slug || '', item.id || 0)}
+                                                >
+                                                    {item.title}
+                                                </button>
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap text-sm leading-5 mx-auto">
                                                 <div className="inline-flex w-24 items-center justify-between">
@@ -78,22 +97,19 @@ const Cart: React.FC = (): JSX.Element => {
                                                 </div>
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap text-sm leading-5">
-                                                {/* TODO: what to do? :) The almighty typescript swears that my variable is a NUMBER but it's nothing but a STRING! */}
-                                                {!item.discount ? (
-                                                    formatCurrency(item.price * 1)
-                                                ) : (
-                                                    <div className="inline-flex items-center space-x-1">
+                                                <div className="inline-flex items-center space-x-1">
+                                                    {Number(item.discount) > 0 && (
                                                         <span className="line-through text-red-500">
                                                             {formatCurrency(item.price * 1)}
                                                         </span>
-                                                        <span>
-                                                            {formatCurrency((item.price * (100 - item.discount)) / 100)}
-                                                        </span>
-                                                    </div>
-                                                )}
+                                                    )}
+                                                    <span>
+                                                        {formatCurrency((item.price * (100 - item.discount)) / 100)}
+                                                    </span>
+                                                </div>
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap text-sm leading-5">
-                                                {!item.discount ? (
+                                                {Number(item.discount) === 0 ? (
                                                     formatCurrency(item.price * item.quantity)
                                                 ) : (
                                                     <>

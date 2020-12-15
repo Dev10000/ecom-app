@@ -16,7 +16,7 @@ const ModalInput: React.FC<IModalInputProps> = ({ id, label, errors, value, setV
             <label
                 htmlFor={id}
                 className={`block text-sm font-medium text-gray-500 mb-1 ${
-                    fieldError('name', errors) ? 'text-red-500' : ''
+                    fieldError(id, errors) ? 'text-red-500' : ''
                 }`}
             >
                 {label}
@@ -27,13 +27,13 @@ const ModalInput: React.FC<IModalInputProps> = ({ id, label, errors, value, setV
                     name={id}
                     id={id}
                     className={`p-2 block w-full border shadow-sm sm:text-sm border-gray-300 rounded-md ${
-                        fieldError('name', errors) ? 'border-red-500' : ''
+                        fieldError(id, errors) ? 'border-red-500' : ''
                     }`}
                     value={value}
                     onChange={(e) => setValue(e.target.value)}
                 />
             </div>
-            <div className="text-red-500 font-light text-xs">{fieldError('name', errors)}</div>
+            <div className="text-red-500 font-light text-xs">{fieldError(id, errors)}</div>
         </>
     );
 };

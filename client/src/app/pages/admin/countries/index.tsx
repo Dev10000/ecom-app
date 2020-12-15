@@ -10,14 +10,27 @@ const Countries: React.FC = (): JSX.Element => {
     const [forEdit, setForEdit] = useState<number>(0);
     const [updated, setUpdated] = useState<number>(-1);
     const [addOrEditDisplay, setAddOrEditDisplay] = useState(false);
+    const [APILoading, setAPILoading] = useState(false);
+
+    const regenerateStatic = () => {
+        axios
+            .get('admin/export-countries')
+            .then((response) => {
+                console.log(response);
+            })
+            .catch((error) => console.log(error));
+    };
 
     useEffect(() => {
+        setAPILoading(true);
         axios
             .get('countries')
             .then((response) => {
                 setCountries(response.data.data);
+                setAPILoading(false);
             })
             .catch((err) => {
+                setAPILoading(false);
                 return err;
             });
     }, [updated]);
@@ -90,12 +103,6 @@ const Countries: React.FC = (): JSX.Element => {
         },
     ];
 
-    const writeCountriesToFile = () => {
-        // fs.writeFileSync('countries.json', JSON.stringify(countries), 'utf-8');
-        // this should be done server side...
-        console.log('this should be sent to the server for handling');
-    };
-
     return (
         <div>
             <div className="bg-white shadow">
@@ -129,7 +136,7 @@ const Countries: React.FC = (): JSX.Element => {
                             <button
                                 type="button"
                                 className="mt-4 md:mt-0 text-center inline-flex items-center pl-2 pr-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-400 hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                                onClick={() => writeCountriesToFile()}
+                                onClick={regenerateStatic}
                             >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -159,7 +166,12 @@ const Countries: React.FC = (): JSX.Element => {
             />
             <Delete forDeletion={forDeletion} setForDeletion={setForDeletion} setUpdated={setUpdated} />
             <div className="p-4">
-                <DataTable<ICountryModel> items={countries} columns={columns} actions={actions} />
+                <DataTable<ICountryModel>
+                    items={countries}
+                    columns={columns}
+                    actions={actions}
+                    APILoading={APILoading}
+                />
             </div>
         </div>
     );

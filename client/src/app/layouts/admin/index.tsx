@@ -47,7 +47,7 @@ const AdminLayout: React.FC<ILayoutProps> = ({ children }): JSX.Element => {
             </Transition>
 
             <DesktopSidebar />
-            <div className="w-full flex flex-col w-0 flex-grow overflow-hidden">
+            <div className="w-full flex flex-col flex-grow overflow-hidden">
                 <Navbar setSidebarVisible={setSidebarVisible} />
                 <main className="mt-16 flex-1 relative pb-8 z-0 overflow-y-auto">{children}</main>
             </div>
