@@ -12,6 +12,7 @@ import {
     destroy,
     filterProduct,
     getRelated,
+    searchCount,
     // getAllInSubCategories,
 } from '../controllers/product.controller';
 
@@ -23,6 +24,7 @@ router.get('/count', getCount);
 router.get('/:id/related', getRelated);
 router.get('/:id/reviews', getReviews);
 router.get('/:id', getSingle);
+router.get('/search/:keywords/count', searchCount);
 router.get('/search/:keywords', productQuery, search);
 router.post('/filter/', filterProduct);
 router.post('/', Verify.isAdmin, productValidator, create);
