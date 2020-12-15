@@ -106,6 +106,8 @@ const Home: React.FC = (): JSX.Element => {
                         id="search"
                         ref={searchInput}
                         defaultValue={searchKeywords}
+                        value={search || searchKeywords}
+                        onChange={(e) => setSearch(e.target.value)}
                         placeholder="Search products..."
                         className="border rounded-l-md border-gray-400 p-3 text-md focus:outline-none "
                     />

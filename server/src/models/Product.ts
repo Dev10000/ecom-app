@@ -3,6 +3,7 @@ import Review from './Review';
 import DB from '../config/database';
 import ProductImage from './ProductImage';
 import ProductCategory from './ProductCategory';
+import ProductSpecView from './ProductSpecView';
 
 export default class Product extends Model<IProduct> {
     price = 0;
@@ -11,7 +12,7 @@ export default class Product extends Model<IProduct> {
 
     table = 'products';
 
-    hasMany = [{ model: Review }, { model: ProductImage, name: 'images' }];
+    hasMany = [{ model: Review }, { model: ProductImage, name: 'images' }, { model: ProductSpecView, name: 'specs' }];
 
     belongsTo = [{ model: ProductCategory }];
 

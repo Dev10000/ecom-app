@@ -14,7 +14,7 @@ const Featured: React.FC = (): JSX.Element => {
                             <img className="h-56 w-full object-cover border-2 md:w-62" src={Img1} alt="img" />
                             <span className="text-center text-white bg-red-500 absolute top-4 left-4 w-10">HOT</span>
                         </div>
-                        <div className="flex-1 pl-4 bg-gray-100">
+                        <div className="flex-1 pl-4 bg-gray-100 dark:bg-gray-900">
                             <div className="uppercase tracking-wide text-sm font-semibold mt-8 mb-6">
                                 Blue Swade Nike <br /> Sneakers
                             </div>
@@ -37,7 +37,7 @@ const Featured: React.FC = (): JSX.Element => {
                             <img className="h-56 w-full object-cover border-2 md:w-62" src={Img2} alt="img" />
                             <span className="text-center text-white bg-red-500 absolute top-4 left-4 w-10">HOT</span>
                         </div>
-                        <div className="flex-1 pl-4 bg-gray-100">
+                        <div className="flex-1 pl-4 bg-gray-100 dark:bg-gray-900">
                             <div className="uppercase tracking-wide text-sm font-semibold mt-8 mb-6">
                                 Nike Air Max <br /> 200 React
                             </div>
@@ -59,7 +59,7 @@ const Featured: React.FC = (): JSX.Element => {
                             <img className="h-56 w-full object-cover border-2 md:w-62" src={Img3} alt="img" />
                             <span className="text-center text-white bg-red-500 absolute top-4 left-4 w-10">HOT</span>
                         </div>
-                        <div className="flex-1 pl-4 bg-gray-100">
+                        <div className="flex-1 pl-4 bg-gray-100 dark:bg-gray-900">
                             <div className="uppercase tracking-wide text-sm font-semibold mt-8 mb-6">
                                 Nike Air Max <br /> 100 React
                             </div>

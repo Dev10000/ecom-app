@@ -55,7 +55,7 @@ export const getSingle = async (req: Request, res: Response): Promise<Response> 
     const { id } = req.params;
 
     return QueryBuilder<IProductModel>(Product)
-        .with('images')
+        .with('images', 'specs')
         .where('id', id)
         .first()
         .then((product) => {
