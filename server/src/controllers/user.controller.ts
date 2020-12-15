@@ -10,18 +10,20 @@ export const getAllUsers = async (req: Request, res: Response): Promise<Response
     const errors = validationResult(req);
     if (!errors.isEmpty()) return res.status(422).json({ status: 'error', data: errors.array() });
 
-    return QueryBuilder(User)
-        .with('articles', 'country', 'orders')
-        .paginate(Number(page) || 1, Number(items) || 25)
-        .get()
-        .then((users) => {
-            const sanitizedUsers = users.map((u) => {
-                u.password = '******'; // TODO: exclude password from the query with a select...
-                return u;
-            });
-            return res.status(200).json({ status: 'success', data: sanitizedUsers });
-        })
-        .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
+    return (
+        QueryBuilder(User)
+            // .with('articles', 'country', 'orders')
+            .paginate(Number(page) || 1, Number(items) || 25)
+            .get()
+            .then((users) => {
+                const sanitizedUsers = users.map((u) => {
+                    u.password = '******'; // TODO: exclude password from the query with a select...
+                    return u;
+                });
+                return res.status(200).json({ status: 'success', data: sanitizedUsers });
+            })
+            .catch((err) => res.status(500).json({ status: 'error', data: err.message }))
+    );
 };
 
 type passwordConfirmation = { passwordConfirmation?: string };
