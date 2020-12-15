@@ -32,7 +32,7 @@ const Product: React.FC<IProductProps> = (props: IProduct): JSX.Element => {
                     <div
                         className={`${
                             visibleButtons ? 'block' : 'hidden'
-                        } absolute w-48 h-32 bg-gray-200 rounded shadow bg-opacity-75 transform translate-x-12`}
+                        } absolute w-48 h-32 bg-gray-200 rounded shadow bg-opacity-75 transform translate-x-24 md:translate-x-12 xl:translate-x-32`}
                     >
                         <div className="flex w-full h-full items-center">
                             {/*  eslint-disable-next-line jsx-a11y/click-events-have-key-events */}

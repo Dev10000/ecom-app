@@ -45,7 +45,10 @@ export const getAll = async (req: Request, res: Response): Promise<Response> => 
 export const getSingle = async (req: Request, res: Response): Promise<Response> => {
     const { id } = req.params;
 
-    return Product.find<IProductModel>(id)
+    return QueryBuilder<IProductModel>(Product)
+        .with('images')
+        .where('id', id)
+        .first()
         .then((product) => {
             if (product && product.id) {
                 return res.status(200).json({ status: 'success', data: product });
@@ -84,6 +87,7 @@ export const search = async (req: Request, res: Response): Promise<Response> => 
         .filter((i) => i)
         .join('|');
     return QueryBuilder(Product)
+        .with('images')
         .where('title', '~*', `(${regex})`) // Matches regular expression, case insensitive
         .orWhere('description', '~*', `(${regex})`)
         .paginate(Number(page) || 1, Number(items) || 25)
