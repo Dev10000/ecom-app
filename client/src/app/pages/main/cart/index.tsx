@@ -78,22 +78,19 @@ const Cart: React.FC = (): JSX.Element => {
                                                 </div>
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap text-sm leading-5">
-                                                {/* TODO: what to do? :) The almighty typescript swears that my variable is a NUMBER but it's nothing but a STRING! */}
-                                                {!item.discount ? (
-                                                    formatCurrency(item.price * 1)
-                                                ) : (
-                                                    <div className="inline-flex items-center space-x-1">
+                                                <div className="inline-flex items-center space-x-1">
+                                                    {Number(item.discount) > 0 && (
                                                         <span className="line-through text-red-500">
                                                             {formatCurrency(item.price * 1)}
                                                         </span>
-                                                        <span>
-                                                            {formatCurrency((item.price * (100 - item.discount)) / 100)}
-                                                        </span>
-                                                    </div>
-                                                )}
+                                                    )}
+                                                    <span>
+                                                        {formatCurrency((item.price * (100 - item.discount)) / 100)}
+                                                    </span>
+                                                </div>
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap text-sm leading-5">
-                                                {!item.discount ? (
+                                                {Number(item.discount) === 0 ? (
                                                     formatCurrency(item.price * item.quantity)
                                                 ) : (
                                                     <>
