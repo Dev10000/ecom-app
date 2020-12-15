@@ -10,10 +10,14 @@ const News: React.FC = (): JSX.Element => {
             <div className="flex flex-cols-3 gap-4 max-w-full mb-16">
                 <div className="flex mx-auto px-4 sm:max-w-md mx-auto py-4 rounded-xl rounded-yl shadow-md overflow-hidden">
                     <div className="md:flex">
-                        <div className="flex-1 md:flex-shrink-0 border-2 flex items-center">
-                            <img className="mt-8 mb-4 h-auto w-full object-cover md:w-48 h-auto" src={Img1} alt="img" />
+                        <div className="flex-1 md:flex-shrink-0 border-2 flex items-center dark:bg-white">
+                            <img
+                                className="mt-8 mb-4 h-auto w-full object-cover md:w-48 h-auto dark:bg-white"
+                                src={Img1}
+                                alt="img"
+                            />
                         </div>
-                        <div className="flex-1 pl-4 bg-gray-100">
+                        <div className="flex-1 pl-4 bg-gray-100 dark:bg-gray-900">
                             <span className="text-gray-300 text-sm font-semibold">16.12.2020</span>
                             <div className="uppercase tracking-wide text-sm font-semibold mt-2">Fashion Industry</div>
 
@@ -32,10 +36,10 @@ const News: React.FC = (): JSX.Element => {
                 </div>
                 <div className="flex mx-auto px-4 sm:max-w-md mx-auto py-4 rounded-xl rounded-yl shadow-md overflow-hidden">
                     <div className="md:flex">
-                        <div className="flex-1 md:flex-shrink-0 border-2 flex items-center">
+                        <div className="flex-1 md:flex-shrink-0 border-2 flex items-center dark:bg-white">
                             <img className="h-auto w-full object-cover md:w-48 h-auto" src={Img2} alt="img" />
                         </div>
-                        <div className="flex-1 pl-4 bg-gray-100">
+                        <div className="flex-1 pl-4 bg-gray-100 dark:bg-gray-900">
                             <span className="text-gray-300 text-sm font-semibold ">16.12.2020</span>
                             <div className="uppercase tracking-wide text-sm font-semibold mt-2">
                                 Best Design
@@ -57,10 +61,10 @@ const News: React.FC = (): JSX.Element => {
                 </div>
                 <div className="flex mx-auto px-4 sm:max-w-md mx-auto py-4 rounded-xl rounded-yl shadow-md overflow-hidden">
                     <div className="md:flex">
-                        <div className="flex-1 md:flex-shrink-0 border-2 flex items-center">
+                        <div className="flex-1 md:flex-shrink-0 border-2 flex items-center dark:bg-white">
                             <img className="mt-4 mb-4 h-auto w-full object-cover md:w-48 h-auto" src={Img3} alt="img" />
                         </div>
-                        <div className="flex-1 pl-4 bg-gray-100">
+                        <div className="flex-1 pl-4 bg-gray-100 dark:bg-gray-900">
                             <span className="text-gray-300 text-sm font-semibold ">16.12.2020</span>
                             <div className="uppercase tracking-wide text-sm font-semibold mt-2">HR Community</div>
 
