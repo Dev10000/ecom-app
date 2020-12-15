@@ -1,3 +1,4 @@
+/* eslint-disable radix */
 import React, { useState } from 'react';
 import axios from 'axios';
 import allCountries from './countries.json';
@@ -16,12 +17,6 @@ const EditAll: React.FC<IUserProps> = (props): JSX.Element => {
     const [city, setCity] = useState<string | undefined>(user.city);
     const [country, setCountry] = useState<number | undefined>(user.country_id);
     const [postalCode, setPostalCode] = useState<string | undefined>(user.postal_code);
-
-    const selectCountry = (value: string) => {
-        const id = allCountries.find((item) => item.name === value)?.id;
-
-        setCountry(id);
-    };
 
     const editAll = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -148,12 +143,16 @@ const EditAll: React.FC<IUserProps> = (props): JSX.Element => {
                 <div className="w-full flex">
                     <label htmlFor="firstname" className="block w-full my-2 text-sm font-medium">
                         Country
-                        <select value={country} onChange={(e) => selectCountry(e.target.value)}>
+                        <select
+                            className="border rounded dark:border-gray-700 mb-2 p-3 text-sm w-full dark:bg-gray-800"
+                            value={country}
+                            onChange={(e) => setCountry(parseInt(e.target.value))}
+                        >
                             <option selected disabled>
                                 Select a country
                             </option>
                             {allCountries.map((item) => (
-                                <option key={item.id} value={item.name}>
+                                <option key={item.id} value={item.id}>
                                     {item.name}
                                 </option>
                             ))}

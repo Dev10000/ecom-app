@@ -158,10 +158,11 @@ const Navlinks: React.FC<INavlinksProps> = (props) => {
                                 Save
                             </button>
                             <button
-                                type="submit"
+                                onClick={() => setDisplay(false)}
+                                type="button"
                                 className="w-1/3 bg-red-400 hover:bg-red-500 items-center py-2 px-4 rounded shadow border border-gray-200 text-white hover:shadow-lg select-none transition ease-in-out duration-150"
                             >
-                                Exit
+                                Cancel
                             </button>
                         </div>
                     </div>
