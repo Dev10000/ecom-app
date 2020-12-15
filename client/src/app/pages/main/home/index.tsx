@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-nested-ternary */
 import React, { useState, useEffect, useRef } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
@@ -19,10 +20,27 @@ const Home: React.FC = (): JSX.Element => {
     const searchInput = useRef<HTMLInputElement>(null);
     const [products, setProducts] = useState<IProduct[]>([]);
     const [categoryProducts, setCategoryProducts] = useState<IProduct[]>([]);
+    const [search, setSearch] = useState('');
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const [lastPage, setLastPage] = useState(1);
+    const [perPage, setPerPage] = useState(24);
+
+    useEffect(() => {
+        const apiEndpoint = !search ? `products` : `products/search/${search}`;
+        axios.get(apiEndpoint).then((res) => {
+            const result = res.data.data;
+            setLastPage(Math.ceil(result.length / perPage));
+            setCurrentPage(1);
+        });
+    }, [perPage, search]);
 
     // get all products or products including given search keywords
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     const getProducts = (keywords?: string) => {
-        const apiCall = !keywords ? 'products' : `products/search/${keywords}`;
+        const apiCall = !keywords
+            ? `products?page=${currentPage}&items=${perPage}`
+            : `products/search/${keywords}/?page=${currentPage}&items=${perPage}`;
         axios
             .get(apiCall)
             .then((response) => {
@@ -36,10 +54,10 @@ const Home: React.FC = (): JSX.Element => {
 
     const handleSearch = (event: React.FormEvent) => {
         event.preventDefault();
-        const keywords = searchInput.current?.value;
-        if (keywords?.trim() !== '') history.push(`/search/${keywords}`);
-        else history.push('/');
+        const keywords = searchInput.current?.value.trim() ?? '';
         getProducts(keywords);
+        if (keywords.length > 0) history.push(`/search/${keywords}`);
+        else history.push('/');
     };
 
     const handleAll = () => {
@@ -54,7 +72,7 @@ const Home: React.FC = (): JSX.Element => {
 
     useEffect(() => {
         getProducts(searchKeywords); // search from current URL
-    }, [searchKeywords]);
+    }, [getProducts, searchKeywords]);
 
     return (
         <div className="flex flex-col justify-center">
@@ -88,8 +106,10 @@ const Home: React.FC = (): JSX.Element => {
                         id="search"
                         ref={searchInput}
                         defaultValue={searchKeywords}
-                        placeholder="Search products..."
-                        className="border rounded-l-md border-gray-400 p-3 text-md focus:outline-none "
+                        value={search || searchKeywords}
+                        onChange={(e) => setSearch(e.target.value)}
+                        placeholder="Search products…"
+                        className="border rounded-l-md border-gray-400 p-3 text-md focus:outline-none bg-gray-100 dark:bg-gray-800"
                     />
                     <button
                         type="button"

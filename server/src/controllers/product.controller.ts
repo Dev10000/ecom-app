@@ -42,16 +42,44 @@ export const getAll = async (req: Request, res: Response): Promise<Response> => 
         .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
 };
 
+export const getCount = async (req: Request, res: Response): Promise<Response> => {
+    return QueryBuilder(Product)
+        .count()
+        .then((productCount) => {
+            return res.status(200).json({ status: 'success', data: productCount });
+        })
+        .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
+};
+
 export const getSingle = async (req: Request, res: Response): Promise<Response> => {
     const { id } = req.params;
 
     return QueryBuilder<IProductModel>(Product)
-        .with('images')
+        .with('images', 'specs')
         .where('id', id)
         .first()
         .then((product) => {
             if (product && product.id) {
                 return res.status(200).json({ status: 'success', data: product });
+            }
+            return res.status(404).json({ status: 'error', data: 'Resource not found!' });
+        })
+        .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
+};
+
+export const getRelated = async (req: Request, res: Response): Promise<Response> => {
+    const { id } = req.params;
+
+    return Product.find<IProductModel>(id)
+        .then((product) => {
+            if (product && product.product_category_id) {
+                return QueryBuilder(Product)
+                    .with('images')
+                    .where('product_category_id', product.product_category_id)
+                    .get()
+                    .then((relatedProducts) => {
+                        return res.status(200).json({ status: 'success', data: relatedProducts });
+                    });
             }
             return res.status(404).json({ status: 'error', data: 'Resource not found!' });
         })
