@@ -198,7 +198,7 @@ export const csvImport = async (filePath: fs.ReadStream, tableName: string): Pro
             }
             const queryStream = client.query(
                 from(
-                    `COPY ${tableName} FROM STDIN WITH (FORMAT CSV, DELIMITER '\t', HEADER, ENCODING 'UTF8', NULL 'NULL')`,
+                    `COPY ${tableName} FROM STDIN WITH (FORMAT CSV, DELIMITER '\t', HEADER, ENCODING 'UTF8', NULL 'NULL', QUOTE '"')`,
                 ),
             );
             const fileStream = filePath;
