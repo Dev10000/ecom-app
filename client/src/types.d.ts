@@ -68,13 +68,14 @@ interface IProduct {
     package_size?: string;
     discount: number;
     product_category_id?: number;
+    product_id?: number;
     stock_qty?: number;
     featured?: boolean;
     rating?: number;
     reviews_count?: number;
     deleted_at?: string;
     images?: IProductImage[];
-    specs?: IProductSpecs;
+    specs?: IProductSpecs[];
     reviews?: IReview[];
 }
 
@@ -99,9 +100,12 @@ interface IProductImage {
 }
 
 interface IProductSpecs {
-    Brand?: string;
-    Color?: string;
-    Model?: string;
+    product_id: number;
+    specs: {
+        Brand?: string;
+        Color?: string;
+        Model?: string;
+    };
 }
 
 interface IProductOptionModel extends IModel, IProductOption {}
