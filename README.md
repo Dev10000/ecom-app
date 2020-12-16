@@ -1,5 +1,9 @@
 # E-Commerce Website (Project Cyan)
 
+![User view](resources/Screenshots/user.png)
+
+![Admin view](resources/Screenshots/admin.png)
+
 **Table of contents**
 
 - [E-Commerce Website (Project Cyan)](#e-commerce-website-project-cyan)
