@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import jwt from 'jsonwebtoken';
@@ -42,10 +43,6 @@ const useAuth = (): IUseAuth => {
                 logTokenIn(authToken);
             }
         });
-        // .catch((err: any) => {
-        //     // console.log(err.response.data);
-        //     throw new Error(err.response.data.data);
-        // });
     };
 
     const logout = () => {

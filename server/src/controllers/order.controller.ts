@@ -55,7 +55,6 @@ export const getSingle = async (req: Request, res: Response): Promise<Response> 
 
 export const create = async (req: Request, res: Response): Promise<Response> => {
     const errors = validationResult(req);
-    // console.log(errors.array());
     if (!errors.isEmpty()) return res.status(422).json({ status: 'error', data: errors.array() });
 
     const loggedInUser = req.user as IUserModel;
@@ -69,7 +68,6 @@ export const create = async (req: Request, res: Response): Promise<Response> => 
     return Order.create<IOrderModel>({ user_id: loggedInUser.id, order_status: config.ORDER_STATUS.PENDING, price: 0 })
         .save()
         .then((order: IOrderModel) => {
-            // console.log(`Created order with id = ${order.id} and code =${order.code}`);
             orderItems.forEach((orderItem) => {
                 // eslint-disable-next-line consistent-return
                 Product.find<IProductModel>(orderItem.product_id).then((product) => {
@@ -84,7 +82,7 @@ export const create = async (req: Request, res: Response): Promise<Response> => 
                             .then(() => {
                                 order.price += product.price; // apply discounts here
                                 order.save();
-                                console.log('l87', { order });
+                                // console.log({ order });
                             });
                     } else {
                         return res.status(409).json({ status: 'error', data: 'Insufficient stock!' });

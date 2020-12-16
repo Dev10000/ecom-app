@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React, { useState, useContext } from 'react';
 import { formatCurrency } from '../../../../utils';
 import CartContext from '../../../../context/cart';

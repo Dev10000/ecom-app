@@ -50,20 +50,6 @@ const truncateBeforeCSVImports = async (): Promise<void> => {
         .toString();
     await runSetupQuery('TRUNCATE BEFORE CSV IMPORTS', setValsForCSVImportsSQL);
 };
-// const productImagesSeeder = async (): Promise<void> => {
-//     const productImagesSQL = await fs.readFileSync('./src/database/data/product_images.sql').toString();
-//     await runSetupQuery('product_images', productImagesSQL);
-// };
-
-// const productOptionsSeeder = async (): Promise<void> => {
-//     const productOptionsSQL = await fs.readFileSync('./src/database/data/product_options.sql').toString();
-//     await runSetupQuery('product_options', productOptionsSQL);
-// };
-
-// const productSpecsSeeder = async (): Promise<void> => {
-//     const productSpecsSQL = await fs.readFileSync('./src/database/data/product_specs.sql').toString();
-//     await runSetupQuery('product_specs', productSpecsSQL);
-// };
 
 const setValues = async () => {
     await setValsForCSVImports();
@@ -104,24 +90,3 @@ const seedData = async () => {
 };
 
 seedData();
-
-// Old seedData
-// const seedData = async () => {
-//     console.log('\x1b[36m%s\x1b[0m', 'ℹ Started database seeding...');
-
-//     try {
-//         await countriesSeeder();
-//         await usersSeeder();
-//         await productCategoriesSeeder();
-//         await productsSeeder();
-//         await productImagesSeeder();
-//         await productOptionsSeeder();
-//         await productSpecsSeeder();
-//     } catch (error) {
-//         console.error(error.message);
-//         // expected output: ReferenceError: nonExistentFunction is not defined
-//         // Note - error messages will vary depending on browser
-//     }
-//     await setValues();
-//     console.log('\x1b[36m%s\x1b[0m', 'ℹ Database Seeding complete!');
-// };

@@ -27,7 +27,6 @@ export const getSingle = async (req: Request, res: Response): Promise<Response> 
 
 export const create = async (req: Request, res: Response): Promise<Response> => {
     const errors = validationResult(req);
-    // console.log(errors.array());
     if (!errors.isEmpty()) return res.status(422).json({ status: 'error', data: errors.array() });
 
     const loggedInUser = req.user as IUserModel;
@@ -55,7 +54,6 @@ export const edit = async (req: Request, res: Response): Promise<Response> => {
                 return res.status(403).json({ status: 'error', data: 'Access denied!' });
 
             const errors = validationResult(req);
-            // console.log(errors.array());
             if (!errors.isEmpty()) return res.status(422).json({ status: 'error', data: errors.array() });
 
             Object.assign(review, req.body as Partial<IReview>);

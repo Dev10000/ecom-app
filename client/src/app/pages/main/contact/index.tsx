@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React, { useState } from 'react';
 import ContactImage from './call.png';
 
@@ -8,7 +9,6 @@ const Contact: React.FC = (): JSX.Element => {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        // eslint-disable-next-line no-console
         console.log('Form will be submitted with', { fullName }, { email }, { message });
     };
 

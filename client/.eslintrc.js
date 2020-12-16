@@ -15,6 +15,7 @@ module.exports = {
                 allowForLoopAfterthoughts: true,
             },
         ],
+        camelcase: 0,
         'linebreak-style': [2, 'unix'],
     },
 };

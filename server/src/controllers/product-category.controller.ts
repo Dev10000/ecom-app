@@ -19,9 +19,7 @@ export const getAll = async (req: Request, res: Response): Promise<Response> => 
 export const create = async (req: Request, res: Response): Promise<Response> => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) return res.status(422).json({ status: 'error', data: errors.array() });
-    // console.log(req.body);
-    // const { title, parent_id } = req.body;
-    // console.log(title + parent_id);
+
     return ProductCategory.create(req.body as Partial<ProductCategory>)
         .save()
         .then((category) => res.status(201).json({ status: 'success', data: category }))
@@ -87,27 +85,7 @@ export const listProducts = async (req: Request, res: Response): Promise<Respons
             // if there are no products in this category
             if (!category.products || !category.products.length) {
                 // we query the subcategories
-                // let subcategoryProducts: IProductModel[] = [];
 
-                // const subcategories = await QueryBuilder<IProductCategoryModel>(ProductCategory)
-                //     .where('parent_id', id)
-                //     .get();
-
-                // const results = [];
-                // const queryResults: IProductModel[][] = [];
-                // // eslint-disable-next-line no-restricted-syntax
-                // for (const subcategory of subcategories) {
-                //     results.push(
-                //         QueryBuilder<IProductModel>(Product)
-                //             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                //             .where('product_category_id', subcategory.id!)
-                //             .get(),
-                //     );
-                //     // console.log('loop');
-                // }
-                // queryResults.push(...(await Promise.all(results)));
-
-                // subcategoryProducts = queryResults.flat(1);
                 const offset = (Number(page) - 1 || 0) * Number(items) || 24;
                 const values = [id, items || 24, offset];
                 const text = `WITH RECURSIVE category_path (id, title, path, lvl) AS
@@ -160,15 +138,3 @@ export const createAndSlugify = async (req: Request, res: Response): Promise<Res
         .then((category) => res.status(201).json({ status: 'success', data: category }))
         .catch((err) => res.status(500).json({ status: 'error', data: err.message }));
 };
-
-// export const getAllSubCategories = async (req: Request, res: Response): Promise<Response> => {
-//     const { id } = req.params;
-
-//     return ProductCategory.getAllSubCategories(id).then((category) => {
-//         if (!category) {
-//             return res.status(404).json({ status: 'error', data: 'Product Category not found!' });
-//         }
-
-//         return res.status(200).json({ status: 'success', data: category });
-//     });
-// };

@@ -33,8 +33,6 @@ export const getSingle = async (req: Request, res: Response): Promise<Response> 
                     return res.status(200).json({ status: 'success', data: article });
                 }
 
-                // console.log('user=', req.user);
-
                 // if the article is not published but the logged in user is an admin we return it
                 if ((req.user as IUserModel) && (req.user as IUserModel).is_admin) {
                     return res.status(200).json({ status: 'success', data: article });
@@ -70,7 +68,6 @@ export const edit = async (req: Request, res: Response): Promise<Response> => {
             }
 
             const errors = validationResult(req);
-            // console.log(errors.array());
             if (!errors.isEmpty()) return res.status(422).json({ status: 'error', data: errors.array() });
 
             Object.assign(article, req.body as Partial<IArticle>);

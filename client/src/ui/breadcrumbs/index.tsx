@@ -12,7 +12,9 @@ interface IBreadcrumbsProps {
 }
 
 const Breadcrumbs: React.FC<IBreadcrumbsProps> = ({ routes }): JSX.Element => {
-    console.log(routes);
+    // keep this here temporarily to satisfy the linter
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const routeInfo = routes;
 
     return (
         <div className="bg-gray-100 w-full">

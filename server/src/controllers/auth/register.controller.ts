@@ -7,7 +7,6 @@ type passwordConfirmation = { passwordConfirmation?: string };
 
 const register = async (req: Request, res: Response): Promise<Response> => {
     const errors = validationResult(req);
-    // console.log(errors.array());
     if (!errors.isEmpty()) return res.status(422).json({ status: 'error', data: errors.array() });
 
     const reqData = req.body as Partial<IUserModel> & passwordConfirmation;

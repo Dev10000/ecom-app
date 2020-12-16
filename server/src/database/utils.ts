@@ -194,7 +194,7 @@ export const csvImport = async (filePath: fs.ReadStream, tableName: string): Pro
     return new Promise((resolve, reject) => {
         DB.connect(async (err, client, done) => {
             if (err) {
-                console.log(`Can not connect to the DB${err}`);
+                console.log(`Cannot connect to the DB${err}`);
             }
             const queryStream = client.query(
                 from(

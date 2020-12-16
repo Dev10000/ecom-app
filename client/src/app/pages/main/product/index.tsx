@@ -212,7 +212,6 @@ const Product: React.FC = () => {
         axios
             .get(`/products/${productId}/reviews`)
             .then((response) => {
-                console.log(response.data.data);
                 return response.data.data;
             })
             .catch((err) => {

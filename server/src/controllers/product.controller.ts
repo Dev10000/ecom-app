@@ -30,8 +30,6 @@ export const getAll = async (req: Request, res: Response): Promise<Response> => 
     const errors = validationResult(req);
     if (!errors.isEmpty()) return res.status(422).json({ status: 'error', data: errors.array() });
 
-    // console.log({ page }, { items });
-
     return QueryBuilder(Product)
         .with('images')
         .paginate(Number(page) || 1, Number(items) || 24)
@@ -146,7 +144,6 @@ export const searchCount = async (req: Request, res: Response): Promise<Response
 
 export const create = async (req: Request, res: Response): Promise<Response> => {
     const errors = validationResult(req);
-    // console.log(errors.array());
     if (!errors.isEmpty()) return res.status(422).json({ status: 'error', data: errors.array() });
 
     return Product.create<IProductModel>(req.body as Partial<IProduct>)

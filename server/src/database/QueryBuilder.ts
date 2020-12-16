@@ -137,7 +137,6 @@ export default function QueryBuilder<T>(model: Constructor<T>) {
          */
         paginate(page: number, limit: number): this {
             this.data.paginate = { page, limit };
-            // console.log(this);
             return this;
         }
 
@@ -230,7 +229,7 @@ export default function QueryBuilder<T>(model: Constructor<T>) {
 
             const text = `${prefix} ${table} ${this.buildJoins()} ${this.buildConditions()} ${this.buildOrConditions()} ${this.buildOrderBy()}${this.buildPagination()}${this.buildLimit()}`;
             const values = this.buildValues();
-            console.log(text, values);
+            // console.log(text, values);
             return { text, values };
         }
 
@@ -420,43 +419,3 @@ export default function QueryBuilder<T>(model: Constructor<T>) {
 
     return new QB(model);
 }
-
-// constructor usage examples
-// I need to implement in controllers: youtu.be/9Swrzqr4MSs?t=1647 or Partial<T>
-// req.body as {[P in keyof IUser]? : IUser[P] extends Function ? never: IUser[P]}
-
-// const user1 = QB<IUserModel>(User)
-//     .select('users.*', 'countries.name as country_name')
-//     .join('countries', 'country_id', 'id')
-//     .where('id', '=', '555')
-//     .first();
-
-// user1.then((user) => {
-//     console.log({ user });
-//     user.email = 'test1@email.com';
-//     console.log(
-//         user
-//             .save()
-//             .then((updatedUser) => {
-//                 console.log({ updatedUser });
-//             })
-//             .catch((err) => console.log('352', err.message)),
-//     );
-// });
-
-// User.find<IUser>(333)
-//     .then((user) => console.log(user))
-//     .catch((err) => console.log(err.message));
-
-// QueryBuilder<IUserModel>(User)
-//     .where('id', '=', '777')
-//     .first()
-//     .then((user) => {
-//         console.log(user.toJSON());
-//         user.country()
-//             .then((country) => console.log({ country }))
-//             .catch((err) => console.log({ err }));
-//     })
-//     .catch((err) => console.log({ err }));
-
-// QueryBuilder<IUserModel>(User).with('country').where('id', '=', '777').first();
