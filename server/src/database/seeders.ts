@@ -19,10 +19,10 @@ const productCategoriesSeeder = async (): Promise<void> => {
     await runSetupQuery('product_categories', productCategoriesSQL);
 };
 
-const productsSeeder = async (): Promise<void> => {
-    const productsSQL = await fs.readFileSync('./src/database/data/products.sql').toString();
-    await runSetupQuery('products', productsSQL);
-};
+// const productsSeeder = async (): Promise<void> => {
+//     const productsSQL = await fs.readFileSync('./src/database/data/products.sql').toString();
+//     await runSetupQuery('products', productsSQL);
+// };
 
 const productImagesSeeder = async (): Promise<void> => {
     const filePath = await fs.createReadStream('./src/database/data/images.csv');
@@ -37,6 +37,16 @@ const productOptionsSeeder = async (): Promise<void> => {
 const productSpecsSeeder = async (): Promise<void> => {
     const filePath = await fs.createReadStream('./src/database/data/product_specs.csv');
     await csvImport(filePath, 'product_specs');
+};
+
+const productsWithDiscountsSeeder = async (): Promise<void> => {
+    const filePath = await fs.createReadStream('./src/database/data/products_with_discounts.csv');
+    await csvImport(filePath, 'products');
+};
+
+const reviewsSeeder = async (): Promise<void> => {
+    const filePath = await fs.createReadStream('./src/database/data/reviews.csv');
+    await csvImport(filePath, 'reviews');
 };
 
 const setValsForCSVImports = async (): Promise<void> => {
@@ -64,7 +74,8 @@ const seedData = async () => {
         countriesSeeder(),
         usersSeeder(),
         productCategoriesSeeder(),
-        productsSeeder(),
+        // productsSeeder(),
+        // productsWithDiscountsSeeder(),
         productImagesSeeder(),
         productOptionsSeeder(),
         productSpecsSeeder(),
@@ -78,6 +89,8 @@ const seedData = async () => {
             }
         }),
     );
+    await productsWithDiscountsSeeder();
+    await reviewsSeeder();
     await setValues();
     console.log('\x1b[36m%s\x1b[0m', 'ℹ Database Seeding complete!');
     if (rejected === 0) {
