@@ -7,7 +7,7 @@ import App from './app';
 // import styles
 import './assets/styles.css';
 
-axios.defaults.baseURL = 'http://localhost:5000/api';
+axios.defaults.baseURL = 'http://app3.dev100.xyz/api';
 
 let AUTH_TOKEN = localStorage.getItem('token');
 
